@@ -61,12 +61,38 @@ function FeeTypesPage() {
                 </Button>
               </div>
 
-              {/* Summary cards placeholder */}
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                <SummaryCard title="Total Fee Types" value="12" trend="+2 this month" />
-                <SummaryCard title="Active Fees" value="10" trend="83% of total" />
-                <SummaryCard title="Inactive Fees" value="2" trend="17% of total" />
-                <SummaryCard title="Expected Revenue" value="$124,500" trend="+8.4% vs last term" />
+              {/* KPI summary cards */}
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+                <SummaryCard
+                  label="Total Fee Types"
+                  value="12"
+                  icon={Layers}
+                />
+                <SummaryCard
+                  label="Expected Revenue"
+                  value="$124,500"
+                  icon={DollarSign}
+                />
+                <SummaryCard
+                  label="Primary School Fee Types"
+                  value="5"
+                  icon={GraduationCap}
+                />
+                <SummaryCard
+                  label="Secondary School Fee Types"
+                  value="7"
+                  icon={School}
+                />
+                <SummaryCard
+                  label="Active Fee Types"
+                  value="10"
+                  icon={CheckCircle2}
+                />
+                <SummaryCard
+                  label="Archived Fee Types"
+                  value="2"
+                  icon={Archive}
+                />
               </div>
 
               {/* Main content card */}
