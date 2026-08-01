@@ -1,5 +1,16 @@
+import type { ComponentType } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { Plus, Search, SlidersHorizontal } from "lucide-react";
+import {
+  Archive,
+  CheckCircle2,
+  DollarSign,
+  GraduationCap,
+  Layers,
+  Plus,
+  School,
+  Search,
+  SlidersHorizontal,
+} from "lucide-react";
 
 import { AppSidebar } from "@/components/app-sidebar";
 import { TopNav } from "@/components/top-nav";
@@ -51,12 +62,38 @@ function FeeTypesPage() {
                 </Button>
               </div>
 
-              {/* Summary cards placeholder */}
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                <SummaryCard title="Total Fee Types" value="12" trend="+2 this month" />
-                <SummaryCard title="Active Fees" value="10" trend="83% of total" />
-                <SummaryCard title="Inactive Fees" value="2" trend="17% of total" />
-                <SummaryCard title="Expected Revenue" value="$124,500" trend="+8.4% vs last term" />
+              {/* KPI summary cards */}
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+                <SummaryCard
+                  label="Total Fee Types"
+                  value="12"
+                  icon={Layers}
+                />
+                <SummaryCard
+                  label="Expected Revenue"
+                  value="$124,500"
+                  icon={DollarSign}
+                />
+                <SummaryCard
+                  label="Primary School Fee Types"
+                  value="5"
+                  icon={GraduationCap}
+                />
+                <SummaryCard
+                  label="Secondary School Fee Types"
+                  value="7"
+                  icon={School}
+                />
+                <SummaryCard
+                  label="Active Fee Types"
+                  value="10"
+                  icon={CheckCircle2}
+                />
+                <SummaryCard
+                  label="Archived Fee Types"
+                  value="2"
+                  icon={Archive}
+                />
               </div>
 
               {/* Main content card */}
@@ -147,21 +184,27 @@ function FeeTypesPage() {
 }
 
 function SummaryCard({
-  title,
+  label,
   value,
-  trend,
+  icon: Icon,
 }: {
-  title: string;
+  label: string;
   value: string;
-  trend: string;
+  icon: ComponentType<{ className?: string }>;
 }) {
   return (
-    <Card className="rounded-[14px] border-0 bg-white shadow-sm">
-      <CardContent className="p-5">
-        <p className="text-sm font-medium text-muted-foreground">{title}</p>
-        <div className="mt-2 flex items-baseline gap-2">
-          <span className="text-2xl font-semibold tracking-tight text-foreground">{value}</span>
-          <span className="text-xs font-medium text-schoolgate-green">{trend}</span>
+    <Card className="group rounded-[14px] border-0 bg-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md">
+      <CardContent className="flex flex-col gap-4 p-5">
+        <div className="flex items-center justify-between">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-schoolgate-green-light text-schoolgate-green">
+            <Icon className="h-5 w-5" />
+          </div>
+        </div>
+        <div className="space-y-0.5">
+          <p className="text-2xl font-semibold tracking-tight text-foreground">
+            {value}
+          </p>
+          <p className="text-xs font-medium text-muted-foreground">{label}</p>
         </div>
       </CardContent>
     </Card>
