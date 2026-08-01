@@ -101,6 +101,100 @@ function FeeTypesPage() {
                 />
               </div>
 
+              {/* Action bar */}
+              <Card className="rounded-[14px] border-0 bg-white shadow-sm">
+                <CardContent className="p-4 sm:p-5">
+                  <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                    {/* Filters */}
+                    <div className="flex flex-col flex-wrap gap-3 sm:flex-row sm:items-center">
+                      <FilterSelect
+                        placeholder="Session"
+                        defaultValue="2025-2026"
+                        options={[
+                          { value: "2025-2026", label: "2025/2026 Session" },
+                          { value: "2024-2025", label: "2024/2025 Session" },
+                          { value: "2023-2024", label: "2023/2024 Session" },
+                        ]}
+                      />
+                      <FilterSelect
+                        placeholder="Term"
+                        defaultValue="first"
+                        options={[
+                          { value: "first", label: "First Term" },
+                          { value: "second", label: "Second Term" },
+                          { value: "third", label: "Third Term" },
+                        ]}
+                      />
+                      <FilterSelect
+                        placeholder="School"
+                        defaultValue="all"
+                        options={[
+                          { value: "all", label: "All Schools" },
+                          { value: "primary", label: "Primary School" },
+                          { value: "secondary", label: "Secondary School" },
+                        ]}
+                      />
+                      <FilterSelect
+                        placeholder="Class"
+                        defaultValue="all"
+                        options={[
+                          { value: "all", label: "All Classes" },
+                          { value: "jss1", label: "JSS 1" },
+                          { value: "jss2", label: "JSS 2" },
+                          { value: "ss1", label: "SS 1" },
+                        ]}
+                      />
+                      <FilterSelect
+                        placeholder="Status"
+                        defaultValue="active"
+                        options={[
+                          { value: "active", label: "Active" },
+                          { value: "archived", label: "Archived" },
+                          { value: "all", label: "All Statuses" },
+                        ]}
+                      />
+                      <div className="relative w-full sm:w-56">
+                        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                        <Input
+                          type="search"
+                          placeholder="Search Fee Type"
+                          className="h-9 rounded-lg border-border pl-9 pr-4 text-sm"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Actions */}
+                    <div className="flex flex-wrap items-center gap-2">
+                      <Button className="h-9 shrink-0 gap-2 rounded-lg bg-schoolgate-green px-4 text-sm font-medium text-white hover:bg-schoolgate-green/90">
+                        <Plus className="h-4 w-4" />
+                        New Fee Type
+                      </Button>
+                      <Button
+                        variant="outline"
+                        className="h-9 shrink-0 gap-2 rounded-lg border-border text-sm font-medium"
+                      >
+                        <FileSpreadsheet className="h-4 w-4" />
+                        Export Excel
+                      </Button>
+                      <Button
+                        variant="outline"
+                        className="h-9 shrink-0 gap-2 rounded-lg border-border text-sm font-medium"
+                      >
+                        <FileText className="h-4 w-4" />
+                        Export PDF
+                      </Button>
+                      <Button
+                        variant="outline"
+                        className="h-9 shrink-0 gap-2 rounded-lg border-border text-sm font-medium"
+                      >
+                        <Printer className="h-4 w-4" />
+                        Print
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
               {/* Main content card */}
               <Card className="rounded-[14px] border-0 bg-white shadow-sm">
                 <CardHeader className="border-b px-4 py-5 sm:px-6">
