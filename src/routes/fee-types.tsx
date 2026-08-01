@@ -65,10 +65,6 @@ function FeeTypesPage() {
                     Create and manage school fee structures.
                   </p>
                 </div>
-                <Button className="h-9 shrink-0 gap-2 rounded-lg bg-schoolgate-green px-4 text-sm font-medium text-white hover:bg-schoolgate-green/90">
-                  <Plus className="h-4 w-4" />
-                  Add Fee Type
-                </Button>
               </div>
 
               {/* KPI summary cards */}
