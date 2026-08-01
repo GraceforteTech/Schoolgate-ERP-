@@ -61,8 +61,8 @@ function FeeTypesPage() {
 
               {/* Main content card */}
               <Card className="rounded-[14px] border-0 bg-white shadow-sm">
-                <CardHeader className="border-b px-6 py-5">
-                  <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 sm:flex sm:flex-wrap sm:justify-between">
+                <CardHeader className="border-b px-4 py-5 sm:px-6">
+                  <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
                     <div className="min-w-0">
                       <CardTitle className="text-base font-semibold">Fee Types List</CardTitle>
                       <p className="text-sm text-muted-foreground">
