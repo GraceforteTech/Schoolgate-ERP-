@@ -183,21 +183,27 @@ function FeeTypesPage() {
 }
 
 function SummaryCard({
-  title,
+  label,
   value,
-  trend,
+  icon: Icon,
 }: {
-  title: string;
+  label: string;
   value: string;
-  trend: string;
+  icon: React.ComponentType<{ className?: string }>;
 }) {
   return (
-    <Card className="rounded-[14px] border-0 bg-white shadow-sm">
-      <CardContent className="p-5">
-        <p className="text-sm font-medium text-muted-foreground">{title}</p>
-        <div className="mt-2 flex items-baseline gap-2">
-          <span className="text-2xl font-semibold tracking-tight text-foreground">{value}</span>
-          <span className="text-xs font-medium text-schoolgate-green">{trend}</span>
+    <Card className="group rounded-[14px] border-0 bg-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md">
+      <CardContent className="flex flex-col gap-4 p-5">
+        <div className="flex items-center justify-between">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-schoolgate-green-light text-schoolgate-green">
+            <Icon className="h-5 w-5" />
+          </div>
+        </div>
+        <div className="space-y-0.5">
+          <p className="text-2xl font-semibold tracking-tight text-foreground">
+            {value}
+          </p>
+          <p className="text-xs font-medium text-muted-foreground">{label}</p>
         </div>
       </CardContent>
     </Card>
