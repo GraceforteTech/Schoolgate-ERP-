@@ -291,3 +291,28 @@ function SummaryCard({
     </Card>
   );
 }
+
+function FilterSelect({
+  placeholder,
+  defaultValue,
+  options,
+}: {
+  placeholder: string;
+  defaultValue: string;
+  options: { value: string; label: string }[];
+}) {
+  return (
+    <Select defaultValue={defaultValue}>
+      <SelectTrigger className="h-9 w-full rounded-lg border-border bg-white px-3 text-sm sm:w-40">
+        <SelectValue placeholder={placeholder} />
+      </SelectTrigger>
+      <SelectContent className="rounded-lg border-border">
+        {options.map((option) => (
+          <SelectItem key={option.value} value={option.value} className="text-sm">
+            {option.label}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  );
+}
