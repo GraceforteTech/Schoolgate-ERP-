@@ -112,24 +112,6 @@ function FeeTypesPage() {
                       </p>
                     </div>
 
-                    {/* Filter bar placeholder */}
-                    <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center">
-                      <div className="relative w-full sm:w-64">
-                        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                        <Input
-                          type="search"
-                          placeholder="Search fee types..."
-                          className="h-9 rounded-lg border-border pl-9 pr-4 text-sm"
-                        />
-                      </div>
-                      <Button
-                        variant="outline"
-                        className="h-9 shrink-0 gap-2 rounded-lg border-border text-sm font-medium"
-                      >
-                        <SlidersHorizontal className="h-4 w-4" />
-                        Filters
-                      </Button>
-                    </div>
                   </div>
                 </CardHeader>
 
