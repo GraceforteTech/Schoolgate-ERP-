@@ -1,5 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Plus, Search, SlidersHorizontal } from "lucide-react";
+import {
+  Archive,
+  CheckCircle2,
+  DollarSign,
+  GraduationCap,
+  Layers,
+  Plus,
+  School,
+  Search,
+  SlidersHorizontal,
+} from "lucide-react";
 
 import { AppSidebar } from "@/components/app-sidebar";
 import { TopNav } from "@/components/top-nav";
