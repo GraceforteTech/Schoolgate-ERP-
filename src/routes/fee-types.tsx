@@ -4,12 +4,14 @@ import {
   Archive,
   CheckCircle2,
   DollarSign,
+  FileSpreadsheet,
+  FileText,
   GraduationCap,
   Layers,
   Plus,
+  Printer,
   School,
   Search,
-  SlidersHorizontal,
 } from "lucide-react";
 
 import { AppSidebar } from "@/components/app-sidebar";
@@ -17,6 +19,13 @@ import { TopNav } from "@/components/top-nav";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { Skeleton } from "@/components/ui/skeleton";
 
