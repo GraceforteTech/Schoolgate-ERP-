@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 
 import { AppSidebar } from "@/components/app-sidebar";
+import { FeeTypesTable } from "@/components/fee-types-table";
 import { TopNav } from "@/components/top-nav";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -27,7 +28,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
-import { Skeleton } from "@/components/ui/skeleton";
 
 export const Route = createFileRoute("/fee-types")({
   head: () => ({

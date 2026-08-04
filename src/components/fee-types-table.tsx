@@ -220,7 +220,7 @@ export function FeeTypesTable() {
                         <DropdownMenuItem><Copy className="h-4 w-4" /> Duplicate</DropdownMenuItem>
                         <DropdownMenuItem><Archive className="h-4 w-4" /> Archive</DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem variant="destructive">
+                        <DropdownMenuItem className="text-destructive focus:text-destructive">
                           <Trash2 className="h-4 w-4" /> Delete
                         </DropdownMenuItem>
                       </DropdownMenuContent>
