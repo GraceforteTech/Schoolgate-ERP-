@@ -209,42 +209,11 @@ function FeeTypesPage() {
                   </div>
                 </CardHeader>
 
-                <CardContent className="p-6">
-                  {/* Fee types table placeholder */}
-                  <div className="space-y-3">
-                    <div className="grid grid-cols-12 gap-4 rounded-lg bg-page-background px-4 py-3 text-xs font-medium text-muted-foreground">
-                      <div className="col-span-4">Fee Name</div>
-                      <div className="col-span-3">Category</div>
-                      <div className="col-span-2">Amount</div>
-                      <div className="col-span-2">Status</div>
-                      <div className="col-span-1">Actions</div>
-                    </div>
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <div
-                        key={i}
-                        className="grid grid-cols-12 gap-4 rounded-lg border border-border/50 bg-white px-4 py-4"
-                      >
-                        <div className="col-span-4">
-                          <Skeleton className="h-4 w-3/4" />
-                        </div>
-                        <div className="col-span-3">
-                          <Skeleton className="h-4 w-1/2" />
-                        </div>
-                        <div className="col-span-2">
-                          <Skeleton className="h-4 w-2/3" />
-                        </div>
-                        <div className="col-span-2">
-                          <Skeleton className="h-4 w-16" />
-                        </div>
-                        <div className="col-span-1">
-                          <Skeleton className="h-4 w-8" />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+                <CardContent className="p-4 sm:p-6">
+                  <FeeTypesTable />
 
                   <div className="mt-6 flex items-center justify-between border-t pt-4 text-sm text-muted-foreground">
-                    <span>Showing 1–5 of 12 fee types</span>
+                    <span>Showing 1–8 of 12 fee types</span>
                     <div className="flex gap-2">
                       <Button variant="outline" size="sm" className="rounded-lg" disabled>
                         Previous
