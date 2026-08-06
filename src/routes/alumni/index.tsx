@@ -85,6 +85,7 @@ function AlumniManagementPage() {
         </div>
 
         <TabsContent value="directory" className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <AlumniSearchCenter />
           <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
             <div className="xl:col-span-9">
               <Card className="p-6 bg-white border-none shadow-sm rounded-[20px] overflow-hidden">
