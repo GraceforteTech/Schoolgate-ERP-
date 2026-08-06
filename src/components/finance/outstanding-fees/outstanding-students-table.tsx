@@ -27,7 +27,7 @@ import {
   FileText 
 } from "lucide-react";
 
-export function OutstandingStudentsTable() {
+export function OutstandingStudentsTable({ onSelectStudent }: { onSelectStudent?: (student: any) => void }) {
   const students = [
     {
       id: 1,
@@ -71,7 +71,7 @@ export function OutstandingStudentsTable() {
         </TableHeader>
         <TableBody>
           {students.map((student) => (
-            <TableRow key={student.id} className="hover:bg-schoolgate-green-light/20 transition-colors">
+            <TableRow key={student.id} className="hover:bg-schoolgate-green-light/20 transition-colors cursor-pointer" onClick={() => onSelectStudent?.(student)}>
               <TableCell><Checkbox /></TableCell>
               <TableCell className="font-semibold text-slate-900">{student.name}</TableCell>
               <TableCell>{student.admNo}</TableCell>
@@ -96,7 +96,7 @@ export function OutstandingStudentsTable() {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-56">
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                    <DropdownMenuItem><Eye size={14} className="mr-2" /> View Account</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => onSelectStudent?.(student)}><Eye size={14} className="mr-2" /> View Account</DropdownMenuItem>
                     <DropdownMenuItem><CreditCard size={14} className="mr-2" /> Collect Payment</DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem><MessageSquare size={14} className="mr-2" /> WhatsApp Reminder</DropdownMenuItem>

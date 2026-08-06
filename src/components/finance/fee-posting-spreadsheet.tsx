@@ -79,6 +79,7 @@ const INITIAL_DATA = [
 ];
 
 export function FeePostingSpreadsheet({ isLoading = false }: { isLoading?: boolean }) {
+  const [selectedClass, setSelectedClass] = useState<string | null>(null);
   const [data, setData] = useState(INITIAL_DATA);
   const [selection, setSelection] = useState<SelectionRange | null>(null);
   const [editing, setEditing] = useState<CellPosition | null>(null);
@@ -104,6 +105,32 @@ export function FeePostingSpreadsheet({ isLoading = false }: { isLoading?: boole
       className: "bg-emerald-50 border-emerald-100 text-emerald-900",
     });
   };
+
+  if (!selectedClass && !isLoading) {
+    return (
+      <Card className="rounded-[24px] border-none shadow-sm bg-white overflow-hidden p-12 flex flex-col items-center justify-center text-center animate-in fade-in zoom-in-95">
+        <div className="w-48 h-48 bg-slate-50 rounded-full flex items-center justify-center mb-6 border border-slate-100">
+           <FileSpreadsheet size={80} className="text-slate-200" />
+        </div>
+        <h3 className="text-2xl font-black text-slate-900 mb-2">No class selected</h3>
+        <p className="text-slate-500 font-medium max-w-sm mb-8">
+           Choose a class from the options below to begin posting and managing school fees for the current term.
+        </p>
+        <div className="flex flex-wrap justify-center gap-3">
+           {["JSS 1A", "JSS 1B", "SS 1A", "SS 3B"].map((cls) => (
+             <Button 
+               key={cls}
+               variant="outline" 
+               className="h-11 px-6 rounded-xl font-bold border-slate-200 hover:border-schoolgate-green hover:text-schoolgate-green transition-all"
+               onClick={() => setSelectedClass(cls)}
+             >
+               Select {cls}
+             </Button>
+           ))}
+        </div>
+      </Card>
+    );
+  }
 
   if (isLoading) {
     return (
@@ -416,7 +443,12 @@ export function FeePostingSpreadsheet({ isLoading = false }: { isLoading?: boole
                             autoFocus
                             className="absolute inset-0 w-full h-full px-4 outline-none border-2 border-schoolgate-green font-bold tabular-nums bg-white z-20"
                             value={value}
-                            onChange={(e) => updateCellValue(r, c, e.target.value)}
+                            onChange={(e) => {
+                              const val = e.target.value;
+                              const col = COLUMNS[c];
+                              if (col.type === "currency" && val !== "" && !/^-?\d*\.?\d*$/.test(val)) return;
+                              updateCellValue(r, c, val);
+                            }}
                             onBlur={() => setEditing(null)}
                           />
                         ) : (
