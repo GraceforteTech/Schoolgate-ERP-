@@ -29,6 +29,11 @@ import { Route as FinanceAdmissionsExamsRouteImport } from './routes/finance/adm
 import { Route as FinanceExpenseManagementIndexRouteImport } from './routes/finance/expense-management/index'
 import { Route as FinanceFeePostingIndexRouteImport } from './routes/finance/fee-posting/index'
 import { Route as FinanceHrPayrollIndexRouteImport } from './routes/finance/hr-payroll/index'
+import { Route as FinanceHrPayrollEmployeesRouteImport } from './routes/finance/hr-payroll/employees'
+import { Route as FinanceHrPayrollPayrollDashboardRouteImport } from './routes/finance/hr-payroll/payroll-dashboard'
+import { Route as FinanceHrPayrollProcessingRouteImport } from './routes/finance/hr-payroll/processing'
+import { Route as FinanceHrPayrollSalaryStructureRouteImport } from './routes/finance/hr-payroll/salary-structure'
+import { Route as FinanceHrPayrollSalaryTableRouteImport } from './routes/finance/hr-payroll/salary-table'
 import { Route as FinanceInvoiceManagementIndexRouteImport } from './routes/finance/invoice-management/index'
 import { Route as FinanceOutstandingFeesIndexRouteImport } from './routes/finance/outstanding-fees/index'
 import { Route as FinancePayrollManagementIndexRouteImport } from './routes/finance/payroll-management/index'
@@ -140,6 +145,36 @@ const FinanceHrPayrollIndexRoute = FinanceHrPayrollIndexRouteImport.update({
   path: '/finance/hr-payroll/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FinanceHrPayrollEmployeesRoute =
+  FinanceHrPayrollEmployeesRouteImport.update({
+    id: '/finance/hr-payroll/employees',
+    path: '/finance/hr-payroll/employees',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const FinanceHrPayrollPayrollDashboardRoute =
+  FinanceHrPayrollPayrollDashboardRouteImport.update({
+    id: '/finance/hr-payroll/payroll-dashboard',
+    path: '/finance/hr-payroll/payroll-dashboard',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const FinanceHrPayrollProcessingRoute =
+  FinanceHrPayrollProcessingRouteImport.update({
+    id: '/finance/hr-payroll/processing',
+    path: '/finance/hr-payroll/processing',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const FinanceHrPayrollSalaryStructureRoute =
+  FinanceHrPayrollSalaryStructureRouteImport.update({
+    id: '/finance/hr-payroll/salary-structure',
+    path: '/finance/hr-payroll/salary-structure',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const FinanceHrPayrollSalaryTableRoute =
+  FinanceHrPayrollSalaryTableRouteImport.update({
+    id: '/finance/hr-payroll/salary-table',
+    path: '/finance/hr-payroll/salary-table',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const FinanceInvoiceManagementIndexRoute =
   FinanceInvoiceManagementIndexRouteImport.update({
     id: '/finance/invoice-management/',
@@ -186,6 +221,11 @@ export interface FileRoutesByFullPath {
   '/finance/admissions/decisions': typeof FinanceAdmissionsDecisionsRoute
   '/finance/admissions/enrolment': typeof FinanceAdmissionsEnrolmentRoute
   '/finance/admissions/exams': typeof FinanceAdmissionsExamsRoute
+  '/finance/hr-payroll/employees': typeof FinanceHrPayrollEmployeesRoute
+  '/finance/hr-payroll/payroll-dashboard': typeof FinanceHrPayrollPayrollDashboardRoute
+  '/finance/hr-payroll/processing': typeof FinanceHrPayrollProcessingRoute
+  '/finance/hr-payroll/salary-structure': typeof FinanceHrPayrollSalaryStructureRoute
+  '/finance/hr-payroll/salary-table': typeof FinanceHrPayrollSalaryTableRoute
   '/finance/admissions/': typeof FinanceAdmissionsIndexRoute
   '/finance/expense-management/': typeof FinanceExpenseManagementIndexRoute
   '/finance/fee-posting/': typeof FinanceFeePostingIndexRoute
@@ -213,6 +253,11 @@ export interface FileRoutesByTo {
   '/finance/admissions/decisions': typeof FinanceAdmissionsDecisionsRoute
   '/finance/admissions/enrolment': typeof FinanceAdmissionsEnrolmentRoute
   '/finance/admissions/exams': typeof FinanceAdmissionsExamsRoute
+  '/finance/hr-payroll/employees': typeof FinanceHrPayrollEmployeesRoute
+  '/finance/hr-payroll/payroll-dashboard': typeof FinanceHrPayrollPayrollDashboardRoute
+  '/finance/hr-payroll/processing': typeof FinanceHrPayrollProcessingRoute
+  '/finance/hr-payroll/salary-structure': typeof FinanceHrPayrollSalaryStructureRoute
+  '/finance/hr-payroll/salary-table': typeof FinanceHrPayrollSalaryTableRoute
   '/finance/admissions': typeof FinanceAdmissionsIndexRoute
   '/finance/expense-management': typeof FinanceExpenseManagementIndexRoute
   '/finance/fee-posting': typeof FinanceFeePostingIndexRoute
@@ -241,6 +286,11 @@ export interface FileRoutesById {
   '/finance/admissions/decisions': typeof FinanceAdmissionsDecisionsRoute
   '/finance/admissions/enrolment': typeof FinanceAdmissionsEnrolmentRoute
   '/finance/admissions/exams': typeof FinanceAdmissionsExamsRoute
+  '/finance/hr-payroll/employees': typeof FinanceHrPayrollEmployeesRoute
+  '/finance/hr-payroll/payroll-dashboard': typeof FinanceHrPayrollPayrollDashboardRoute
+  '/finance/hr-payroll/processing': typeof FinanceHrPayrollProcessingRoute
+  '/finance/hr-payroll/salary-structure': typeof FinanceHrPayrollSalaryStructureRoute
+  '/finance/hr-payroll/salary-table': typeof FinanceHrPayrollSalaryTableRoute
   '/finance/admissions/': typeof FinanceAdmissionsIndexRoute
   '/finance/expense-management/': typeof FinanceExpenseManagementIndexRoute
   '/finance/fee-posting/': typeof FinanceFeePostingIndexRoute
@@ -270,6 +320,11 @@ export interface FileRouteTypes {
     | '/finance/admissions/decisions'
     | '/finance/admissions/enrolment'
     | '/finance/admissions/exams'
+    | '/finance/hr-payroll/employees'
+    | '/finance/hr-payroll/payroll-dashboard'
+    | '/finance/hr-payroll/processing'
+    | '/finance/hr-payroll/salary-structure'
+    | '/finance/hr-payroll/salary-table'
     | '/finance/admissions/'
     | '/finance/expense-management/'
     | '/finance/fee-posting/'
@@ -297,6 +352,11 @@ export interface FileRouteTypes {
     | '/finance/admissions/decisions'
     | '/finance/admissions/enrolment'
     | '/finance/admissions/exams'
+    | '/finance/hr-payroll/employees'
+    | '/finance/hr-payroll/payroll-dashboard'
+    | '/finance/hr-payroll/processing'
+    | '/finance/hr-payroll/salary-structure'
+    | '/finance/hr-payroll/salary-table'
     | '/finance/admissions'
     | '/finance/expense-management'
     | '/finance/fee-posting'
@@ -324,6 +384,11 @@ export interface FileRouteTypes {
     | '/finance/admissions/decisions'
     | '/finance/admissions/enrolment'
     | '/finance/admissions/exams'
+    | '/finance/hr-payroll/employees'
+    | '/finance/hr-payroll/payroll-dashboard'
+    | '/finance/hr-payroll/processing'
+    | '/finance/hr-payroll/salary-structure'
+    | '/finance/hr-payroll/salary-table'
     | '/finance/admissions/'
     | '/finance/expense-management/'
     | '/finance/fee-posting/'
@@ -352,6 +417,11 @@ export interface RootRouteChildren {
   FinanceAdmissionsDecisionsRoute: typeof FinanceAdmissionsDecisionsRoute
   FinanceAdmissionsEnrolmentRoute: typeof FinanceAdmissionsEnrolmentRoute
   FinanceAdmissionsExamsRoute: typeof FinanceAdmissionsExamsRoute
+  FinanceHrPayrollEmployeesRoute: typeof FinanceHrPayrollEmployeesRoute
+  FinanceHrPayrollPayrollDashboardRoute: typeof FinanceHrPayrollPayrollDashboardRoute
+  FinanceHrPayrollProcessingRoute: typeof FinanceHrPayrollProcessingRoute
+  FinanceHrPayrollSalaryStructureRoute: typeof FinanceHrPayrollSalaryStructureRoute
+  FinanceHrPayrollSalaryTableRoute: typeof FinanceHrPayrollSalaryTableRoute
   FinanceAdmissionsIndexRoute: typeof FinanceAdmissionsIndexRoute
   FinanceExpenseManagementIndexRoute: typeof FinanceExpenseManagementIndexRoute
   FinanceFeePostingIndexRoute: typeof FinanceFeePostingIndexRoute
@@ -505,6 +575,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FinanceHrPayrollIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/finance/hr-payroll/employees': {
+      id: '/finance/hr-payroll/employees'
+      path: '/finance/hr-payroll/employees'
+      fullPath: '/finance/hr-payroll/employees'
+      preLoaderRoute: typeof FinanceHrPayrollEmployeesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/finance/hr-payroll/payroll-dashboard': {
+      id: '/finance/hr-payroll/payroll-dashboard'
+      path: '/finance/hr-payroll/payroll-dashboard'
+      fullPath: '/finance/hr-payroll/payroll-dashboard'
+      preLoaderRoute: typeof FinanceHrPayrollPayrollDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/finance/hr-payroll/processing': {
+      id: '/finance/hr-payroll/processing'
+      path: '/finance/hr-payroll/processing'
+      fullPath: '/finance/hr-payroll/processing'
+      preLoaderRoute: typeof FinanceHrPayrollProcessingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/finance/hr-payroll/salary-structure': {
+      id: '/finance/hr-payroll/salary-structure'
+      path: '/finance/hr-payroll/salary-structure'
+      fullPath: '/finance/hr-payroll/salary-structure'
+      preLoaderRoute: typeof FinanceHrPayrollSalaryStructureRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/finance/hr-payroll/salary-table': {
+      id: '/finance/hr-payroll/salary-table'
+      path: '/finance/hr-payroll/salary-table'
+      fullPath: '/finance/hr-payroll/salary-table'
+      preLoaderRoute: typeof FinanceHrPayrollSalaryTableRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/finance/invoice-management/': {
       id: '/finance/invoice-management/'
       path: '/finance/invoice-management'
@@ -561,6 +666,11 @@ const rootRouteChildren: RootRouteChildren = {
   FinanceAdmissionsDecisionsRoute: FinanceAdmissionsDecisionsRoute,
   FinanceAdmissionsEnrolmentRoute: FinanceAdmissionsEnrolmentRoute,
   FinanceAdmissionsExamsRoute: FinanceAdmissionsExamsRoute,
+  FinanceHrPayrollEmployeesRoute: FinanceHrPayrollEmployeesRoute,
+  FinanceHrPayrollPayrollDashboardRoute: FinanceHrPayrollPayrollDashboardRoute,
+  FinanceHrPayrollProcessingRoute: FinanceHrPayrollProcessingRoute,
+  FinanceHrPayrollSalaryStructureRoute: FinanceHrPayrollSalaryStructureRoute,
+  FinanceHrPayrollSalaryTableRoute: FinanceHrPayrollSalaryTableRoute,
   FinanceAdmissionsIndexRoute: FinanceAdmissionsIndexRoute,
   FinanceExpenseManagementIndexRoute: FinanceExpenseManagementIndexRoute,
   FinanceFeePostingIndexRoute: FinanceFeePostingIndexRoute,
@@ -574,3 +684,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
