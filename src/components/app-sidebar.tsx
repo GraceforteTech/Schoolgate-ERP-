@@ -12,7 +12,9 @@ import {
   Users,
   UserPlus,
   Wallet,
+  MonitorPlay,
 } from "lucide-react";
+
 
 import {
   Sidebar,
