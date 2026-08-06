@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { HRDashboardKPIs } from "@/components/hr/hr-dashboard-kpis";
 import { HRDashboardAnalytics } from "@/components/hr/hr-dashboard-analytics";
 import { HRDashboardFeeds } from "@/components/hr/hr-dashboard-feeds";
+import { EmployeeList } from "@/components/hr/employee-list";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export const Route = createFileRoute("/finance/hr-payroll/")({
@@ -108,6 +109,9 @@ function HRPayrollDashboard() {
                <p className="text-sm text-muted-foreground font-medium italic">Payroll Detailed Module Placeholder</p>
                <Button variant="link" className="text-schoolgate-green text-xs">View Registry</Button>
              </div>
+          </TabsContent>
+          <TabsContent value="employees" className="outline-none">
+            <EmployeeList />
           </TabsContent>
         </Tabs>
       </div>
