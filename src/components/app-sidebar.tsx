@@ -4,6 +4,7 @@ import {
   BookOpen,
   CalendarDays,
   CreditCard,
+  FileText,
   GraduationCap,
   LayoutDashboard,
   Settings,
@@ -34,6 +35,7 @@ const mainNavItems = [
 const financeNavItems = [
   { title: "Fee Types", url: "/fee-types", icon: CreditCard },
   { title: "Adjustments", url: "/finance/adjustment-management", icon: Banknote },
+  { title: "Invoices", url: "/finance/invoice-management", icon: FileText },
 ];
 
 const systemNavItems = [

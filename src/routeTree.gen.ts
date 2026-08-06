@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as FeeTypesRouteImport } from './routes/fee-types'
 import { Route as FinanceAdjustmentManagementRouteImport } from './routes/finance/adjustment-management'
+import { Route as FinanceInvoiceManagementIndexRouteImport } from './routes/finance/invoice-management/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -29,35 +30,58 @@ const FinanceAdjustmentManagementRoute =
     path: '/finance/adjustment-management',
     getParentRoute: () => rootRouteImport,
   } as any)
+const FinanceInvoiceManagementIndexRoute =
+  FinanceInvoiceManagementIndexRouteImport.update({
+    id: '/finance/invoice-management/',
+    path: '/finance/invoice-management/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/fee-types': typeof FeeTypesRoute
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
+  '/finance/invoice-management/': typeof FinanceInvoiceManagementIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/fee-types': typeof FeeTypesRoute
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
+  '/finance/invoice-management': typeof FinanceInvoiceManagementIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/fee-types': typeof FeeTypesRoute
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
+  '/finance/invoice-management/': typeof FinanceInvoiceManagementIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/fee-types' | '/finance/adjustment-management'
+  fullPaths:
+    | '/'
+    | '/fee-types'
+    | '/finance/adjustment-management'
+    | '/finance/invoice-management/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/fee-types' | '/finance/adjustment-management'
-  id: '__root__' | '/' | '/fee-types' | '/finance/adjustment-management'
+  to:
+    | '/'
+    | '/fee-types'
+    | '/finance/adjustment-management'
+    | '/finance/invoice-management'
+  id:
+    | '__root__'
+    | '/'
+    | '/fee-types'
+    | '/finance/adjustment-management'
+    | '/finance/invoice-management/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   FeeTypesRoute: typeof FeeTypesRoute
   FinanceAdjustmentManagementRoute: typeof FinanceAdjustmentManagementRoute
+  FinanceInvoiceManagementIndexRoute: typeof FinanceInvoiceManagementIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -83,6 +107,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FinanceAdjustmentManagementRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/finance/invoice-management/': {
+      id: '/finance/invoice-management/'
+      path: '/finance/invoice-management'
+      fullPath: '/finance/invoice-management/'
+      preLoaderRoute: typeof FinanceInvoiceManagementIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -90,6 +121,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   FeeTypesRoute: FeeTypesRoute,
   FinanceAdjustmentManagementRoute: FinanceAdjustmentManagementRoute,
+  FinanceInvoiceManagementIndexRoute: FinanceInvoiceManagementIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
