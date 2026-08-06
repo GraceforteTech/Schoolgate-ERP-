@@ -1,5 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Link } from "@tanstack/react-router";
 import { 
   CreditCard, 
   FileSpreadsheet, 
@@ -7,21 +8,20 @@ import {
   Calculator, 
   Briefcase, 
   Printer, 
-  FileBarChart, 
   LayoutList,
   Download
 } from "lucide-react";
 
 const actions = [
-  { label: "Collect Fees", icon: CreditCard },
-  { label: "Bulk Fee Posting", icon: FileSpreadsheet },
-  { label: "Create Invoice", icon: FileText },
-  { label: "Record Expense", icon: Calculator },
-  { label: "Payroll", icon: Briefcase },
-  { label: "Print Daily Report", icon: Printer },
-  { label: "Outstanding Fees", icon: LayoutList },
-  { label: "Student Statement", icon: FileText },
-  { label: "Export Report", icon: Download },
+  { label: "Collect Fees", icon: CreditCard, url: "/finance/invoice-management" },
+  { label: "Bulk Fee Posting", icon: FileSpreadsheet, url: "/finance/fee-posting" },
+  { label: "Create Invoice", icon: FileText, url: "/finance/invoice-management" },
+  { label: "Record Expense", icon: Calculator, url: "/finance/expense-management" },
+  { label: "Payroll", icon: Briefcase, url: "/finance/hr-payroll" },
+  { label: "Print Daily Report", icon: Printer, url: "#" },
+  { label: "Outstanding Fees", icon: LayoutList, url: "/finance/outstanding-fees" },
+  { label: "Student Statement", icon: FileText, url: "/finance/invoice-management" },
+  { label: "Export Report", icon: Download, url: "#" },
 ];
 
 export function QuickActions() {
