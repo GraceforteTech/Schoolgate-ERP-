@@ -294,9 +294,6 @@ export function StudentDirectory() {
                       className="border-slate-300 data-[state=checked]:bg-schoolgate-green data-[state=checked]:border-schoolgate-green"
                     />
                   </TableCell>
-            <TableBody>
-              {mockStudents.map((student, i) => (
-                <TableRow key={student.id} className={i % 2 === 1 ? "bg-slate-50/50" : ""}>
                   <TableCell>
                     <Avatar className="h-8 w-8 border border-slate-200">
                       <AvatarImage src={student.photo} alt={student.name} />
