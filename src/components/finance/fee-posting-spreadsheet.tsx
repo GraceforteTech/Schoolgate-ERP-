@@ -226,6 +226,13 @@ export function FeePostingSpreadsheet({ isLoading = false }: { isLoading?: boole
     newData[r] = row;
     setData(newData);
     setSaveStatus("saving");
+    
+    // Track modification
+    setModifiedRows(prev => {
+      const next = new Set(prev);
+      next.add(r);
+      return next;
+    });
   };
 
   const isSelected = (r: number, c: number) => {
