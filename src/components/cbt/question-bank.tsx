@@ -1,7 +1,7 @@
 import { 
   Plus, 
   Upload, 
-  FileWord, 
+  FileStack, 
   FileSpreadsheet, 
   FileText, 
   Sparkles, 
@@ -33,6 +33,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { cn } from "@/lib/utils";
+
 
 const questions = [
   { id: 1, subject: "Mathematics", topic: "Quadratic Equations", class: "JSS 3", difficulty: "Medium", type: "Objective", marks: 2, status: "Active" },
