@@ -5,6 +5,7 @@ import { ExpenseRegisterTable } from "@/components/finance/expense-management/ex
 import { ExpenseAnalytics } from "@/components/finance/expense-management/expense-analytics";
 import { ApprovalCentre } from "@/components/finance/expense-management/approval-centre";
 import { RecentActivities } from "@/components/finance/expense-management/recent-activities";
+import { CategoryManagement } from "@/components/finance/expense-management/category-management";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export const Route = createFileRoute("/finance/expense-management/")({
