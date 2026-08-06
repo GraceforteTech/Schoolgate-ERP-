@@ -118,3 +118,13 @@ export function StudentQuickView({ open, onOpenChange, student }: QuickViewProps
     </Sheet>
   );
 }
+
+function BreakdownRow({ label, value, color, isBold }: any) {
+  return (
+    <div className="flex justify-between items-center text-sm">
+      <span className="text-slate-500 font-medium">{label}</span>
+      <span className={cn("font-bold tabular-nums", color || "text-slate-900", isBold && "text-base")}>{value}</span>
+    </div>
+  );
+}
+
