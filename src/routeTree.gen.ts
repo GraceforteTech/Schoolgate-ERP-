@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as FeeTypesRouteImport } from './routes/fee-types'
+import { Route as FinanceAdjustmentManagementRouteImport } from './routes/finance/adjustment-management'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,31 +23,41 @@ const FeeTypesRoute = FeeTypesRouteImport.update({
   path: '/fee-types',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FinanceAdjustmentManagementRoute =
+  FinanceAdjustmentManagementRouteImport.update({
+    id: '/finance/adjustment-management',
+    path: '/finance/adjustment-management',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/fee-types': typeof FeeTypesRoute
+  '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/fee-types': typeof FeeTypesRoute
+  '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/fee-types': typeof FeeTypesRoute
+  '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/fee-types'
+  fullPaths: '/' | '/fee-types' | '/finance/adjustment-management'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/fee-types'
-  id: '__root__' | '/' | '/fee-types'
+  to: '/' | '/fee-types' | '/finance/adjustment-management'
+  id: '__root__' | '/' | '/fee-types' | '/finance/adjustment-management'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   FeeTypesRoute: typeof FeeTypesRoute
+  FinanceAdjustmentManagementRoute: typeof FinanceAdjustmentManagementRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -65,23 +76,21 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FeeTypesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/finance/adjustment-management': {
+      id: '/finance/adjustment-management'
+      path: '/finance/adjustment-management'
+      fullPath: '/finance/adjustment-management'
+      preLoaderRoute: typeof FinanceAdjustmentManagementRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   FeeTypesRoute: FeeTypesRoute,
+  FinanceAdjustmentManagementRoute: FinanceAdjustmentManagementRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
