@@ -22,7 +22,7 @@ export function ExecutiveKpiCards() {
     { label: "New Admissions", value: "156", icon: UserPlus, color: "text-emerald-600", bg: "bg-emerald-50" },
     { label: "Active Students", value: "2,380", icon: UserCheck, color: "text-schoolgate-green", bg: "bg-schoolgate-green-light" },
     { label: "Suspended Students", value: "12", icon: UserMinus, color: "text-orange-600", bg: "bg-orange-50" },
-    { label: "Graduated Students", value: "450", icon: GraduationCap, color: "text-amber-600", bg: "bg-amber-50" },
+    { label: "Total Alumni", value: "450", icon: GraduationCap, color: "text-amber-600", bg: "bg-amber-50" },
     { label: "Withdrawn Students", value: "8", icon: UserX, color: "text-rose-600", bg: "bg-rose-50" },
     { label: "Male Students", value: "1,280", icon: User, color: "text-cyan-600", bg: "bg-cyan-50" },
     { label: "Female Students", value: "1,170", icon: Users2, color: "text-pink-600", bg: "bg-pink-50" },
