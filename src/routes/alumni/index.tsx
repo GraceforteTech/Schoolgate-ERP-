@@ -19,7 +19,11 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AlumniKpiCards } from "@/components/alumni/alumni-kpi-cards";
-import { StudentDirectory } from "@/components/students/student-directory";
+import { AlumniTable } from "@/components/alumni/directory/alumni-table";
+import { AlumniSearchCenter } from "@/components/alumni/directory/alumni-search-center";
+import { AlumniMembership } from "@/components/alumni/membership/alumni-membership";
+import { AlumniEvents } from "@/components/alumni/events/alumni-events";
+import { AlumniDonations } from "@/components/alumni/donations/alumni-donations";
 
 export const Route = createFileRoute("/alumni/")({
   component: AlumniManagementPage,
@@ -57,31 +61,34 @@ function AlumniManagementPage() {
 
       {/* Main Workspace */}
       <Tabs defaultValue="directory" className="space-y-6">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <TabsList className="bg-white border border-slate-200 p-1 rounded-xl w-fit">
-            <TabsTrigger value="directory" className="data-[state=active]:bg-schoolgate-green-light data-[state=active]:text-schoolgate-green font-bold text-xs px-6 py-2">
-              Global Alumni Registry
+        <div className="space-y-6">
+          <TabsList className="bg-white border border-slate-200 p-1 rounded-xl w-full flex flex-wrap h-auto">
+            <TabsTrigger value="directory" className="data-[state=active]:bg-schoolgate-green-light data-[state=active]:text-schoolgate-green font-bold text-xs px-6 py-2 flex-1">
+              Registry & Directory
             </TabsTrigger>
-            <TabsTrigger value="engagement" className="data-[state=active]:bg-schoolgate-green-light data-[state=active]:text-schoolgate-green font-bold text-xs px-6 py-2">
-              Engagement & Events
+            <TabsTrigger value="membership" className="data-[state=active]:bg-schoolgate-green-light data-[state=active]:text-schoolgate-green font-bold text-xs px-6 py-2 flex-1">
+              Membership Plans
             </TabsTrigger>
-            <TabsTrigger value="donations" className="data-[state=active]:bg-schoolgate-green-light data-[state=active]:text-schoolgate-green font-bold text-xs px-6 py-2">
-              Fundraising & Impact
+            <TabsTrigger value="events" className="data-[state=active]:bg-schoolgate-green-light data-[state=active]:text-schoolgate-green font-bold text-xs px-6 py-2 flex-1">
+              Events & Reunions
+            </TabsTrigger>
+            <TabsTrigger value="donations" className="data-[state=active]:bg-schoolgate-green-light data-[state=active]:text-schoolgate-green font-bold text-xs px-6 py-2 flex-1">
+              Donations & Giving
+            </TabsTrigger>
+            <TabsTrigger value="mentorship" className="data-[state=active]:bg-schoolgate-green-light data-[state=active]:text-schoolgate-green font-bold text-xs px-6 py-2 flex-1">
+              Mentorship Hub
+            </TabsTrigger>
+            <TabsTrigger value="career" className="data-[state=active]:bg-schoolgate-green-light data-[state=active]:text-schoolgate-green font-bold text-xs px-6 py-2 flex-1">
+              Career & Jobs
+            </TabsTrigger>
+            <TabsTrigger value="business" className="data-[state=active]:bg-schoolgate-green-light data-[state=active]:text-schoolgate-green font-bold text-xs px-6 py-2 flex-1">
+              Business Directory
             </TabsTrigger>
           </TabsList>
-          
-          <div className="flex items-center gap-2">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-              <Input placeholder="Search alumni by name, year, or career..." className="pl-10 h-11 w-[300px] bg-white border-none shadow-sm rounded-xl" />
-            </div>
-            <Button variant="outline" className="h-11 w-11 p-0 rounded-xl bg-white border-none shadow-sm">
-              <Filter className="h-4 w-4 text-slate-600" />
-            </Button>
-          </div>
         </div>
 
         <TabsContent value="directory" className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <AlumniSearchCenter />
           <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
             <div className="xl:col-span-9">
               <Card className="p-6 bg-white border-none shadow-sm rounded-[20px] overflow-hidden">
@@ -89,7 +96,7 @@ function AlumniManagementPage() {
                   <h3 className="font-bold text-slate-800">Alumni Directory</h3>
                   <Badge className="bg-schoolgate-green-light text-schoolgate-green border-none">4,850 Verified Graduates</Badge>
                 </div>
-                <StudentDirectory forcedStatus="Graduated" />
+                <AlumniTable />
               </Card>
             </div>
 
@@ -159,41 +166,67 @@ function AlumniManagementPage() {
           </div>
         </TabsContent>
 
-        <TabsContent value="engagement">
+        <TabsContent value="membership">
+          <AlumniMembership />
+        </TabsContent>
+
+        <TabsContent value="events">
+          <AlumniEvents />
+        </TabsContent>
+
+        <TabsContent value="donations">
+          <AlumniDonations />
+        </TabsContent>
+
+        <TabsContent value="mentorship">
           <Card className="p-12 text-center bg-white border-none shadow-sm rounded-[20px]">
-            <div className="h-20 w-20 bg-schoolgate-green-light rounded-2xl grid place-items-center text-schoolgate-green mx-auto mb-6">
-              <MessageSquare className="h-10 w-10" />
+            <div className="h-20 w-20 bg-emerald-50 rounded-2xl grid place-items-center text-emerald-600 mx-auto mb-6">
+              <GraduationCap className="h-10 w-10" />
             </div>
-            <h3 className="text-xl font-bold text-slate-900">Alumni Engagement Suite</h3>
-            <p className="text-slate-500 mt-2 max-w-md mx-auto">Track events, email campaigns, and networking activity. This module is currently under strategic development.</p>
-            <Button className="mt-8 bg-schoolgate-green text-white font-bold px-8 rounded-xl h-11 shadow-lg shadow-schoolgate-green/20">
-              Schedule First Campaign
+            <h3 className="text-xl font-bold text-slate-900">Alumni Mentorship Hub</h3>
+            <p className="text-slate-500 mt-2 max-w-md mx-auto">Connect current students with verified alumni mentors worldwide. This portal facilitates knowledge transfer and professional guidance.</p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 max-w-4xl mx-auto text-left">
+              {[
+                { title: "Find a Mentor", desc: "Search for alumni by industry and expertise." },
+                { title: "Become a Mentor", desc: "Share your experience with the next generation." },
+                { title: "Impact Stories", desc: "Read success stories from our mentorship pairs." }
+              ].map((item, i) => (
+                <div key={i} className="p-5 rounded-2xl bg-slate-50 border border-slate-100">
+                  <h4 className="font-bold text-slate-900 mb-1">{item.title}</h4>
+                  <p className="text-[11px] text-slate-500">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+            <Button className="mt-12 bg-schoolgate-green text-white font-bold px-8 rounded-xl h-11 shadow-lg shadow-schoolgate-green/20">
+              Launch Mentorship Portal
             </Button>
           </Card>
         </TabsContent>
 
-        <TabsContent value="donations">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[1, 2, 3].map((i) => (
-              <Card key={i} className="p-6 bg-white border-none shadow-sm rounded-[20px]">
-                <div className="h-48 w-full bg-slate-50 rounded-xl mb-6 grid place-items-center text-slate-300">
-                  <MapPin size={48} />
-                </div>
-                <h3 className="font-bold text-slate-900">Project: Science Wing Expansion</h3>
-                <p className="text-xs text-slate-500 mt-1 mb-4">Goal: ₦15,000,000</p>
-                <div className="h-2 w-full bg-slate-50 rounded-full overflow-hidden mb-2">
-                  <div className="h-full bg-schoolgate-green w-[65%]" />
-                </div>
-                <div className="flex justify-between text-[10px] font-bold text-slate-400">
-                  <span>₦9,750,000 Raised</span>
-                  <span>65% Complete</span>
-                </div>
-                <Button variant="outline" className="w-full mt-6 rounded-xl font-bold border-slate-100 text-slate-600 hover:bg-slate-50">
-                  View Campaign Details
-                </Button>
-              </Card>
-            ))}
-          </div>
+        <TabsContent value="career">
+          <Card className="p-12 text-center bg-white border-none shadow-sm rounded-[20px]">
+            <div className="h-20 w-20 bg-blue-50 rounded-2xl grid place-items-center text-blue-600 mx-auto mb-6">
+              <TrendingUp className="h-10 w-10" />
+            </div>
+            <h3 className="text-xl font-bold text-slate-900">Alumni Career & Job Portal</h3>
+            <p className="text-slate-500 mt-2 max-w-md mx-auto">Exclusively for Schoolgate Alumni. Find jobs, post internships, and explore career opportunities within the network.</p>
+            <Button className="mt-8 bg-schoolgate-green text-white font-bold px-8 rounded-xl h-11 shadow-lg shadow-schoolgate-green/20">
+              Browse Job Board
+            </Button>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="business">
+          <Card className="p-12 text-center bg-white border-none shadow-sm rounded-[20px]">
+            <div className="h-20 w-20 bg-rose-50 rounded-2xl grid place-items-center text-rose-600 mx-auto mb-6">
+              <MapPin className="h-10 w-10" />
+            </div>
+            <h3 className="text-xl font-bold text-slate-900">Alumni Business Directory</h3>
+            <p className="text-slate-500 mt-2 max-w-md mx-auto">Support alumni-owned businesses. A comprehensive directory of products and services offered by our graduates.</p>
+            <Button className="mt-8 bg-schoolgate-green text-white font-bold px-8 rounded-xl h-11 shadow-lg shadow-schoolgate-green/20">
+              Explore Businesses
+            </Button>
+          </Card>
         </TabsContent>
       </Tabs>
     </div>
