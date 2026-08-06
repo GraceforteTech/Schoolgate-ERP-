@@ -25,7 +25,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 
-export const Route = createFileRoute("/hostel")({
+export const Route = createFileRoute("/hostel/")({
   component: HostelManagementDashboard,
 });
 

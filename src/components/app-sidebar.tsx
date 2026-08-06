@@ -17,6 +17,7 @@ import {
   Bus,
   Library,
   Package,
+  Home as HomeIcon,
 } from "lucide-react";
 
 
