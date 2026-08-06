@@ -6,8 +6,10 @@ import {
   ChevronRight,
   TrendingUp,
   History,
-  Info
+  Info,
+  LayoutDashboard
 } from "lucide-react";
+
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ExecutiveKpiCards } from "@/components/finance/admissions/executive-kpi-cards";
@@ -59,12 +61,19 @@ function AdmissionsPage() {
 
       {/* KPI Cards Section */}
       <div className="space-y-4">
-        <div className="flex items-center gap-2 text-slate-800 font-bold">
-          <TrendingUp className="h-5 w-5 text-schoolgate-green" />
-          <span>Executive Admission KPIs</span>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2 text-slate-800 font-bold">
+            <TrendingUp className="h-5 w-5 text-schoolgate-green" />
+            <span>Executive Admission KPIs</span>
+          </div>
+          <Badge variant="outline" className="bg-white text-slate-500 font-bold border-slate-200">
+            <LayoutDashboard className="h-3 w-3 mr-1" />
+            Real-time Insights
+          </Badge>
         </div>
         <ExecutiveKpiCards />
       </div>
+
 
       {/* Pipeline & Quick Actions Grid */}
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
