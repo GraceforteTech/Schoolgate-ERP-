@@ -54,6 +54,12 @@ function ExpenseManagementPage() {
               Expense Analytics
             </TabsTrigger>
             <TabsTrigger 
+              value="categories" 
+              className="px-6 rounded-lg text-xs font-bold uppercase tracking-wider data-[state=active]:bg-schoolgate-green data-[state=active]:text-white h-full"
+            >
+              Expense Categories
+            </TabsTrigger>
+            <TabsTrigger 
               value="approval" 
               className="px-6 rounded-lg text-xs font-bold uppercase tracking-wider data-[state=active]:bg-schoolgate-green data-[state=active]:text-white h-full"
             >
