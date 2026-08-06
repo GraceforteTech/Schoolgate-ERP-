@@ -6,8 +6,9 @@ import { OutstandingStudentsTable } from '@/components/finance/outstanding-fees/
 import { CollectionAnalytics } from '@/components/finance/outstanding-fees/collection-analytics';
 import { ReminderCentre } from '@/components/finance/outstanding-fees/reminder-centre';
 import { StudentQuickView } from '@/components/finance/outstanding-fees/student-quick-view';
+import { ProprietorDashboard } from '@/components/finance/outstanding-fees/proprietor-dashboard';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BarChart3, Users as UsersIcon, Bell, LayoutDashboard } from "lucide-react";
+import { BarChart3, Users as UsersIcon, Bell, LayoutDashboard, ShieldCheck } from "lucide-react";
 
 export const Route = createFileRoute('/finance/outstanding-fees/')({
   component: OutstandingFeesPage,
@@ -32,6 +33,10 @@ function OutstandingFeesPage() {
               <LayoutDashboard size={16} />
               Overview
             </TabsTrigger>
+            <TabsTrigger value="proprietor" className="rounded-lg data-[state=active]:bg-schoolgate-green data-[state=active]:text-white gap-2 font-semibold px-4">
+              <ShieldCheck size={16} />
+              Executive
+            </TabsTrigger>
             <TabsTrigger value="students" className="rounded-lg data-[state=active]:bg-schoolgate-green data-[state=active]:text-white gap-2 font-semibold px-4">
               <UsersIcon size={16} />
               Recovery
@@ -51,17 +56,21 @@ function OutstandingFeesPage() {
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsContent value="dashboard" className="space-y-8 mt-0 border-none outline-none">
           <ExecutiveKPICards />
-          <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
             <div className="xl:col-span-1">
               <CollectionAnalytics />
             </div>
-            <div className="xl:col-span-2 space-y-8">
+            <div className="xl:col-span-3 space-y-8">
               <div className="bg-white p-6 rounded-[14px] shadow-sm border-none">
-                <h3 className="text-lg font-bold text-slate-900 mb-6">Recent Debt Activity</h3>
+                <h3 className="text-lg font-bold text-slate-900 mb-6">High Priority Recovery</h3>
                 <OutstandingStudentsTable />
               </div>
             </div>
           </div>
+        </TabsContent>
+
+        <TabsContent value="proprietor" className="space-y-6 mt-0 border-none outline-none">
+          <ProprietorDashboard />
         </TabsContent>
 
         <TabsContent value="students" className="space-y-6 mt-0 border-none outline-none">
