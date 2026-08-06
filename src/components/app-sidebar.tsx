@@ -37,9 +37,9 @@ import { cn } from "@/lib/utils";
 const mainNavItems = [
   { title: "Dashboard", url: "/", icon: LayoutDashboard },
   { title: "Admissions", url: "/finance/admissions", icon: UserPlus },
+  { title: "Inventory & Store", url: "/inventory", icon: Package },
   { title: "Students", url: "/students", icon: Users },
-      { title: "Inventory & Store", url: "/inventory", icon: Package },
-      { title: "Alumni", url: "/alumni", icon: GraduationCap },
+  { title: "Alumni", url: "/alumni", icon: GraduationCap },
   { title: "Teachers", url: "/teachers", icon: GraduationCap },
 
   { title: "Academics", url: "/academic", icon: BookOpen },
