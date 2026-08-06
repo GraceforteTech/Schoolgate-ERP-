@@ -37,6 +37,7 @@ const mainNavItems = [
 ];
 
 const financeNavItems = [
+  { title: "Dashboard", url: "/finance/dashboard", icon: LayoutDashboard },
   { title: "Fee Registry", url: "/fee-types-overview", icon: CreditCard },
   { title: "School Fee Posting", url: "/finance/fee-posting", icon: FileSpreadsheet },
   { title: "Adjustments", url: "/finance/adjustment-management", icon: Banknote },
