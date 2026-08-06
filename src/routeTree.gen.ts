@@ -22,6 +22,7 @@ import { Route as CbtIndexRouteImport } from './routes/cbt/index'
 import { Route as EnterpriseIndexRouteImport } from './routes/enterprise/index'
 import { Route as FinanceAdjustmentManagementRouteImport } from './routes/finance/adjustment-management'
 import { Route as FinanceDashboardRouteImport } from './routes/finance/dashboard'
+import { Route as HostelIndexRouteImport } from './routes/hostel/index'
 import { Route as InventoryIndexRouteImport } from './routes/inventory/index'
 import { Route as LibraryIndexRouteImport } from './routes/library/index'
 import { Route as LibraryAnalyticsRouteImport } from './routes/library/analytics'
@@ -118,6 +119,11 @@ const FinanceAdjustmentManagementRoute =
 const FinanceDashboardRoute = FinanceDashboardRouteImport.update({
   id: '/finance/dashboard',
   path: '/finance/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HostelIndexRoute = HostelIndexRouteImport.update({
+  id: '/hostel/',
+  path: '/hostel/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InventoryIndexRoute = InventoryIndexRouteImport.update({
@@ -310,6 +316,7 @@ export interface FileRoutesByFullPath {
   '/attendance/': typeof AttendanceIndexRoute
   '/cbt/': typeof CbtIndexRoute
   '/enterprise/': typeof EnterpriseIndexRoute
+  '/hostel/': typeof HostelIndexRoute
   '/inventory/': typeof InventoryIndexRoute
   '/library/': typeof LibraryIndexRoute
   '/teachers/': typeof TeachersIndexRoute
@@ -356,6 +363,7 @@ export interface FileRoutesByTo {
   '/attendance': typeof AttendanceIndexRoute
   '/cbt': typeof CbtIndexRoute
   '/enterprise': typeof EnterpriseIndexRoute
+  '/hostel': typeof HostelIndexRoute
   '/inventory': typeof InventoryIndexRoute
   '/library': typeof LibraryIndexRoute
   '/teachers': typeof TeachersIndexRoute
@@ -403,6 +411,7 @@ export interface FileRoutesById {
   '/attendance/': typeof AttendanceIndexRoute
   '/cbt/': typeof CbtIndexRoute
   '/enterprise/': typeof EnterpriseIndexRoute
+  '/hostel/': typeof HostelIndexRoute
   '/inventory/': typeof InventoryIndexRoute
   '/library/': typeof LibraryIndexRoute
   '/teachers/': typeof TeachersIndexRoute
@@ -451,6 +460,7 @@ export interface FileRouteTypes {
     | '/attendance/'
     | '/cbt/'
     | '/enterprise/'
+    | '/hostel/'
     | '/inventory/'
     | '/library/'
     | '/teachers/'
@@ -497,6 +507,7 @@ export interface FileRouteTypes {
     | '/attendance'
     | '/cbt'
     | '/enterprise'
+    | '/hostel'
     | '/inventory'
     | '/library'
     | '/teachers'
@@ -543,6 +554,7 @@ export interface FileRouteTypes {
     | '/attendance/'
     | '/cbt/'
     | '/enterprise/'
+    | '/hostel/'
     | '/inventory/'
     | '/library/'
     | '/teachers/'
@@ -590,6 +602,7 @@ export interface RootRouteChildren {
   AttendanceIndexRoute: typeof AttendanceIndexRoute
   CbtIndexRoute: typeof CbtIndexRoute
   EnterpriseIndexRoute: typeof EnterpriseIndexRoute
+  HostelIndexRoute: typeof HostelIndexRoute
   InventoryIndexRoute: typeof InventoryIndexRoute
   LibraryIndexRoute: typeof LibraryIndexRoute
   TeachersIndexRoute: typeof TeachersIndexRoute
@@ -706,6 +719,13 @@ declare module '@tanstack/react-router' {
       path: '/finance/dashboard'
       fullPath: '/finance/dashboard'
       preLoaderRoute: typeof FinanceDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hostel/': {
+      id: '/hostel/'
+      path: '/hostel'
+      fullPath: '/hostel/'
+      preLoaderRoute: typeof HostelIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/inventory/': {
@@ -950,6 +970,7 @@ const rootRouteChildren: RootRouteChildren = {
   AttendanceIndexRoute: AttendanceIndexRoute,
   CbtIndexRoute: CbtIndexRoute,
   EnterpriseIndexRoute: EnterpriseIndexRoute,
+  HostelIndexRoute: HostelIndexRoute,
   InventoryIndexRoute: InventoryIndexRoute,
   LibraryIndexRoute: LibraryIndexRoute,
   TeachersIndexRoute: TeachersIndexRoute,
