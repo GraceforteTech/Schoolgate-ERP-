@@ -20,6 +20,12 @@ import { Route as CbtIndexRouteImport } from './routes/cbt/index'
 import { Route as EnterpriseIndexRouteImport } from './routes/enterprise/index'
 import { Route as FinanceAdjustmentManagementRouteImport } from './routes/finance/adjustment-management'
 import { Route as FinanceDashboardRouteImport } from './routes/finance/dashboard'
+import { Route as LibraryIndexRouteImport } from './routes/library/index'
+import { Route as LibraryAnalyticsRouteImport } from './routes/library/analytics'
+import { Route as LibraryBorrowReturnRouteImport } from './routes/library/borrow-return'
+import { Route as LibraryCatalogueRouteImport } from './routes/library/catalogue'
+import { Route as LibraryDigitalRouteImport } from './routes/library/digital'
+import { Route as LibraryProprietorRouteImport } from './routes/library/proprietor'
 import { Route as TeachersIndexRouteImport } from './routes/teachers/index'
 import { Route as TimetableIndexRouteImport } from './routes/timetable/index'
 import { Route as TransportIndexRouteImport } from './routes/transport/index'
@@ -99,6 +105,36 @@ const FinanceAdjustmentManagementRoute =
 const FinanceDashboardRoute = FinanceDashboardRouteImport.update({
   id: '/finance/dashboard',
   path: '/finance/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LibraryIndexRoute = LibraryIndexRouteImport.update({
+  id: '/library/',
+  path: '/library/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LibraryAnalyticsRoute = LibraryAnalyticsRouteImport.update({
+  id: '/library/analytics',
+  path: '/library/analytics',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LibraryBorrowReturnRoute = LibraryBorrowReturnRouteImport.update({
+  id: '/library/borrow-return',
+  path: '/library/borrow-return',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LibraryCatalogueRoute = LibraryCatalogueRouteImport.update({
+  id: '/library/catalogue',
+  path: '/library/catalogue',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LibraryDigitalRoute = LibraryDigitalRouteImport.update({
+  id: '/library/digital',
+  path: '/library/digital',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LibraryProprietorRoute = LibraryProprietorRouteImport.update({
+  id: '/library/proprietor',
+  path: '/library/proprietor',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TeachersIndexRoute = TeachersIndexRouteImport.update({
@@ -242,6 +278,11 @@ export interface FileRoutesByFullPath {
   '/academic/lesson-notes': typeof AcademicLessonNotesRoute
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
   '/finance/dashboard': typeof FinanceDashboardRoute
+  '/library/analytics': typeof LibraryAnalyticsRoute
+  '/library/borrow-return': typeof LibraryBorrowReturnRoute
+  '/library/catalogue': typeof LibraryCatalogueRoute
+  '/library/digital': typeof LibraryDigitalRoute
+  '/library/proprietor': typeof LibraryProprietorRoute
   '/transport/drivers': typeof TransportDriversRoute
   '/transport/routes': typeof TransportRoutesRoute
   '/transport/vehicles': typeof TransportVehiclesRoute
@@ -249,6 +290,7 @@ export interface FileRoutesByFullPath {
   '/attendance/': typeof AttendanceIndexRoute
   '/cbt/': typeof CbtIndexRoute
   '/enterprise/': typeof EnterpriseIndexRoute
+  '/library/': typeof LibraryIndexRoute
   '/teachers/': typeof TeachersIndexRoute
   '/timetable/': typeof TimetableIndexRoute
   '/transport/': typeof TransportIndexRoute
@@ -279,6 +321,11 @@ export interface FileRoutesByTo {
   '/academic/lesson-notes': typeof AcademicLessonNotesRoute
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
   '/finance/dashboard': typeof FinanceDashboardRoute
+  '/library/analytics': typeof LibraryAnalyticsRoute
+  '/library/borrow-return': typeof LibraryBorrowReturnRoute
+  '/library/catalogue': typeof LibraryCatalogueRoute
+  '/library/digital': typeof LibraryDigitalRoute
+  '/library/proprietor': typeof LibraryProprietorRoute
   '/transport/drivers': typeof TransportDriversRoute
   '/transport/routes': typeof TransportRoutesRoute
   '/transport/vehicles': typeof TransportVehiclesRoute
@@ -286,6 +333,7 @@ export interface FileRoutesByTo {
   '/attendance': typeof AttendanceIndexRoute
   '/cbt': typeof CbtIndexRoute
   '/enterprise': typeof EnterpriseIndexRoute
+  '/library': typeof LibraryIndexRoute
   '/teachers': typeof TeachersIndexRoute
   '/timetable': typeof TimetableIndexRoute
   '/transport': typeof TransportIndexRoute
@@ -317,6 +365,11 @@ export interface FileRoutesById {
   '/academic/lesson-notes': typeof AcademicLessonNotesRoute
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
   '/finance/dashboard': typeof FinanceDashboardRoute
+  '/library/analytics': typeof LibraryAnalyticsRoute
+  '/library/borrow-return': typeof LibraryBorrowReturnRoute
+  '/library/catalogue': typeof LibraryCatalogueRoute
+  '/library/digital': typeof LibraryDigitalRoute
+  '/library/proprietor': typeof LibraryProprietorRoute
   '/transport/drivers': typeof TransportDriversRoute
   '/transport/routes': typeof TransportRoutesRoute
   '/transport/vehicles': typeof TransportVehiclesRoute
@@ -324,6 +377,7 @@ export interface FileRoutesById {
   '/attendance/': typeof AttendanceIndexRoute
   '/cbt/': typeof CbtIndexRoute
   '/enterprise/': typeof EnterpriseIndexRoute
+  '/library/': typeof LibraryIndexRoute
   '/teachers/': typeof TeachersIndexRoute
   '/timetable/': typeof TimetableIndexRoute
   '/transport/': typeof TransportIndexRoute
@@ -356,6 +410,11 @@ export interface FileRouteTypes {
     | '/academic/lesson-notes'
     | '/finance/adjustment-management'
     | '/finance/dashboard'
+    | '/library/analytics'
+    | '/library/borrow-return'
+    | '/library/catalogue'
+    | '/library/digital'
+    | '/library/proprietor'
     | '/transport/drivers'
     | '/transport/routes'
     | '/transport/vehicles'
@@ -363,6 +422,7 @@ export interface FileRouteTypes {
     | '/attendance/'
     | '/cbt/'
     | '/enterprise/'
+    | '/library/'
     | '/teachers/'
     | '/timetable/'
     | '/transport/'
@@ -393,6 +453,11 @@ export interface FileRouteTypes {
     | '/academic/lesson-notes'
     | '/finance/adjustment-management'
     | '/finance/dashboard'
+    | '/library/analytics'
+    | '/library/borrow-return'
+    | '/library/catalogue'
+    | '/library/digital'
+    | '/library/proprietor'
     | '/transport/drivers'
     | '/transport/routes'
     | '/transport/vehicles'
@@ -400,6 +465,7 @@ export interface FileRouteTypes {
     | '/attendance'
     | '/cbt'
     | '/enterprise'
+    | '/library'
     | '/teachers'
     | '/timetable'
     | '/transport'
@@ -430,6 +496,11 @@ export interface FileRouteTypes {
     | '/academic/lesson-notes'
     | '/finance/adjustment-management'
     | '/finance/dashboard'
+    | '/library/analytics'
+    | '/library/borrow-return'
+    | '/library/catalogue'
+    | '/library/digital'
+    | '/library/proprietor'
     | '/transport/drivers'
     | '/transport/routes'
     | '/transport/vehicles'
@@ -437,6 +508,7 @@ export interface FileRouteTypes {
     | '/attendance/'
     | '/cbt/'
     | '/enterprise/'
+    | '/library/'
     | '/teachers/'
     | '/timetable/'
     | '/transport/'
@@ -468,6 +540,11 @@ export interface RootRouteChildren {
   AcademicLessonNotesRoute: typeof AcademicLessonNotesRoute
   FinanceAdjustmentManagementRoute: typeof FinanceAdjustmentManagementRoute
   FinanceDashboardRoute: typeof FinanceDashboardRoute
+  LibraryAnalyticsRoute: typeof LibraryAnalyticsRoute
+  LibraryBorrowReturnRoute: typeof LibraryBorrowReturnRoute
+  LibraryCatalogueRoute: typeof LibraryCatalogueRoute
+  LibraryDigitalRoute: typeof LibraryDigitalRoute
+  LibraryProprietorRoute: typeof LibraryProprietorRoute
   TransportDriversRoute: typeof TransportDriversRoute
   TransportRoutesRoute: typeof TransportRoutesRoute
   TransportVehiclesRoute: typeof TransportVehiclesRoute
@@ -475,6 +552,7 @@ export interface RootRouteChildren {
   AttendanceIndexRoute: typeof AttendanceIndexRoute
   CbtIndexRoute: typeof CbtIndexRoute
   EnterpriseIndexRoute: typeof EnterpriseIndexRoute
+  LibraryIndexRoute: typeof LibraryIndexRoute
   TeachersIndexRoute: typeof TeachersIndexRoute
   TimetableIndexRoute: typeof TimetableIndexRoute
   TransportIndexRoute: typeof TransportIndexRoute
@@ -575,6 +653,48 @@ declare module '@tanstack/react-router' {
       path: '/finance/dashboard'
       fullPath: '/finance/dashboard'
       preLoaderRoute: typeof FinanceDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/library/': {
+      id: '/library/'
+      path: '/library'
+      fullPath: '/library/'
+      preLoaderRoute: typeof LibraryIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/library/analytics': {
+      id: '/library/analytics'
+      path: '/library/analytics'
+      fullPath: '/library/analytics'
+      preLoaderRoute: typeof LibraryAnalyticsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/library/borrow-return': {
+      id: '/library/borrow-return'
+      path: '/library/borrow-return'
+      fullPath: '/library/borrow-return'
+      preLoaderRoute: typeof LibraryBorrowReturnRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/library/catalogue': {
+      id: '/library/catalogue'
+      path: '/library/catalogue'
+      fullPath: '/library/catalogue'
+      preLoaderRoute: typeof LibraryCatalogueRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/library/digital': {
+      id: '/library/digital'
+      path: '/library/digital'
+      fullPath: '/library/digital'
+      preLoaderRoute: typeof LibraryDigitalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/library/proprietor': {
+      id: '/library/proprietor'
+      path: '/library/proprietor'
+      fullPath: '/library/proprietor'
+      preLoaderRoute: typeof LibraryProprietorRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/teachers/': {
@@ -756,6 +876,11 @@ const rootRouteChildren: RootRouteChildren = {
   AcademicLessonNotesRoute: AcademicLessonNotesRoute,
   FinanceAdjustmentManagementRoute: FinanceAdjustmentManagementRoute,
   FinanceDashboardRoute: FinanceDashboardRoute,
+  LibraryAnalyticsRoute: LibraryAnalyticsRoute,
+  LibraryBorrowReturnRoute: LibraryBorrowReturnRoute,
+  LibraryCatalogueRoute: LibraryCatalogueRoute,
+  LibraryDigitalRoute: LibraryDigitalRoute,
+  LibraryProprietorRoute: LibraryProprietorRoute,
   TransportDriversRoute: TransportDriversRoute,
   TransportRoutesRoute: TransportRoutesRoute,
   TransportVehiclesRoute: TransportVehiclesRoute,
@@ -763,6 +888,7 @@ const rootRouteChildren: RootRouteChildren = {
   AttendanceIndexRoute: AttendanceIndexRoute,
   CbtIndexRoute: CbtIndexRoute,
   EnterpriseIndexRoute: EnterpriseIndexRoute,
+  LibraryIndexRoute: LibraryIndexRoute,
   TeachersIndexRoute: TeachersIndexRoute,
   TimetableIndexRoute: TimetableIndexRoute,
   TransportIndexRoute: TransportIndexRoute,
