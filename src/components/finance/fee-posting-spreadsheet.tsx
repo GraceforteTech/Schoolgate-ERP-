@@ -33,6 +33,8 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
+import { ImportProtectionDialog } from "./import-protection-dialog";
+import { Progress } from "@/components/ui/progress";
 
 interface CellPosition {
   r: number;
