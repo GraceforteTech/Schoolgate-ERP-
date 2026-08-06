@@ -33,10 +33,12 @@ const COLUMNS: Column[] = [
   { key: "admNo", label: "Admission No", width: "w-40", type: "text", readOnly: true },
   { key: "name", label: "Student Name", width: "w-64", type: "text", readOnly: true },
   { key: "class", label: "Class", width: "w-32", type: "text", readOnly: true },
-  { key: "tuition", label: "Tuition Fee", width: "w-40", type: "currency" },
-  { key: "transport", label: "Transport", width: "w-40", type: "currency" },
-  { key: "boarding", label: "Boarding", width: "w-40", type: "currency" },
-  { key: "facility", label: "Facility", width: "w-40", type: "currency" },
+  { key: "fees", label: "School Fees", width: "w-40", type: "currency" },
+  { key: "bf", label: "B/F Debt", width: "w-40", type: "currency" },
+  { key: "discount", label: "Discount", width: "w-40", type: "currency" },
+  { key: "totalPayable", label: "Total Payable", width: "w-40", type: "currency", readOnly: true },
+  { key: "paid", label: "Amount Paid", width: "w-40", type: "currency", readOnly: true },
+  { key: "outstanding", label: "Outstanding", width: "w-40", type: "currency", readOnly: true },
   { key: "status", label: "Status", width: "w-32", type: "badge", readOnly: true },
 ];
 
