@@ -2,21 +2,16 @@ import { createFileRoute } from '@tanstack/react-router';
 import { 
   Book, 
   Search, 
-  Filter, 
   Plus, 
   Edit, 
   Trash2, 
   Eye, 
-  FileText, 
   QrCode, 
   Upload, 
   Download,
-  MoreVertical,
-  CheckCircle2,
-  Clock,
-  AlertCircle
+  MoreVertical
 } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -33,6 +28,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { cn } from '@/lib/utils';
 
 const MOCK_BOOKS = [
   { id: 1, title: 'Things Fall Apart', author: 'Chinua Achebe', isbn: '978-0385474542', category: 'Fiction', copies: 12, borrowed: 4, location: 'Shelf A1', status: 'Available' },
