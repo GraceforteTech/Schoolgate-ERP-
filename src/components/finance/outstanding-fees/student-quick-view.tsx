@@ -10,6 +10,8 @@ import {
   Calendar, 
   User
 } from "lucide-react";
+import { cn } from "@/lib/utils";
+
 
 interface QuickViewProps {
   open: boolean;
