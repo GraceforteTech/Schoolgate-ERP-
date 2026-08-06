@@ -9,6 +9,7 @@ import {
   LayoutDashboard,
   Settings,
   Users,
+  UserPlus,
   Wallet,
 } from "lucide-react";
 
@@ -28,6 +29,7 @@ import { cn } from "@/lib/utils";
 
 const mainNavItems = [
   { title: "Dashboard", url: "/", icon: LayoutDashboard },
+  { title: "Admissions", url: "/finance/admissions", icon: UserPlus },
   { title: "Students", url: "/students", icon: Users },
   { title: "Academics", url: "/academics", icon: BookOpen },
   { title: "Attendance", url: "/attendance", icon: CalendarDays },
