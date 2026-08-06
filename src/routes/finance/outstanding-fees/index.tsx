@@ -10,7 +10,7 @@ import { ProprietorDashboard } from '@/components/finance/outstanding-fees/propr
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BarChart3, Users as UsersIcon, Bell, LayoutDashboard, ShieldCheck } from "lucide-react";
 
-export const Route = createFileRoute('/finance/outstanding-fees/')({
+export const Route = createFileRoute('/finance/outstanding-fees')({
   component: OutstandingFeesPage,
 });
 
