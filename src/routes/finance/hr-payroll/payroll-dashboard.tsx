@@ -11,6 +11,7 @@ import {
   Clock,
   ArrowRight
 } from "lucide-react";
+import { PayrollKPIs } from "@/components/hr/payroll-mgmt/payroll-kpis";
 import { cn } from "@/lib/utils";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
