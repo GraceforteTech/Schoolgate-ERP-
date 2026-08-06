@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { 
-  Users, CheckCircle2, XCircle, Clock, Mail, MessageSquare, ShieldCheck, History, Send, Calendar
+  Users, CheckCircle2, XCircle, Clock, Mail, MessageSquare, ShieldCheck, History, Send, Calendar, FileText
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
