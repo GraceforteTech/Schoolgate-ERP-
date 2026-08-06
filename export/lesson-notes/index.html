@@ -3,142 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lesson Note Management - Schoolgate ERP</title>
+    <title>Teacher Lesson Note Dashboard | Schoolgate ERP</title>
     <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
-    <div class="app-container">
-        <!-- Sidebar Placeholder -->
-        <aside class="sidebar">
-            <div class="logo">
-                <span class="logo-icon">SG</span>
-                <span class="logo-text">Schoolgate</span>
-            </div>
-            <nav>
-                <div class="nav-item active">
-                    <i data-lucide="book-open"></i>
-                    <span>Lesson Notes</span>
-                </div>
-                <div class="nav-item">
-                    <i data-lucide="calendar"></i>
-                    <span>Planner</span>
-                </div>
-                <div class="nav-item">
-                    <i data-lucide="bar-chart-2"></i>
-                    <span>Analytics</span>
-                </div>
-            </nav>
-        </aside>
-
-        <main class="content">
-            <header class="top-nav">
-                <div class="page-title">
-                    <h1>Lesson Note & Plan Management</h1>
-                    <p>Create, manage and approve curriculum-compliant lessons.</p>
-                </div>
-                <div class="header-actions">
-                    <button class="btn btn-ai">
-                        <i data-lucide="sparkles"></i>
-                        AI Generator
-                    </button>
-                    <button class="btn btn-primary">
-                        <i data-lucide="plus"></i>
-                        New Lesson Note
-                    </button>
-                </div>
-            </header>
-
-            <section class="kpi-grid">
-                <div class="kpi-card">
-                    <div class="kpi-icon icon-emerald"><i data-lucide="check-circle"></i></div>
-                    <div class="kpi-data">
-                        <span class="kpi-value">92%</span>
-                        <span class="kpi-label">Submission Rate</span>
-                    </div>
-                </div>
-                <div class="kpi-card">
-                    <div class="kpi-icon icon-amber"><i data-lucide="clock"></i></div>
-                    <div class="kpi-data">
-                        <span class="kpi-value">14</span>
-                        <span class="kpi-label">Pending Approval</span>
-                    </div>
-                </div>
-                <div class="kpi-card">
-                    <div class="kpi-icon icon-blue"><i data-lucide="target"></i></div>
-                    <div class="kpi-data">
-                        <span class="kpi-value">78%</span>
-                        <span class="kpi-label">Curriculum Cov.</span>
-                    </div>
-                </div>
-                <div class="kpi-card">
-                    <div class="kpi-icon icon-purple"><i data-lucide="users"></i></div>
-                    <div class="kpi-data">
-                        <span class="kpi-value">124</span>
-                        <span class="kpi-label">Active Plans</span>
-                    </div>
-                </div>
-            </section>
-
-            <section class="main-card">
-                <div class="tabs">
-                    <button class="tab-btn active">Overview</button>
-                    <button class="tab-btn">Builder</button>
-                    <button class="tab-btn">Planner</button>
-                    <button class="tab-btn">Approvals</button>
-                </div>
-
-                <div class="table-container">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Lesson Topic</th>
-                                <th>Subject</th>
-                                <th>Class</th>
-                                <th>Teacher</th>
-                                <th>Status</th>
-                                <th>Date</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div class="topic-cell">
-                                        <span class="topic-name">Algebraic Expressions</span>
-                                        <span class="topic-sub">Module 4: Variables</span>
-                                    </div>
-                                </td>
-                                <td>Mathematics</td>
-                                <td>JSS 1</td>
-                                <td>Sarah Johnson</td>
-                                <td><span class="status-badge status-approved">Approved</span></td>
-                                <td>24 May 2024</td>
-                                <td><button class="icon-btn"><i data-lucide="more-vertical"></i></button></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="topic-cell">
-                                        <span class="topic-name">Photosynthesis</span>
-                                        <span class="topic-sub">Module 2: Plant Biology</span>
-                                    </div>
-                                </td>
-                                <td>Basic Science</td>
-                                <td>JSS 2</td>
-                                <td>David Miller</td>
-                                <td><span class="status-badge status-pending">Pending</span></td>
-                                <td>25 May 2024</td>
-                                <td><button class="icon-btn"><i data-lucide="more-vertical"></i></button></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-        </main>
-    </div>
-    <script>
-        lucide.createIcons();
-    </script>
+    <header class="navbar">
+        <div class="logo">Schoolgate ERP</div>
+        <nav>
+            <a href="#">Dashboard</a>
+            <a href="#" class="active">Lesson Notes</a>
+        </nav>
+    </header>
+    <main>
+        <section class="kpi-cards">
+            <div class="card"><h3>Total Notes</h3><p>124</p></div>
+            <div class="card"><h3>Approved</h3><p>98</p></div>
+            <div class="card"><h3>Pending</h3><p>15</p></div>
+            <div class="card"><h3>Curriculum</h3><p>85%</p></div>
+        </section>
+        <section class="editor-area">
+            <h1>Teacher Lesson Note</h1>
+            <form>
+                <div class="form-group"><label>Topic</label><input type="text"></div>
+                <div class="form-group"><label>Learning Objectives</label><textarea></textarea></div>
+            </form>
+        </section>
+    </main>
 </body>
 </html>
