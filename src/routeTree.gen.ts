@@ -14,6 +14,7 @@ import { Route as FeeTypesRouteImport } from './routes/fee-types'
 import { Route as FeeTypesOverviewRouteImport } from './routes/fee-types-overview'
 import { Route as StudentsRouteImport } from './routes/students'
 import { Route as AcademicIndexRouteImport } from './routes/academic/index'
+import { Route as AcademicLessonNotesRouteImport } from './routes/academic/lesson-notes'
 import { Route as AttendanceIndexRouteImport } from './routes/attendance/index'
 import { Route as CbtIndexRouteImport } from './routes/cbt/index'
 import { Route as FinanceAdjustmentManagementRouteImport } from './routes/finance/adjustment-management'
@@ -56,6 +57,11 @@ const StudentsRoute = StudentsRouteImport.update({
 const AcademicIndexRoute = AcademicIndexRouteImport.update({
   id: '/academic/',
   path: '/academic/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AcademicLessonNotesRoute = AcademicLessonNotesRouteImport.update({
+  id: '/academic/lesson-notes',
+  path: '/academic/lesson-notes',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AttendanceIndexRoute = AttendanceIndexRouteImport.update({
@@ -162,6 +168,7 @@ export interface FileRoutesByFullPath {
   '/fee-types': typeof FeeTypesRoute
   '/fee-types-overview': typeof FeeTypesOverviewRoute
   '/students': typeof StudentsRoute
+  '/academic/lesson-notes': typeof AcademicLessonNotesRoute
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
   '/finance/dashboard': typeof FinanceDashboardRoute
   '/academic/': typeof AcademicIndexRoute
@@ -187,6 +194,7 @@ export interface FileRoutesByTo {
   '/fee-types': typeof FeeTypesRoute
   '/fee-types-overview': typeof FeeTypesOverviewRoute
   '/students': typeof StudentsRoute
+  '/academic/lesson-notes': typeof AcademicLessonNotesRoute
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
   '/finance/dashboard': typeof FinanceDashboardRoute
   '/academic': typeof AcademicIndexRoute
@@ -213,6 +221,7 @@ export interface FileRoutesById {
   '/fee-types': typeof FeeTypesRoute
   '/fee-types-overview': typeof FeeTypesOverviewRoute
   '/students': typeof StudentsRoute
+  '/academic/lesson-notes': typeof AcademicLessonNotesRoute
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
   '/finance/dashboard': typeof FinanceDashboardRoute
   '/academic/': typeof AcademicIndexRoute
@@ -240,6 +249,7 @@ export interface FileRouteTypes {
     | '/fee-types'
     | '/fee-types-overview'
     | '/students'
+    | '/academic/lesson-notes'
     | '/finance/adjustment-management'
     | '/finance/dashboard'
     | '/academic/'
@@ -265,6 +275,7 @@ export interface FileRouteTypes {
     | '/fee-types'
     | '/fee-types-overview'
     | '/students'
+    | '/academic/lesson-notes'
     | '/finance/adjustment-management'
     | '/finance/dashboard'
     | '/academic'
@@ -290,6 +301,7 @@ export interface FileRouteTypes {
     | '/fee-types'
     | '/fee-types-overview'
     | '/students'
+    | '/academic/lesson-notes'
     | '/finance/adjustment-management'
     | '/finance/dashboard'
     | '/academic/'
@@ -316,6 +328,7 @@ export interface RootRouteChildren {
   FeeTypesRoute: typeof FeeTypesRoute
   FeeTypesOverviewRoute: typeof FeeTypesOverviewRoute
   StudentsRoute: typeof StudentsRoute
+  AcademicLessonNotesRoute: typeof AcademicLessonNotesRoute
   FinanceAdjustmentManagementRoute: typeof FinanceAdjustmentManagementRoute
   FinanceDashboardRoute: typeof FinanceDashboardRoute
   AcademicIndexRoute: typeof AcademicIndexRoute
@@ -372,6 +385,13 @@ declare module '@tanstack/react-router' {
       path: '/academic'
       fullPath: '/academic/'
       preLoaderRoute: typeof AcademicIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/academic/lesson-notes': {
+      id: '/academic/lesson-notes'
+      path: '/academic/lesson-notes'
+      fullPath: '/academic/lesson-notes'
+      preLoaderRoute: typeof AcademicLessonNotesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/attendance/': {
@@ -508,6 +528,7 @@ const rootRouteChildren: RootRouteChildren = {
   FeeTypesRoute: FeeTypesRoute,
   FeeTypesOverviewRoute: FeeTypesOverviewRoute,
   StudentsRoute: StudentsRoute,
+  AcademicLessonNotesRoute: AcademicLessonNotesRoute,
   FinanceAdjustmentManagementRoute: FinanceAdjustmentManagementRoute,
   FinanceDashboardRoute: FinanceDashboardRoute,
   AcademicIndexRoute: AcademicIndexRoute,

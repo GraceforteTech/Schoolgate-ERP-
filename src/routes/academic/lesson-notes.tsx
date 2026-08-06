@@ -30,7 +30,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ScrollArea } from '@/components/ui/scroll-area';
 
-export const Route = createFileRoute('/academic/lesson-notes' as any)({
+export const Route = createFileRoute('/academic/lesson-notes')({
   component: LessonNoteManagement,
 });
 
