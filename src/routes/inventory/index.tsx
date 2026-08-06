@@ -21,6 +21,9 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { InventoryKpiCards } from "@/components/inventory/inventory-kpi-cards";
+import { ItemRegistry } from "@/components/inventory/items/item-registry";
+import { CategoryGrid } from "@/components/inventory/items/category-grid";
+import { SupplierDirectory } from "@/components/inventory/suppliers/supplier-directory";
 
 export const Route = createFileRoute("/inventory/")({
   component: InventoryManagementPage,
