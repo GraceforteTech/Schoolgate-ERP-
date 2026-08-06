@@ -9,19 +9,20 @@ import {
   Briefcase, 
   Printer, 
   LayoutList,
-  Download
+  Download,
+  History
 } from "lucide-react";
 
 const actions = [
   { label: "Collect Fees", icon: CreditCard, url: "/finance/invoice-management" },
   { label: "Bulk Fee Posting", icon: FileSpreadsheet, url: "/finance/fee-posting" },
+  { label: "Post B/F Balances", icon: History, url: "/finance/fee-posting" },
   { label: "Create Invoice", icon: FileText, url: "/finance/invoice-management" },
   { label: "Record Expense", icon: Calculator, url: "/finance/expense-management" },
   { label: "Payroll", icon: Briefcase, url: "/finance/hr-payroll" },
   { label: "Print Daily Report", icon: Printer, url: "#" },
   { label: "Outstanding Fees", icon: LayoutList, url: "/finance/outstanding-fees" },
   { label: "Student Statement", icon: FileText, url: "/finance/invoice-management" },
-  { label: "Export Report", icon: Download, url: "#" },
 ];
 
 export function QuickActions() {

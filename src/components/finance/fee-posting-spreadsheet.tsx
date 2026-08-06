@@ -430,6 +430,7 @@ export function FeePostingSpreadsheet({ isLoading = false }: { isLoading?: boole
                         className={cn(
                           "relative h-12 border-r border-b border-slate-50 last:border-r-0 transition-all",
                           selected && "bg-schoolgate-green/10 ring-2 ring-inset ring-schoolgate-green z-10",
+                          col.key === "bf" && !selected && "bg-amber-50/30",
                           col.readOnly && "bg-slate-50/30 cursor-not-allowed",
                           c < 2 && "sticky z-20 bg-inherit",
                           c === 0 && "left-10 border-r-slate-200",
