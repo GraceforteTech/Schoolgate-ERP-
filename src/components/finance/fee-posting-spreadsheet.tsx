@@ -175,10 +175,14 @@ export function FeePostingSpreadsheet() {
       let copyText = "";
       for (let r = minR; r <= maxR; r++) {
         for (let c = minC; c <= maxC; c++) {
-          copyText += (data[r] as any)[COLUMNS[c].key] + (c === maxC ? "" : "\t");
+          const col = COLUMNS[c];
+          if (col) {
+            copyText += (data[r] as any)[col.key] + (c === maxC ? "" : "\t");
+          }
         }
         copyText += (r === maxR ? "" : "\n");
       }
+
       navigator.clipboard.writeText(copyText);
       e.preventDefault();
     }
