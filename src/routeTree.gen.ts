@@ -14,6 +14,7 @@ import { Route as FeeTypesRouteImport } from './routes/fee-types'
 import { Route as FeeTypesOverviewRouteImport } from './routes/fee-types-overview'
 import { Route as StudentsRouteImport } from './routes/students'
 import { Route as AcademicIndexRouteImport } from './routes/academic/index'
+import { Route as AcademicClassesRouteImport } from './routes/academic/classes'
 import { Route as AcademicLessonNotesRouteImport } from './routes/academic/lesson-notes'
 import { Route as AcademicSyllabusRouteImport } from './routes/academic/syllabus'
 import { Route as AlumniIndexRouteImport } from './routes/alumni/index'
@@ -78,6 +79,11 @@ const StudentsRoute = StudentsRouteImport.update({
 const AcademicIndexRoute = AcademicIndexRouteImport.update({
   id: '/academic/',
   path: '/academic/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AcademicClassesRoute = AcademicClassesRouteImport.update({
+  id: '/academic/classes',
+  path: '/academic/classes',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AcademicLessonNotesRoute = AcademicLessonNotesRouteImport.update({
@@ -299,6 +305,7 @@ export interface FileRoutesByFullPath {
   '/fee-types': typeof FeeTypesRoute
   '/fee-types-overview': typeof FeeTypesOverviewRoute
   '/students': typeof StudentsRoute
+  '/academic/classes': typeof AcademicClassesRoute
   '/academic/lesson-notes': typeof AcademicLessonNotesRoute
   '/academic/syllabus': typeof AcademicSyllabusRoute
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
@@ -346,6 +353,7 @@ export interface FileRoutesByTo {
   '/fee-types': typeof FeeTypesRoute
   '/fee-types-overview': typeof FeeTypesOverviewRoute
   '/students': typeof StudentsRoute
+  '/academic/classes': typeof AcademicClassesRoute
   '/academic/lesson-notes': typeof AcademicLessonNotesRoute
   '/academic/syllabus': typeof AcademicSyllabusRoute
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
@@ -394,6 +402,7 @@ export interface FileRoutesById {
   '/fee-types': typeof FeeTypesRoute
   '/fee-types-overview': typeof FeeTypesOverviewRoute
   '/students': typeof StudentsRoute
+  '/academic/classes': typeof AcademicClassesRoute
   '/academic/lesson-notes': typeof AcademicLessonNotesRoute
   '/academic/syllabus': typeof AcademicSyllabusRoute
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
@@ -443,6 +452,7 @@ export interface FileRouteTypes {
     | '/fee-types'
     | '/fee-types-overview'
     | '/students'
+    | '/academic/classes'
     | '/academic/lesson-notes'
     | '/academic/syllabus'
     | '/finance/adjustment-management'
@@ -490,6 +500,7 @@ export interface FileRouteTypes {
     | '/fee-types'
     | '/fee-types-overview'
     | '/students'
+    | '/academic/classes'
     | '/academic/lesson-notes'
     | '/academic/syllabus'
     | '/finance/adjustment-management'
@@ -537,6 +548,7 @@ export interface FileRouteTypes {
     | '/fee-types'
     | '/fee-types-overview'
     | '/students'
+    | '/academic/classes'
     | '/academic/lesson-notes'
     | '/academic/syllabus'
     | '/finance/adjustment-management'
@@ -585,6 +597,7 @@ export interface RootRouteChildren {
   FeeTypesRoute: typeof FeeTypesRoute
   FeeTypesOverviewRoute: typeof FeeTypesOverviewRoute
   StudentsRoute: typeof StudentsRoute
+  AcademicClassesRoute: typeof AcademicClassesRoute
   AcademicLessonNotesRoute: typeof AcademicLessonNotesRoute
   AcademicSyllabusRoute: typeof AcademicSyllabusRoute
   FinanceAdjustmentManagementRoute: typeof FinanceAdjustmentManagementRoute
@@ -663,6 +676,13 @@ declare module '@tanstack/react-router' {
       path: '/academic'
       fullPath: '/academic/'
       preLoaderRoute: typeof AcademicIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/academic/classes': {
+      id: '/academic/classes'
+      path: '/academic/classes'
+      fullPath: '/academic/classes'
+      preLoaderRoute: typeof AcademicClassesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/academic/lesson-notes': {
@@ -953,6 +973,7 @@ const rootRouteChildren: RootRouteChildren = {
   FeeTypesRoute: FeeTypesRoute,
   FeeTypesOverviewRoute: FeeTypesOverviewRoute,
   StudentsRoute: StudentsRoute,
+  AcademicClassesRoute: AcademicClassesRoute,
   AcademicLessonNotesRoute: AcademicLessonNotesRoute,
   AcademicSyllabusRoute: AcademicSyllabusRoute,
   FinanceAdjustmentManagementRoute: FinanceAdjustmentManagementRoute,
