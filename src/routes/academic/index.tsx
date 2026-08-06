@@ -9,7 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Download, LayoutDashboard, Calendar, Users, BookOpen, UserCheck, BarChart3, GraduationCap, Search, Filter } from "lucide-react";
+import { Download, LayoutDashboard, Calendar, Users, BookOpen, UserCheck, BarChart3, GraduationCap, Search, Filter, FileText } from "lucide-react";
 
 export const Route = createFileRoute("/academic/")({
   component: AcademicManagementPage,
