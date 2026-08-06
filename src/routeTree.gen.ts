@@ -22,6 +22,7 @@ import { Route as FinanceFeePostingIndexRouteImport } from './routes/finance/fee
 import { Route as FinanceInvoiceManagementIndexRouteImport } from './routes/finance/invoice-management/index'
 import { Route as FinanceOutstandingFeesIndexRouteImport } from './routes/finance/outstanding-fees/index'
 import { Route as FinancePayrollManagementIndexRouteImport } from './routes/finance/payroll-management/index'
+import { Route as FinanceResultsIndexRouteImport } from './routes/finance/results/index'
 import { Route as FinanceWealthLoanIndexRouteImport } from './routes/finance/wealth-loan/index'
 
 const IndexRoute = IndexRouteImport.update({
@@ -94,6 +95,11 @@ const FinancePayrollManagementIndexRoute =
     path: '/finance/payroll-management/',
     getParentRoute: () => rootRouteImport,
   } as any)
+const FinanceResultsIndexRoute = FinanceResultsIndexRouteImport.update({
+  id: '/finance/results/',
+  path: '/finance/results/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FinanceWealthLoanIndexRoute = FinanceWealthLoanIndexRouteImport.update({
   id: '/finance/wealth-loan/',
   path: '/finance/wealth-loan/',
@@ -114,6 +120,7 @@ export interface FileRoutesByFullPath {
   '/finance/invoice-management/': typeof FinanceInvoiceManagementIndexRoute
   '/finance/outstanding-fees/': typeof FinanceOutstandingFeesIndexRoute
   '/finance/payroll-management/': typeof FinancePayrollManagementIndexRoute
+  '/finance/results/': typeof FinanceResultsIndexRoute
   '/finance/wealth-loan/': typeof FinanceWealthLoanIndexRoute
 }
 export interface FileRoutesByTo {
@@ -130,6 +137,7 @@ export interface FileRoutesByTo {
   '/finance/invoice-management': typeof FinanceInvoiceManagementIndexRoute
   '/finance/outstanding-fees': typeof FinanceOutstandingFeesIndexRoute
   '/finance/payroll-management': typeof FinancePayrollManagementIndexRoute
+  '/finance/results': typeof FinanceResultsIndexRoute
   '/finance/wealth-loan': typeof FinanceWealthLoanIndexRoute
 }
 export interface FileRoutesById {
@@ -147,6 +155,7 @@ export interface FileRoutesById {
   '/finance/invoice-management/': typeof FinanceInvoiceManagementIndexRoute
   '/finance/outstanding-fees/': typeof FinanceOutstandingFeesIndexRoute
   '/finance/payroll-management/': typeof FinancePayrollManagementIndexRoute
+  '/finance/results/': typeof FinanceResultsIndexRoute
   '/finance/wealth-loan/': typeof FinanceWealthLoanIndexRoute
 }
 export interface FileRouteTypes {
@@ -165,6 +174,7 @@ export interface FileRouteTypes {
     | '/finance/invoice-management/'
     | '/finance/outstanding-fees/'
     | '/finance/payroll-management/'
+    | '/finance/results/'
     | '/finance/wealth-loan/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -181,6 +191,7 @@ export interface FileRouteTypes {
     | '/finance/invoice-management'
     | '/finance/outstanding-fees'
     | '/finance/payroll-management'
+    | '/finance/results'
     | '/finance/wealth-loan'
   id:
     | '__root__'
@@ -197,6 +208,7 @@ export interface FileRouteTypes {
     | '/finance/invoice-management/'
     | '/finance/outstanding-fees/'
     | '/finance/payroll-management/'
+    | '/finance/results/'
     | '/finance/wealth-loan/'
   fileRoutesById: FileRoutesById
 }
@@ -214,6 +226,7 @@ export interface RootRouteChildren {
   FinanceInvoiceManagementIndexRoute: typeof FinanceInvoiceManagementIndexRoute
   FinanceOutstandingFeesIndexRoute: typeof FinanceOutstandingFeesIndexRoute
   FinancePayrollManagementIndexRoute: typeof FinancePayrollManagementIndexRoute
+  FinanceResultsIndexRoute: typeof FinanceResultsIndexRoute
   FinanceWealthLoanIndexRoute: typeof FinanceWealthLoanIndexRoute
 }
 
@@ -310,6 +323,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FinancePayrollManagementIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/finance/results/': {
+      id: '/finance/results/'
+      path: '/finance/results'
+      fullPath: '/finance/results/'
+      preLoaderRoute: typeof FinanceResultsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/finance/wealth-loan/': {
       id: '/finance/wealth-loan/'
       path: '/finance/wealth-loan'
@@ -334,6 +354,7 @@ const rootRouteChildren: RootRouteChildren = {
   FinanceInvoiceManagementIndexRoute: FinanceInvoiceManagementIndexRoute,
   FinanceOutstandingFeesIndexRoute: FinanceOutstandingFeesIndexRoute,
   FinancePayrollManagementIndexRoute: FinancePayrollManagementIndexRoute,
+  FinanceResultsIndexRoute: FinanceResultsIndexRoute,
   FinanceWealthLoanIndexRoute: FinanceWealthLoanIndexRoute,
 }
 export const routeTree = rootRouteImport
