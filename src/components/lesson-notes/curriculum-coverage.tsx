@@ -9,6 +9,7 @@ import {
   ArrowRight
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 const coverageData = [
   { subject: "Mathematics", class: "JSS 1", progress: 85, topicsCompleted: 12, totalTopics: 14, teacher: "Sarah Johnson", endDate: "2024-06-15" },
