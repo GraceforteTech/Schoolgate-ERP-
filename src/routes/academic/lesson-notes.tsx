@@ -26,6 +26,7 @@ import { LessonAnalytics } from '@/components/lesson-notes/lesson-analytics';
 import { PrincipalLessonDashboard } from '@/components/lesson-notes/principal-lesson-dashboard';
 import { AILessonGenerator } from '@/components/lesson-notes/ai-lesson-generator';
 import { TeacherLessonNoteDashboard } from '@/components/lesson-notes/teacher-lesson-note-dashboard';
+import { MyLessonNotesList } from '@/components/lesson-notes/my-lesson-notes-list';
 import { 
   Sparkles, 
   Wand2, 
