@@ -19,6 +19,7 @@ import { Route as FinanceAdjustmentManagementRouteImport } from './routes/financ
 import { Route as FinanceDashboardRouteImport } from './routes/finance/dashboard'
 import { Route as FinanceAdmissionsIndexRouteImport } from './routes/finance/admissions/index'
 import { Route as FinanceAdmissionsApplicantProfileRouteImport } from './routes/finance/admissions/applicant-profile'
+import { Route as FinanceAdmissionsExamsRouteImport } from './routes/finance/admissions/exams'
 import { Route as FinanceExpenseManagementIndexRouteImport } from './routes/finance/expense-management/index'
 import { Route as FinanceFeePostingIndexRouteImport } from './routes/finance/fee-posting/index'
 import { Route as FinanceInvoiceManagementIndexRouteImport } from './routes/finance/invoice-management/index'
@@ -79,6 +80,11 @@ const FinanceAdmissionsApplicantProfileRoute =
     path: '/finance/admissions/applicant-profile',
     getParentRoute: () => rootRouteImport,
   } as any)
+const FinanceAdmissionsExamsRoute = FinanceAdmissionsExamsRouteImport.update({
+  id: '/finance/admissions/exams',
+  path: '/finance/admissions/exams',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FinanceExpenseManagementIndexRoute =
   FinanceExpenseManagementIndexRouteImport.update({
     id: '/finance/expense-management/',
@@ -129,6 +135,7 @@ export interface FileRoutesByFullPath {
   '/academic/': typeof AcademicIndexRoute
   '/attendance/': typeof AttendanceIndexRoute
   '/finance/admissions/applicant-profile': typeof FinanceAdmissionsApplicantProfileRoute
+  '/finance/admissions/exams': typeof FinanceAdmissionsExamsRoute
   '/finance/admissions/': typeof FinanceAdmissionsIndexRoute
   '/finance/expense-management/': typeof FinanceExpenseManagementIndexRoute
   '/finance/fee-posting/': typeof FinanceFeePostingIndexRoute
@@ -148,6 +155,7 @@ export interface FileRoutesByTo {
   '/academic': typeof AcademicIndexRoute
   '/attendance': typeof AttendanceIndexRoute
   '/finance/admissions/applicant-profile': typeof FinanceAdmissionsApplicantProfileRoute
+  '/finance/admissions/exams': typeof FinanceAdmissionsExamsRoute
   '/finance/admissions': typeof FinanceAdmissionsIndexRoute
   '/finance/expense-management': typeof FinanceExpenseManagementIndexRoute
   '/finance/fee-posting': typeof FinanceFeePostingIndexRoute
@@ -168,6 +176,7 @@ export interface FileRoutesById {
   '/academic/': typeof AcademicIndexRoute
   '/attendance/': typeof AttendanceIndexRoute
   '/finance/admissions/applicant-profile': typeof FinanceAdmissionsApplicantProfileRoute
+  '/finance/admissions/exams': typeof FinanceAdmissionsExamsRoute
   '/finance/admissions/': typeof FinanceAdmissionsIndexRoute
   '/finance/expense-management/': typeof FinanceExpenseManagementIndexRoute
   '/finance/fee-posting/': typeof FinanceFeePostingIndexRoute
@@ -189,6 +198,7 @@ export interface FileRouteTypes {
     | '/academic/'
     | '/attendance/'
     | '/finance/admissions/applicant-profile'
+    | '/finance/admissions/exams'
     | '/finance/admissions/'
     | '/finance/expense-management/'
     | '/finance/fee-posting/'
@@ -208,6 +218,7 @@ export interface FileRouteTypes {
     | '/academic'
     | '/attendance'
     | '/finance/admissions/applicant-profile'
+    | '/finance/admissions/exams'
     | '/finance/admissions'
     | '/finance/expense-management'
     | '/finance/fee-posting'
@@ -227,6 +238,7 @@ export interface FileRouteTypes {
     | '/academic/'
     | '/attendance/'
     | '/finance/admissions/applicant-profile'
+    | '/finance/admissions/exams'
     | '/finance/admissions/'
     | '/finance/expense-management/'
     | '/finance/fee-posting/'
@@ -247,6 +259,7 @@ export interface RootRouteChildren {
   AcademicIndexRoute: typeof AcademicIndexRoute
   AttendanceIndexRoute: typeof AttendanceIndexRoute
   FinanceAdmissionsApplicantProfileRoute: typeof FinanceAdmissionsApplicantProfileRoute
+  FinanceAdmissionsExamsRoute: typeof FinanceAdmissionsExamsRoute
   FinanceAdmissionsIndexRoute: typeof FinanceAdmissionsIndexRoute
   FinanceExpenseManagementIndexRoute: typeof FinanceExpenseManagementIndexRoute
   FinanceFeePostingIndexRoute: typeof FinanceFeePostingIndexRoute
@@ -329,6 +342,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FinanceAdmissionsApplicantProfileRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/finance/admissions/exams': {
+      id: '/finance/admissions/exams'
+      path: '/finance/admissions/exams'
+      fullPath: '/finance/admissions/exams'
+      preLoaderRoute: typeof FinanceAdmissionsExamsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/finance/expense-management/': {
       id: '/finance/expense-management/'
       path: '/finance/expense-management'
@@ -392,6 +412,7 @@ const rootRouteChildren: RootRouteChildren = {
   AttendanceIndexRoute: AttendanceIndexRoute,
   FinanceAdmissionsApplicantProfileRoute:
     FinanceAdmissionsApplicantProfileRoute,
+  FinanceAdmissionsExamsRoute: FinanceAdmissionsExamsRoute,
   FinanceAdmissionsIndexRoute: FinanceAdmissionsIndexRoute,
   FinanceExpenseManagementIndexRoute: FinanceExpenseManagementIndexRoute,
   FinanceFeePostingIndexRoute: FinanceFeePostingIndexRoute,
@@ -404,13 +425,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
