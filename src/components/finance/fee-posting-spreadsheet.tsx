@@ -33,6 +33,8 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
+import { ImportProtectionDialog } from "./import-protection-dialog";
+import { Progress } from "@/components/ui/progress";
 
 interface CellPosition {
   r: number;
@@ -85,7 +87,10 @@ export function FeePostingSpreadsheet({ isLoading = false }: { isLoading?: boole
   const [editing, setEditing] = useState<CellPosition | null>(null);
   const [saveStatus, setSaveStatus] = useState<"saved" | "saving" | "idle">("idle");
   const [isPostingDialogOpen, setIsPostingDialogOpen] = useState(false);
+  const [isImportProtectionOpen, setIsImportProtectionOpen] = useState(false);
   const [isPosting, setIsPosting] = useState(false);
+  const [postingProgress, setPostingProgress] = useState(0);
+  const [modifiedRows, setModifiedRows] = useState<Set<number>>(new Set());
   const tableRef = useRef<HTMLTableElement>(null);
 
   // Calculations for dialog
@@ -96,14 +101,35 @@ export function FeePostingSpreadsheet({ isLoading = false }: { isLoading?: boole
 
   const handlePostFees = async () => {
     setIsPosting(true);
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    setPostingProgress(0);
+    
+    // Simulate multi-step processing
+    for (let i = 1; i <= 10; i++) {
+      await new Promise(resolve => setTimeout(resolve, 300));
+      setPostingProgress(i * 10);
+    }
+    
     setIsPosting(false);
     setIsPostingDialogOpen(false);
+    setModifiedRows(new Set()); // Reset modifications after posting
+    
     toast.success("School Fees Posted Successfully", {
       description: `Processed ${data.length} student records.`,
       className: "bg-emerald-50 border-emerald-100 text-emerald-900",
     });
+  };
+
+  const handleImport = () => {
+    // Show protection dialog
+    setIsImportProtectionOpen(true);
+  };
+
+  const handleConfirmImport = (strategy: string) => {
+    setIsImportProtectionOpen(false);
+    toast.info(`Importing using ${strategy} strategy...`, {
+      description: "Data is being synchronized with the spreadsheet.",
+    });
+    // In a real app, this would merge imported data based on strategy
   };
 
   if (!selectedClass && !isLoading) {
@@ -200,6 +226,13 @@ export function FeePostingSpreadsheet({ isLoading = false }: { isLoading?: boole
     newData[r] = row;
     setData(newData);
     setSaveStatus("saving");
+    
+    // Track modification
+    setModifiedRows(prev => {
+      const next = new Set(prev);
+      next.add(r);
+      return next;
+    });
   };
 
   const isSelected = (r: number, c: number) => {
@@ -347,11 +380,11 @@ export function FeePostingSpreadsheet({ isLoading = false }: { isLoading?: boole
             <div className="h-5 w-px bg-slate-100 mx-1" />
             <ToolbarButton icon={Trash2} label="Clear Entries" variant="danger" />
          </div>
-         <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" className="h-9 rounded-xl gap-2 font-bold border-slate-200 text-slate-600">
+          <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" className="h-9 rounded-xl gap-2 font-bold border-slate-200 text-slate-600" onClick={() => toast.info("Downloading Template...")}>
                <Download size={14} /> Template
             </Button>
-            <Button variant="outline" size="sm" className="h-9 rounded-xl gap-2 font-bold border-slate-200 text-slate-600">
+            <Button variant="outline" size="sm" className="h-9 rounded-xl gap-2 font-bold border-slate-200 text-slate-600" onClick={handleImport}>
                <Upload size={14} /> Import Excel
             </Button>
             <Button variant="ghost" size="sm" className="h-9 rounded-xl gap-2 font-bold text-schoolgate-green hover:bg-schoolgate-green-light" onClick={() => toast.info("Data Refreshed", { className: "bg-blue-50 border-blue-100 text-blue-900" })}>
@@ -478,7 +511,7 @@ export function FeePostingSpreadsheet({ isLoading = false }: { isLoading?: boole
       <div className="flex items-center justify-between px-2">
         <div className="flex items-center gap-6 text-[11px] font-bold text-slate-400 uppercase tracking-widest">
            <div className="flex items-center gap-2"><div className="h-1.5 w-1.5 rounded-full bg-emerald-500" /> Total Students: {data.length}</div>
-           <div className="flex items-center gap-2"><div className="h-1.5 w-1.5 rounded-full bg-blue-500" /> Modified Rows: 0</div>
+           <div className="flex items-center gap-2"><div className="h-1.5 w-1.5 rounded-full bg-blue-500" /> Modified Rows: {modifiedRows.size}</div>
            <div className="flex items-center gap-2"><div className="h-1.5 w-1.5 rounded-full bg-amber-500" /> Pending Approval: 0</div>
         </div>
         <div className="flex items-center gap-4">
@@ -507,15 +540,26 @@ export function FeePostingSpreadsheet({ isLoading = false }: { isLoading?: boole
             </div>
 
             <div className="p-6 rounded-[20px] bg-slate-50 border border-slate-100 flex items-center justify-between">
-              <div>
+              <div className="flex-1">
                 <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Final Amount To Post</p>
                 <p className="text-2xl font-black text-slate-900">₦{finalAmount.toLocaleString()}</p>
+                {isPosting && (
+                  <div className="mt-4 space-y-1.5 animate-in fade-in slide-in-from-top-2">
+                    <div className="flex justify-between text-[10px] font-bold text-slate-500">
+                      <span>Processing Batch...</span>
+                      <span>{postingProgress}%</span>
+                    </div>
+                    <Progress value={postingProgress} className="h-1.5 bg-slate-200" />
+                  </div>
+                )}
               </div>
-              <div className="h-12 w-12 rounded-full bg-schoolgate-green-light flex items-center justify-center text-schoolgate-green">
-                <Check size={24} />
-              </div>
+              {!isPosting && (
+                <div className="h-12 w-12 rounded-full bg-schoolgate-green-light flex items-center justify-center text-schoolgate-green">
+                  <Check size={24} />
+                </div>
+              )}
             </div>
-
+            
             <DialogFooter className="flex gap-3 sm:justify-between pt-2">
               <Button variant="ghost" onClick={() => setIsPostingDialogOpen(false)} className="rounded-xl h-12 px-6 font-bold text-slate-500">
                 Cancel
@@ -532,6 +576,18 @@ export function FeePostingSpreadsheet({ isLoading = false }: { isLoading?: boole
           </div>
         </DialogContent>
       </Dialog>
+
+      <ImportProtectionDialog 
+        open={isImportProtectionOpen}
+        onOpenChange={setIsImportProtectionOpen}
+        onConfirm={handleConfirmImport}
+        stats={{
+          total: data.length,
+          new: 2,
+          existing: 8,
+          conflicts: 3
+        }}
+      />
     </div>
   );
 }
