@@ -552,26 +552,8 @@ export function FeePostingSpreadsheet({ isLoading = false }: { isLoading?: boole
                     <Progress value={postingProgress} className="h-1.5 bg-slate-200" />
                   </div>
                 )}
-              </div>
-              {!isPosting && (
-                <div className="h-12 w-12 rounded-full bg-schoolgate-green-light flex items-center justify-center text-schoolgate-green">
-                  <Check size={24} />
-                </div>
-              )}
-
-      <ImportProtectionDialog 
-        open={isImportProtectionOpen}
-        onOpenChange={setIsImportProtectionOpen}
-        onConfirm={handleConfirmImport}
-        stats={{
-          total: data.length,
-          new: 2,
-          existing: 8,
-          conflicts: 3
-        }}
-      />
-    </div>
-
+            </div>
+            
             <DialogFooter className="flex gap-3 sm:justify-between pt-2">
               <Button variant="ghost" onClick={() => setIsPostingDialogOpen(false)} className="rounded-xl h-12 px-6 font-bold text-slate-500">
                 Cancel
@@ -588,6 +570,18 @@ export function FeePostingSpreadsheet({ isLoading = false }: { isLoading?: boole
           </div>
         </DialogContent>
       </Dialog>
+
+      <ImportProtectionDialog 
+        open={isImportProtectionOpen}
+        onOpenChange={setIsImportProtectionOpen}
+        onConfirm={handleConfirmImport}
+        stats={{
+          total: data.length,
+          new: 2,
+          existing: 8,
+          conflicts: 3
+        }}
+      />
     </div>
   );
 }
