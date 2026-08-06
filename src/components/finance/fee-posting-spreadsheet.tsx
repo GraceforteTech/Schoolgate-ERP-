@@ -511,7 +511,7 @@ export function FeePostingSpreadsheet({ isLoading = false }: { isLoading?: boole
       <div className="flex items-center justify-between px-2">
         <div className="flex items-center gap-6 text-[11px] font-bold text-slate-400 uppercase tracking-widest">
            <div className="flex items-center gap-2"><div className="h-1.5 w-1.5 rounded-full bg-emerald-500" /> Total Students: {data.length}</div>
-           <div className="flex items-center gap-2"><div className="h-1.5 w-1.5 rounded-full bg-blue-500" /> Modified Rows: 0</div>
+           <div className="flex items-center gap-2"><div className="h-1.5 w-1.5 rounded-full bg-blue-500" /> Modified Rows: {modifiedRows.size}</div>
            <div className="flex items-center gap-2"><div className="h-1.5 w-1.5 rounded-full bg-amber-500" /> Pending Approval: 0</div>
         </div>
         <div className="flex items-center gap-4">
