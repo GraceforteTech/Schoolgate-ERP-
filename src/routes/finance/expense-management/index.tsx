@@ -5,6 +5,7 @@ import { ExpenseRegisterTable } from "@/components/finance/expense-management/ex
 import { ExpenseAnalytics } from "@/components/finance/expense-management/expense-analytics";
 import { ApprovalCentre } from "@/components/finance/expense-management/approval-centre";
 import { RecentActivities } from "@/components/finance/expense-management/recent-activities";
+import { CategoryManagement } from "@/components/finance/expense-management/category-management";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export const Route = createFileRoute("/finance/expense-management/")({
@@ -53,6 +54,12 @@ function ExpenseManagementPage() {
               Expense Analytics
             </TabsTrigger>
             <TabsTrigger 
+              value="categories" 
+              className="px-6 rounded-lg text-xs font-bold uppercase tracking-wider data-[state=active]:bg-schoolgate-green data-[state=active]:text-white h-full"
+            >
+              Expense Categories
+            </TabsTrigger>
+            <TabsTrigger 
               value="approval" 
               className="px-6 rounded-lg text-xs font-bold uppercase tracking-wider data-[state=active]:bg-schoolgate-green data-[state=active]:text-white h-full"
             >
@@ -76,6 +83,11 @@ function ExpenseManagementPage() {
         {/* Module 5: Expense Analytics */}
         <TabsContent value="analytics">
           <ExpenseAnalytics />
+        </TabsContent>
+
+        {/* Module 6: Category Management */}
+        <TabsContent value="categories">
+          <CategoryManagement />
         </TabsContent>
 
         {/* Module 7: Approval Workflow */}

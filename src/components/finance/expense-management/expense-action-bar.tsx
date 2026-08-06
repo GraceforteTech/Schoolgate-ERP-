@@ -8,7 +8,8 @@ import {
   RefreshCw,
   Filter,
   Calendar,
-  X
+  X,
+  Settings2
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -181,6 +182,10 @@ export function ExpenseActionBar() {
           <Button className="h-10 rounded-xl bg-schoolgate-green hover:bg-schoolgate-green/90 text-white font-semibold gap-2 px-6">
             <Plus size={16} />
             Record Expense
+          </Button>
+          <Button variant="outline" size="sm" className="h-10 rounded-xl border-schoolgate-green/20 text-schoolgate-green font-bold bg-schoolgate-green-light/30 hover:bg-schoolgate-green-light/50 transition-all gap-2 px-4 group">
+            <Settings2 size={16} className="group-hover:rotate-45 transition-transform" />
+            Categories
           </Button>
         </div>
       </div>
