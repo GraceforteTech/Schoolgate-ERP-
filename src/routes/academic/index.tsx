@@ -125,9 +125,9 @@ function AcademicManagementPage() {
             </div>
             <Button 
               className="bg-schoolgate-green hover:bg-schoolgate-green/90 rounded-xl px-8 h-12 font-bold shadow-lg shadow-schoolgate-green/20"
-              onClick={() => window.location.href = '/academic/lesson-notes'}
+              asChild
             >
-              Open Lesson Note Hub
+              <Link to="/academic/lesson-notes">Open Lesson Note Hub</Link>
             </Button>
           </div>
         </TabsContent>
