@@ -21,6 +21,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AlumniKpiCards } from "@/components/alumni/alumni-kpi-cards";
 import { AlumniTable } from "@/components/alumni/directory/alumni-table";
 import { AlumniSearchCenter } from "@/components/alumni/directory/alumni-search-center";
+import { AlumniMembership } from "@/components/alumni/membership/alumni-membership";
+import { AlumniEvents } from "@/components/alumni/events/alumni-events";
+import { AlumniDonations } from "@/components/alumni/donations/alumni-donations";
 
 export const Route = createFileRoute("/alumni/")({
   component: AlumniManagementPage,
