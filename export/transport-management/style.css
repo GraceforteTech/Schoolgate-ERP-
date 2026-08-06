@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom ERP Styles */
+:root {
+    --primary: #0B6E3C;
+    --primary-light: #E8F5EE;
+    --bg-light: #F5F7FA;
+}
+
+body {
+    background-color: var(--bg-light);
+}
+
+.text-green-700 { color: var(--primary); }
+.bg-green-700 { background-color: var(--primary); }
+.bg-green-50 { background-color: var(--primary-light); }
+.border-green-100 { border-color: rgba(11, 110, 60, 0.1); }
+.text-green-600 { color: #16a34a; }
+
+.rounded-2xl { border-radius: 14px; }
+.shadow-sm { box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); }
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: #e2e8f0;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #cbd5e1;
+}

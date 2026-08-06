@@ -14,6 +14,7 @@ import {
   Wallet,
   MonitorPlay,
   ShieldCheck,
+  Bus,
 } from "lucide-react";
 
 
@@ -41,6 +42,7 @@ const mainNavItems = [
   { title: "Attendance", url: "/attendance", icon: CalendarDays },
   { title: "CBT", url: "/cbt", icon: MonitorPlay },
   { title: "Timetable", url: "/timetable", icon: CalendarDays },
+  { title: "Transport", url: "/transport", icon: Bus },
 ];
 
 
