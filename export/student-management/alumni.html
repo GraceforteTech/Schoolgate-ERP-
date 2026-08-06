@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alumni Management - Schoolgate ERP</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo" style="display: flex; align-items: center; gap: 10px; margin-bottom: 2rem;">
+                <div style="width: 36px; height: 36px; background: var(--primary); border-radius: 10px; display: grid; place-items: center; color: white; font-weight: bold;">S</div>
+                <div style="font-weight: 800; color: var(--primary); font-size: 1.2rem; letter-spacing: -0.5px;">Schoolgate</div>
+            </div>
+            <nav style="display: flex; flex-direction: column; gap: 0.25rem;">
+                <div style="font-size: 0.65rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted); margin: 1rem 0 0.5rem 0.5rem; letter-spacing: 0.1em;">Main</div>
+                <a href="index.html" class="sidebar-nav-item">
+                    <div class="icon-box">👥</div>
+                    Student Directory
+                </a>
+                <a href="alumni.html" class="sidebar-nav-item active">
+                    <div class="icon-box">🎓</div>
+                    Alumni Management
+                </a>
+                <a href="#" class="sidebar-nav-item">
+                    <div class="icon-box">📊</div>
+                    Analytics & Reports
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="page-header">
+                <div>
+                    <h1>Alumni Management</h1>
+                    <p class="subtitle">Track and engage with graduated students of the institution.</p>
+                </div>
+                <div class="flex gap-2">
+                    <button class="btn btn-outline">Export Alumni</button>
+                    <button class="btn btn-primary">Alumni Engagement</button>
+                </div>
+            </header>
+
+            <section class="grid-4" style="margin-bottom: 2rem;">
+                <div class="kpi-card"><span class="kpi-label">Total Alumni</span><span class="kpi-value">4,120</span></div>
+                <div class="kpi-card"><span class="kpi-label">Recent Graduates</span><span class="kpi-value">142</span></div>
+                <div class="kpi-card"><span class="kpi-label">Higher Ed Placement</span><span class="kpi-value">78%</span></div>
+                <div class="kpi-card"><span class="kpi-label">Alumni Revenue</span><span class="kpi-value">₦450k</span></div>
+            </section>
+
+            <div class="card">
+                <div class="flex justify-between items-center" style="margin-bottom: 1.5rem;">
+                    <h3>Alumni Directory</h3>
+                    <div class="flex gap-2">
+                        <input type="text" placeholder="Search by name or year..." style="padding: 0.5rem; border: 1px solid var(--border); border-radius: 8px; font-size: 0.8rem; width: 250px;">
+                        <button class="btn btn-outline">Graduation Year</button>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Alumni Name</th>
+                                <th>ID Number</th>
+                                <th>Grad. Year</th>
+                                <th>Last Class</th>
+                                <th>Phone</th>
+                                <th>Email</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>John Doe</strong></td>
+                                <td>2020/088</td>
+                                <td>2024</td>
+                                <td>SS 3 Alpha</td>
+                                <td>08011111111</td>
+                                <td>john.doe@example.com</td>
+                                <td><span class="badge badge-warning">Graduated</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Jane Smith</strong></td>
+                                <td>2020/092</td>
+                                <td>2024</td>
+                                <td>SS 3 Gold</td>
+                                <td>08022222222</td>
+                                <td>jane.smith@example.com</td>
+                                <td><span class="badge badge-warning">Graduated</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

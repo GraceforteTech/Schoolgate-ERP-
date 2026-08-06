@@ -66,6 +66,9 @@ function StudentInformationPage() {
           <TabsTrigger value="analytics" className="data-[state=active]:bg-schoolgate-green-light data-[state=active]:text-schoolgate-green font-bold text-xs px-6">
             Analytics & Reports
           </TabsTrigger>
+          <TabsTrigger value="alumni" className="data-[state=active]:bg-schoolgate-green-light data-[state=active]:text-schoolgate-green font-bold text-xs px-6">
+            Alumni Management
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="directory" className="space-y-6">
@@ -123,6 +126,23 @@ function StudentInformationPage() {
 
         <TabsContent value="analytics">
           <StudentAnalytics />
+        </TabsContent>
+
+        <TabsContent value="alumni">
+          <div className="space-y-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="text-lg font-bold text-slate-900">Alumni Directory</h3>
+                <p className="text-sm text-slate-500">View and manage graduated students.</p>
+              </div>
+              <Button className="bg-schoolgate-green text-white hover:bg-schoolgate-green/90 rounded-lg font-bold">
+                Export Alumni Records
+              </Button>
+            </div>
+            <Card className="p-6 bg-white border-slate-100 shadow-sm rounded-[14px]">
+              <StudentDirectory forcedStatus="Graduated" />
+            </Card>
+          </div>
         </TabsContent>
       </Tabs>
     </div>
