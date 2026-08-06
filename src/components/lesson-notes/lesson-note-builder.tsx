@@ -17,6 +17,18 @@ import {
   HelpCircle
 } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { LessonStepsEditor } from "./lesson-steps-editor";
+import { 
+  Sparkles as SparklesIcon,
+  Wand2,
+  Settings,
+  Archive,
+  Trash,
+  Share2,
+  FileDown as FileDownIcon,
+  Layout,
+  Clock as ClockIcon
+} from "lucide-react";
 
 export function LessonNoteBuilder() {
   return (
