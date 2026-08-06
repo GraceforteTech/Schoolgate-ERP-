@@ -37,6 +37,7 @@ const financeNavItems = [
   { title: "Adjustments", url: "/finance/adjustment-management", icon: Banknote },
   { title: "Invoices", url: "/finance/invoice-management", icon: FileText },
   { title: "Outstanding", url: "/finance/outstanding-fees", icon: CreditCard },
+  { title: "Expenses", url: "/finance/expense-management", icon: Banknote },
 ];
 
 const systemNavItems = [
