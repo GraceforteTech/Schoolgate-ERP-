@@ -63,7 +63,10 @@ function FeePostingPage() {
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div>
                   <h1 className="text-3xl font-black tracking-tight text-slate-900">School Fee Posting</h1>
-                    <p className="text-sm font-medium text-slate-500 mt-1 flex items-center gap-2">{"\u2063"}</p>
+                  <p className="text-sm font-medium text-slate-500 mt-1 flex items-center gap-2">
+                    <ShieldCheck size={16} className="text-schoolgate-green" />
+                    Manage term fees, B/F debts, scholarships and financial adjustments.
+                  </p>
                 </div>
                 <div className="flex flex-wrap items-center gap-2">
                   <Button variant="outline" className="h-10 rounded-xl bg-white border-slate-200 font-bold gap-2 text-slate-600">
