@@ -38,6 +38,7 @@ const financeNavItems = [
   { title: "Invoices", url: "/finance/invoice-management", icon: FileText },
   { title: "Outstanding", url: "/finance/outstanding-fees", icon: CreditCard },
   { title: "Expenses", url: "/finance/expense-management", icon: Banknote },
+  { title: "Payroll", url: "/finance/payroll-management", icon: Banknote },
 ];
 
 const systemNavItems = [
