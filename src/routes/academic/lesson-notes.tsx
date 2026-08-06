@@ -116,59 +116,7 @@ function LessonNoteManagement() {
         </div>
 
         <TabsContent value="overview" className="space-y-6">
-          <LessonNoteKPIs />
-          
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <Card className="lg:col-span-2 p-6 rounded-[14px] shadow-sm border-none">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-lg font-semibold">Lesson Note Centre</h3>
-                <Button variant="ghost" size="sm" className="text-[#0B6E3C]">View All <ArrowRight className="ml-1 h-4 w-4" /></Button>
-              </div>
-              <div className="space-y-4">
-                {[1, 2, 3, 4].map((i) => (
-                  <div key={i} className="flex items-center justify-between p-4 rounded-[12px] bg-[#F5F7FA] hover:bg-schoolgate-green-light/30 transition-colors cursor-pointer group">
-                    <div className="flex items-center gap-4">
-                      <div className="p-2 rounded-lg bg-white text-[#0B6E3C] shadow-sm">
-                        <FileText className="h-5 w-5" />
-                      </div>
-                      <div>
-                        <p className="font-medium">Mathematics - Algebra Intro</p>
-                        <p className="text-xs text-muted-foreground">Class: JSS 1 • Week 4 • Submitted by: Sarah Johnson</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-4">
-                      <span className="px-2 py-1 rounded-full text-[10px] font-medium bg-yellow-100 text-yellow-700">Pending HOD</span>
-                      <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity">Preview</Button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </Card>
-
-            <Card className="p-6 rounded-[14px] shadow-sm border-none">
-              <h3 className="text-lg font-semibold mb-6">Recent Activities</h3>
-              <div className="space-y-6">
-                {[
-                  { user: "Sarah Johnson", action: "submitted lesson note", time: "2 mins ago", subject: "Mathematics" },
-                  { user: "HOD Academics", action: "approved lesson note", time: "1 hour ago", subject: "English Language" },
-                  { user: "Principal", action: "returned for correction", time: "3 hours ago", subject: "Physics" },
-                  { user: "System", action: "auto-generated weekly plan", time: "5 hours ago", subject: "All Classes" },
-                ].map((activity, i) => (
-                  <div key={i} className="flex gap-4">
-                    <div className="h-8 w-8 rounded-full bg-schoolgate-green-light flex items-center justify-center shrink-0">
-                      <Users className="h-4 w-4 text-[#0B6E3C]" />
-                    </div>
-                    <div>
-                      <p className="text-sm">
-                        <span className="font-semibold">{activity.user}</span> {activity.action} for <span className="font-medium">{activity.subject}</span>
-                      </p>
-                      <p className="text-xs text-muted-foreground">{activity.time}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </Card>
-          </div>
+          <TeacherLessonNoteDashboard onNewLesson={() => setActiveTab("builder")} />
         </TabsContent>
 
         <TabsContent value="builder">
