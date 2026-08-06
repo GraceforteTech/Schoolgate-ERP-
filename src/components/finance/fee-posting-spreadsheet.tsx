@@ -558,7 +558,19 @@ export function FeePostingSpreadsheet({ isLoading = false }: { isLoading?: boole
                   <Check size={24} />
                 </div>
               )}
-            </div>
+
+      <ImportProtectionDialog 
+        open={isImportProtectionOpen}
+        onOpenChange={setIsImportProtectionOpen}
+        onConfirm={handleConfirmImport}
+        stats={{
+          total: data.length,
+          new: 2,
+          existing: 8,
+          conflicts: 3
+        }}
+      />
+    </div>
 
             <DialogFooter className="flex gap-3 sm:justify-between pt-2">
               <Button variant="ghost" onClick={() => setIsPostingDialogOpen(false)} className="rounded-xl h-12 px-6 font-bold text-slate-500">
