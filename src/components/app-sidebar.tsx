@@ -32,7 +32,7 @@ const mainNavItems = [
   { title: "Dashboard", url: "/", icon: LayoutDashboard },
   { title: "Admissions", url: "/finance/admissions", icon: UserPlus },
   { title: "Students", url: "/students", icon: Users },
-  { title: "Academics", url: "/finance/results", icon: BookOpen },
+  { title: "Academics", url: "/academic", icon: BookOpen },
   { title: "Attendance", url: "/attendance", icon: CalendarDays },
 ];
 
