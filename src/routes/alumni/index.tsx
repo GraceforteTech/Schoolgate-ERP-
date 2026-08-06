@@ -10,7 +10,8 @@ import {
   Calendar,
   ChevronRight,
   TrendingUp,
-  MapPin
+  MapPin,
+  Users
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";

@@ -16,6 +16,7 @@ import { Route as StudentsRouteImport } from './routes/students'
 import { Route as AcademicIndexRouteImport } from './routes/academic/index'
 import { Route as AcademicLessonNotesRouteImport } from './routes/academic/lesson-notes'
 import { Route as AcademicSyllabusRouteImport } from './routes/academic/syllabus'
+import { Route as AlumniIndexRouteImport } from './routes/alumni/index'
 import { Route as AttendanceIndexRouteImport } from './routes/attendance/index'
 import { Route as CbtIndexRouteImport } from './routes/cbt/index'
 import { Route as EnterpriseIndexRouteImport } from './routes/enterprise/index'
@@ -85,6 +86,11 @@ const AcademicLessonNotesRoute = AcademicLessonNotesRouteImport.update({
 const AcademicSyllabusRoute = AcademicSyllabusRouteImport.update({
   id: '/academic/syllabus',
   path: '/academic/syllabus',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AlumniIndexRoute = AlumniIndexRouteImport.update({
+  id: '/alumni/',
+  path: '/alumni/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AttendanceIndexRoute = AttendanceIndexRouteImport.update({
@@ -294,6 +300,7 @@ export interface FileRoutesByFullPath {
   '/transport/routes': typeof TransportRoutesRoute
   '/transport/vehicles': typeof TransportVehiclesRoute
   '/academic/': typeof AcademicIndexRoute
+  '/alumni/': typeof AlumniIndexRoute
   '/attendance/': typeof AttendanceIndexRoute
   '/cbt/': typeof CbtIndexRoute
   '/enterprise/': typeof EnterpriseIndexRoute
@@ -338,6 +345,7 @@ export interface FileRoutesByTo {
   '/transport/routes': typeof TransportRoutesRoute
   '/transport/vehicles': typeof TransportVehiclesRoute
   '/academic': typeof AcademicIndexRoute
+  '/alumni': typeof AlumniIndexRoute
   '/attendance': typeof AttendanceIndexRoute
   '/cbt': typeof CbtIndexRoute
   '/enterprise': typeof EnterpriseIndexRoute
@@ -383,6 +391,7 @@ export interface FileRoutesById {
   '/transport/routes': typeof TransportRoutesRoute
   '/transport/vehicles': typeof TransportVehiclesRoute
   '/academic/': typeof AcademicIndexRoute
+  '/alumni/': typeof AlumniIndexRoute
   '/attendance/': typeof AttendanceIndexRoute
   '/cbt/': typeof CbtIndexRoute
   '/enterprise/': typeof EnterpriseIndexRoute
@@ -429,6 +438,7 @@ export interface FileRouteTypes {
     | '/transport/routes'
     | '/transport/vehicles'
     | '/academic/'
+    | '/alumni/'
     | '/attendance/'
     | '/cbt/'
     | '/enterprise/'
@@ -473,6 +483,7 @@ export interface FileRouteTypes {
     | '/transport/routes'
     | '/transport/vehicles'
     | '/academic'
+    | '/alumni'
     | '/attendance'
     | '/cbt'
     | '/enterprise'
@@ -517,6 +528,7 @@ export interface FileRouteTypes {
     | '/transport/routes'
     | '/transport/vehicles'
     | '/academic/'
+    | '/alumni/'
     | '/attendance/'
     | '/cbt/'
     | '/enterprise/'
@@ -562,6 +574,7 @@ export interface RootRouteChildren {
   TransportRoutesRoute: typeof TransportRoutesRoute
   TransportVehiclesRoute: typeof TransportVehiclesRoute
   AcademicIndexRoute: typeof AcademicIndexRoute
+  AlumniIndexRoute: typeof AlumniIndexRoute
   AttendanceIndexRoute: typeof AttendanceIndexRoute
   CbtIndexRoute: typeof CbtIndexRoute
   EnterpriseIndexRoute: typeof EnterpriseIndexRoute
@@ -638,6 +651,13 @@ declare module '@tanstack/react-router' {
       path: '/academic/syllabus'
       fullPath: '/academic/syllabus'
       preLoaderRoute: typeof AcademicSyllabusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/alumni/': {
+      id: '/alumni/'
+      path: '/alumni'
+      fullPath: '/alumni/'
+      preLoaderRoute: typeof AlumniIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/attendance/': {
@@ -906,6 +926,7 @@ const rootRouteChildren: RootRouteChildren = {
   TransportRoutesRoute: TransportRoutesRoute,
   TransportVehiclesRoute: TransportVehiclesRoute,
   AcademicIndexRoute: AcademicIndexRoute,
+  AlumniIndexRoute: AlumniIndexRoute,
   AttendanceIndexRoute: AttendanceIndexRoute,
   CbtIndexRoute: CbtIndexRoute,
   EnterpriseIndexRoute: EnterpriseIndexRoute,
@@ -936,13 +957,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
