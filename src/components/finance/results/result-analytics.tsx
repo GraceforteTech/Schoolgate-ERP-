@@ -215,6 +215,28 @@ export function ResultAnalytics() {
           </Card>
         </div>
       </div>
+
+      <Card className="rounded-[14px] border-none shadow-sm bg-white overflow-hidden">
+        <CardHeader className="bg-slate-50/50 border-b border-slate-100 py-4 px-6">
+          <CardTitle className="text-sm font-black text-slate-800 uppercase tracking-wider">Detailed Drill-down Reports</CardTitle>
+        </CardHeader>
+        <CardContent className="p-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <Button variant="outline" className="h-16 rounded-xl flex flex-col items-start px-6 border-slate-100 hover:border-schoolgate-green hover:bg-emerald-50 transition-all group">
+              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest group-hover:text-schoolgate-green">Teacher Performance</span>
+              <span className="text-sm font-bold text-slate-700">Detailed Analytics Report</span>
+            </Button>
+            <Button variant="outline" className="h-16 rounded-xl flex flex-col items-start px-6 border-slate-100 hover:border-schoolgate-green hover:bg-emerald-50 transition-all group">
+              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest group-hover:text-schoolgate-green">Class Comparative</span>
+              <span className="text-sm font-bold text-slate-700">Multi-Term Growth Analysis</span>
+            </Button>
+            <Button variant="outline" className="h-16 rounded-xl flex flex-col items-start px-6 border-slate-100 hover:border-schoolgate-green hover:bg-emerald-50 transition-all group">
+              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest group-hover:text-schoolgate-green">Primary vs Secondary</span>
+              <span className="text-sm font-bold text-slate-700">Performance Benchmark</span>
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }

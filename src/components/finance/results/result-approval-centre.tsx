@@ -72,11 +72,21 @@ export function ResultApprovalCentre() {
                 </div>
                 <span className="text-lg font-black text-rose-900">3</span>
               </div>
+              <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50">
+                <div className="flex items-center gap-3">
+                  <FileText className="text-slate-600 w-4 h-4" />
+                  <span className="text-sm font-bold text-slate-900">Approval History</span>
+                </div>
+                <Button variant="ghost" size="sm" className="h-7 text-[10px] font-bold uppercase tracking-wider text-schoolgate-green">View All</Button>
+              </div>
             </CardContent>
           </Card>
 
           <Button className="w-full bg-schoolgate-green hover:bg-schoolgate-green/90 h-12 rounded-xl font-bold shadow-lg shadow-schoolgate-green/20 gap-2">
             <Globe size={18} /> Publish Approved Results
+          </Button>
+          <Button variant="outline" className="w-full h-11 rounded-xl font-bold border-slate-200 gap-2 text-slate-600 mt-2">
+            <FileText size={18} /> Print Approval Report
           </Button>
         </div>
 
@@ -138,7 +148,7 @@ export function ResultApprovalCentre() {
                           <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-rose-600 hover:text-rose-700 hover:bg-rose-50 rounded-lg">
                             <XCircle size={16} />
                           </Button>
-                          <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-amber-600 hover:text-amber-700 hover:bg-amber-50 rounded-lg">
+                          <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-amber-600 hover:text-amber-700 hover:bg-amber-50 rounded-lg" title="Return for Correction">
                             <Undo2 size={16} />
                           </Button>
                           <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg">
