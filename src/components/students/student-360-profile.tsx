@@ -255,6 +255,67 @@ export function Student360Profile() {
             </Card>
           </TabsContent>
           
+          <TabsContent value="attendance">
+            <Card className="p-6 border-slate-100 rounded-[14px] shadow-sm">
+              <h3 className="text-sm font-bold text-slate-800 mb-6 flex items-center gap-2">
+                <CalendarCheck className="h-4 w-4 text-schoolgate-green" /> Attendance History
+              </h3>
+              <div className="text-center py-12 text-slate-400">
+                <CalendarCheck className="h-12 w-12 mx-auto mb-4 opacity-20" />
+                <p className="text-sm">Attendance logs and heatmaps for the current session.</p>
+              </div>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="medical">
+            <Card className="p-6 border-slate-100 rounded-[14px] shadow-sm">
+              <h3 className="text-sm font-bold text-slate-800 mb-6 flex items-center gap-2">
+                <Stethoscope className="h-4 w-4 text-schoolgate-green" /> Medical Information & History
+              </h3>
+              <div className="text-center py-12 text-slate-400">
+                <Stethoscope className="h-12 w-12 mx-auto mb-4 opacity-20" />
+                <p className="text-sm">Medical records, allergies, and vaccination history.</p>
+              </div>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="discipline">
+            <Card className="p-6 border-slate-100 rounded-[14px] shadow-sm">
+              <h3 className="text-sm font-bold text-slate-800 mb-6 flex items-center gap-2">
+                <AlertTriangle className="h-4 w-4 text-schoolgate-green" /> Behaviour & Discipline Records
+              </h3>
+              <div className="text-center py-12 text-slate-400">
+                <AlertTriangle className="h-12 w-12 mx-auto mb-4 opacity-20" />
+                <p className="text-sm">Merit and demerit logs for student behaviour management.</p>
+              </div>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="hostel">
+            <Card className="p-6 border-slate-100 rounded-[14px] shadow-sm">
+              <h3 className="text-sm font-bold text-slate-800 mb-6 flex items-center gap-2">
+                <Home className="h-4 w-4 text-schoolgate-green" /> Hostel & Accomodation
+              </h3>
+              <div className="text-center py-12 text-slate-400">
+                <Home className="h-12 w-12 mx-auto mb-4 opacity-20" />
+                <p className="text-sm">Hostel allocation, room details and boarding status.</p>
+              </div>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="library">
+            <Card className="p-6 border-slate-100 rounded-[14px] shadow-sm">
+              <h3 className="text-sm font-bold text-slate-800 mb-6 flex items-center gap-2">
+                <Book className="h-4 w-4 text-schoolgate-green" /> Library Records
+              </h3>
+              <div className="text-center py-12 text-slate-400">
+                <Book className="h-12 w-12 mx-auto mb-4 opacity-20" />
+                <p className="text-sm">Books borrowed, return status and library fines.</p>
+              </div>
+            </Card>
+          </TabsContent>
+
+          
           <TabsContent value="timeline">
             <Card className="p-6 border-slate-100 rounded-[14px] shadow-sm">
               <h3 className="text-sm font-bold text-slate-800 mb-6 flex items-center gap-2">
