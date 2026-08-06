@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { AcademicKPIs } from "@/components/academic/academic-kpis";
 import { AcademicCalendar } from "@/components/academic/academic-calendar";
 import { ClassManagement } from "@/components/academic/class-management";
@@ -9,7 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Download, LayoutDashboard, Calendar, Users, BookOpen, UserCheck, BarChart3, GraduationCap, Search, Filter } from "lucide-react";
+import { Download, LayoutDashboard, Calendar, Users, BookOpen, UserCheck, BarChart3, GraduationCap, Search, Filter, FileText } from "lucide-react";
 
 export const Route = createFileRoute("/academic/")({
   component: AcademicManagementPage,
@@ -101,6 +101,9 @@ function AcademicManagementPage() {
             <TabsTrigger value="workload" className="px-6 rounded-lg text-xs font-bold uppercase tracking-wider data-[state=active]:bg-schoolgate-green data-[state=active]:text-white h-full gap-2">
               <UserCheck className="w-4 h-4" /> Teacher Workload
             </TabsTrigger>
+            <TabsTrigger value="lesson-notes" className="px-6 rounded-lg text-xs font-bold uppercase tracking-wider data-[state=active]:bg-schoolgate-green data-[state=active]:text-white h-full gap-2">
+              <FileText className="w-4 h-4" /> Lesson Notes
+            </TabsTrigger>
             <TabsTrigger value="reports" className="px-6 rounded-lg text-xs font-bold uppercase tracking-wider data-[state=active]:bg-schoolgate-green data-[state=active]:text-white h-full gap-2">
               <BarChart3 className="w-4 h-4" /> Academic Reports
             </TabsTrigger>
@@ -111,6 +114,23 @@ function AcademicManagementPage() {
         <TabsContent value="classes"><ClassManagement /></TabsContent>
         <TabsContent value="curriculum"><CurriculumManagement /></TabsContent>
         <TabsContent value="workload"><TeacherWorkload /></TabsContent>
+        <TabsContent value="lesson-notes">
+          <div className="bg-white p-12 rounded-3xl border border-dashed border-slate-200 flex flex-col items-center justify-center text-center gap-4">
+            <div className="w-16 h-16 bg-schoolgate-green-light rounded-full flex items-center justify-center text-schoolgate-green">
+              <FileText size={32} />
+            </div>
+            <div>
+              <h3 className="text-xl font-bold text-slate-900">Teacher Lesson Note Dashboard</h3>
+              <p className="text-slate-500 max-w-md mx-auto mt-2">Create, manage and monitor lesson notes digitally for all classes and subjects.</p>
+            </div>
+            <Button 
+              className="bg-schoolgate-green hover:bg-schoolgate-green/90 rounded-xl px-8 h-12 font-bold shadow-lg shadow-schoolgate-green/20"
+              asChild
+            >
+              <Link to="/academic/lesson-notes">Open Lesson Note Hub</Link>
+            </Button>
+          </div>
+        </TabsContent>
         <TabsContent value="reports"><AcademicReports /></TabsContent>
       </Tabs>
     </div>
