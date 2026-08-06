@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as FeeTypesRouteImport } from './routes/fee-types'
 import { Route as FeeTypesOverviewRouteImport } from './routes/fee-types-overview'
+import { Route as StudentsRouteImport } from './routes/students'
 import { Route as FinanceAdjustmentManagementRouteImport } from './routes/finance/adjustment-management'
 import { Route as FinanceAdmissionsIndexRouteImport } from './routes/finance/admissions/index'
 import { Route as FinanceExpenseManagementIndexRouteImport } from './routes/finance/expense-management/index'
@@ -33,6 +34,11 @@ const FeeTypesRoute = FeeTypesRouteImport.update({
 const FeeTypesOverviewRoute = FeeTypesOverviewRouteImport.update({
   id: '/fee-types-overview',
   path: '/fee-types-overview',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudentsRoute = StudentsRouteImport.update({
+  id: '/students',
+  path: '/students',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FinanceAdjustmentManagementRoute =
@@ -80,6 +86,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/fee-types': typeof FeeTypesRoute
   '/fee-types-overview': typeof FeeTypesOverviewRoute
+  '/students': typeof StudentsRoute
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
   '/finance/admissions/': typeof FinanceAdmissionsIndexRoute
   '/finance/expense-management/': typeof FinanceExpenseManagementIndexRoute
@@ -92,6 +99,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/fee-types': typeof FeeTypesRoute
   '/fee-types-overview': typeof FeeTypesOverviewRoute
+  '/students': typeof StudentsRoute
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
   '/finance/admissions': typeof FinanceAdmissionsIndexRoute
   '/finance/expense-management': typeof FinanceExpenseManagementIndexRoute
@@ -105,6 +113,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/fee-types': typeof FeeTypesRoute
   '/fee-types-overview': typeof FeeTypesOverviewRoute
+  '/students': typeof StudentsRoute
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
   '/finance/admissions/': typeof FinanceAdmissionsIndexRoute
   '/finance/expense-management/': typeof FinanceExpenseManagementIndexRoute
@@ -119,6 +128,7 @@ export interface FileRouteTypes {
     | '/'
     | '/fee-types'
     | '/fee-types-overview'
+    | '/students'
     | '/finance/adjustment-management'
     | '/finance/admissions/'
     | '/finance/expense-management/'
@@ -131,6 +141,7 @@ export interface FileRouteTypes {
     | '/'
     | '/fee-types'
     | '/fee-types-overview'
+    | '/students'
     | '/finance/adjustment-management'
     | '/finance/admissions'
     | '/finance/expense-management'
@@ -143,6 +154,7 @@ export interface FileRouteTypes {
     | '/'
     | '/fee-types'
     | '/fee-types-overview'
+    | '/students'
     | '/finance/adjustment-management'
     | '/finance/admissions/'
     | '/finance/expense-management/'
@@ -156,6 +168,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   FeeTypesRoute: typeof FeeTypesRoute
   FeeTypesOverviewRoute: typeof FeeTypesOverviewRoute
+  StudentsRoute: typeof StudentsRoute
   FinanceAdjustmentManagementRoute: typeof FinanceAdjustmentManagementRoute
   FinanceAdmissionsIndexRoute: typeof FinanceAdmissionsIndexRoute
   FinanceExpenseManagementIndexRoute: typeof FinanceExpenseManagementIndexRoute
@@ -186,6 +199,13 @@ declare module '@tanstack/react-router' {
       path: '/fee-types-overview'
       fullPath: '/fee-types-overview'
       preLoaderRoute: typeof FeeTypesOverviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/students': {
+      id: '/students'
+      path: '/students'
+      fullPath: '/students'
+      preLoaderRoute: typeof StudentsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/finance/adjustment-management': {
@@ -244,6 +264,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   FeeTypesRoute: FeeTypesRoute,
   FeeTypesOverviewRoute: FeeTypesOverviewRoute,
+  StudentsRoute: StudentsRoute,
   FinanceAdjustmentManagementRoute: FinanceAdjustmentManagementRoute,
   FinanceAdmissionsIndexRoute: FinanceAdmissionsIndexRoute,
   FinanceExpenseManagementIndexRoute: FinanceExpenseManagementIndexRoute,
