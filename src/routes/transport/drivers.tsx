@@ -251,12 +251,12 @@ function DriverManagement() {
             <CardContent className="pt-6 space-y-6">
               <div className="flex flex-col items-center text-center space-y-3">
                 <div className="relative">
-                  <img src={drivers[0].photo} alt={drivers[0].name} className="w-24 h-24 rounded-full border-4 border-schoolgate-green-light shadow-sm" />
+                  <img src={drivers[0]?.photo} alt={drivers[0]?.name} className="w-24 h-24 rounded-full border-4 border-schoolgate-green-light shadow-sm" />
                   <div className="absolute bottom-0 right-0 bg-green-500 h-6 w-6 rounded-full border-4 border-white"></div>
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-slate-900">{drivers[0].name}</h3>
-                  <p className="text-sm text-muted-foreground">{drivers[0].id}</p>
+                  <h3 className="text-xl font-bold text-slate-900">{drivers[0]?.name}</h3>
+                  <p className="text-sm text-muted-foreground">{drivers[0]?.id}</p>
                 </div>
                 <div className="flex gap-2">
                   <Badge className="bg-schoolgate-green-light text-schoolgate-green hover:bg-schoolgate-green-light border-none">
