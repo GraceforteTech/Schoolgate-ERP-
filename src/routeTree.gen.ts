@@ -18,6 +18,7 @@ import { Route as FinanceAdjustmentManagementRouteImport } from './routes/financ
 import { Route as FinanceBulkPostingRouteImport } from './routes/finance/bulk-posting'
 import { Route as FinanceAdmissionsIndexRouteImport } from './routes/finance/admissions/index'
 import { Route as FinanceExpenseManagementIndexRouteImport } from './routes/finance/expense-management/index'
+import { Route as FinanceFeePostingIndexRouteImport } from './routes/finance/fee-posting/index'
 import { Route as FinanceInvoiceManagementIndexRouteImport } from './routes/finance/invoice-management/index'
 import { Route as FinanceOutstandingFeesIndexRouteImport } from './routes/finance/outstanding-fees/index'
 import { Route as FinancePayrollManagementIndexRouteImport } from './routes/finance/payroll-management/index'
@@ -70,6 +71,11 @@ const FinanceExpenseManagementIndexRoute =
     path: '/finance/expense-management/',
     getParentRoute: () => rootRouteImport,
   } as any)
+const FinanceFeePostingIndexRoute = FinanceFeePostingIndexRouteImport.update({
+  id: '/finance/fee-posting/',
+  path: '/finance/fee-posting/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FinanceInvoiceManagementIndexRoute =
   FinanceInvoiceManagementIndexRouteImport.update({
     id: '/finance/invoice-management/',
@@ -104,6 +110,7 @@ export interface FileRoutesByFullPath {
   '/attendance/': typeof AttendanceIndexRoute
   '/finance/admissions/': typeof FinanceAdmissionsIndexRoute
   '/finance/expense-management/': typeof FinanceExpenseManagementIndexRoute
+  '/finance/fee-posting/': typeof FinanceFeePostingIndexRoute
   '/finance/invoice-management/': typeof FinanceInvoiceManagementIndexRoute
   '/finance/outstanding-fees/': typeof FinanceOutstandingFeesIndexRoute
   '/finance/payroll-management/': typeof FinancePayrollManagementIndexRoute
@@ -119,6 +126,7 @@ export interface FileRoutesByTo {
   '/attendance': typeof AttendanceIndexRoute
   '/finance/admissions': typeof FinanceAdmissionsIndexRoute
   '/finance/expense-management': typeof FinanceExpenseManagementIndexRoute
+  '/finance/fee-posting': typeof FinanceFeePostingIndexRoute
   '/finance/invoice-management': typeof FinanceInvoiceManagementIndexRoute
   '/finance/outstanding-fees': typeof FinanceOutstandingFeesIndexRoute
   '/finance/payroll-management': typeof FinancePayrollManagementIndexRoute
@@ -135,6 +143,7 @@ export interface FileRoutesById {
   '/attendance/': typeof AttendanceIndexRoute
   '/finance/admissions/': typeof FinanceAdmissionsIndexRoute
   '/finance/expense-management/': typeof FinanceExpenseManagementIndexRoute
+  '/finance/fee-posting/': typeof FinanceFeePostingIndexRoute
   '/finance/invoice-management/': typeof FinanceInvoiceManagementIndexRoute
   '/finance/outstanding-fees/': typeof FinanceOutstandingFeesIndexRoute
   '/finance/payroll-management/': typeof FinancePayrollManagementIndexRoute
@@ -152,6 +161,7 @@ export interface FileRouteTypes {
     | '/attendance/'
     | '/finance/admissions/'
     | '/finance/expense-management/'
+    | '/finance/fee-posting/'
     | '/finance/invoice-management/'
     | '/finance/outstanding-fees/'
     | '/finance/payroll-management/'
@@ -167,6 +177,7 @@ export interface FileRouteTypes {
     | '/attendance'
     | '/finance/admissions'
     | '/finance/expense-management'
+    | '/finance/fee-posting'
     | '/finance/invoice-management'
     | '/finance/outstanding-fees'
     | '/finance/payroll-management'
@@ -182,6 +193,7 @@ export interface FileRouteTypes {
     | '/attendance/'
     | '/finance/admissions/'
     | '/finance/expense-management/'
+    | '/finance/fee-posting/'
     | '/finance/invoice-management/'
     | '/finance/outstanding-fees/'
     | '/finance/payroll-management/'
@@ -198,6 +210,7 @@ export interface RootRouteChildren {
   AttendanceIndexRoute: typeof AttendanceIndexRoute
   FinanceAdmissionsIndexRoute: typeof FinanceAdmissionsIndexRoute
   FinanceExpenseManagementIndexRoute: typeof FinanceExpenseManagementIndexRoute
+  FinanceFeePostingIndexRoute: typeof FinanceFeePostingIndexRoute
   FinanceInvoiceManagementIndexRoute: typeof FinanceInvoiceManagementIndexRoute
   FinanceOutstandingFeesIndexRoute: typeof FinanceOutstandingFeesIndexRoute
   FinancePayrollManagementIndexRoute: typeof FinancePayrollManagementIndexRoute
@@ -269,6 +282,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FinanceExpenseManagementIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/finance/fee-posting/': {
+      id: '/finance/fee-posting/'
+      path: '/finance/fee-posting'
+      fullPath: '/finance/fee-posting/'
+      preLoaderRoute: typeof FinanceFeePostingIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/finance/invoice-management/': {
       id: '/finance/invoice-management/'
       path: '/finance/invoice-management'
@@ -310,6 +330,7 @@ const rootRouteChildren: RootRouteChildren = {
   AttendanceIndexRoute: AttendanceIndexRoute,
   FinanceAdmissionsIndexRoute: FinanceAdmissionsIndexRoute,
   FinanceExpenseManagementIndexRoute: FinanceExpenseManagementIndexRoute,
+  FinanceFeePostingIndexRoute: FinanceFeePostingIndexRoute,
   FinanceInvoiceManagementIndexRoute: FinanceInvoiceManagementIndexRoute,
   FinanceOutstandingFeesIndexRoute: FinanceOutstandingFeesIndexRoute,
   FinancePayrollManagementIndexRoute: FinancePayrollManagementIndexRoute,

@@ -12,7 +12,8 @@ import {
   Download,
   Printer,
   ChevronDown,
-  Info
+  Info,
+  Clock
 } from "lucide-react";
 import { createFileRoute } from "@tanstack/react-router";
 import { AppSidebar } from "@/components/app-sidebar";
@@ -20,6 +21,7 @@ import { TopNav } from "@/components/top-nav";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { 
   Select, 
   SelectContent, 
@@ -33,6 +35,8 @@ import { ManualFeePosting } from "@/components/finance/fee-posting/manual-postin
 import { FeePostingSpreadsheet } from "@/components/finance/fee-posting-spreadsheet";
 import { EnhancedAuditTrail } from "@/components/finance/enhanced-audit-trail";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { cn } from "@/lib/utils";
+
 
 export const Route = createFileRoute("/finance/fee-posting/")({
   head: () => ({
