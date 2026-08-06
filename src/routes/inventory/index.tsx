@@ -24,6 +24,7 @@ import { InventoryKpiCards } from "@/components/inventory/inventory-kpi-cards";
 import { ItemRegistry } from "@/components/inventory/items/item-registry";
 import { CategoryGrid } from "@/components/inventory/items/category-grid";
 import { SupplierDirectory } from "@/components/inventory/suppliers/supplier-directory";
+import { InventorySearchCenter } from "@/components/inventory/items/inventory-search-center";
 
 export const Route = createFileRoute("/inventory/")({
   component: InventoryManagementPage,
@@ -88,26 +89,7 @@ function InventoryManagementPage() {
         </div>
 
         <TabsContent value="items" className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-          <div className="flex items-center justify-between gap-4">
-            <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-              <Input placeholder="Search items by name, code or category..." className="pl-10 h-11 bg-white border-none shadow-sm rounded-xl" />
-            </div>
-            <div className="flex items-center gap-2">
-              <Button variant="outline" className="h-11 rounded-xl bg-white border-none shadow-sm px-4 text-slate-600 font-bold gap-2">
-                <Filter className="h-4 w-4" /> Filter
-              </Button>
-              <div className="flex p-1 bg-white rounded-xl shadow-sm border border-slate-200">
-                <Button variant="ghost" className="h-9 w-9 p-0 rounded-lg bg-schoolgate-green-light text-schoolgate-green">
-                  <TableIcon className="h-4 w-4" />
-                </Button>
-                <Button variant="ghost" className="h-9 w-9 p-0 rounded-lg text-slate-400">
-                  <LayoutGrid className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-          </div>
-
+          <InventorySearchCenter />
           <Card className="p-0 bg-white border-none shadow-sm rounded-[20px] overflow-hidden">
             <ItemRegistry />
           </Card>
