@@ -10,7 +10,8 @@ import {
   Plus,
   Search,
   Filter,
-  Download
+  Download,
+  BrainCircuit
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -22,6 +23,8 @@ import { LiveExamMonitor } from "@/components/cbt/live-exam-monitor";
 import { CBTAnalytics } from "@/components/cbt/cbt-analytics";
 import { AIQuestionCentre } from "@/components/cbt/ai-question-centre";
 import { ProprietorCBTDashboard } from "@/components/cbt/proprietor-cbt-dashboard";
+import { AILearningAssistant } from "@/components/cbt/ai-learning-assistant";
+
 
 export const Route = createFileRoute("/cbt/")({
   component: CBTManagementPage,
