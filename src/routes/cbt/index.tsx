@@ -77,9 +77,13 @@ function CBTManagementPage() {
             <TabsTrigger value="ai" className="px-6 rounded-lg text-xs font-bold uppercase tracking-wider data-[state=active]:bg-schoolgate-green data-[state=active]:text-white h-full gap-2">
               <Sparkles className="w-4 h-4" /> AI Question Centre
             </TabsTrigger>
+            <TabsTrigger value="assistant" className="px-6 rounded-lg text-xs font-bold uppercase tracking-wider data-[state=active]:bg-schoolgate-green data-[state=active]:text-white h-full gap-2">
+              <BrainCircuit className="w-4 h-4" /> AI Assistant
+            </TabsTrigger>
             <TabsTrigger value="proprietor" className="px-6 rounded-lg text-xs font-bold uppercase tracking-wider data-[state=active]:bg-schoolgate-green data-[state=active]:text-white h-full gap-2">
               <ShieldCheck className="w-4 h-4" /> Executive
             </TabsTrigger>
+
           </TabsList>
         </div>
 
