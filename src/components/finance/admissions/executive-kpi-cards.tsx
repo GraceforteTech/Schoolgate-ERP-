@@ -29,7 +29,7 @@ export function ExecutiveKpiCards() {
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
       {kpis.map((kpi, i) => (
-        <Card key={i} className="p-4 hover:shadow-lg transition-all cursor-pointer border-slate-100 rounded-[14px]">
+        <Card key={i} className="p-4 hover:shadow-lg transition-all cursor-pointer border-slate-100 rounded-[14px] group" onClick={() => alert(`Drill-down for ${kpi.label}`)}>
           <div className="flex items-center gap-3">
             <div className="p-2 bg-schoolgate-green-light rounded-lg text-schoolgate-green">
               <kpi.icon className="h-5 w-5" />
