@@ -163,13 +163,48 @@ export function LessonNoteBuilder() {
         
         <Card className="p-6 rounded-[14px] shadow-sm border-none bg-indigo-900 text-white relative overflow-hidden group">
           <div className="relative z-10">
-            <h4 className="font-bold text-lg mb-2">Schoolgate AI</h4>
-            <p className="text-indigo-100 text-sm mb-4">Stuck on your lesson note? Generate a complete note based on curriculum standards in seconds.</p>
-            <Button className="w-full bg-white text-indigo-900 hover:bg-white/90 rounded-xl font-bold">
-              Try AI Generator
-            </Button>
+            <h4 className="font-bold text-lg mb-2 flex items-center gap-2">
+              <SparklesIcon className="h-5 w-5 text-indigo-300" />
+              Schoolgate AI
+            </h4>
+            <p className="text-indigo-100 text-xs mb-4">Generate curriculum-compliant lesson notes based on your class and topic instantly.</p>
+            <div className="space-y-2">
+              <Button className="w-full bg-white text-indigo-900 hover:bg-white/90 rounded-xl font-bold h-10 text-xs">
+                Generate Full Note
+              </Button>
+              <div className="grid grid-cols-2 gap-2">
+                <Button variant="ghost" className="bg-indigo-800/50 text-white hover:bg-indigo-800 rounded-xl font-bold h-9 text-[10px] p-0">
+                  <Wand2 className="h-3 w-3 mr-1" /> Objectives
+                </Button>
+                <Button variant="ghost" className="bg-indigo-800/50 text-white hover:bg-indigo-800 rounded-xl font-bold h-9 text-[10px] p-0">
+                  <Wand2 className="h-3 w-3 mr-1" /> Activities
+                </Button>
+              </div>
+            </div>
           </div>
           <div className="absolute -right-8 -bottom-8 bg-white/10 w-32 h-32 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+        </Card>
+
+        <Card className="p-6 rounded-[14px] shadow-sm border-none">
+          <h4 className="text-sm font-bold mb-4 flex items-center gap-2">
+            <HistoryIcon className="h-4 w-4 text-slate-400" />
+            Version History
+          </h4>
+          <div className="space-y-4">
+            {[
+              { v: "v2.1", user: "You", time: "10 mins ago", change: "Updated evaluation questions" },
+              { v: "v2.0", user: "You", time: "1 hour ago", change: "Initial draft" },
+            ].map((v, i) => (
+              <div key={i} className="flex gap-3 pb-3 border-b border-slate-50 last:border-0 last:pb-0">
+                <div className="h-7 w-7 rounded-lg bg-slate-100 flex items-center justify-center text-[10px] font-black text-slate-500">{v.v}</div>
+                <div>
+                  <p className="text-[11px] font-bold text-slate-800">{v.change}</p>
+                  <p className="text-[10px] text-slate-400 font-medium tracking-tight">{v.time} • {v.user}</p>
+                </div>
+                <Button variant="ghost" size="icon" className="h-7 w-7 ml-auto text-slate-400 hover:text-indigo-600"><RotateCcw size={12}/></Button>
+              </div>
+            ))}
+          </div>
         </Card>
       </div>
     </div>
