@@ -63,6 +63,7 @@ const financeNavItems = [
 ];
 
 const systemNavItems = [
+  { title: "Enterprise", url: "/enterprise", icon: ShieldCheck },
   { title: "Settings", url: "/settings", icon: Settings },
 ];
 
