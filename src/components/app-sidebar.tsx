@@ -33,6 +33,7 @@ const mainNavItems = [
 
 const financeNavItems = [
   { title: "Fee Types", url: "/fee-types", icon: CreditCard },
+  { title: "Adjustments", url: "/finance/adjustment-management", icon: Banknote },
 ];
 
 const systemNavItems = [
