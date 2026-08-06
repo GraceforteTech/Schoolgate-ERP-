@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { AcademicKPIs } from "@/components/academic/academic-kpis";
 import { AcademicCalendar } from "@/components/academic/academic-calendar";
 import { ClassManagement } from "@/components/academic/class-management";
