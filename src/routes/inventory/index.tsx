@@ -109,20 +109,69 @@ function InventoryManagementPage() {
           </div>
 
           <Card className="p-0 bg-white border-none shadow-sm rounded-[20px] overflow-hidden">
-             {/* Table implementation would go here */}
-             <div className="p-20 text-center">
-                <Package className="h-16 w-16 text-slate-200 mx-auto mb-4" />
-                <h3 className="text-xl font-bold text-slate-900">Stock Registry Loading...</h3>
-                <p className="text-slate-500 max-w-xs mx-auto mt-2">Connecting to secure store server to retrieve live inventory levels.</p>
-             </div>
+            <ItemRegistry />
           </Card>
         </TabsContent>
         
         {/* Other TabsContent placeholders */}
         <TabsContent value="categories">
+           <CategoryGrid />
+        </TabsContent>
+
+        <TabsContent value="received">
            <Card className="p-12 text-center bg-white border-none shadow-sm rounded-[20px]">
-             <h3 className="text-lg font-bold">Category Management Hub</h3>
-             <p className="text-slate-500 mt-1">Define item classifications, storage rules and reorder policies.</p>
+             <div className="h-20 w-20 bg-emerald-50 rounded-2xl grid place-items-center text-emerald-600 mx-auto mb-6">
+               <ArrowDownLeft className="h-10 w-10" />
+             </div>
+             <h3 className="text-xl font-bold text-slate-900">Goods Received (Stock-In)</h3>
+             <p className="text-slate-500 mt-2 max-w-md mx-auto">Generate Goods Received Notes (GRN) and update inventory automatically from supplier deliveries.</p>
+             <Button className="mt-8 bg-schoolgate-green text-white font-bold px-8 rounded-xl h-11 shadow-lg shadow-schoolgate-green/20">
+               New GRN Entry
+             </Button>
+           </Card>
+        </TabsContent>
+
+        <TabsContent value="issued">
+           <Card className="p-12 text-center bg-white border-none shadow-sm rounded-[20px]">
+             <div className="h-20 w-20 bg-orange-50 rounded-2xl grid place-items-center text-orange-600 mx-auto mb-6">
+               <ArrowUpRight className="h-10 w-10" />
+             </div>
+             <h3 className="text-xl font-bold text-slate-900">Goods Issued (Stock-Out)</h3>
+             <p className="text-slate-500 mt-2 max-w-md mx-auto">Record inventory consumption by departments, staff, or specialized units with signature tracking.</p>
+             <Button className="mt-8 bg-schoolgate-green text-white font-bold px-8 rounded-xl h-11 shadow-lg shadow-schoolgate-green/20">
+               Issue New Items
+             </Button>
+           </Card>
+        </TabsContent>
+
+        <TabsContent value="orders">
+           <Card className="p-12 text-center bg-white border-none shadow-sm rounded-[20px]">
+             <div className="h-20 w-20 bg-blue-50 rounded-2xl grid place-items-center text-blue-600 mx-auto mb-6">
+               <ShoppingCart className="h-10 w-10" />
+             </div>
+             <h3 className="text-xl font-bold text-slate-900">Purchase Order Management</h3>
+             <p className="text-slate-500 mt-2 max-w-md mx-auto">Manage the full procurement lifecycle from request to final stock update.</p>
+             <Button className="mt-8 bg-schoolgate-green text-white font-bold px-8 rounded-xl h-11 shadow-lg shadow-schoolgate-green/20">
+               Create Purchase Order
+             </Button>
+           </Card>
+        </TabsContent>
+
+        <TabsContent value="suppliers">
+           <SupplierDirectory />
+        </TabsContent>
+
+        <TabsContent value="valuation">
+           <Card className="p-12 text-center bg-white border-none shadow-sm rounded-[20px]">
+             <div className="h-20 w-20 bg-indigo-50 rounded-2xl grid place-items-center text-indigo-600 mx-auto mb-6">
+               <LayoutGrid className="h-10 w-10" />
+             </div>
+             <h3 className="text-xl font-bold text-slate-900">Inventory Valuation Report</h3>
+             <p className="text-slate-500 mt-2 max-w-md mx-auto">Analyze stock value using FIFO, LIFO, or Weighted Average Cost methods for accurate financial reporting.</p>
+             <div className="flex justify-center gap-4 mt-8">
+                <Button className="bg-schoolgate-green text-white font-bold px-8 rounded-xl h-11">Generate Valuation</Button>
+                <Button variant="outline" className="border-slate-200 rounded-xl h-11 font-bold">Export PDF</Button>
+             </div>
            </Card>
         </TabsContent>
       </Tabs>
