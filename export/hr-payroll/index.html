@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR & Payroll Management - Schoolgate ERP</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Header -->
+        <header class="page-header">
+            <div class="header-content">
+                <div class="header-titles">
+                    <h1>HR & Payroll Management</h1>
+                    <p class="subtitle">Manage employees, payroll and staff welfare from one intelligent dashboard.</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-outline">
+                        <span class="icon">📥</span>
+                        Export
+                    </button>
+                    <button class="btn btn-outline">
+                        <span class="icon">🖨️</span>
+                        Print
+                    </button>
+                    <button class="btn btn-primary">
+                        <span class="icon">➕</span>
+                        New Employee
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+                <span class="filter-label">Quick Filters:</span>
+                <div class="filter-pills">
+                    <span class="pill">2024/2025 Session</span>
+                    <span class="pill">1st Term</span>
+                    <span class="pill">All Departments</span>
+                    <span class="pill">All Staff Types</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="dashboard-main">
+            <!-- KPI Section -->
+            <section class="kpi-section">
+                <h2 class="section-title">Executive KPI Overview</h2>
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-icon icon-blue">👥</div>
+                        <div class="kpi-info">
+                            <span class="kpi-label">Total Staff</span>
+                            <div class="kpi-value-row">
+                                <span class="kpi-value">142</span>
+                                <span class="trend-up">↗</span>
+                            </div>
+                            <span class="kpi-subtext">+4 this month</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon icon-green">💰</div>
+                        <div class="kpi-info">
+                            <span class="kpi-label">Monthly Payroll</span>
+                            <div class="kpi-value-row">
+                                <span class="kpi-value">₦18.4M</span>
+                                <span class="trend-stable">→</span>
+                            </div>
+                            <span class="kpi-subtext">Next: Aug 25</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon icon-orange">📅</div>
+                        <div class="kpi-info">
+                            <span class="kpi-label">Attendance Rate</span>
+                            <div class="kpi-value-row">
+                                <span class="kpi-value">94.2%</span>
+                                <span class="trend-up">↗</span>
+                            </div>
+                            <span class="kpi-subtext">Today</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon icon-purple">🕒</div>
+                        <div class="kpi-info">
+                            <span class="kpi-label">Pending Leave</span>
+                            <div class="kpi-value-row">
+                                <span class="kpi-value">12</span>
+                                <span class="trend-neutral">●</span>
+                            </div>
+                            <span class="kpi-subtext">Requires action</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon icon-yellow">⭐</div>
+                        <div class="kpi-info">
+                            <span class="kpi-label">Avg Performance</span>
+                            <div class="kpi-value-row">
+                                <span class="kpi-value">4.8/5</span>
+                                <span class="trend-up">↗</span>
+                            </div>
+                            <span class="kpi-subtext">+0.2 from Q1</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Navigation Tabs -->
+            <nav class="tabs-nav">
+                <ul class="tabs-list">
+                    <li class="tab-item active">Overview</li>
+                    <li class="tab-item">Payroll Summary</li>
+                    <li class="tab-item">Employee Hub</li>
+                    <li class="tab-item">Attendance</li>
+                    <li class="tab-item">Leave Mgmt</li>
+                    <li class="tab-item">Performance</li>
+                    <li class="tab-item">Wealth & Loans</li>
+                </ul>
+            </nav>
+
+            <!-- Analytics Content -->
+            <div class="analytics-grid">
+                <!-- Payroll Trend -->
+                <div class="card col-span-2">
+                    <div class="card-header">
+                        <h3 class="card-title">Payroll Trend</h3>
+                        <p class="card-desc">Monthly disbursement overview</p>
+                    </div>
+                    <div class="card-content chart-placeholder">
+                        <!-- Simplified representation of a bar chart -->
+                        <div class="bar-chart">
+                            <div class="bar-group"><div class="bar primary" style="height: 60%"></div><div class="bar light" style="height: 20%"></div></div>
+                            <div class="bar-group"><div class="bar primary" style="height: 65%"></div><div class="bar light" style="height: 25%"></div></div>
+                            <div class="bar-group"><div class="bar primary" style="height: 62%"></div><div class="bar light" style="height: 22%"></div></div>
+                            <div class="bar-group"><div class="bar primary" style="height: 70%"></div><div class="bar light" style="height: 28%"></div></div>
+                            <div class="bar-group"><div class="bar primary" style="height: 75%"></div><div class="bar light" style="height: 30%"></div></div>
+                            <div class="bar-group"><div class="bar primary" style="height: 80%"></div><div class="bar light" style="height: 35%"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Staff Composition -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Staff Composition</h3>
+                        <p class="card-desc">Distribution by department</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="donut-chart-container">
+                            <div class="donut-chart"></div>
+                        </div>
+                        <ul class="legend">
+                            <li><span class="dot dot-green"></span> Teaching (85)</li>
+                            <li><span class="dot dot-teal"></span> Admin (15)</li>
+                            <li><span class="dot dot-blue"></span> Maintenance (22)</li>
+                            <li><span class="dot dot-indigo"></span> Security (12)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notifications & Feed -->
+            <div class="feeds-grid">
+                <div class="card">
+                    <div class="card-header flex-row">
+                        <h3 class="card-title">Smart Notifications</h3>
+                        <span class="badge">4 New</span>
+                    </div>
+                    <div class="card-content">
+                        <ul class="notif-list">
+                            <li class="notif-item">
+                                <div class="notif-icon-circle bg-red">🕒</div>
+                                <div class="notif-text">
+                                    <p class="notif-title">Leave Approval Required</p>
+                                    <p class="notif-desc">Mr. Adebayo (Mathematics) requested leave.</p>
+                                    <p class="notif-time">10 mins ago</p>
+                                </div>
+                            </li>
+                            <li class="notif-item">
+                                <div class="notif-icon-circle bg-blue">📄</div>
+                                <div class="notif-text">
+                                    <p class="notif-title">Payroll Computation Ready</p>
+                                    <p class="notif-desc">August payroll draft is ready for review.</p>
+                                    <p class="notif-time">2 hours ago</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Activity Log</h3>
+                    </div>
+                    <div class="card-content">
+                        <ul class="activity-timeline">
+                            <li class="activity-item">
+                                <span class="activity-dot dot-blue"></span>
+                                <div class="activity-text">
+                                    <p><strong>System</strong> onboarded <strong>John Doe</strong></p>
+                                    <p class="activity-time">20 mins ago</p>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <span class="activity-dot dot-green"></span>
+                                <div class="activity-text">
+                                    <p><strong>Admin</strong> approved <strong>Salary Advance</strong></p>
+                                    <p class="activity-time">1 hour ago</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
