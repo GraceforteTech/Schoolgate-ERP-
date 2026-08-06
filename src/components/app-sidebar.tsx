@@ -40,6 +40,7 @@ const mainNavItems = [
   { title: "Teachers", url: "/teachers", icon: GraduationCap },
 
   { title: "Academics", url: "/academic", icon: BookOpen },
+  { title: "Lesson Notes", url: "/academic/lesson-notes", icon: FileText },
   { title: "Attendance", url: "/attendance", icon: CalendarDays },
   { title: "Library", url: "/library", icon: Library },
   { title: "CBT", url: "/cbt", icon: MonitorPlay },
