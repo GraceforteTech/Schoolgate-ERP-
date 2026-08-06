@@ -13,6 +13,7 @@ import {
   UserPlus,
   Wallet,
   MonitorPlay,
+  ShieldCheck,
 } from "lucide-react";
 
 
