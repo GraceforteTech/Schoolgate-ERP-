@@ -115,47 +115,48 @@ export function FeePostingKPIs({ isLoading = false }: { isLoading?: boolean }) {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-      {stats.map((stat, i) => (
-        <Card 
-          key={i} 
-          className="rounded-[20px] border-none shadow-sm bg-white overflow-hidden group hover:shadow-md transition-all duration-300 cursor-pointer"
-          onClick={() => setSelectedStat(stat)}
-        >
-          <CardContent className="p-5">
-            <div className="flex items-start justify-between mb-3">
-              <div className={cn(
-                "p-3 rounded-2xl",
-                stat.color === "emerald" ? "bg-emerald-50 text-emerald-600" :
-                stat.color === "blue" ? "bg-blue-50 text-blue-600" :
-                stat.color === "amber" ? "bg-amber-50 text-amber-600" :
-                stat.color === "rose" ? "bg-rose-50 text-rose-600" :
-                stat.color === "indigo" ? "bg-indigo-50 text-indigo-600" :
-                stat.color === "teal" ? "bg-teal-50 text-teal-600" :
-                stat.color === "orange" ? "bg-orange-50 text-orange-600" :
-                "bg-sky-50 text-sky-600"
-              )}>
-                <stat.icon size={22} />
+    <>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {stats.map((stat, i) => (
+          <Card 
+            key={i} 
+            className="rounded-[20px] border-none shadow-sm bg-white overflow-hidden group hover:shadow-md transition-all duration-300 cursor-pointer"
+            onClick={() => setSelectedStat(stat)}
+          >
+            <CardContent className="p-5">
+              <div className="flex items-start justify-between mb-3">
+                <div className={cn(
+                  "p-3 rounded-2xl",
+                  stat.color === "emerald" ? "bg-emerald-50 text-emerald-600" :
+                  stat.color === "blue" ? "bg-blue-50 text-blue-600" :
+                  stat.color === "amber" ? "bg-amber-50 text-amber-600" :
+                  stat.color === "rose" ? "bg-rose-50 text-rose-600" :
+                  stat.color === "indigo" ? "bg-indigo-50 text-indigo-600" :
+                  stat.color === "teal" ? "bg-teal-50 text-teal-600" :
+                  stat.color === "orange" ? "bg-orange-50 text-orange-600" :
+                  "bg-sky-50 text-sky-600"
+                )}>
+                  <stat.icon size={22} />
+                </div>
+                <div className={cn(
+                  "flex items-center gap-1 text-[10px] font-bold px-2 py-1 rounded-full",
+                  stat.trend.startsWith("+") ? "bg-emerald-50 text-emerald-600" : "bg-rose-50 text-rose-600"
+                )}>
+                  {stat.trend.startsWith("+") ? <TrendingUp size={10} /> : <TrendingDown size={10} />}
+                  {stat.trend}
+                </div>
               </div>
-              <div className={cn(
-                "flex items-center gap-1 text-[10px] font-bold px-2 py-1 rounded-full",
-                stat.trend.startsWith("+") ? "bg-emerald-50 text-emerald-600" : "bg-rose-50 text-rose-600"
-              )}>
-                {stat.trend.startsWith("+") ? <TrendingUp size={10} /> : <TrendingDown size={10} />}
-                {stat.trend}
+              <div>
+                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">{stat.label}</p>
+                <h3 className="text-xl font-black text-slate-900 tracking-tight mb-1">{stat.value}</h3>
+                <p className="text-[11px] font-medium text-slate-500 opacity-80">{stat.subValue}</p>
               </div>
-            </div>
-            <div>
-              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">{stat.label}</p>
-              <h3 className="text-xl font-black text-slate-900 tracking-tight mb-1">{stat.value}</h3>
-              <p className="text-[11px] font-medium text-slate-500 opacity-80">{stat.subValue}</p>
-            </div>
-          </CardContent>
-        </Card>
-      ))}
-    </div>
-    
-    <Sheet open={!!selectedStat} onOpenChange={(open) => !open && setSelectedStat(null)}>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+      
+      <Sheet open={!!selectedStat} onOpenChange={(open) => !open && setSelectedStat(null)}>
       <SheetContent className="w-full sm:max-w-md border-none p-0 bg-slate-50">
         <SheetHeader className="p-6 bg-white border-b border-slate-100 flex flex-row items-center justify-between">
           <div>
@@ -216,6 +217,7 @@ export function FeePostingKPIs({ isLoading = false }: { isLoading?: boolean }) {
         </div>
       </SheetContent>
     </Sheet>
+    </>
   );
 }
 
