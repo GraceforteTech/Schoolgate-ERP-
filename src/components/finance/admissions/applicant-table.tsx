@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "@tanstack/react-router";
+
 import { 
   Search, 
   Eye, 
@@ -178,9 +180,12 @@ export function ApplicantTable() {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem className="gap-2 cursor-pointer">
-                          <Eye className="h-4 w-4 text-slate-500" /> View
+                        <DropdownMenuItem className="gap-2 cursor-pointer" asChild>
+                          <Link to="/finance/admissions/applicant-profile">
+                            <Eye className="h-4 w-4 text-slate-500" /> View
+                          </Link>
                         </DropdownMenuItem>
+
                         <DropdownMenuItem className="gap-2 cursor-pointer">
                           <Edit className="h-4 w-4 text-slate-500" /> Edit
                         </DropdownMenuItem>
