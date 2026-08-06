@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admissions Management - Schoolgate ERP</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo" style="display: flex; align-items: center; gap: 10px; margin-bottom: 2rem;">
+                <div style="width: 36px; height: 36px; background: var(--primary); border-radius: 10px; display: grid; place-items: center; color: white; font-weight: bold;">S</div>
+                <div style="font-weight: 800; color: var(--primary); font-size: 1.2rem; letter-spacing: -0.5px;">Schoolgate</div>
+            </div>
+            <nav style="display: flex; flex-direction: column; gap: 0.25rem;">
+                <div style="font-size: 0.65rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted); margin: 1rem 0 0.5rem 0.5rem; letter-spacing: 0.1em;">Main</div>
+                <a href="index.html" class="sidebar-nav-item active">
+                    <div class="icon-box">🏠</div>
+                    Dashboard
+                </a>
+                <a href="exams.html" class="sidebar-nav-item">
+                    <div class="icon-box">📝</div>
+                    Entrance Exams
+                </a>
+                <a href="decisions.html" class="sidebar-nav-item">
+                    <div class="icon-box">⚖️</div>
+                    Admission Decisions
+                </a>
+                <a href="enrolment.html" class="sidebar-nav-item">
+                    <div class="icon-box">🎓</div>
+                    Student Enrolment
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="page-header">
+                <div>
+                    <h1>Admissions Management</h1>
+                    <p class="subtitle">Manage the complete student admission process from enquiry to enrolment.</p>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="card" style="padding: 0.5rem 1rem; display: flex; align-items: center; gap: 10px;">
+                        <div style="text-align: right;">
+                            <p style="font-size: 0.6rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Review Team</p>
+                            <p style="font-size: 0.75rem; font-weight: 700;">8 Active Admins</p>
+                        </div>
+                        <div style="width: 32px; height: 32px; background: var(--primary-light); border-radius: 50%; display: grid; place-items: center; color: var(--primary); font-weight: bold; font-size: 0.7rem;">AD</div>
+                    </div>
+                </div>
+            </header>
+
+            <section class="grid-4" style="margin-bottom: 2rem;">
+                <div class="kpi-card">
+                    <span class="kpi-label">Total Applications</span>
+                    <span class="kpi-value">1,245</span>
+                    <span style="font-size: 0.65rem; color: var(--success);">+12% vs last month</span>
+                </div>
+                <div class="kpi-card">
+                    <span class="kpi-label">Pending Review</span>
+                    <span class="kpi-value">84</span>
+                    <span style="font-size: 0.65rem; color: var(--warning);">Needs Attention</span>
+                </div>
+                <div class="kpi-card">
+                    <span class="kpi-label">Exams Passed</span>
+                    <span class="kpi-value">312</span>
+                    <span style="font-size: 0.65rem; color: var(--success);">75% Success Rate</span>
+                </div>
+                <div class="kpi-card">
+                    <span class="kpi-label">Enrolled Students</span>
+                    <span class="kpi-value">156</span>
+                    <span style="font-size: 0.65rem; color: var(--info);">Target: 200</span>
+                </div>
+            </section>
+
+            <div class="grid-12">
+                <div style="grid-column: span 8;">
+                    <div class="card" style="margin-bottom: 2rem;">
+                        <h3 style="margin-bottom: 1.5rem;">Admission Pipeline</h3>
+                        <div class="pipeline">
+                            <div class="pipeline-step"><span class="count">450</span><span class="label">Enquiries</span></div>
+                            <div class="pipeline-step active"><span class="count">320</span><span class="label">Applied</span></div>
+                            <div class="pipeline-step"><span class="count">210</span><span class="label">Exams</span></div>
+                            <div class="pipeline-step"><span class="count">180</span><span class="label">Interview</span></div>
+                            <div class="pipeline-step"><span class="count">156</span><span class="label">Enrolled</span></div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="flex justify-between items-center" style="margin-bottom: 1.5rem;">
+                            <h3>Applicant Registry</h3>
+                            <div class="flex gap-2">
+                                <button class="btn btn-outline" style="padding: 0.4rem 0.8rem;">Filter</button>
+                                <button class="btn btn-primary" style="padding: 0.4rem 0.8rem;">+ New Applicant</button>
+                            </div>
+                        </div>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Applicant Name</th>
+                                        <th>ID</th>
+                                        <th>Class</th>
+                                        <th>Status</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Adebayo Olawale</strong></td>
+                                        <td><span style="font-size: 0.75rem; font-weight: 700;">APP/26/001</span></td>
+                                        <td>JSS 1</td>
+                                        <td><span class="badge badge-info">Under Review</span></td>
+                                        <td>Aug 01, 2026</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Chiamaka Okoro</strong></td>
+                                        <td><span style="font-size: 0.75rem; font-weight: 700;">APP/26/002</span></td>
+                                        <td>Primary 4</td>
+                                        <td><span class="badge badge-success">Admitted</span></td>
+                                        <td>Aug 03, 2026</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Tunde Bakare</strong></td>
+                                        <td><span style="font-size: 0.75rem; font-weight: 700;">APP/26/003</span></td>
+                                        <td>SS 1</td>
+                                        <td><span class="badge badge-warning">Exam Pending</span></td>
+                                        <td>Aug 04, 2026</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="grid-column: span 4;">
+                    <div class="card" style="margin-bottom: 1.5rem; background: var(--primary); color: white;">
+                        <h3 style="color: white;">Quick Actions</h3>
+                        <div style="margin-top: 1rem; display: flex; flex-direction: column; gap: 0.75rem;">
+                            <a href="exams.html" class="btn" style="background: rgba(255,255,255,0.1); color: white; justify-content: flex-start; border: 1px solid rgba(255,255,255,0.2);">Schedule Entrance Exam</a>
+                            <a href="decisions.html" class="btn" style="background: rgba(255,255,255,0.1); color: white; justify-content: flex-start; border: 1px solid rgba(255,255,255,0.2);">Record Interview Score</a>
+                            <a href="enrolment.html" class="btn" style="background: white; color: var(--primary); justify-content: flex-start;">Complete Enrolment</a>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>Recent Notifications</h3>
+                        <div style="margin-top: 1rem; display: flex; flex-direction: column; gap: 0.5rem;">
+                            <div class="notification-item">
+                                <div class="dot dot-blue"></div>
+                                <div>
+                                    <p style="font-size: 0.8rem; font-weight: 700;">New Application</p>
+                                    <p style="font-size: 0.7rem; color: var(--text-muted);">Adebayo Olawale submitted app for JSS 1</p>
+                                    <span style="font-size: 0.6rem; color: var(--text-muted);">2 mins ago</span>
+                                </div>
+                            </div>
+                            <div class="notification-item">
+                                <div class="dot dot-green"></div>
+                                <div>
+                                    <p style="font-size: 0.8rem; font-weight: 700;">Interview Scheduled</p>
+                                    <p style="font-size: 0.7rem; color: var(--text-muted);">Chiamaka Okoro set for tomorrow 10AM</p>
+                                    <span style="font-size: 0.6rem; color: var(--text-muted);">1 hour ago</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
