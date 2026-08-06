@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, BarChart, Bar, Cell, PieChart, Pie } from 'recharts';
 import { Badge } from "@/components/ui/badge";
 import { TrendingUp, Users, BookOpen, Star, AlertTriangle, ArrowUpRight } from "lucide-react";
