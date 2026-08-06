@@ -90,6 +90,7 @@ export function LessonNoteBuilder() {
                 <Textarea placeholder="How will you measure learning?" className="rounded-lg border-slate-200" />
               </div>
             </div>
+            <LessonStepsEditor />
           </div>
         </Card>
       </div>
