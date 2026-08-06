@@ -170,17 +170,20 @@ export function ManualFeePosting() {
                       </div>
 
                       <div className="space-y-2">
-                        <Label className="text-xs font-bold text-slate-500 uppercase">Balance Brought Forward (B/F)</Label>
+                        <div className="flex items-center justify-between">
+                          <Label className="text-xs font-bold text-slate-500 uppercase">Balance Brought Forward (B/F)</Label>
+                          <Badge variant="outline" className="text-[9px] bg-amber-50 text-amber-600 border-amber-100 uppercase py-0 px-1.5 h-4 font-black">Arrears</Badge>
+                        </div>
                         <div className="relative">
                           <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-slate-400">₦</span>
                           <Input 
                             type="number"
                             value={bf}
                             onChange={(e) => setBf(Number(e.target.value))}
-                            className="rounded-xl pl-10 h-12 border-slate-200 font-black text-lg focus:ring-schoolgate-green"
+                            className="rounded-xl pl-10 h-12 border-slate-200 font-black text-lg focus:ring-schoolgate-green bg-amber-50/10"
                           />
                         </div>
-                        <p className="text-[10px] font-medium text-amber-500 italic">This stays separate from current term fees.</p>
+                        <p className="text-[10px] font-medium text-amber-500 italic">This debt from previous terms stays separate from current term fees.</p>
                       </div>
 
                       <div className="space-y-2">
