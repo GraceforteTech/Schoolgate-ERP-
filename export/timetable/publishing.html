@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publishing Centre | Schoolgate ERP</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-icon">SG</div>
+                <div class="logo-text">
+                    <span class="brand">Schoolgate</span>
+                    <span class="subtext">ERP SYSTEM</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-group">
+                    <label>Menu</label>
+                    <a href="index.html" class="nav-item">
+                        <span class="icon">📊</span> Dashboard
+                    </a>
+                    <a href="builder.html" class="nav-item">
+                        <span class="icon">🛠️</span> Smart Builder
+                    </a>
+                    <a href="views.html" class="nav-item">
+                        <span class="icon">📅</span> Timetable Views
+                    </a>
+                    <a href="ai-generator.html" class="nav-item">
+                        <span class="icon">🤖</span> AI Generator
+                    </a>
+                    <a href="analytics.html" class="nav-item">
+                        <span class="icon">📈</span> Analytics
+                    </a>
+                    <a href="publishing.html" class="nav-item active">
+                        <span class="icon">📢</span> Publishing
+                    </a>
+                    <a href="principal.html" class="nav-item">
+                        <span class="icon">👔</span> Principal Hub
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <div class="main-wrapper">
+            <header class="top-bar">
+                <div class="user-profile">
+                    <div class="avatar"></div>
+                    <span style="font-size: 14px; font-weight: 500;">Admin User</span>
+                </div>
+            </header>
+
+            <main class="main-content">
+                <header class="page-header">
+                    <div>
+                        <h1>Publishing Centre</h1>
+                        <p>Distribute timetables across school channels and notify stakeholders.</p>
+                    </div>
+                </header>
+
+                <div class="content-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Publishing Status</h2>
+                        </div>
+                        <div class="card-body">
+                            <div style="display: flex; flex-direction: column; gap: 24px;">
+                                <div style="padding: 20px; background: #f9fafb; border-radius: 12px; border: 1px solid var(--border);">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                                        <span style="font-size: 14px; font-weight: 600;">Current Draft: v2.4 (Optimized)</span>
+                                        <span style="font-size: 12px; color: var(--text-muted);">Last saved 12m ago</span>
+                                    </div>
+                                    <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">This version includes the AI-optimized room allocations and updated Friday swap.</div>
+                                    <button class="btn btn-primary" style="width: 100%; justify-content: center;">🚀 Publish to All Channels</button>
+                                </div>
+
+                                <div style="display: flex; flex-direction: column; gap: 16px;">
+                                    <h3 style="font-size: 14px; font-weight: 700;">Distribution Channels</h3>
+                                    <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px; border: 1px solid var(--border); border-radius: 8px;">
+                                        <div style="display: flex; align-items: center; gap: 12px;">
+                                            <span style="font-size: 20px;">📱</span>
+                                            <div>
+                                                <div style="font-size: 13px; font-weight: 600;">Student Portal</div>
+                                                <div style="font-size: 11px; color: var(--text-muted);">Instant app notification</div>
+                                            </div>
+                                        </div>
+                                        <input type="checkbox" checked>
+                                    </div>
+                                    <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px; border: 1px solid var(--border); border-radius: 8px;">
+                                        <div style="display: flex; align-items: center; gap: 12px;">
+                                            <span style="font-size: 20px;">📧</span>
+                                            <div>
+                                                <div style="font-size: 13px; font-weight: 600;">Teacher Email</div>
+                                                <div style="font-size: 11px; color: var(--text-muted);">Detailed PDF attachments</div>
+                                            </div>
+                                        </div>
+                                        <input type="checkbox" checked>
+                                    </div>
+                                    <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px; border: 1px solid var(--border); border-radius: 8px;">
+                                        <div style="display: flex; align-items: center; gap: 12px;">
+                                            <span style="font-size: 20px;">🏢</span>
+                                            <div>
+                                                <div style="font-size: 13px; font-weight: 600;">Digital Notice Boards</div>
+                                                <div style="font-size: 11px; color: var(--text-muted);">Synchronized screen update</div>
+                                            </div>
+                                        </div>
+                                        <input type="checkbox" checked>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Version History</h2>
+                        </div>
+                        <div class="card-body">
+                            <ul style="list-style: none; display: flex; flex-direction: column; gap: 16px;">
+                                <li style="display: flex; gap: 12px;">
+                                    <div style="font-size: 11px; font-weight: 700; color: var(--primary); background: var(--primary-light); padding: 4px 8px; border-radius: 4px; height: fit-content;">v2.3</div>
+                                    <div>
+                                        <div style="font-size: 13px; font-weight: 600;">Published - Term 1 Final</div>
+                                        <div style="font-size: 11px; color: var(--text-muted);">Oct 12, 2023 by Registrar</div>
+                                    </div>
+                                </li>
+                                <li style="display: flex; gap: 12px;">
+                                    <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); background: #f3f4f6; padding: 4px 8px; border-radius: 4px; height: fit-content;">v2.2</div>
+                                    <div>
+                                        <div style="font-size: 13px; font-weight: 600;">Archived - Pre-AI Draft</div>
+                                        <div style="font-size: 11px; color: var(--text-muted);">Oct 10, 2023 by Admin</div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

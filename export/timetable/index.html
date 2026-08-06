@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Timetable Management | Schoolgate ERP</title>
+    <title>Timetable Dashboard | Schoolgate ERP</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,136 +17,155 @@
                 <div class="logo-icon">SG</div>
                 <div class="logo-text">
                     <span class="brand">Schoolgate</span>
-                    <span class="subtext">ERP</span>
+                    <span class="subtext">ERP SYSTEM</span>
                 </div>
             </div>
             <nav class="sidebar-nav">
                 <div class="nav-group">
-                    <label>Main</label>
-                    <a href="#" class="nav-item">Dashboard</a>
-                    <a href="#" class="nav-item">Admissions</a>
-                    <a href="#" class="nav-item">Students</a>
-                    <a href="#" class="nav-item">Teachers</a>
-                    <a href="#" class="nav-item">Academics</a>
-                    <a href="#" class="nav-item active">Timetable</a>
+                    <label>Menu</label>
+                    <a href="index.html" class="nav-item active">
+                        <span class="icon">📊</span> Dashboard
+                    </a>
+                    <a href="builder.html" class="nav-item">
+                        <span class="icon">🛠️</span> Smart Builder
+                    </a>
+                    <a href="views.html" class="nav-item">
+                        <span class="icon">📅</span> Timetable Views
+                    </a>
+                    <a href="ai-generator.html" class="nav-item">
+                        <span class="icon">🤖</span> AI Generator
+                    </a>
+                    <a href="analytics.html" class="nav-item">
+                        <span class="icon">📈</span> Analytics
+                    </a>
+                    <a href="publishing.html" class="nav-item">
+                        <span class="icon">📢</span> Publishing
+                    </a>
+                    <a href="principal.html" class="nav-item">
+                        <span class="icon">👔</span> Principal Hub
+                    </a>
                 </div>
             </nav>
         </aside>
 
         <!-- Main Content -->
-        <main class="main-content">
-            <header class="page-header">
-                <div class="header-left">
-                    <h1>Timetable Management</h1>
-                    <p>Create and manage class, teacher and examination timetables with conflict detection.</p>
-                </div>
-                <div class="header-right">
-                    <div class="search-box">
-                        <input type="text" placeholder="Search timetables...">
-                    </div>
-                    <button class="btn btn-primary">Settings</button>
+        <div class="main-wrapper">
+            <header class="top-bar">
+                <div class="user-profile">
+                    <div class="avatar"></div>
+                    <span style="font-size: 14px; font-weight: 500;">Admin User</span>
                 </div>
             </header>
 
-            <!-- Filters -->
-            <section class="filters-bar shadow-sm">
-                <div class="filter-group">
-                    <select><option>2023/2024 Session</option></select>
-                    <select><option>First Term</option></select>
-                    <select><option>All Schools</option></select>
-                    <select><option>Active Status</option></select>
-                    <button class="btn btn-outline">Clear Filters</button>
-                </div>
-            </section>
+            <main class="main-content">
+                <header class="page-header">
+                    <div>
+                        <h1>Timetable Overview</h1>
+                        <p>Real-time metrics and utilization across the school.</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-outline">Export All</button>
+                        <a href="builder.html" class="btn btn-primary">+ New Timetable</a>
+                    </div>
+                </header>
 
-            <!-- KPI Cards -->
-            <section class="kpi-grid">
-                <div class="kpi-card shadow-sm">
-                    <div class="kpi-icon bg-blue-light text-blue">📅</div>
-                    <div class="kpi-data">
-                        <span class="kpi-label">Total Timetables</span>
-                        <span class="kpi-value">48</span>
+                <section class="filter-card">
+                    <div class="filter-item">
+                        <label>Academic Session</label>
+                        <select><option>2023/2024 Session</option></select>
                     </div>
-                </div>
-                <div class="kpi-card shadow-sm">
-                    <div class="kpi-icon bg-green-light text-green">✅</div>
-                    <div class="kpi-data">
-                        <span class="kpi-label">Active Timetables</span>
-                        <span class="kpi-value">32</span>
+                    <div class="filter-item">
+                        <label>Academic Term</label>
+                        <select><option>First Term</option></select>
                     </div>
-                </div>
-                <div class="kpi-card shadow-sm">
-                    <div class="kpi-icon bg-purple-light text-purple">👥</div>
-                    <div class="kpi-data">
-                        <span class="kpi-label">Total Classes</span>
-                        <span class="kpi-value">24</span>
+                    <div class="filter-item">
+                        <label>School Type</label>
+                        <select><option>Secondary School</option></select>
                     </div>
-                </div>
-                <div class="kpi-card shadow-sm">
-                    <div class="kpi-icon bg-orange-light text-orange">🎓</div>
-                    <div class="kpi-data">
-                        <span class="kpi-label">Total Teachers</span>
-                        <span class="kpi-value">86</span>
-                    </div>
-                </div>
-                <div class="kpi-card shadow-sm bg-green text-white">
-                    <div class="kpi-icon bg-white text-green">🤖</div>
-                    <div class="kpi-data">
-                        <span class="kpi-label text-white-opacity">AI Readiness</span>
-                        <span class="kpi-value">Optimal</span>
-                    </div>
-                </div>
-            </section>
+                    <button class="btn btn-outline">Apply Filters</button>
+                </section>
 
-            <!-- Timetable Preview -->
-            <section class="content-section">
-                <div class="card shadow-sm">
-                    <div class="card-header">
-                        <h2>Weekly Timetable: JS3 Gold</h2>
-                        <div class="card-actions">
-                            <button class="btn btn-outline btn-sm">Print</button>
-                            <button class="btn btn-primary btn-sm">Edit Layout</button>
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-icon" style="background: #e8f5ee; color: #0b6e3c;">📅</div>
+                        <div class="kpi-label">Active Timetables</div>
+                        <div class="kpi-value">24</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon" style="background: #ebf5ff; color: #2563eb;">🏫</div>
+                        <div class="kpi-label">Total Classes</div>
+                        <div class="kpi-value">48</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon" style="background: #f5f3ff; color: #7c3aed;">🎓</div>
+                        <div class="kpi-label">Teacher Capacity</div>
+                        <div class="kpi-value">92%</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon" style="background: #fff7ed; color: #ea580c;">🛑</div>
+                        <div class="kpi-label">Active Conflicts</div>
+                        <div class="kpi-value" style="color: #ef4444;">0</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon" style="background: #f0fdfa; color: #0d9488;">⚡</div>
+                        <div class="kpi-label">Utilization</div>
+                        <div class="kpi-value">86.4%</div>
+                    </div>
+                </div>
+
+                <div class="content-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Recent Activity</h2>
+                            <button class="btn btn-outline btn-sm">View All</button>
+                        </div>
+                        <div class="card-body">
+                            <ul style="list-style: none;">
+                                <li style="padding: 12px 0; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px;">
+                                    <div style="width: 8px; height: 8px; border-radius: 50%; background: #22c55e;"></div>
+                                    <div>
+                                        <div style="font-size: 14px; font-weight: 600;">Timetable Published</div>
+                                        <div style="font-size: 12px; color: var(--text-muted);">SS3 Science - Term 1 published by Registrar</div>
+                                    </div>
+                                    <div style="margin-left: auto; font-size: 12px; color: var(--text-muted);">2m ago</div>
+                                </li>
+                                <li style="padding: 12px 0; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px;">
+                                    <div style="width: 8px; height: 8px; border-radius: 50%; background: #3b82f6;"></div>
+                                    <div>
+                                        <div style="font-size: 14px; font-weight: 600;">AI Generation Complete</div>
+                                        <div style="font-size: 12px; color: var(--text-muted);">JS1-JS3 timetables optimized with 0 conflicts</div>
+                                    </div>
+                                    <div style="margin-left: auto; font-size: 12px; color: var(--text-muted);">15m ago</div>
+                                </li>
+                                <li style="padding: 12px 0; display: flex; align-items: center; gap: 12px;">
+                                    <div style="width: 8px; height: 8px; border-radius: 50%; background: #f97316;"></div>
+                                    <div>
+                                        <div style="font-size: 14px; font-weight: 600;">Manual Edit</div>
+                                        <div style="font-size: 12px; color: var(--text-muted);">Teacher swap: Mr. Adebayo <-> Mrs. Okeke</div>
+                                    </div>
+                                    <div style="margin-left: auto; font-size: 12px; color: var(--text-muted);">1h ago</div>
+                                </li>
+                            </ul>
                         </div>
                     </div>
-                    <div class="table-container">
-                        <table class="timetable">
-                            <thead>
-                                <tr>
-                                    <th>Time</th>
-                                    <th>Monday</th>
-                                    <th>Tuesday</th>
-                                    <th>Wednesday</th>
-                                    <th>Thursday</th>
-                                    <th>Friday</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="time-col">08:00 AM</td>
-                                    <td><div class="period bg-blue-soft border-blue">Maths</div></td>
-                                    <td><div class="period bg-green-soft border-green">English</div></td>
-                                    <td><div class="period bg-purple-soft border-purple">Physics</div></td>
-                                    <td><div class="period bg-orange-soft border-orange">Chem</div></td>
-                                    <td><div class="period bg-teal-soft border-teal">Bio</div></td>
-                                </tr>
-                                <tr>
-                                    <td class="time-col">09:00 AM</td>
-                                    <td><div class="period bg-green-soft border-green">English</div></td>
-                                    <td><div class="period bg-blue-soft border-blue">Maths</div></td>
-                                    <td colspan="3" class="break-row text-center">ASSEMBLY</td>
-                                </tr>
-                                <tr>
-                                    <td class="time-col">10:00 AM</td>
-                                    <td><div class="period bg-purple-soft border-purple">Physics</div></td>
-                                    <td><div class="period bg-amber-soft border-amber">History</div></td>
-                                    <td colspan="3" class="break-row text-center">BREAK</td>
-                                </tr>
-                            </tbody>
-                        </table>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Quick Actions</h2>
+                        </div>
+                        <div class="card-body" style="display: flex; flex-direction: column; gap: 12px;">
+                            <a href="ai-generator.html" class="btn btn-outline" style="width: 100%; justify-content: center;">🤖 Run AI Optimizer</a>
+                            <button class="btn btn-outline" style="width: 100%; justify-content: center;">🖨️ Print Batch Report</button>
+                            <button class="btn btn-outline" style="width: 100%; justify-content: center;">📝 Request Change</button>
+                            <div style="margin-top: 12px; padding: 16px; background: #fffbeb; border-radius: 8px; border: 1px solid #fde68a;">
+                                <div style="font-size: 12px; font-weight: 700; color: #92400e; margin-bottom: 4px;">System Alert</div>
+                                <div style="font-size: 11px; color: #92400e;">Next term scheduling starts in 4 days. Prepare curriculum requirements.</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </section>
-        </main>
+            </main>
+        </div>
     </div>
 </body>
 </html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Timetable Builder | Schoolgate ERP</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-icon">SG</div>
+                <div class="logo-text">
+                    <span class="brand">Schoolgate</span>
+                    <span class="subtext">ERP SYSTEM</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-group">
+                    <label>Menu</label>
+                    <a href="index.html" class="nav-item">
+                        <span class="icon">📊</span> Dashboard
+                    </a>
+                    <a href="builder.html" class="nav-item active">
+                        <span class="icon">🛠️</span> Smart Builder
+                    </a>
+                    <a href="views.html" class="nav-item">
+                        <span class="icon">📅</span> Timetable Views
+                    </a>
+                    <a href="ai-generator.html" class="nav-item">
+                        <span class="icon">🤖</span> AI Generator
+                    </a>
+                    <a href="analytics.html" class="nav-item">
+                        <span class="icon">📈</span> Analytics
+                    </a>
+                    <a href="publishing.html" class="nav-item">
+                        <span class="icon">📢</span> Publishing
+                    </a>
+                    <a href="principal.html" class="nav-item">
+                        <span class="icon">👔</span> Principal Hub
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <div class="main-wrapper">
+            <header class="top-bar">
+                <div class="user-profile">
+                    <div class="avatar"></div>
+                    <span style="font-size: 14px; font-weight: 500;">Admin User</span>
+                </div>
+            </header>
+
+            <main class="main-content">
+                <header class="page-header">
+                    <div>
+                        <h1>Smart Timetable Builder</h1>
+                        <p>Configure and build your school schedule with conflict protection.</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-outline">Auto-Fill</button>
+                        <button class="btn btn-primary">Save Changes</button>
+                    </div>
+                </header>
+
+                <section class="filter-card">
+                    <div class="filter-item">
+                        <label>Select School</label>
+                        <select><option>Secondary School</option></select>
+                    </div>
+                    <div class="filter-item">
+                        <label>Select Class</label>
+                        <select><option>JS3 Gold</option></select>
+                    </div>
+                    <div class="filter-item">
+                        <label>Academic Term</label>
+                        <select><option>First Term</option></select>
+                    </div>
+                </section>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Weekly Schedule Grid</h2>
+                        <div style="display: flex; gap: 8px;">
+                            <div style="display: flex; align-items: center; gap: 4px; font-size: 12px; color: var(--text-muted);">
+                                <div style="width: 10px; height: 10px; border-radius: 2px; background: #22c55e;"></div> Conflict Free
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="timetable-table">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Monday</th>
+                                    <th>Tuesday</th>
+                                    <th>Wednesday</th>
+                                    <th>Thursday</th>
+                                    <th>Friday</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="time-cell">08:00 AM</td>
+                                    <td class="period-cell">
+                                        <div class="period-card maths">
+                                            <h4>Mathematics</h4>
+                                            <p>Mr. Adebayo | Room 102</p>
+                                        </div>
+                                    </td>
+                                    <td class="period-cell">
+                                        <div class="period-card english">
+                                            <h4>English</h4>
+                                            <p>Mrs. Okeke | Room 104</p>
+                                        </div>
+                                    </td>
+                                    <td class="period-cell">
+                                        <div class="period-card science">
+                                            <h4>Chemistry</h4>
+                                            <p>Dr. Smith | Lab 1</p>
+                                        </div>
+                                    </td>
+                                    <td class="period-cell">
+                                        <div class="period-card maths">
+                                            <h4>Mathematics</h4>
+                                            <p>Mr. Adebayo | Room 102</p>
+                                        </div>
+                                    </td>
+                                    <td class="period-cell">
+                                        <div class="period-card art">
+                                            <h4>Fine Art</h4>
+                                            <p>Mrs. Peters | Art Studio</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="time-cell">09:00 AM</td>
+                                    <td colspan="5" class="period-cell">
+                                        <div class="period-card break">MORNING ASSEMBLY</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="time-cell">10:00 AM</td>
+                                    <td class="period-cell">
+                                        <div class="period-card science">
+                                            <h4>Physics</h4>
+                                            <p>Mr. Thomas | Lab 2</p>
+                                        </div>
+                                    </td>
+                                    <td class="period-cell">
+                                        <div class="period-card history">
+                                            <h4>History</h4>
+                                            <p>Mrs. Ahmed | Room 201</p>
+                                        </div>
+                                    </td>
+                                    <td class="period-cell">
+                                        <div class="period-card maths">
+                                            <h4>Further Maths</h4>
+                                            <p>Mr. Adebayo | Room 102</p>
+                                        </div>
+                                    </td>
+                                    <td class="period-cell">
+                                        <div class="period-card english">
+                                            <h4>English</h4>
+                                            <p>Mrs. Okeke | Room 104</p>
+                                        </div>
+                                    </td>
+                                    <td class="period-cell">
+                                        <div class="period-card science">
+                                            <h4>Biology</h4>
+                                            <p>Ms. Ifeanyi | Lab 3</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

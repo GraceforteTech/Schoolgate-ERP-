@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Timetable Generator | Schoolgate ERP</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-icon">SG</div>
+                <div class="logo-text">
+                    <span class="brand">Schoolgate</span>
+                    <span class="subtext">ERP SYSTEM</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-group">
+                    <label>Menu</label>
+                    <a href="index.html" class="nav-item">
+                        <span class="icon">📊</span> Dashboard
+                    </a>
+                    <a href="builder.html" class="nav-item">
+                        <span class="icon">🛠️</span> Smart Builder
+                    </a>
+                    <a href="views.html" class="nav-item">
+                        <span class="icon">📅</span> Timetable Views
+                    </a>
+                    <a href="ai-generator.html" class="nav-item active">
+                        <span class="icon">🤖</span> AI Generator
+                    </a>
+                    <a href="analytics.html" class="nav-item">
+                        <span class="icon">📈</span> Analytics
+                    </a>
+                    <a href="publishing.html" class="nav-item">
+                        <span class="icon">📢</span> Publishing
+                    </a>
+                    <a href="principal.html" class="nav-item">
+                        <span class="icon">👔</span> Principal Hub
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <div class="main-wrapper">
+            <header class="top-bar">
+                <div class="user-profile">
+                    <div class="avatar"></div>
+                    <span style="font-size: 14px; font-weight: 500;">Admin User</span>
+                </div>
+            </header>
+
+            <main class="main-content">
+                <header class="page-header">
+                    <div>
+                        <h1>AI Timetable Generator</h1>
+                        <p>Schoolgate Intelligence: Automatically optimize schedules with zero conflicts.</p>
+                    </div>
+                </header>
+
+                <div class="content-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Optimization Settings</h2>
+                        </div>
+                        <div class="card-body">
+                            <div style="display: flex; flex-direction: column; gap: 24px;">
+                                <div class="filter-item">
+                                    <label>Workload Balance Priority</label>
+                                    <input type="range" min="1" max="100" value="85" style="width: 100%;">
+                                    <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted);">
+                                        <span>Speed</span>
+                                        <span>Quality</span>
+                                    </div>
+                                </div>
+                                <div class="filter-item">
+                                    <label>Teacher Free-Period Distribution</label>
+                                    <select><option>Maximum Continuity</option><option>Maximum Spread</option></select>
+                                </div>
+                                <div style="display: flex; flex-direction: column; gap: 12px;">
+                                    <label style="font-size: 12px; font-weight: 600; color: var(--text-muted);">Rules Checklist</label>
+                                    <label style="display: flex; align-items: center; gap: 8px; font-size: 14px;">
+                                        <input type="checkbox" checked> Prevent back-to-back double periods
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 8px; font-size: 14px;">
+                                        <input type="checkbox" checked> Respect teacher special requests
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 8px; font-size: 14px;">
+                                        <input type="checkbox" checked> Optimize lab/room density
+                                    </label>
+                                </div>
+                                <button class="btn btn-primary" style="width: 100%; justify-content: center; height: 48px; font-size: 16px;">
+                                    ✨ Generate Optimized Timetable
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>AI Insights</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="ai-progress-container">
+                                <div class="ai-pulse">
+                                    <span style="font-size: 32px;">🤖</span>
+                                </div>
+                                <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 8px;">Ready to Optimize</h3>
+                                <p style="font-size: 13px; color: var(--text-muted);">I have analyzed 86 teachers and 48 classes. Optimal path found with 98.4% efficiency score.</p>
+                            </div>
+                            <div style="padding: 16px; background: #eff6ff; border-radius: 8px; margin-top: 24px;">
+                                <div style="font-size: 13px; font-weight: 700; color: #1e40af; margin-bottom: 8px;">Optimization Tips</div>
+                                <ul style="font-size: 12px; color: #1e40af; padding-left: 16px;">
+                                    <li>Increase Lab 2 availability for higher Physics scores.</li>
+                                    <li>Consider staggering start times for JS1.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</body>
+</html>
