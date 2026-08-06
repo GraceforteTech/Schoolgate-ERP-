@@ -169,7 +169,7 @@ export function AlumniDonations() {
                 </div>
               ))}
             </div>
-          </div>
+          </Card>
         </div>
       </div>
     </div>
