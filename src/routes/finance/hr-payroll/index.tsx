@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { HRDashboardKPIs } from "@/components/hr/hr-dashboard-kpis";
 import { HRDashboardAnalytics } from "@/components/hr/hr-dashboard-analytics";
 import { HRDashboardFeeds } from "@/components/hr/hr-dashboard-feeds";
+import { EmployeeList } from "@/components/hr/employee-list";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export const Route = createFileRoute("/finance/hr-payroll/")({
