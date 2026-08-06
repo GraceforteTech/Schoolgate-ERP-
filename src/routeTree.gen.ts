@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as FeeTypesRouteImport } from './routes/fee-types'
 import { Route as FinanceAdjustmentManagementRouteImport } from './routes/finance/adjustment-management'
 import { Route as FinanceInvoiceManagementIndexRouteImport } from './routes/finance/invoice-management/index'
+import { Route as FinanceOutstandingFeesIndexRouteImport } from './routes/finance/outstanding-fees/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -36,18 +37,26 @@ const FinanceInvoiceManagementIndexRoute =
     path: '/finance/invoice-management/',
     getParentRoute: () => rootRouteImport,
   } as any)
+const FinanceOutstandingFeesIndexRoute =
+  FinanceOutstandingFeesIndexRouteImport.update({
+    id: '/finance/outstanding-fees/',
+    path: '/finance/outstanding-fees/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/fee-types': typeof FeeTypesRoute
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
   '/finance/invoice-management/': typeof FinanceInvoiceManagementIndexRoute
+  '/finance/outstanding-fees/': typeof FinanceOutstandingFeesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/fee-types': typeof FeeTypesRoute
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
   '/finance/invoice-management': typeof FinanceInvoiceManagementIndexRoute
+  '/finance/outstanding-fees': typeof FinanceOutstandingFeesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -55,6 +64,7 @@ export interface FileRoutesById {
   '/fee-types': typeof FeeTypesRoute
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
   '/finance/invoice-management/': typeof FinanceInvoiceManagementIndexRoute
+  '/finance/outstanding-fees/': typeof FinanceOutstandingFeesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -63,18 +73,21 @@ export interface FileRouteTypes {
     | '/fee-types'
     | '/finance/adjustment-management'
     | '/finance/invoice-management/'
+    | '/finance/outstanding-fees/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/fee-types'
     | '/finance/adjustment-management'
     | '/finance/invoice-management'
+    | '/finance/outstanding-fees'
   id:
     | '__root__'
     | '/'
     | '/fee-types'
     | '/finance/adjustment-management'
     | '/finance/invoice-management/'
+    | '/finance/outstanding-fees/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -82,6 +95,7 @@ export interface RootRouteChildren {
   FeeTypesRoute: typeof FeeTypesRoute
   FinanceAdjustmentManagementRoute: typeof FinanceAdjustmentManagementRoute
   FinanceInvoiceManagementIndexRoute: typeof FinanceInvoiceManagementIndexRoute
+  FinanceOutstandingFeesIndexRoute: typeof FinanceOutstandingFeesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -114,6 +128,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FinanceInvoiceManagementIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/finance/outstanding-fees/': {
+      id: '/finance/outstanding-fees/'
+      path: '/finance/outstanding-fees'
+      fullPath: '/finance/outstanding-fees/'
+      preLoaderRoute: typeof FinanceOutstandingFeesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -122,17 +143,8 @@ const rootRouteChildren: RootRouteChildren = {
   FeeTypesRoute: FeeTypesRoute,
   FinanceAdjustmentManagementRoute: FinanceAdjustmentManagementRoute,
   FinanceInvoiceManagementIndexRoute: FinanceInvoiceManagementIndexRoute,
+  FinanceOutstandingFeesIndexRoute: FinanceOutstandingFeesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

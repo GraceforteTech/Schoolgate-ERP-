@@ -3,7 +3,7 @@ import { ExecutiveKPICards } from '@/components/finance/outstanding-fees/executi
 import { SmartFilters } from '@/components/finance/outstanding-fees/smart-filters';
 import { OutstandingStudentsTable } from '@/components/finance/outstanding-fees/outstanding-students-table';
 
-export const Route = createFileRoute('/finance/outstanding-fees')({
+export const Route = createFileRoute('/finance/outstanding-fees/')({
   component: OutstandingFeesPage,
 });
 
