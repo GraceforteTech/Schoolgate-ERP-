@@ -15,6 +15,7 @@ import { Route as FeeTypesOverviewRouteImport } from './routes/fee-types-overvie
 import { Route as StudentsRouteImport } from './routes/students'
 import { Route as AcademicIndexRouteImport } from './routes/academic/index'
 import { Route as AcademicLessonNotesRouteImport } from './routes/academic/lesson-notes'
+import { Route as AcademicSyllabusRouteImport } from './routes/academic/syllabus'
 import { Route as AttendanceIndexRouteImport } from './routes/attendance/index'
 import { Route as CbtIndexRouteImport } from './routes/cbt/index'
 import { Route as EnterpriseIndexRouteImport } from './routes/enterprise/index'
@@ -79,6 +80,11 @@ const AcademicIndexRoute = AcademicIndexRouteImport.update({
 const AcademicLessonNotesRoute = AcademicLessonNotesRouteImport.update({
   id: '/academic/lesson-notes',
   path: '/academic/lesson-notes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AcademicSyllabusRoute = AcademicSyllabusRouteImport.update({
+  id: '/academic/syllabus',
+  path: '/academic/syllabus',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AttendanceIndexRoute = AttendanceIndexRouteImport.update({
@@ -276,6 +282,7 @@ export interface FileRoutesByFullPath {
   '/fee-types-overview': typeof FeeTypesOverviewRoute
   '/students': typeof StudentsRoute
   '/academic/lesson-notes': typeof AcademicLessonNotesRoute
+  '/academic/syllabus': typeof AcademicSyllabusRoute
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
   '/finance/dashboard': typeof FinanceDashboardRoute
   '/library/analytics': typeof LibraryAnalyticsRoute
@@ -319,6 +326,7 @@ export interface FileRoutesByTo {
   '/fee-types-overview': typeof FeeTypesOverviewRoute
   '/students': typeof StudentsRoute
   '/academic/lesson-notes': typeof AcademicLessonNotesRoute
+  '/academic/syllabus': typeof AcademicSyllabusRoute
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
   '/finance/dashboard': typeof FinanceDashboardRoute
   '/library/analytics': typeof LibraryAnalyticsRoute
@@ -363,6 +371,7 @@ export interface FileRoutesById {
   '/fee-types-overview': typeof FeeTypesOverviewRoute
   '/students': typeof StudentsRoute
   '/academic/lesson-notes': typeof AcademicLessonNotesRoute
+  '/academic/syllabus': typeof AcademicSyllabusRoute
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
   '/finance/dashboard': typeof FinanceDashboardRoute
   '/library/analytics': typeof LibraryAnalyticsRoute
@@ -408,6 +417,7 @@ export interface FileRouteTypes {
     | '/fee-types-overview'
     | '/students'
     | '/academic/lesson-notes'
+    | '/academic/syllabus'
     | '/finance/adjustment-management'
     | '/finance/dashboard'
     | '/library/analytics'
@@ -451,6 +461,7 @@ export interface FileRouteTypes {
     | '/fee-types-overview'
     | '/students'
     | '/academic/lesson-notes'
+    | '/academic/syllabus'
     | '/finance/adjustment-management'
     | '/finance/dashboard'
     | '/library/analytics'
@@ -494,6 +505,7 @@ export interface FileRouteTypes {
     | '/fee-types-overview'
     | '/students'
     | '/academic/lesson-notes'
+    | '/academic/syllabus'
     | '/finance/adjustment-management'
     | '/finance/dashboard'
     | '/library/analytics'
@@ -538,6 +550,7 @@ export interface RootRouteChildren {
   FeeTypesOverviewRoute: typeof FeeTypesOverviewRoute
   StudentsRoute: typeof StudentsRoute
   AcademicLessonNotesRoute: typeof AcademicLessonNotesRoute
+  AcademicSyllabusRoute: typeof AcademicSyllabusRoute
   FinanceAdjustmentManagementRoute: typeof FinanceAdjustmentManagementRoute
   FinanceDashboardRoute: typeof FinanceDashboardRoute
   LibraryAnalyticsRoute: typeof LibraryAnalyticsRoute
@@ -618,6 +631,13 @@ declare module '@tanstack/react-router' {
       path: '/academic/lesson-notes'
       fullPath: '/academic/lesson-notes'
       preLoaderRoute: typeof AcademicLessonNotesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/academic/syllabus': {
+      id: '/academic/syllabus'
+      path: '/academic/syllabus'
+      fullPath: '/academic/syllabus'
+      preLoaderRoute: typeof AcademicSyllabusRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/attendance/': {
@@ -874,6 +894,7 @@ const rootRouteChildren: RootRouteChildren = {
   FeeTypesOverviewRoute: FeeTypesOverviewRoute,
   StudentsRoute: StudentsRoute,
   AcademicLessonNotesRoute: AcademicLessonNotesRoute,
+  AcademicSyllabusRoute: AcademicSyllabusRoute,
   FinanceAdjustmentManagementRoute: FinanceAdjustmentManagementRoute,
   FinanceDashboardRoute: FinanceDashboardRoute,
   LibraryAnalyticsRoute: LibraryAnalyticsRoute,

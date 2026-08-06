@@ -101,6 +101,9 @@ function AcademicManagementPage() {
             <TabsTrigger value="workload" className="px-6 rounded-lg text-xs font-bold uppercase tracking-wider data-[state=active]:bg-schoolgate-green data-[state=active]:text-white h-full gap-2">
               <UserCheck className="w-4 h-4" /> Teacher Workload
             </TabsTrigger>
+            <TabsTrigger value="syllabus" className="px-6 rounded-lg text-xs font-bold uppercase tracking-wider data-[state=active]:bg-schoolgate-green data-[state=active]:text-white h-full gap-2">
+              <FileText className="w-4 h-4" /> Syllabus & Scheme
+            </TabsTrigger>
             <TabsTrigger value="lesson-notes" className="px-6 rounded-lg text-xs font-bold uppercase tracking-wider data-[state=active]:bg-schoolgate-green data-[state=active]:text-white h-full gap-2">
               <FileText className="w-4 h-4" /> Lesson Notes
             </TabsTrigger>
