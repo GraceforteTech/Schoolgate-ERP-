@@ -58,28 +58,30 @@ function AlumniManagementPage() {
 
       {/* Main Workspace */}
       <Tabs defaultValue="directory" className="space-y-6">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <TabsList className="bg-white border border-slate-200 p-1 rounded-xl w-fit">
-            <TabsTrigger value="directory" className="data-[state=active]:bg-schoolgate-green-light data-[state=active]:text-schoolgate-green font-bold text-xs px-6 py-2">
-              Global Alumni Registry
+        <div className="space-y-6">
+          <TabsList className="bg-white border border-slate-200 p-1 rounded-xl w-full flex flex-wrap h-auto">
+            <TabsTrigger value="directory" className="data-[state=active]:bg-schoolgate-green-light data-[state=active]:text-schoolgate-green font-bold text-xs px-6 py-2 flex-1">
+              Registry & Directory
             </TabsTrigger>
-            <TabsTrigger value="engagement" className="data-[state=active]:bg-schoolgate-green-light data-[state=active]:text-schoolgate-green font-bold text-xs px-6 py-2">
-              Engagement & Events
+            <TabsTrigger value="membership" className="data-[state=active]:bg-schoolgate-green-light data-[state=active]:text-schoolgate-green font-bold text-xs px-6 py-2 flex-1">
+              Membership Plans
             </TabsTrigger>
-            <TabsTrigger value="donations" className="data-[state=active]:bg-schoolgate-green-light data-[state=active]:text-schoolgate-green font-bold text-xs px-6 py-2">
-              Fundraising & Impact
+            <TabsTrigger value="events" className="data-[state=active]:bg-schoolgate-green-light data-[state=active]:text-schoolgate-green font-bold text-xs px-6 py-2 flex-1">
+              Events & Reunions
+            </TabsTrigger>
+            <TabsTrigger value="donations" className="data-[state=active]:bg-schoolgate-green-light data-[state=active]:text-schoolgate-green font-bold text-xs px-6 py-2 flex-1">
+              Donations & Giving
+            </TabsTrigger>
+            <TabsTrigger value="mentorship" className="data-[state=active]:bg-schoolgate-green-light data-[state=active]:text-schoolgate-green font-bold text-xs px-6 py-2 flex-1">
+              Mentorship Hub
+            </TabsTrigger>
+            <TabsTrigger value="career" className="data-[state=active]:bg-schoolgate-green-light data-[state=active]:text-schoolgate-green font-bold text-xs px-6 py-2 flex-1">
+              Career & Jobs
+            </TabsTrigger>
+            <TabsTrigger value="business" className="data-[state=active]:bg-schoolgate-green-light data-[state=active]:text-schoolgate-green font-bold text-xs px-6 py-2 flex-1">
+              Business Directory
             </TabsTrigger>
           </TabsList>
-          
-          <div className="flex items-center gap-2">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-              <Input placeholder="Search alumni by name, year, or career..." className="pl-10 h-11 w-[300px] bg-white border-none shadow-sm rounded-xl" />
-            </div>
-            <Button variant="outline" className="h-11 w-11 p-0 rounded-xl bg-white border-none shadow-sm">
-              <Filter className="h-4 w-4 text-slate-600" />
-            </Button>
-          </div>
         </div>
 
         <TabsContent value="directory" className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
