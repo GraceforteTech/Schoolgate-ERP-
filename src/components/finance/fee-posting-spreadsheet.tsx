@@ -87,7 +87,10 @@ export function FeePostingSpreadsheet({ isLoading = false }: { isLoading?: boole
   const [editing, setEditing] = useState<CellPosition | null>(null);
   const [saveStatus, setSaveStatus] = useState<"saved" | "saving" | "idle">("idle");
   const [isPostingDialogOpen, setIsPostingDialogOpen] = useState(false);
+  const [isImportProtectionOpen, setIsImportProtectionOpen] = useState(false);
   const [isPosting, setIsPosting] = useState(false);
+  const [postingProgress, setPostingProgress] = useState(0);
+  const [modifiedRows, setModifiedRows] = useState<Set<number>>(new Set());
   const tableRef = useRef<HTMLTableElement>(null);
 
   // Calculations for dialog
