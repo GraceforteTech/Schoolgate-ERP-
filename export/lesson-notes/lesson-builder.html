@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson Note Builder - Schoolgate ERP</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-bottom: 2rem; }
+        .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+        label { font-size: 0.8rem; font-weight: 700; color: #475569; text-transform: uppercase; }
+        input, select, textarea { padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: 10px; font-size: 0.9rem; }
+        .steps-container { margin-top: 2rem; }
+        .step-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 1rem; overflow: hidden; }
+        .step-header { padding: 1rem; background: white; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
+        .step-body { padding: 1.5rem; }
+        .floating-ai { position: fixed; bottom: 2rem; right: 2rem; background: #4f46e5; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; items: center; justify-content: center; box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.4); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h2>New Lesson Note</h2>
+        </header>
+        
+        <section class="form-section card">
+            <h3>Lesson Information</h3>
+            <div class="form-grid">
+                <div class="form-group"><label>Academic Session</label><select><option>2023/2024</option></select></div>
+                <div class="form-group"><label>Class</label><select><option>JSS 1</option></select></div>
+            </div>
+        </section>
+
+        <section class="steps-container">
+            <h3>Teaching Steps</h3>
+            <div class="step-card">
+                <div class="step-header"><strong>Step 1: Introduction</strong></div>
+                <div class="step-body">
+                    <div class="form-group"><label>Teacher Activity</label><textarea rows="3"></textarea></div>
+                </div>
+            </div>
+        </section>
+
+        <div class="floating-ai">✨</div>
+    </div>
+</body>
+</html>
