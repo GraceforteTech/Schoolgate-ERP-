@@ -318,11 +318,17 @@ function SummaryCard({
 
   return (
     <Card 
-      className="group cursor-pointer rounded-[14px] border-0 bg-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
+      className={cn(
+        "group cursor-pointer rounded-[14px] border-0 bg-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md",
+        className
+      )}
       onClick={onClick}
     >
       <CardContent className="flex flex-col gap-3 p-5">
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl transition-colors group-hover:bg-opacity-80" className={variantStyles[variant]}>
+        <div className={cn(
+          "flex h-10 w-10 items-center justify-center rounded-xl transition-colors group-hover:bg-opacity-80",
+          variantStyles[variant]
+        )}>
           <Icon className="h-5 w-5" />
         </div>
         <div className="space-y-0.5">
