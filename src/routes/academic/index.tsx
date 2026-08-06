@@ -114,7 +114,23 @@ function AcademicManagementPage() {
         </div>
 
         <TabsContent value="calendar"><AcademicCalendar /></TabsContent>
-        <TabsContent value="classes"><ClassManagement /></TabsContent>
+        <TabsContent value="classes">
+          <div className="space-y-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="text-xl font-bold text-slate-900">Class & Section Management</h3>
+                <p className="text-sm text-slate-500">Overview of all active classes and their enrollment status.</p>
+              </div>
+              <Button 
+                className="bg-schoolgate-green hover:bg-schoolgate-green/90 rounded-xl px-6 h-11 font-bold shadow-lg shadow-schoolgate-green/20"
+                asChild
+              >
+                <Link to="/academic/classes">Enter Class Management Hub</Link>
+              </Button>
+            </div>
+            <ClassManagement />
+          </div>
+        </TabsContent>
         <TabsContent value="curriculum"><CurriculumManagement /></TabsContent>
         <TabsContent value="workload"><TeacherWorkload /></TabsContent>
         <TabsContent value="syllabus">
