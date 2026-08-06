@@ -20,6 +20,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AlumniKpiCards } from "@/components/alumni/alumni-kpi-cards";
 import { AlumniTable } from "@/components/alumni/directory/alumni-table";
+import { AlumniSearchCenter } from "@/components/alumni/directory/alumni-search-center";
 
 export const Route = createFileRoute("/alumni/")({
   component: AlumniManagementPage,
