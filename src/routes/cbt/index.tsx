@@ -132,7 +132,9 @@ function CBTManagementPage() {
         <TabsContent value="live"><LiveExamMonitor /></TabsContent>
         <TabsContent value="analytics"><CBTAnalytics /></TabsContent>
         <TabsContent value="ai"><AIQuestionCentre /></TabsContent>
+        <TabsContent value="assistant"><AILearningAssistant /></TabsContent>
         <TabsContent value="proprietor"><ProprietorCBTDashboard /></TabsContent>
+
       </Tabs>
     </div>
   );
