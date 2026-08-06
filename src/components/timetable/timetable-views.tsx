@@ -145,9 +145,9 @@ export function TimetableViews({ mini }: TimetableViewsProps) {
                         <td className="p-4 font-medium text-gray-700 bg-gray-50/30 border-r align-top">
                            {row.time}
                         </td>
-                        {[row.mon, row.tue, row.wed, row.thu, row.fri].map((cell, cIdx) => (
+                        {[row.mon, row.tue, row.wed, row.thu, row.fri].map((cell: any, cIdx) => (
                            <td key={cIdx} className="p-2 border-r align-top relative group">
-                              {cell.type === 'break' ? (
+                              {cell?.type === 'break' ? (
                                 <div className="h-full flex items-center justify-center bg-gray-50 rounded-lg border border-dashed border-gray-200">
                                    <span className="text-xs font-bold text-gray-300 uppercase tracking-widest rotate-[-15deg]">Break Time</span>
                                 </div>
