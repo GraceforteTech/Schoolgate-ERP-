@@ -111,22 +111,31 @@ export function Student360Profile() {
       <div className="lg:col-span-9">
         <Tabs defaultValue="info" className="w-full">
           <TabsList className="w-full flex overflow-x-auto justify-start h-12 bg-white border border-slate-100 rounded-xl p-1 mb-6 no-scrollbar">
-            <TabsTrigger value="info" className="text-xs font-bold px-4 data-[state=active]:bg-schoolgate-green-light data-[state=active]:text-schoolgate-green rounded-lg">
+            <TabsTrigger value="info" className="text-xs font-bold px-4 data-[state=active]:bg-schoolgate-green-light data-[state=active]:text-schoolgate-green rounded-lg whitespace-nowrap">
               <User className="h-3.5 w-3.5 mr-2" /> Basic Info
             </TabsTrigger>
-            <TabsTrigger value="academic" className="text-xs font-bold px-4 data-[state=active]:bg-schoolgate-green-light data-[state=active]:text-schoolgate-green rounded-lg">
+            <TabsTrigger value="academic" className="text-xs font-bold px-4 data-[state=active]:bg-schoolgate-green-light data-[state=active]:text-schoolgate-green rounded-lg whitespace-nowrap">
               <GraduationCap className="h-3.5 w-3.5 mr-2" /> Academics
             </TabsTrigger>
-            <TabsTrigger value="finance" className="text-xs font-bold px-4 data-[state=active]:bg-schoolgate-green-light data-[state=active]:text-schoolgate-green rounded-lg">
+            <TabsTrigger value="finance" className="text-xs font-bold px-4 data-[state=active]:bg-schoolgate-green-light data-[state=active]:text-schoolgate-green rounded-lg whitespace-nowrap">
               <Wallet className="h-3.5 w-3.5 mr-2" /> Finance
             </TabsTrigger>
-            <TabsTrigger value="medical" className="text-xs font-bold px-4 data-[state=active]:bg-schoolgate-green-light data-[state=active]:text-schoolgate-green rounded-lg">
+            <TabsTrigger value="attendance" className="text-xs font-bold px-4 data-[state=active]:bg-schoolgate-green-light data-[state=active]:text-schoolgate-green rounded-lg whitespace-nowrap">
+              <CalendarCheck className="h-3.5 w-3.5 mr-2" /> Attendance
+            </TabsTrigger>
+            <TabsTrigger value="medical" className="text-xs font-bold px-4 data-[state=active]:bg-schoolgate-green-light data-[state=active]:text-schoolgate-green rounded-lg whitespace-nowrap">
               <Stethoscope className="h-3.5 w-3.5 mr-2" /> Medical
             </TabsTrigger>
-            <TabsTrigger value="discipline" className="text-xs font-bold px-4 data-[state=active]:bg-schoolgate-green-light data-[state=active]:text-schoolgate-green rounded-lg">
+            <TabsTrigger value="discipline" className="text-xs font-bold px-4 data-[state=active]:bg-schoolgate-green-light data-[state=active]:text-schoolgate-green rounded-lg whitespace-nowrap">
               <AlertTriangle className="h-3.5 w-3.5 mr-2" /> Discipline
             </TabsTrigger>
-            <TabsTrigger value="timeline" className="text-xs font-bold px-4 data-[state=active]:bg-schoolgate-green-light data-[state=active]:text-schoolgate-green rounded-lg">
+            <TabsTrigger value="hostel" className="text-xs font-bold px-4 data-[state=active]:bg-schoolgate-green-light data-[state=active]:text-schoolgate-green rounded-lg whitespace-nowrap">
+              <Home className="h-3.5 w-3.5 mr-2" /> Hostel
+            </TabsTrigger>
+            <TabsTrigger value="library" className="text-xs font-bold px-4 data-[state=active]:bg-schoolgate-green-light data-[state=active]:text-schoolgate-green rounded-lg whitespace-nowrap">
+              <Book className="h-3.5 w-3.5 mr-2" /> Library
+            </TabsTrigger>
+            <TabsTrigger value="timeline" className="text-xs font-bold px-4 data-[state=active]:bg-schoolgate-green-light data-[state=active]:text-schoolgate-green rounded-lg whitespace-nowrap">
               <History className="h-3.5 w-3.5 mr-2" /> Timeline
             </TabsTrigger>
           </TabsList>
