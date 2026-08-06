@@ -55,7 +55,7 @@ const KPICard = ({ title, value, subtitle, icon: Icon, trend, trendType = 'neutr
 );
 
 export function ExecutiveKPICards() {
-  const kpis = [
+  const kpis: KPICardProps[] = [
     { title: "Total Outstanding", value: "₦145.2M", subtitle: "All Schools", icon: DollarSign, trend: "+5.2%", trendType: 'negative' },
     { title: "Primary Outstanding", value: "₦62.8M", subtitle: "Primary Section", icon: School, trend: "-2.1%", trendType: 'positive' },
     { title: "Secondary Outstanding", value: "₦82.4M", subtitle: "Secondary Section", icon: GraduationCap, trend: "+8.4%", trendType: 'negative' },
