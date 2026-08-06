@@ -209,7 +209,7 @@ export function CategoryManagement() {
                       <Progress 
                         value={getPercentage(category.spent, category.budget)} 
                         className="h-1.5 bg-slate-100"
-                        variant={category.spent > category.budget ? "destructive" : "default"}
+                        indicatorClassName={category.spent > category.budget ? "bg-rose-500" : "bg-schoolgate-green"}
                       />
                       <p className="text-[9px] font-medium text-slate-400 italic">Total Budget: {formatCurrency(category.budget)}</p>
                     </div>
