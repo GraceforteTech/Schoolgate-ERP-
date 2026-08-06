@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alumni Command Centre - Schoolgate ERP</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0B6E3C;
+            --primary-light: #E8F5EE;
+            --bg-light: #F5F7FA;
+            --white: #FFFFFF;
+            --text-main: #0F172A;
+            --text-muted: #64748B;
+            --border: #E2E8F0;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            margin: 0;
+            display: flex;
+        }
+
+        .app-container {
+            display: flex;
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 260px;
+            background: var(--white);
+            border-right: 1px solid var(--border);
+            padding: 2rem 1rem;
+            flex-shrink: 0;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 2rem 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .header-title h1 {
+            font-size: 1.875rem;
+            font-weight: 800;
+            margin: 0;
+            letter-spacing: -0.025em;
+        }
+
+        .header-title p {
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+            font-style: italic;
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-cols: repeat(6, 1fr);
+            gap: 1.25rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .kpi-card {
+            background: var(--white);
+            padding: 1.25rem;
+            border-radius: 14px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .kpi-label {
+            font-size: 0.625rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+        }
+
+        .kpi-value {
+            font-size: 1.25rem;
+            font-weight: 800;
+            margin-top: 0.25rem;
+            display: block;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .btn {
+            padding: 0.75rem 1.25rem;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            font-size: 0.875rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-outline {
+            background: var(--white);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+        }
+
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .badge-success {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .flex { display: flex; }
+        .items-center { align-items: center; }
+        .gap-2 { gap: 0.5rem; }
+        .gap-4 { gap: 1rem; }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div style="font-weight: 800; color: var(--primary); font-size: 1.2rem; margin-bottom: 2rem;">Schoolgate</div>
+            <nav>
+                <div style="color: var(--text-muted); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; margin-bottom: 1rem;">Main</div>
+                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                    <div style="padding: 0.75rem; border-radius: 8px; color: var(--text-muted);">Dashboard</div>
+                    <div style="padding: 0.75rem; border-radius: 8px; color: var(--text-muted);">Students</div>
+                    <div style="padding: 0.75rem; border-radius: 8px; background: var(--primary-light); color: var(--primary); font-weight: 700;">Alumni</div>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="header-section">
+                <div class="header-title">
+                    <h1>Alumni Command Centre</h1>
+                    <p>Connect, track, and empower the Schoolgate alumni network.</p>
+                </div>
+                <div class="flex gap-2">
+                    <button class="btn btn-outline">Export Data</button>
+                    <button class="btn btn-primary">Alumni Recognition</button>
+                </div>
+            </header>
+
+            <section class="kpi-grid">
+                <div class="kpi-card"><span class="kpi-label">Total Alumni</span><span class="kpi-value">4,850</span></div>
+                <div class="kpi-card"><span class="kpi-label">Employment</span><span class="kpi-value">84.2%</span></div>
+                <div class="kpi-card"><span class="kpi-label">Higher Ed</span><span class="kpi-value">72.8%</span></div>
+                <div class="kpi-card"><span class="kpi-label">Donations</span><span class="kpi-value">₦8.4M</span></div>
+                <div class="kpi-card"><span class="kpi-label">Mentors</span><span class="kpi-value">124</span></div>
+                <div class="kpi-card"><span class="kpi-label">Engagement</span><span class="kpi-value">92%</span></div>
+            </section>
+
+            <div class="card">
+                <div class="flex items-center justify-between" style="margin-bottom: 1.5rem;">
+                    <h3 style="margin: 0; font-weight: 800;">Alumni Directory</h3>
+                    <span class="badge badge-success">4,850 Verified Graduates</span>
+                </div>
+                <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                    <thead style="border-bottom: 1px solid var(--border);">
+                        <tr>
+                            <th style="padding: 1rem; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Name</th>
+                            <th style="padding: 1rem; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Class Year</th>
+                            <th style="padding: 1rem; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Profession</th>
+                            <th style="padding: 1rem; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Status</th>
+                            <th style="padding: 1rem; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid var(--border);">
+                            <td style="padding: 1rem; font-weight: 700;">Emeka Obi</td>
+                            <td style="padding: 1rem;">Class of 2012</td>
+                            <td style="padding: 1rem;">Software Architect</td>
+                            <td style="padding: 1rem;"><span class="badge badge-success">Active Member</span></td>
+                            <td style="padding: 1rem;"><button class="btn btn-outline" style="padding: 0.4rem 0.8rem;">Profile</button></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--border);">
+                            <td style="padding: 1rem; font-weight: 700;">Fatima Musa</td>
+                            <td style="padding: 1rem;">Class of 2015</td>
+                            <td style="padding: 1rem;">Medical Doctor</td>
+                            <td style="padding: 1rem;"><span class="badge badge-success">Active Member</span></td>
+                            <td style="padding: 1rem;"><button class="btn btn-outline" style="padding: 0.4rem 0.8rem;">Profile</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
