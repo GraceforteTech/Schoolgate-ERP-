@@ -37,8 +37,8 @@ const mainNavItems = [
 ];
 
 const financeNavItems = [
-  { title: "Fee Types", url: "/fee-types-overview", icon: CreditCard },
-  { title: "Bulk Posting", url: "/finance/bulk-posting", icon: FileSpreadsheet },
+  { title: "Fee Registry", url: "/fee-types-overview", icon: CreditCard },
+  { title: "School Fee Posting", url: "/finance/fee-posting", icon: FileSpreadsheet },
   { title: "Adjustments", url: "/finance/adjustment-management", icon: Banknote },
   { title: "Invoices", url: "/finance/invoice-management", icon: FileText },
   { title: "Outstanding", url: "/finance/outstanding-fees", icon: CreditCard },
