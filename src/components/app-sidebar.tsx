@@ -32,7 +32,7 @@ const mainNavItems = [
   { title: "Dashboard", url: "/", icon: LayoutDashboard },
   { title: "Admissions", url: "/finance/admissions", icon: UserPlus },
   { title: "Students", url: "/students", icon: Users },
-  { title: "Academics", url: "/academics", icon: BookOpen },
+  { title: "Academics", url: "/finance/results", icon: BookOpen },
   { title: "Attendance", url: "/attendance", icon: CalendarDays },
 ];
 
@@ -45,6 +45,7 @@ const financeNavItems = [
   { title: "Outstanding", url: "/finance/outstanding-fees", icon: CreditCard },
   { title: "Expenses", url: "/finance/expense-management", icon: Banknote },
   { title: "Payroll", url: "/finance/payroll-management", icon: Banknote },
+  { title: "Results & Reports", url: "/finance/results", icon: FileText },
   { title: "Wealth & Loan", url: "/finance/wealth-loan", icon: Wallet },
 ];
 
