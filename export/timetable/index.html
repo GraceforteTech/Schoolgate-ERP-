@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timetable Management | Schoolgate ERP</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-icon">SG</div>
+                <div class="logo-text">
+                    <span class="brand">Schoolgate</span>
+                    <span class="subtext">ERP</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-group">
+                    <label>Main</label>
+                    <a href="#" class="nav-item">Dashboard</a>
+                    <a href="#" class="nav-item">Admissions</a>
+                    <a href="#" class="nav-item">Students</a>
+                    <a href="#" class="nav-item">Teachers</a>
+                    <a href="#" class="nav-item">Academics</a>
+                    <a href="#" class="nav-item active">Timetable</a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="page-header">
+                <div class="header-left">
+                    <h1>Timetable Management</h1>
+                    <p>Create and manage class, teacher and examination timetables with conflict detection.</p>
+                </div>
+                <div class="header-right">
+                    <div class="search-box">
+                        <input type="text" placeholder="Search timetables...">
+                    </div>
+                    <button class="btn btn-primary">Settings</button>
+                </div>
+            </header>
+
+            <!-- Filters -->
+            <section class="filters-bar shadow-sm">
+                <div class="filter-group">
+                    <select><option>2023/2024 Session</option></select>
+                    <select><option>First Term</option></select>
+                    <select><option>All Schools</option></select>
+                    <select><option>Active Status</option></select>
+                    <button class="btn btn-outline">Clear Filters</button>
+                </div>
+            </section>
+
+            <!-- KPI Cards -->
+            <section class="kpi-grid">
+                <div class="kpi-card shadow-sm">
+                    <div class="kpi-icon bg-blue-light text-blue">📅</div>
+                    <div class="kpi-data">
+                        <span class="kpi-label">Total Timetables</span>
+                        <span class="kpi-value">48</span>
+                    </div>
+                </div>
+                <div class="kpi-card shadow-sm">
+                    <div class="kpi-icon bg-green-light text-green">✅</div>
+                    <div class="kpi-data">
+                        <span class="kpi-label">Active Timetables</span>
+                        <span class="kpi-value">32</span>
+                    </div>
+                </div>
+                <div class="kpi-card shadow-sm">
+                    <div class="kpi-icon bg-purple-light text-purple">👥</div>
+                    <div class="kpi-data">
+                        <span class="kpi-label">Total Classes</span>
+                        <span class="kpi-value">24</span>
+                    </div>
+                </div>
+                <div class="kpi-card shadow-sm">
+                    <div class="kpi-icon bg-orange-light text-orange">🎓</div>
+                    <div class="kpi-data">
+                        <span class="kpi-label">Total Teachers</span>
+                        <span class="kpi-value">86</span>
+                    </div>
+                </div>
+                <div class="kpi-card shadow-sm bg-green text-white">
+                    <div class="kpi-icon bg-white text-green">🤖</div>
+                    <div class="kpi-data">
+                        <span class="kpi-label text-white-opacity">AI Readiness</span>
+                        <span class="kpi-value">Optimal</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Timetable Preview -->
+            <section class="content-section">
+                <div class="card shadow-sm">
+                    <div class="card-header">
+                        <h2>Weekly Timetable: JS3 Gold</h2>
+                        <div class="card-actions">
+                            <button class="btn btn-outline btn-sm">Print</button>
+                            <button class="btn btn-primary btn-sm">Edit Layout</button>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table class="timetable">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Monday</th>
+                                    <th>Tuesday</th>
+                                    <th>Wednesday</th>
+                                    <th>Thursday</th>
+                                    <th>Friday</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="time-col">08:00 AM</td>
+                                    <td><div class="period bg-blue-soft border-blue">Maths</div></td>
+                                    <td><div class="period bg-green-soft border-green">English</div></td>
+                                    <td><div class="period bg-purple-soft border-purple">Physics</div></td>
+                                    <td><div class="period bg-orange-soft border-orange">Chem</div></td>
+                                    <td><div class="period bg-teal-soft border-teal">Bio</div></td>
+                                </tr>
+                                <tr>
+                                    <td class="time-col">09:00 AM</td>
+                                    <td><div class="period bg-green-soft border-green">English</div></td>
+                                    <td><div class="period bg-blue-soft border-blue">Maths</div></td>
+                                    <td colspan="3" class="break-row text-center">ASSEMBLY</td>
+                                </tr>
+                                <tr>
+                                    <td class="time-col">10:00 AM</td>
+                                    <td><div class="period bg-purple-soft border-purple">Physics</div></td>
+                                    <td><div class="period bg-amber-soft border-amber">History</div></td>
+                                    <td colspan="3" class="break-row text-center">BREAK</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>
