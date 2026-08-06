@@ -41,7 +41,7 @@ const trendData = [
 
 export function CollectionAnalytics() {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-8">
+    <div className="flex flex-col gap-6">
       {/* Outstanding by Class */}
       <Card className="p-5 border-none bg-white rounded-[14px] shadow-sm">
         <h3 className="text-base font-bold text-slate-900 mb-6">Outstanding by Class</h3>
