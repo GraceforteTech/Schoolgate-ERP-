@@ -101,6 +101,9 @@ function AcademicManagementPage() {
             <TabsTrigger value="workload" className="px-6 rounded-lg text-xs font-bold uppercase tracking-wider data-[state=active]:bg-schoolgate-green data-[state=active]:text-white h-full gap-2">
               <UserCheck className="w-4 h-4" /> Teacher Workload
             </TabsTrigger>
+            <TabsTrigger value="syllabus" className="px-6 rounded-lg text-xs font-bold uppercase tracking-wider data-[state=active]:bg-schoolgate-green data-[state=active]:text-white h-full gap-2">
+              <FileText className="w-4 h-4" /> Syllabus & Scheme
+            </TabsTrigger>
             <TabsTrigger value="lesson-notes" className="px-6 rounded-lg text-xs font-bold uppercase tracking-wider data-[state=active]:bg-schoolgate-green data-[state=active]:text-white h-full gap-2">
               <FileText className="w-4 h-4" /> Lesson Notes
             </TabsTrigger>
@@ -114,6 +117,23 @@ function AcademicManagementPage() {
         <TabsContent value="classes"><ClassManagement /></TabsContent>
         <TabsContent value="curriculum"><CurriculumManagement /></TabsContent>
         <TabsContent value="workload"><TeacherWorkload /></TabsContent>
+        <TabsContent value="syllabus">
+          <div className="bg-white p-12 rounded-3xl border border-dashed border-slate-200 flex flex-col items-center justify-center text-center gap-4">
+            <div className="w-16 h-16 bg-schoolgate-green-light rounded-full flex items-center justify-center text-schoolgate-green">
+              <FileText size={32} />
+            </div>
+            <div>
+              <h3 className="text-xl font-bold text-slate-900">Syllabus & Scheme of Work</h3>
+              <p className="text-slate-500 max-w-md mx-auto mt-2">Access and manage all curriculum documents, syllabuses and schemes of work from one hub.</p>
+            </div>
+            <Button 
+              className="bg-schoolgate-green hover:bg-schoolgate-green/90 rounded-xl px-8 h-12 font-bold shadow-lg shadow-schoolgate-green/20"
+              asChild
+            >
+              <Link to="/academic/syllabus">Open Syllabus Hub</Link>
+            </Button>
+          </div>
+        </TabsContent>
         <TabsContent value="lesson-notes">
           <div className="bg-white p-12 rounded-3xl border border-dashed border-slate-200 flex flex-col items-center justify-center text-center gap-4">
             <div className="w-16 h-16 bg-schoolgate-green-light rounded-full flex items-center justify-center text-schoolgate-green">
