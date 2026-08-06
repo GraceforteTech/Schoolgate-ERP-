@@ -552,6 +552,12 @@ export function FeePostingSpreadsheet({ isLoading = false }: { isLoading?: boole
                     <Progress value={postingProgress} className="h-1.5 bg-slate-200" />
                   </div>
                 )}
+              </div>
+              {!isPosting && (
+                <div className="h-12 w-12 rounded-full bg-schoolgate-green-light flex items-center justify-center text-schoolgate-green">
+                  <Check size={24} />
+                </div>
+              )}
             </div>
             
             <DialogFooter className="flex gap-3 sm:justify-between pt-2">
