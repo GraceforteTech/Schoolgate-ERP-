@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payroll Management - Schoolgate ERP</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-main">
+                <div>
+                    <h1>Payroll Management Dashboard</h1>
+                    <p>Complete overview of school payroll activities.</p>
+                </div>
+                <div class="actions">
+                    <button class="btn btn-primary">Process Payroll</button>
+                </div>
+            </div>
+        </header>
+
+        <section class="kpi-section">
+            <div class="kpi-grid">
+                <div class="kpi-card"><div class="kpi-icon icon-blue">👥</div><span class="kpi-label">Employees</span><span class="kpi-value">142</span></div>
+                <div class="kpi-card"><div class="kpi-icon icon-green">₦</div><span class="kpi-label">Gross Payroll</span><span class="kpi-value">22.5M</span></div>
+                <div class="kpi-card"><div class="kpi-icon icon-emerald">💰</div><span class="kpi-label">Net Payroll</span><span class="kpi-value">18.4M</span></div>
+                <div class="kpi-card"><div class="kpi-icon icon-orange">📉</div><span class="kpi-label">Deductions</span><span class="kpi-value">4.1M</span></div>
+                <div class="kpi-card"><div class="kpi-icon icon-indigo">📝</div><span class="kpi-label">Pending</span><span class="kpi-value">14</span></div>
+            </div>
+        </section>
+
+        <div class="dashboard-grid">
+            <div class="chart-container card">
+                <div class="card-header">
+                    <h3>Monthly Payroll Summary</h3>
+                    <p>Gross vs Net Payroll Trends</p>
+                </div>
+                <div class="chart-placeholder">
+                    <!-- Chart visualization goes here -->
+                    <div class="bar-chart">
+                        <div class="bar-group"><div class="bar primary" style="height: 70%"></div><div class="bar light" style="height: 50%"></div></div>
+                        <div class="bar-group"><div class="bar primary" style="height: 75%"></div><div class="bar light" style="height: 55%"></div></div>
+                        <div class="bar-group"><div class="bar primary" style="height: 72%"></div><div class="bar light" style="height: 52%"></div></div>
+                        <div class="bar-group"><div class="bar primary" style="height: 80%"></div><div class="bar light" style="height: 60%"></div></div>
+                        <div class="bar-group"><div class="bar primary" style="height: 85%"></div><div class="bar light" style="height: 65%"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="side-panel">
+                <div class="card">
+                    <div class="card-header"><h3>Payroll Status</h3></div>
+                    <div class="status-list">
+                        <div class="status-item"><span>Validated</span> <span class="badge badge-success">100%</span></div>
+                        <div class="status-item"><span>Pending Approval</span> <span class="badge badge-warning">92%</span></div>
+                    </div>
+                    <button class="btn btn-primary btn-full mt-4">View Processing Centre</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
