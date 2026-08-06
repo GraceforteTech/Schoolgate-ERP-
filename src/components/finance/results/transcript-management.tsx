@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Search, GraduationCap, Download, Printer, ShieldCheck, FileText, Calendar, TrendingUp } from "lucide-react";
+import { Search, GraduationCap, Download, Printer, ShieldCheck, FileText, Calendar, TrendingUp, Eye, Star } from "lucide-react";
 
 export function TranscriptManagement() {
   return (
@@ -55,7 +55,7 @@ export function TranscriptManagement() {
                   </div>
                 </div>
 
-                <Separator />
+                <div className="h-px w-full bg-slate-100" />
 
                 <div className="space-y-3">
                   <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-wider">Quick Actions</h4>
@@ -68,7 +68,7 @@ export function TranscriptManagement() {
                     </Button>
                     <Button variant="outline" className="justify-start gap-3 rounded-xl border-slate-100 hover:bg-slate-50 text-slate-600 font-bold h-11">
                       <ShieldCheck size={16} /> Verify Credentials
-                    </div>
+                    </Button>
                   </div>
                 </div>
               </div>
@@ -168,8 +168,4 @@ export function TranscriptManagement() {
       </div>
     </div>
   );
-}
-
-function Separator() {
-  return <div className="h-px w-full bg-slate-100" />;
 }
