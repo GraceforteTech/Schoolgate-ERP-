@@ -87,9 +87,21 @@ const mockStudents = [
     phone: "07011223344",
     status: "Suspended",
   },
+  {
+    id: "2020/088",
+    name: "John Doe",
+    photo: "https://api.dicebear.com/7.x/avataaars/svg?seed=John",
+    school: "Secondary",
+    class: "SS 3",
+    arm: "Alpha",
+    gender: "Male",
+    parent: "Mr. Doe",
+    phone: "08011111111",
+    status: "Graduated",
+  },
 ];
 
-export function StudentDirectory() {
+export function StudentDirectory({ forcedStatus }: { forcedStatus?: string }) {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
   const toggleAll = () => {
@@ -156,6 +168,14 @@ export function StudentDirectory() {
             <Button 
               size="sm" 
               variant="outline" 
+              className="h-8 text-[10px] font-bold gap-1.5 border-slate-200 hover:bg-white"
+              onClick={() => handleBulkAction("Graduation")}
+            >
+              <ShieldCheck className="h-3 w-3 text-amber-500" /> Graduate
+            </Button>
+            <Button 
+              size="sm" 
+              variant="outline" 
               className="h-8 text-[10px] font-bold gap-1.5 border-slate-200 hover:bg-white text-rose-600 border-rose-100 hover:bg-rose-50"
               onClick={() => handleBulkAction("Withdrawal")}
             >
@@ -203,15 +223,17 @@ export function StudentDirectory() {
           <Input placeholder="Search Student or Admission No..." className="pl-9 h-10 rounded-lg" />
         </div>
         
-        <Select defaultValue="2024/2025">
-          <SelectTrigger className="w-[140px] h-10 rounded-lg">
-            <SelectValue placeholder="Session" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="2024/2025">2024/2025</SelectItem>
-            <SelectItem value="2023/2024">2023/2024</SelectItem>
-          </SelectContent>
-        </Select>
+        {!forcedStatus && (
+          <Select defaultValue="2024/2025">
+            <SelectTrigger className="w-[140px] h-10 rounded-lg">
+              <SelectValue placeholder="Session" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="2024/2025">2024/2025</SelectItem>
+              <SelectItem value="2023/2024">2023/2024</SelectItem>
+            </SelectContent>
+          </Select>
+        )}
 
         <Select>
           <SelectTrigger className="w-[130px] h-10 rounded-lg">
@@ -235,16 +257,18 @@ export function StudentDirectory() {
           </SelectContent>
         </Select>
 
-        <Select>
-          <SelectTrigger className="w-[100px] h-10 rounded-lg">
-            <SelectValue placeholder="Status" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="active">Active</SelectItem>
-            <SelectItem value="suspended">Suspended</SelectItem>
-            <SelectItem value="graduated">Graduated</SelectItem>
-          </SelectContent>
-        </Select>
+        {!forcedStatus && (
+          <Select>
+            <SelectTrigger className="w-[100px] h-10 rounded-lg">
+              <SelectValue placeholder="Status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="active">Active</SelectItem>
+              <SelectItem value="suspended">Suspended</SelectItem>
+              <SelectItem value="graduated">Graduated</SelectItem>
+            </SelectContent>
+          </Select>
+        )}
 
         <div className="flex gap-2">
           <Button variant="outline" size="icon" className="h-10 w-10">
@@ -282,7 +306,9 @@ export function StudentDirectory() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {mockStudents.map((student, i) => (
+              {mockStudents
+                .filter(s => !forcedStatus || s.status === forcedStatus)
+                .map((student, i) => (
                 <TableRow 
                   key={student.id} 
                   className={`${i % 2 === 1 ? "bg-slate-50/50" : ""} ${selectedIds.includes(student.id) ? "bg-schoolgate-green/5 hover:bg-schoolgate-green/5" : "hover:bg-slate-50"}`}
@@ -313,6 +339,8 @@ export function StudentDirectory() {
                     <Badge variant="outline" className={
                       student.status === "Active" 
                         ? "bg-emerald-50 text-emerald-700 border-emerald-100" 
+                        : student.status === "Graduated"
+                        ? "bg-amber-50 text-amber-700 border-amber-100"
                         : "bg-orange-50 text-orange-700 border-orange-100"
                     }>
                       {student.status}
