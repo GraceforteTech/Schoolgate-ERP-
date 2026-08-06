@@ -275,9 +275,25 @@ export function StudentDirectory() {
                 <TableHead className="font-semibold text-slate-700 whitespace-nowrap">School</TableHead>
                 <TableHead className="font-semibold text-slate-700 whitespace-nowrap">Class & Arm</TableHead>
                 <TableHead className="font-semibold text-slate-700 whitespace-nowrap">Gender</TableHead>
-                <TableHead className="font-semibold text-slate-700 whitespace-nowrap text-right">Actions</TableHead>
+                <TableHead className="font-semibold text-slate-700 whitespace-nowrap">Parent</TableHead>
+                <TableHead className="font-semibold text-slate-700 whitespace-nowrap">Phone</TableHead>
+                <TableHead className="font-semibold text-slate-700 text-center">Status</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
+            <TableBody>
+              {mockStudents.map((student, i) => (
+                <TableRow 
+                  key={student.id} 
+                  className={`${i % 2 === 1 ? "bg-slate-50/50" : ""} ${selectedIds.includes(student.id) ? "bg-schoolgate-green/5 hover:bg-schoolgate-green/5" : "hover:bg-slate-50"}`}
+                >
+                  <TableCell className="text-center">
+                    <Checkbox 
+                      checked={selectedIds.includes(student.id)}
+                      onCheckedChange={() => toggleId(student.id)}
+                      className="border-slate-300 data-[state=checked]:bg-schoolgate-green data-[state=checked]:border-schoolgate-green"
+                    />
+                  </TableCell>
             <TableBody>
               {mockStudents.map((student, i) => (
                 <TableRow key={student.id} className={i % 2 === 1 ? "bg-slate-50/50" : ""}>
