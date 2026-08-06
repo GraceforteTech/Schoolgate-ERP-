@@ -22,6 +22,7 @@ import { Route as FinanceAdjustmentManagementRouteImport } from './routes/financ
 import { Route as FinanceDashboardRouteImport } from './routes/finance/dashboard'
 import { Route as TeachersIndexRouteImport } from './routes/teachers/index'
 import { Route as TimetableIndexRouteImport } from './routes/timetable/index'
+import { Route as TransportIndexRouteImport } from './routes/transport/index'
 import { Route as FinanceAdmissionsIndexRouteImport } from './routes/finance/admissions/index'
 import { Route as FinanceAdmissionsApplicantProfileRouteImport } from './routes/finance/admissions/applicant-profile'
 import { Route as FinanceAdmissionsDecisionsRouteImport } from './routes/finance/admissions/decisions'
@@ -105,6 +106,11 @@ const TeachersIndexRoute = TeachersIndexRouteImport.update({
 const TimetableIndexRoute = TimetableIndexRouteImport.update({
   id: '/timetable/',
   path: '/timetable/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TransportIndexRoute = TransportIndexRouteImport.update({
+  id: '/transport/',
+  path: '/transport/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FinanceAdmissionsIndexRoute = FinanceAdmissionsIndexRouteImport.update({
@@ -224,6 +230,7 @@ export interface FileRoutesByFullPath {
   '/enterprise/': typeof EnterpriseIndexRoute
   '/teachers/': typeof TeachersIndexRoute
   '/timetable/': typeof TimetableIndexRoute
+  '/transport/': typeof TransportIndexRoute
   '/finance/admissions/applicant-profile': typeof FinanceAdmissionsApplicantProfileRoute
   '/finance/admissions/decisions': typeof FinanceAdmissionsDecisionsRoute
   '/finance/admissions/enrolment': typeof FinanceAdmissionsEnrolmentRoute
@@ -257,6 +264,7 @@ export interface FileRoutesByTo {
   '/enterprise': typeof EnterpriseIndexRoute
   '/teachers': typeof TeachersIndexRoute
   '/timetable': typeof TimetableIndexRoute
+  '/transport': typeof TransportIndexRoute
   '/finance/admissions/applicant-profile': typeof FinanceAdmissionsApplicantProfileRoute
   '/finance/admissions/decisions': typeof FinanceAdmissionsDecisionsRoute
   '/finance/admissions/enrolment': typeof FinanceAdmissionsEnrolmentRoute
@@ -291,6 +299,7 @@ export interface FileRoutesById {
   '/enterprise/': typeof EnterpriseIndexRoute
   '/teachers/': typeof TeachersIndexRoute
   '/timetable/': typeof TimetableIndexRoute
+  '/transport/': typeof TransportIndexRoute
   '/finance/admissions/applicant-profile': typeof FinanceAdmissionsApplicantProfileRoute
   '/finance/admissions/decisions': typeof FinanceAdmissionsDecisionsRoute
   '/finance/admissions/enrolment': typeof FinanceAdmissionsEnrolmentRoute
@@ -326,6 +335,7 @@ export interface FileRouteTypes {
     | '/enterprise/'
     | '/teachers/'
     | '/timetable/'
+    | '/transport/'
     | '/finance/admissions/applicant-profile'
     | '/finance/admissions/decisions'
     | '/finance/admissions/enrolment'
@@ -359,6 +369,7 @@ export interface FileRouteTypes {
     | '/enterprise'
     | '/teachers'
     | '/timetable'
+    | '/transport'
     | '/finance/admissions/applicant-profile'
     | '/finance/admissions/decisions'
     | '/finance/admissions/enrolment'
@@ -392,6 +403,7 @@ export interface FileRouteTypes {
     | '/enterprise/'
     | '/teachers/'
     | '/timetable/'
+    | '/transport/'
     | '/finance/admissions/applicant-profile'
     | '/finance/admissions/decisions'
     | '/finance/admissions/enrolment'
@@ -426,6 +438,7 @@ export interface RootRouteChildren {
   EnterpriseIndexRoute: typeof EnterpriseIndexRoute
   TeachersIndexRoute: typeof TeachersIndexRoute
   TimetableIndexRoute: typeof TimetableIndexRoute
+  TransportIndexRoute: typeof TransportIndexRoute
   FinanceAdmissionsApplicantProfileRoute: typeof FinanceAdmissionsApplicantProfileRoute
   FinanceAdmissionsDecisionsRoute: typeof FinanceAdmissionsDecisionsRoute
   FinanceAdmissionsEnrolmentRoute: typeof FinanceAdmissionsEnrolmentRoute
@@ -537,6 +550,13 @@ declare module '@tanstack/react-router' {
       path: '/timetable'
       fullPath: '/timetable/'
       preLoaderRoute: typeof TimetableIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/transport/': {
+      id: '/transport/'
+      path: '/transport'
+      fullPath: '/transport/'
+      preLoaderRoute: typeof TransportIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/finance/admissions/': {
@@ -682,6 +702,7 @@ const rootRouteChildren: RootRouteChildren = {
   EnterpriseIndexRoute: EnterpriseIndexRoute,
   TeachersIndexRoute: TeachersIndexRoute,
   TimetableIndexRoute: TimetableIndexRoute,
+  TransportIndexRoute: TransportIndexRoute,
   FinanceAdmissionsApplicantProfileRoute:
     FinanceAdmissionsApplicantProfileRoute,
   FinanceAdmissionsDecisionsRoute: FinanceAdmissionsDecisionsRoute,
@@ -705,3 +726,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
