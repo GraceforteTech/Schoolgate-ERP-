@@ -51,6 +51,7 @@ const mainNavItems = [
   { title: "CBT", url: "/cbt", icon: MonitorPlay },
   { title: "Timetable", url: "/timetable", icon: CalendarDays },
   { title: "Transport", url: "/transport", icon: Bus },
+  { title: "Hostel Management", url: "/hostel", icon: HomeIcon },
 ];
 
 
