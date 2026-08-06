@@ -174,29 +174,6 @@ function LessonNoteManagement() {
           <PrincipalLessonDashboard />
         </TabsContent>
 
-        <TabsContent value="builder">
-          <LessonNoteBuilder />
-        </TabsContent>
-
-        <TabsContent value="planner">
-          <WeeklyLessonPlanner />
-        </TabsContent>
-
-        <TabsContent value="approval">
-          <LessonApprovalCentre />
-        </TabsContent>
-
-        <TabsContent value="curriculum">
-          <CurriculumCoverage />
-        </TabsContent>
-
-        <TabsContent value="analytics">
-          <LessonAnalytics />
-        </TabsContent>
-
-        <TabsContent value="executive">
-          <PrincipalLessonDashboard />
-        </TabsContent>
       </Tabs>
       {/* Floating AI Assistant (Module 6) */}
       <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3 items-end">
