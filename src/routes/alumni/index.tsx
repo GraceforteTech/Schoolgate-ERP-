@@ -89,7 +89,7 @@ function AlumniManagementPage() {
                   <h3 className="font-bold text-slate-800">Alumni Directory</h3>
                   <Badge className="bg-schoolgate-green-light text-schoolgate-green border-none">4,850 Verified Graduates</Badge>
                 </div>
-                <StudentDirectory forcedStatus="Graduated" />
+                <AlumniTable />
               </Card>
             </div>
 
