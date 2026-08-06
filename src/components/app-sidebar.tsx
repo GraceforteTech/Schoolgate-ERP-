@@ -9,6 +9,7 @@ import {
   LayoutDashboard,
   Settings,
   Users,
+  UserPlus,
   Wallet,
 } from "lucide-react";
 
