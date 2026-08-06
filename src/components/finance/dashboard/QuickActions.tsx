@@ -1,5 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Link } from "@tanstack/react-router";
 import { 
   CreditCard, 
   FileSpreadsheet, 
@@ -7,21 +8,20 @@ import {
   Calculator, 
   Briefcase, 
   Printer, 
-  FileBarChart, 
   LayoutList,
   Download
 } from "lucide-react";
 
 const actions = [
-  { label: "Collect Fees", icon: CreditCard },
-  { label: "Bulk Fee Posting", icon: FileSpreadsheet },
-  { label: "Create Invoice", icon: FileText },
-  { label: "Record Expense", icon: Calculator },
-  { label: "Payroll", icon: Briefcase },
-  { label: "Print Daily Report", icon: Printer },
-  { label: "Outstanding Fees", icon: LayoutList },
-  { label: "Student Statement", icon: FileText },
-  { label: "Export Report", icon: Download },
+  { label: "Collect Fees", icon: CreditCard, url: "/finance/invoice-management" },
+  { label: "Bulk Fee Posting", icon: FileSpreadsheet, url: "/finance/fee-posting" },
+  { label: "Create Invoice", icon: FileText, url: "/finance/invoice-management" },
+  { label: "Record Expense", icon: Calculator, url: "/finance/expense-management" },
+  { label: "Payroll", icon: Briefcase, url: "/finance/hr-payroll" },
+  { label: "Print Daily Report", icon: Printer, url: "#" },
+  { label: "Outstanding Fees", icon: LayoutList, url: "/finance/outstanding-fees" },
+  { label: "Student Statement", icon: FileText, url: "/finance/invoice-management" },
+  { label: "Export Report", icon: Download, url: "#" },
 ];
 
 export function QuickActions() {
@@ -33,10 +33,13 @@ export function QuickActions() {
           <Button 
             key={i} 
             variant="outline" 
+            asChild
             className="flex flex-col items-center justify-center h-24 gap-3 rounded-xl border-slate-100 hover:border-schoolgate-green hover:bg-schoolgate-green-light hover:text-schoolgate-green transition-all group"
           >
-            <action.icon size={24} className="opacity-70 group-hover:opacity-100" />
-            <span className="text-[11px] font-bold uppercase tracking-wide">{action.label}</span>
+            <Link to={action.url}>
+              <action.icon size={24} className="opacity-70 group-hover:opacity-100" />
+              <span className="text-[11px] font-bold uppercase tracking-wide">{action.label}</span>
+            </Link>
           </Button>
         ))}
       </div>
