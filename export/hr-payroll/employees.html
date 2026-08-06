@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management - Schoolgate ERP</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Employee Management</h1>
+            <p>Manage employee records, appointments, departments and employment lifecycle.</p>
+        </header>
+
+        <section class="kpi-section">
+            <div class="kpi-grid">
+                <div class="kpi-card"><div class="kpi-icon icon-blue">👥</div><span class="kpi-label">Total Employees</span><span class="kpi-value">142</span></div>
+                <div class="kpi-card"><div class="kpi-icon icon-green">🎓</div><span class="kpi-label">Teaching Staff</span><span class="kpi-value">85</span></div>
+                <div class="kpi-card"><div class="kpi-icon icon-orange">💼</div><span class="kpi-label">Non-Teaching</span><span class="kpi-value">57</span></div>
+                <div class="kpi-card"><div class="kpi-icon icon-emerald">✅</div><span class="kpi-label">Active Staff</span><span class="kpi-value">138</span></div>
+                <div class="kpi-card"><div class="kpi-icon icon-indigo">➕</div><span class="kpi-label">New Employees</span><span class="kpi-value">4</span></div>
+            </div>
+        </section>
+
+        <section class="directory-section">
+            <div class="search-bar">
+                <input type="text" placeholder="Search by name, ID, or department...">
+                <div class="actions">
+                    <button class="btn btn-outline">Filters</button>
+                    <button class="btn btn-primary">Add Employee</button>
+                </div>
+            </div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Employee</th>
+                        <th>Contact</th>
+                        <th>Professional</th>
+                        <th>Lifecycle</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Adebayo Olawale</strong><br><small>EMP/2024/001</small></td>
+                        <td><small>08012345678<br>a.olawale@schoolgate.edu</small></td>
+                        <td><small>Mathematics Teacher<br>Science</small></td>
+                        <td><span class="badge badge-active">Active</span></td>
+                        <td><button class="btn btn-ghost">Actions</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+</body>
+</html>
