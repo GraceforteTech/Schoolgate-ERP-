@@ -15,6 +15,7 @@ import { Route as FeeTypesOverviewRouteImport } from './routes/fee-types-overvie
 import { Route as StudentsRouteImport } from './routes/students'
 import { Route as AcademicIndexRouteImport } from './routes/academic/index'
 import { Route as AttendanceIndexRouteImport } from './routes/attendance/index'
+import { Route as CbtIndexRouteImport } from './routes/cbt/index'
 import { Route as FinanceAdjustmentManagementRouteImport } from './routes/finance/adjustment-management'
 import { Route as FinanceDashboardRouteImport } from './routes/finance/dashboard'
 import { Route as FinanceAdmissionsIndexRouteImport } from './routes/finance/admissions/index'
@@ -58,6 +59,11 @@ const AcademicIndexRoute = AcademicIndexRouteImport.update({
 const AttendanceIndexRoute = AttendanceIndexRouteImport.update({
   id: '/attendance/',
   path: '/attendance/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CbtIndexRoute = CbtIndexRouteImport.update({
+  id: '/cbt/',
+  path: '/cbt/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FinanceAdjustmentManagementRoute =
@@ -148,6 +154,7 @@ export interface FileRoutesByFullPath {
   '/finance/dashboard': typeof FinanceDashboardRoute
   '/academic/': typeof AcademicIndexRoute
   '/attendance/': typeof AttendanceIndexRoute
+  '/cbt/': typeof CbtIndexRoute
   '/finance/admissions/applicant-profile': typeof FinanceAdmissionsApplicantProfileRoute
   '/finance/admissions/decisions': typeof FinanceAdmissionsDecisionsRoute
   '/finance/admissions/enrolment': typeof FinanceAdmissionsEnrolmentRoute
@@ -170,6 +177,7 @@ export interface FileRoutesByTo {
   '/finance/dashboard': typeof FinanceDashboardRoute
   '/academic': typeof AcademicIndexRoute
   '/attendance': typeof AttendanceIndexRoute
+  '/cbt': typeof CbtIndexRoute
   '/finance/admissions/applicant-profile': typeof FinanceAdmissionsApplicantProfileRoute
   '/finance/admissions/decisions': typeof FinanceAdmissionsDecisionsRoute
   '/finance/admissions/enrolment': typeof FinanceAdmissionsEnrolmentRoute
@@ -193,6 +201,7 @@ export interface FileRoutesById {
   '/finance/dashboard': typeof FinanceDashboardRoute
   '/academic/': typeof AcademicIndexRoute
   '/attendance/': typeof AttendanceIndexRoute
+  '/cbt/': typeof CbtIndexRoute
   '/finance/admissions/applicant-profile': typeof FinanceAdmissionsApplicantProfileRoute
   '/finance/admissions/decisions': typeof FinanceAdmissionsDecisionsRoute
   '/finance/admissions/enrolment': typeof FinanceAdmissionsEnrolmentRoute
@@ -217,6 +226,7 @@ export interface FileRouteTypes {
     | '/finance/dashboard'
     | '/academic/'
     | '/attendance/'
+    | '/cbt/'
     | '/finance/admissions/applicant-profile'
     | '/finance/admissions/decisions'
     | '/finance/admissions/enrolment'
@@ -239,6 +249,7 @@ export interface FileRouteTypes {
     | '/finance/dashboard'
     | '/academic'
     | '/attendance'
+    | '/cbt'
     | '/finance/admissions/applicant-profile'
     | '/finance/admissions/decisions'
     | '/finance/admissions/enrolment'
@@ -261,6 +272,7 @@ export interface FileRouteTypes {
     | '/finance/dashboard'
     | '/academic/'
     | '/attendance/'
+    | '/cbt/'
     | '/finance/admissions/applicant-profile'
     | '/finance/admissions/decisions'
     | '/finance/admissions/enrolment'
@@ -284,6 +296,7 @@ export interface RootRouteChildren {
   FinanceDashboardRoute: typeof FinanceDashboardRoute
   AcademicIndexRoute: typeof AcademicIndexRoute
   AttendanceIndexRoute: typeof AttendanceIndexRoute
+  CbtIndexRoute: typeof CbtIndexRoute
   FinanceAdmissionsApplicantProfileRoute: typeof FinanceAdmissionsApplicantProfileRoute
   FinanceAdmissionsDecisionsRoute: typeof FinanceAdmissionsDecisionsRoute
   FinanceAdmissionsEnrolmentRoute: typeof FinanceAdmissionsEnrolmentRoute
@@ -340,6 +353,13 @@ declare module '@tanstack/react-router' {
       path: '/attendance'
       fullPath: '/attendance/'
       preLoaderRoute: typeof AttendanceIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cbt/': {
+      id: '/cbt/'
+      path: '/cbt'
+      fullPath: '/cbt/'
+      preLoaderRoute: typeof CbtIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/finance/adjustment-management': {
@@ -452,6 +472,7 @@ const rootRouteChildren: RootRouteChildren = {
   FinanceDashboardRoute: FinanceDashboardRoute,
   AcademicIndexRoute: AcademicIndexRoute,
   AttendanceIndexRoute: AttendanceIndexRoute,
+  CbtIndexRoute: CbtIndexRoute,
   FinanceAdmissionsApplicantProfileRoute:
     FinanceAdmissionsApplicantProfileRoute,
   FinanceAdmissionsDecisionsRoute: FinanceAdmissionsDecisionsRoute,
@@ -469,3 +490,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
