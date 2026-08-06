@@ -4,8 +4,31 @@ import {
   Cloud, 
   RefreshCcw, 
   FileSpreadsheet,
-  Sparkles
+  Sparkles,
+  Search,
+  Download,
+  Upload,
+  Undo2,
+  Redo2,
+  Trash2,
+  Check,
+  X,
+  History,
+  ShieldCheck,
+  CreditCard,
+  User,
+  Info
 } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -55,12 +78,51 @@ const INITIAL_DATA = [
   { id: 10, admNo: "SCH/2024/010", name: "Chris Evans", class: "JSS 1B", fees: 40000, bf: 0, discount: 0, totalPayable: 40000, paid: 0, outstanding: 40000, status: "Active" },
 ];
 
-export function FeePostingSpreadsheet() {
+export function FeePostingSpreadsheet({ isLoading = false }: { isLoading?: boolean }) {
   const [data, setData] = useState(INITIAL_DATA);
   const [selection, setSelection] = useState<SelectionRange | null>(null);
   const [editing, setEditing] = useState<CellPosition | null>(null);
   const [saveStatus, setSaveStatus] = useState<"saved" | "saving" | "idle">("idle");
+  const [isPostingDialogOpen, setIsPostingDialogOpen] = useState(false);
+  const [isPosting, setIsPosting] = useState(false);
   const tableRef = useRef<HTMLTableElement>(null);
+
+  // Calculations for dialog
+  const totalAmount = data.reduce((acc, curr) => acc + (curr.fees || 0), 0);
+  const totalBf = data.reduce((acc, curr) => acc + (curr.bf || 0), 0);
+  const totalDiscount = data.reduce((acc, curr) => acc + (curr.discount || 0), 0);
+  const finalAmount = totalAmount + totalBf - totalDiscount;
+
+  const handlePostFees = async () => {
+    setIsPosting(true);
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    setIsPosting(false);
+    setIsPostingDialogOpen(false);
+    toast.success("School Fees Posted Successfully", {
+      description: `Processed ${data.length} student records.`,
+      className: "bg-emerald-50 border-emerald-100 text-emerald-900",
+    });
+  };
+
+  if (isLoading) {
+    return (
+      <Card className="rounded-[14px] border-none shadow-sm bg-white overflow-hidden p-6 space-y-4">
+        <div className="flex justify-between items-center mb-4">
+          <Skeleton className="h-8 w-64 rounded-xl" />
+          <div className="flex gap-2">
+            <Skeleton className="h-10 w-32 rounded-xl" />
+            <Skeleton className="h-10 w-32 rounded-xl" />
+          </div>
+        </div>
+        <div className="space-y-2">
+          {[...Array(10)].map((_, i) => (
+            <Skeleton key={i} className="h-12 w-full rounded-lg" />
+          ))}
+        </div>
+      </Card>
+    );
+  }
 
   useEffect(() => {
     let timer: any;
@@ -247,6 +309,30 @@ export function FeePostingSpreadsheet() {
 
   return (
     <div className="space-y-6">
+      {/* Enhanced Bulk Toolbar */}
+      <div className="flex flex-wrap items-center justify-between gap-4 bg-white p-3 rounded-[18px] border border-slate-100 shadow-sm">
+         <div className="flex items-center gap-1">
+            <ToolbarButton icon={Check} label="Select All" />
+            <ToolbarButton icon={X} label="Deselect" />
+            <div className="h-5 w-px bg-slate-100 mx-1" />
+            <ToolbarButton icon={Undo2} label="Undo" />
+            <ToolbarButton icon={Redo2} label="Redo" />
+            <div className="h-5 w-px bg-slate-100 mx-1" />
+            <ToolbarButton icon={Trash2} label="Clear Entries" variant="danger" />
+         </div>
+         <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" className="h-9 rounded-xl gap-2 font-bold border-slate-200 text-slate-600">
+               <Download size={14} /> Template
+            </Button>
+            <Button variant="outline" size="sm" className="h-9 rounded-xl gap-2 font-bold border-slate-200 text-slate-600">
+               <Upload size={14} /> Import Excel
+            </Button>
+            <Button variant="ghost" size="sm" className="h-9 rounded-xl gap-2 font-bold text-schoolgate-green hover:bg-schoolgate-green-light" onClick={() => toast.info("Data Refreshed", { className: "bg-blue-50 border-blue-100 text-blue-900" })}>
+               <RefreshCcw size={14} /> Refresh
+            </Button>
+         </div>
+      </div>
+
       <Card className="rounded-[14px] border-none shadow-sm bg-white overflow-hidden">
         <div className="p-4 bg-slate-50/50 border-b flex items-center justify-between">
           <div className="flex items-center gap-4">
@@ -275,18 +361,26 @@ export function FeePostingSpreadsheet() {
                 <Sparkles size={14} className="text-amber-500" /> Auto-Fill Down
              </Button>
              <div className="h-6 w-px bg-slate-200 mx-2" />
-             <Button variant="outline" size="sm" className="h-9 rounded-xl font-bold">Import CSV</Button>
-             <Button className="h-9 bg-schoolgate-green text-white hover:bg-schoolgate-green/90 rounded-xl font-bold">Apply Changes</Button>
+             <Button className="h-9 bg-schoolgate-green text-white hover:bg-schoolgate-green/90 rounded-xl font-bold px-6" onClick={() => setIsPostingDialogOpen(true)}>Apply & Post Fees</Button>
           </div>
         </div>
         
-        <div className="p-0 overflow-x-auto" onKeyDown={handleKeyDown} tabIndex={0}>
-          <table className="w-full border-collapse text-sm select-none" ref={tableRef}>
-            <thead>
-              <tr className="bg-white border-b border-slate-100">
-                <th className="w-10 bg-slate-50/50 border-r border-slate-100" />
-                {COLUMNS.map((col) => (
-                  <th key={col.key} className={cn("px-4 py-3 text-left font-bold text-slate-500 uppercase tracking-wider text-[11px] border-r border-slate-100 last:border-r-0", col.width)}>
+        <div className="p-0 overflow-x-auto relative" onKeyDown={handleKeyDown} tabIndex={0}>
+          <table className="w-full border-separate border-spacing-0 text-sm select-none" ref={tableRef}>
+            <thead className="sticky top-0 z-30">
+              <tr className="bg-white">
+                <th className="w-10 bg-slate-50 border-b border-r border-slate-100 sticky left-0 z-40" />
+                {COLUMNS.map((col, idx) => (
+                  <th 
+                    key={col.key} 
+                    className={cn(
+                      "px-4 py-3 text-left font-bold text-slate-500 uppercase tracking-wider text-[11px] border-b border-r border-slate-100 last:border-r-0 bg-white",
+                      col.width,
+                      idx < 2 && "sticky z-40",
+                      idx === 0 && "left-10 border-r-slate-200",
+                      idx === 1 && "left-50 border-r-slate-200 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.05)]"
+                    )}
+                  >
                     {col.label}
                   </th>
                 ))}
@@ -294,8 +388,8 @@ export function FeePostingSpreadsheet() {
             </thead>
             <tbody>
               {data.map((row, r) => (
-                <tr key={row.id} className="group border-b border-slate-50 last:border-b-0">
-                  <td className="bg-slate-50/50 border-r border-slate-100 text-center text-[10px] font-bold text-slate-400 group-hover:text-slate-600 transition-colors">
+                <tr key={row.id} className={cn("group transition-colors", r % 2 === 0 ? "bg-white" : "bg-slate-50/30", "hover:bg-schoolgate-green/5")}>
+                  <td className="bg-slate-50 border-r border-b border-slate-100 text-center text-[10px] font-bold text-slate-400 group-hover:text-slate-600 transition-colors sticky left-0 z-20">
                     {r + 1}
                   </td>
                   {COLUMNS.map((col, c) => {
@@ -307,9 +401,12 @@ export function FeePostingSpreadsheet() {
                       <td 
                         key={col.key}
                         className={cn(
-                          "relative h-12 border-r border-slate-50 last:border-r-0 transition-all",
-                          selected && "bg-schoolgate-green/5 ring-1 ring-inset ring-schoolgate-green/50 z-10",
-                          col.readOnly && "bg-slate-50/30 cursor-not-allowed"
+                          "relative h-12 border-r border-b border-slate-50 last:border-r-0 transition-all",
+                          selected && "bg-schoolgate-green/10 ring-2 ring-inset ring-schoolgate-green z-10",
+                          col.readOnly && "bg-slate-50/30 cursor-not-allowed",
+                          c < 2 && "sticky z-20 bg-inherit",
+                          c === 0 && "left-10 border-r-slate-200",
+                          c === 1 && "left-50 border-r-slate-200 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.05)]"
                         )}
                         onClick={(e) => handleCellClick(r, c, e.shiftKey)}
                         onDoubleClick={() => handleCellDoubleClick(r, c)}
@@ -355,6 +452,81 @@ export function FeePostingSpreadsheet() {
            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Cell selection: {selection ? `${selection.start.r + 1}:${selection.start.c + 1}` : 'None'}</p>
         </div>
       </div>
+
+      <Dialog open={isPostingDialogOpen} onOpenChange={setIsPostingDialogOpen}>
+        <DialogContent className="max-w-md rounded-[24px] border-none shadow-2xl p-0 overflow-hidden">
+          <DialogHeader className="p-8 bg-slate-900 text-white relative">
+            <div className="absolute top-0 right-0 p-8 opacity-10">
+              <ShieldCheck size={120} />
+            </div>
+            <DialogTitle className="text-2xl font-black tracking-tight mb-2">Confirm Fee Posting</DialogTitle>
+            <DialogDescription className="text-slate-400 font-medium">
+              You are about to batch post financial records for the current term. Please review the summary below.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="p-8 space-y-6 bg-white">
+            <div className="grid grid-cols-2 gap-4">
+              <SummaryItem label="Students" value={data.length} icon={User} />
+              <SummaryItem label="Base Fees" value={`₦${totalAmount.toLocaleString()}`} icon={CreditCard} />
+              <SummaryItem label="B/F Debt" value={`₦${totalBf.toLocaleString()}`} icon={History} />
+              <SummaryItem label="Discounts" value={`₦${totalDiscount.toLocaleString()}`} icon={Sparkles} color="text-emerald-600" />
+            </div>
+
+            <div className="p-6 rounded-[20px] bg-slate-50 border border-slate-100 flex items-center justify-between">
+              <div>
+                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Final Amount To Post</p>
+                <p className="text-2xl font-black text-slate-900">₦{finalAmount.toLocaleString()}</p>
+              </div>
+              <div className="h-12 w-12 rounded-full bg-schoolgate-green-light flex items-center justify-center text-schoolgate-green">
+                <Check size={24} />
+              </div>
+            </div>
+
+            <DialogFooter className="flex gap-3 sm:justify-between pt-2">
+              <Button variant="ghost" onClick={() => setIsPostingDialogOpen(false)} className="rounded-xl h-12 px-6 font-bold text-slate-500">
+                Cancel
+              </Button>
+              <Button 
+                onClick={handlePostFees} 
+                disabled={isPosting}
+                className="bg-schoolgate-green hover:bg-schoolgate-green/90 text-white rounded-xl h-12 px-8 font-black flex-1 shadow-lg shadow-schoolgate-green/20"
+              >
+                {isPosting ? <RefreshCcw className="animate-spin mr-2" size={20} /> : <CheckCircle2 className="mr-2" size={20} />}
+                {isPosting ? "Posting..." : "Confirm Posting"}
+              </Button>
+            </DialogFooter>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+}
+
+function ToolbarButton({ icon: Icon, label, variant }: { icon: any; label: string; variant?: "danger" }) {
+  return (
+    <Button 
+      variant="ghost" 
+      size="sm" 
+      className={cn(
+        "h-9 rounded-lg gap-2 text-[11px] font-bold uppercase tracking-wider px-3",
+        variant === "danger" ? "text-rose-500 hover:text-rose-600 hover:bg-rose-50" : "text-slate-500 hover:text-slate-900 hover:bg-slate-50"
+      )}
+    >
+      <Icon size={14} />
+      {label}
+    </Button>
+  );
+}
+
+function SummaryItem({ label, value, icon: Icon, color }: any) {
+  return (
+    <div className="p-4 rounded-[18px] bg-slate-50 border border-slate-100">
+      <div className="flex items-center gap-2 mb-2">
+        <Icon size={14} className="text-slate-400" />
+        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{label}</span>
+      </div>
+      <p className={cn("text-base font-black text-slate-900", color)}>{value}</p>
     </div>
   );
 }
