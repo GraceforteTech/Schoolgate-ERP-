@@ -101,14 +101,35 @@ export function FeePostingSpreadsheet({ isLoading = false }: { isLoading?: boole
 
   const handlePostFees = async () => {
     setIsPosting(true);
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    setPostingProgress(0);
+    
+    // Simulate multi-step processing
+    for (let i = 1; i <= 10; i++) {
+      await new Promise(resolve => setTimeout(resolve, 300));
+      setPostingProgress(i * 10);
+    }
+    
     setIsPosting(false);
     setIsPostingDialogOpen(false);
+    setModifiedRows(new Set()); // Reset modifications after posting
+    
     toast.success("School Fees Posted Successfully", {
       description: `Processed ${data.length} student records.`,
       className: "bg-emerald-50 border-emerald-100 text-emerald-900",
     });
+  };
+
+  const handleImport = () => {
+    // Show protection dialog
+    setIsImportProtectionOpen(true);
+  };
+
+  const handleConfirmImport = (strategy: string) => {
+    setIsImportProtectionOpen(false);
+    toast.info(`Importing using ${strategy} strategy...`, {
+      description: "Data is being synchronized with the spreadsheet.",
+    });
+    // In a real app, this would merge imported data based on strategy
   };
 
   if (!selectedClass && !isLoading) {
