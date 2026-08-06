@@ -133,6 +133,7 @@ function LessonNoteManagement() {
             <TabsTrigger value="approval" className="rounded-[10px]">Approval Centre</TabsTrigger>
             <TabsTrigger value="curriculum" className="rounded-[10px]">Curriculum</TabsTrigger>
             <TabsTrigger value="analytics" className="rounded-[10px]">Analytics</TabsTrigger>
+            <TabsTrigger value="print" className="rounded-[10px]">Print & Export</TabsTrigger>
             <TabsTrigger value="executive" className="rounded-[10px]">Principal Hub</TabsTrigger>
           </TabsList>
         </div>
@@ -143,6 +144,34 @@ function LessonNoteManagement() {
 
         <TabsContent value="my-notes">
           <MyLessonNotesList />
+        </TabsContent>
+
+        <TabsContent value="builder">
+          <LessonNoteBuilder />
+        </TabsContent>
+
+        <TabsContent value="planner">
+          <WeeklyLessonPlanner />
+        </TabsContent>
+
+        <TabsContent value="approval">
+          <LessonApprovalCentre />
+        </TabsContent>
+
+        <TabsContent value="curriculum">
+          <CurriculumCoverage />
+        </TabsContent>
+
+        <TabsContent value="analytics">
+          <LessonAnalytics />
+        </TabsContent>
+
+        <TabsContent value="print">
+          <PrintDownloadCenter />
+        </TabsContent>
+
+        <TabsContent value="executive">
+          <PrincipalLessonDashboard />
         </TabsContent>
 
         <TabsContent value="builder">
