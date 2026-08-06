@@ -3,215 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HR & Payroll Management - Schoolgate ERP</title>
+    <title>HR & Payroll Dashboard - Schoolgate ERP</title>
     <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="dashboard-container">
-        <!-- Header -->
-        <header class="page-header">
-            <div class="header-content">
-                <div class="header-titles">
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo" style="display: flex; align-items: center; gap: 10px; margin-bottom: 2rem;">
+                <div style="width: 32px; height: 32px; background: var(--primary); border-radius: 8px; display: grid; place-items: center; color: white; font-weight: bold;">S</div>
+                <div style="font-weight: 800; color: var(--primary); font-size: 1.1rem; letter-spacing: -0.5px;">Schoolgate <span style="font-weight: 400; color: var(--text-muted);">ERP</span></div>
+            </div>
+            <nav style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <div style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin: 1rem 0 0.5rem 0.5rem; letter-spacing: 0.05em;">Main</div>
+                <a href="#" class="btn btn-ghost" style="justify-content: flex-start; background: var(--primary-light); color: var(--primary);">Dashboard</a>
+                <a href="#" class="btn btn-ghost" style="justify-content: flex-start;">Employees</a>
+                <a href="#" class="btn btn-ghost" style="justify-content: flex-start;">Payroll Process</a>
+                <a href="#" class="btn btn-ghost" style="justify-content: flex-start;">Salary Structures</a>
+            </nav>
+        </aside>
+        
+        <main class="main-content">
+            <header class="page-header">
+                <div>
                     <h1>HR & Payroll Management</h1>
                     <p class="subtitle">Manage employees, payroll and staff welfare from one intelligent dashboard.</p>
                 </div>
-                <div class="header-actions">
-                    <button class="btn btn-outline">
-                        <span class="icon">📥</span>
-                        Export
-                    </button>
-                    <button class="btn btn-outline">
-                        <span class="icon">🖨️</span>
-                        Print
-                    </button>
-                    <button class="btn btn-primary">
-                        <span class="icon">➕</span>
-                        New Employee
-                    </button>
+                <div class="flex gap-2">
+                    <button class="btn btn-outline">Export Data</button>
+                    <button class="btn btn-primary">+ New Employee</button>
                 </div>
-            </div>
-            
-            <!-- Filter Bar -->
-            <div class="filter-bar">
-                <span class="filter-label">Quick Filters:</span>
-                <div class="filter-pills">
-                    <span class="pill">2024/2025 Session</span>
-                    <span class="pill">1st Term</span>
-                    <span class="pill">All Departments</span>
-                    <span class="pill">All Staff Types</span>
-                </div>
-            </div>
-        </header>
+            </header>
 
-        <main class="dashboard-main">
-            <!-- KPI Section -->
-            <section class="kpi-section">
-                <h2 class="section-title">Executive KPI Overview</h2>
-                <div class="kpi-grid">
-                    <div class="kpi-card">
-                        <div class="kpi-icon icon-blue">👥</div>
-                        <div class="kpi-info">
-                            <span class="kpi-label">Total Staff</span>
-                            <div class="kpi-value-row">
-                                <span class="kpi-value">142</span>
-                                <span class="trend-up">↗</span>
-                            </div>
-                            <span class="kpi-subtext">+4 this month</span>
-                        </div>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="kpi-icon icon-green">💰</div>
-                        <div class="kpi-info">
-                            <span class="kpi-label">Monthly Payroll</span>
-                            <div class="kpi-value-row">
-                                <span class="kpi-value">₦18.4M</span>
-                                <span class="trend-stable">→</span>
-                            </div>
-                            <span class="kpi-subtext">Next: Aug 25</span>
-                        </div>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="kpi-icon icon-orange">📅</div>
-                        <div class="kpi-info">
-                            <span class="kpi-label">Attendance Rate</span>
-                            <div class="kpi-value-row">
-                                <span class="kpi-value">94.2%</span>
-                                <span class="trend-up">↗</span>
-                            </div>
-                            <span class="kpi-subtext">Today</span>
-                        </div>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="kpi-icon icon-purple">🕒</div>
-                        <div class="kpi-info">
-                            <span class="kpi-label">Pending Leave</span>
-                            <div class="kpi-value-row">
-                                <span class="kpi-value">12</span>
-                                <span class="trend-neutral">●</span>
-                            </div>
-                            <span class="kpi-subtext">Requires action</span>
-                        </div>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="kpi-icon icon-yellow">⭐</div>
-                        <div class="kpi-info">
-                            <span class="kpi-label">Avg Performance</span>
-                            <div class="kpi-value-row">
-                                <span class="kpi-value">4.8/5</span>
-                                <span class="trend-up">↗</span>
-                            </div>
-                            <span class="kpi-subtext">+0.2 from Q1</span>
-                        </div>
-                    </div>
+            <section class="grid-4" style="grid-template-columns: repeat(4, 1fr);">
+                <div class="kpi-card">
+                    <span class="kpi-label">Total Employees</span>
+                    <span class="kpi-value">142</span>
+                    <span style="font-size: 0.7rem; color: var(--success);">+2 this month</span>
+                </div>
+                <div class="kpi-card">
+                    <span class="kpi-label">Gross Payroll</span>
+                    <span class="kpi-value">₦22.5M</span>
+                    <span style="font-size: 0.7rem; color: var(--text-muted);">August 2024</span>
+                </div>
+                <div class="kpi-card">
+                    <span class="kpi-label">Net Payroll</span>
+                    <span class="kpi-value">₦18.4M</span>
+                    <span style="font-size: 0.7rem; color: var(--primary);">82% of Gross</span>
+                </div>
+                <div class="kpi-card">
+                    <span class="kpi-label">Deductions</span>
+                    <span class="kpi-value">₦4.1M</span>
+                    <span style="font-size: 0.7rem; color: var(--danger);">Tax & Pension</span>
                 </div>
             </section>
 
-            <!-- Navigation Tabs -->
-            <nav class="tabs-nav">
-                <ul class="tabs-list">
-                    <li class="tab-item active">Overview</li>
-                    <li class="tab-item">Payroll Summary</li>
-                    <li class="tab-item">Employee Hub</li>
-                    <li class="tab-item">Attendance</li>
-                    <li class="tab-item">Leave Mgmt</li>
-                    <li class="tab-item">Performance</li>
-                    <li class="tab-item">Wealth & Loans</li>
-                </ul>
-            </nav>
-
-            <!-- Analytics Content -->
-            <div class="analytics-grid">
-                <!-- Payroll Trend -->
-                <div class="card col-span-2">
-                    <div class="card-header">
-                        <h3 class="card-title">Payroll Trend</h3>
-                        <p class="card-desc">Monthly disbursement overview</p>
+            <div class="grid-2" style="margin-top: 2rem; display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem;">
+                <div class="card">
+                    <div class="flex justify-between items-center" style="margin-bottom: 1.5rem;">
+                        <h3>Payroll Analytics</h3>
+                        <div class="badge badge-info">Last 6 Months</div>
                     </div>
-                    <div class="card-content chart-placeholder">
-                        <!-- Simplified representation of a bar chart -->
-                        <div class="bar-chart">
-                            <div class="bar-group"><div class="bar primary" style="height: 60%"></div><div class="bar light" style="height: 20%"></div></div>
-                            <div class="bar-group"><div class="bar primary" style="height: 65%"></div><div class="bar light" style="height: 25%"></div></div>
-                            <div class="bar-group"><div class="bar primary" style="height: 62%"></div><div class="bar light" style="height: 22%"></div></div>
-                            <div class="bar-group"><div class="bar primary" style="height: 70%"></div><div class="bar light" style="height: 28%"></div></div>
-                            <div class="bar-group"><div class="bar primary" style="height: 75%"></div><div class="bar light" style="height: 30%"></div></div>
-                            <div class="bar-group"><div class="bar primary" style="height: 80%"></div><div class="bar light" style="height: 35%"></div></div>
-                        </div>
+                    <div style="height: 250px; background: #f8fafc; border-radius: 8px; border: 1px dashed var(--border); display: grid; place-items: center; color: var(--text-muted); font-size: 0.8rem;">
+                        [Chart Visualization Placeholder]
                     </div>
                 </div>
 
-                <!-- Staff Composition -->
                 <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Staff Composition</h3>
-                        <p class="card-desc">Distribution by department</p>
-                    </div>
-                    <div class="card-content">
-                        <div class="donut-chart-container">
-                            <div class="donut-chart"></div>
+                    <h3>Recent Activities</h3>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <p style="font-size: 0.85rem;"><strong>HR Admin</strong> processed August 2024 Payroll Batch</p>
+                            <span style="font-size: 0.7rem; color: var(--text-muted);">2 hours ago</span>
                         </div>
-                        <ul class="legend">
-                            <li><span class="dot dot-green"></span> Teaching (85)</li>
-                            <li><span class="dot dot-teal"></span> Admin (15)</li>
-                            <li><span class="dot dot-blue"></span> Maintenance (22)</li>
-                            <li><span class="dot dot-indigo"></span> Security (12)</li>
-                        </ul>
+                        <div class="timeline-item">
+                            <p style="font-size: 0.85rem;"><strong>Accountant</strong> applied Salary Advances for 5 staff</p>
+                            <span style="font-size: 0.7rem; color: var(--text-muted);">5 hours ago</span>
+                        </div>
+                        <div class="timeline-item">
+                            <p style="font-size: 0.85rem;"><strong>System</strong> locked July 2024 Final Payroll</p>
+                            <span style="font-size: 0.7rem; color: var(--text-muted);">Yesterday</span>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Notifications & Feed -->
-            <div class="feeds-grid">
-                <div class="card">
-                    <div class="card-header flex-row">
-                        <h3 class="card-title">Smart Notifications</h3>
-                        <span class="badge">4 New</span>
-                    </div>
-                    <div class="card-content">
-                        <ul class="notif-list">
-                            <li class="notif-item">
-                                <div class="notif-icon-circle bg-red">🕒</div>
-                                <div class="notif-text">
-                                    <p class="notif-title">Leave Approval Required</p>
-                                    <p class="notif-desc">Mr. Adebayo (Mathematics) requested leave.</p>
-                                    <p class="notif-time">10 mins ago</p>
-                                </div>
-                            </li>
-                            <li class="notif-item">
-                                <div class="notif-icon-circle bg-blue">📄</div>
-                                <div class="notif-text">
-                                    <p class="notif-title">Payroll Computation Ready</p>
-                                    <p class="notif-desc">August payroll draft is ready for review.</p>
-                                    <p class="notif-time">2 hours ago</p>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
+            <div class="card" style="margin-top: 1.5rem;">
+                <div class="flex justify-between items-center" style="margin-bottom: 1.5rem;">
+                    <h3>Employee Directory Quick View</h3>
+                    <a href="#" class="btn btn-ghost" style="font-size: 0.75rem;">View All</a>
                 </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Activity Log</h3>
-                    </div>
-                    <div class="card-content">
-                        <ul class="activity-timeline">
-                            <li class="activity-item">
-                                <span class="activity-dot dot-blue"></span>
-                                <div class="activity-text">
-                                    <p><strong>System</strong> onboarded <strong>John Doe</strong></p>
-                                    <p class="activity-time">20 mins ago</p>
-                                </div>
-                            </li>
-                            <li class="activity-item">
-                                <span class="activity-dot dot-green"></span>
-                                <div class="activity-text">
-                                    <p><strong>Admin</strong> approved <strong>Salary Advance</strong></p>
-                                    <p class="activity-time">1 hour ago</p>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Employee Name</th>
+                                <th>Department</th>
+                                <th>Designation</th>
+                                <th>Basic Salary</th>
+                                <th>Net Salary</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Adebayo Olawale</strong><br><span style="font-size: 0.7rem; color: var(--text-muted);">EMP/001</span></td>
+                                <td>Science</td>
+                                <td>Senior Teacher</td>
+                                <td>₦150,000</td>
+                                <td style="color: var(--primary); font-weight: 700;">₦167,000</td>
+                                <td><span class="badge badge-success">Verified</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Sarah Johnson</strong><br><span style="font-size: 0.7rem; color: var(--text-muted);">EMP/002</span></td>
+                                <td>Admin</td>
+                                <td>Admin Officer</td>
+                                <td>₦120,000</td>
+                                <td style="color: var(--primary); font-weight: 700;">₦135,000</td>
+                                <td><span class="badge badge-warning">Pending</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </main>

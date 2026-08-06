@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrance Exams - Schoolgate ERP</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo" style="display: flex; align-items: center; gap: 10px; margin-bottom: 2rem;">
+                <div style="width: 36px; height: 36px; background: var(--primary); border-radius: 10px; display: grid; place-items: center; color: white; font-weight: bold;">S</div>
+                <div style="font-weight: 800; color: var(--primary); font-size: 1.2rem; letter-spacing: -0.5px;">Schoolgate</div>
+            </div>
+            <nav style="display: flex; flex-direction: column; gap: 0.25rem;">
+                <a href="index.html" class="sidebar-nav-item">
+                    <div class="icon-box">🏠</div>
+                    Dashboard
+                </a>
+                <a href="exams.html" class="sidebar-nav-item active">
+                    <div class="icon-box">📝</div>
+                    Entrance Exams
+                </a>
+                <a href="decisions.html" class="sidebar-nav-item">
+                    <div class="icon-box">⚖️</div>
+                    Admission Decisions
+                </a>
+                <a href="enrolment.html" class="sidebar-nav-item">
+                    <div class="icon-box">🎓</div>
+                    Student Enrolment
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="page-header">
+                <div>
+                    <h1>Entrance Examination Management</h1>
+                    <p class="subtitle">Schedule and manage entrance exams for all school sections.</p>
+                </div>
+                <div class="flex gap-2">
+                    <button class="btn btn-outline">Export Results</button>
+                    <button class="btn btn-primary">Schedule Exam</button>
+                </div>
+            </header>
+
+            <section class="grid-4" style="margin-bottom: 2rem;">
+                <div class="kpi-card"><span class="kpi-label">Scheduled</span><span class="kpi-value">12</span></div>
+                <div class="kpi-card"><span class="kpi-label">Passed</span><span class="kpi-value">45</span></div>
+                <div class="kpi-card"><span class="kpi-label">Failed</span><span class="kpi-value">8</span></div>
+                <div class="kpi-card"><span class="kpi-label">Absent</span><span class="kpi-value">4</span></div>
+            </section>
+
+            <div class="card">
+                <div class="flex justify-between items-center" style="margin-bottom: 1.5rem;">
+                    <h3>Exam Results & Schedules</h3>
+                    <div class="flex gap-2">
+                        <input type="text" placeholder="Search applicant..." style="padding: 0.5rem; border: 1px solid var(--border); border-radius: 8px; font-size: 0.8rem; width: 250px;">
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Exam Date</th>
+                                <th>Applicant</th>
+                                <th>Class</th>
+                                <th>Type</th>
+                                <th>Score</th>
+                                <th>Grade</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Aug 15, 2026</strong></td>
+                                <td>Adebayo Olawale</td>
+                                <td>JSS 1</td>
+                                <td>CBT</td>
+                                <td style="color: var(--primary); font-weight: 800;">85/100</td>
+                                <td>A</td>
+                                <td><span class="badge badge-success">Passed</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Aug 15, 2026</strong></td>
+                                <td>Chiamaka Okoro</td>
+                                <td>Primary 4</td>
+                                <td>Written</td>
+                                <td style="color: var(--primary); font-weight: 800;">72/100</td>
+                                <td>B</td>
+                                <td><span class="badge badge-success">Passed</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
