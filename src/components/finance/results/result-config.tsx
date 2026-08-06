@@ -110,6 +110,20 @@ export function ResultConfig() {
               </div>
             </div>
 
+            <div className="space-y-4">
+              <h3 className="text-sm font-bold text-slate-800">Remark Rules</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">
+                  <Label className="text-[10px] font-black text-slate-400 uppercase tracking-wider">Pass Remark</Label>
+                  <Input defaultValue="Good performance. Keep it up." className="h-9 mt-1 rounded-lg border-slate-200 text-sm" />
+                </div>
+                <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">
+                  <Label className="text-[10px] font-black text-slate-400 uppercase tracking-wider">Fail Remark</Label>
+                  <Input defaultValue="Requires more effort and focus." className="h-9 mt-1 rounded-lg border-slate-200 text-sm" />
+                </div>
+              </div>
+            </div>
+
             <div className="flex flex-wrap gap-3">
               <Button className="bg-schoolgate-green hover:bg-schoolgate-green/90 h-11 rounded-xl px-6 gap-2 shadow-lg shadow-schoolgate-green/20">
                 <Save size={18} /> Save Configuration

@@ -23,7 +23,7 @@ export function ResultEntrySystem() {
       {/* Filters Bar */}
       <Card className="rounded-[14px] border-none shadow-sm overflow-hidden bg-white">
         <CardContent className="p-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-3">
             <Select defaultValue="2023-2024">
               <SelectTrigger className="h-10 rounded-lg border-slate-200">
                 <SelectValue placeholder="Session" />
@@ -70,6 +70,14 @@ export function ResultEntrySystem() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="math">Mathematics</SelectItem>
+              </SelectContent>
+            </Select>
+            <Select defaultValue="yusuf">
+              <SelectTrigger className="h-10 rounded-lg border-slate-200">
+                <SelectValue placeholder="Teacher" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="yusuf">Mr. Yusuf Bello</SelectItem>
               </SelectContent>
             </Select>
             <div className="relative">

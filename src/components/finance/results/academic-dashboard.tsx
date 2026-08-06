@@ -51,6 +51,10 @@ export function AcademicDashboard() {
                 <div className="h-1.5 w-full bg-slate-50 rounded-full mt-4 overflow-hidden">
                   <div className="h-full bg-schoolgate-green rounded-full" style={{ width: '92.4%' }} />
                 </div>
+                <div className="flex justify-between items-center mt-2">
+                  <span className="text-[9px] font-bold text-rose-500 uppercase tracking-wider">Failure Rate: 7.6%</span>
+                  <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider hover:text-schoolgate-green cursor-pointer">Drill down →</span>
+                </div>
               </div>
             </Card>
 
@@ -120,6 +124,31 @@ export function AcademicDashboard() {
               </div>
             </CardContent>
           </Card>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Card className="rounded-[14px] border-none shadow-sm bg-white overflow-hidden p-6 hover:shadow-md transition-shadow cursor-pointer border border-slate-100">
+              <div className="flex items-center gap-4">
+                <div className="p-3 bg-indigo-50 rounded-xl">
+                  <GraduationCap className="text-indigo-600 w-6 h-6" />
+                </div>
+                <div>
+                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">NECO Readiness</span>
+                  <h4 className="text-xl font-black text-slate-900 tracking-tight">82%</h4>
+                </div>
+              </div>
+            </Card>
+            <Card className="rounded-[14px] border-none shadow-sm bg-white overflow-hidden p-6 hover:shadow-md transition-shadow cursor-pointer border border-slate-100">
+              <div className="flex items-center gap-4">
+                <div className="p-3 bg-emerald-50 rounded-xl">
+                  <TrendingUp className="text-emerald-600 w-6 h-6" />
+                </div>
+                <div>
+                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Growth Trend</span>
+                  <h4 className="text-xl font-black text-slate-900 tracking-tight">+4.2%</h4>
+                </div>
+              </div>
+            </Card>
+          </div>
         </div>
 
         {/* Right Side: Performance Alerts & Ranking */}
