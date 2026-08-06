@@ -25,6 +25,23 @@ import { LessonAnalytics } from '@/components/lesson-notes/lesson-analytics';
 import { PrincipalLessonDashboard } from '@/components/lesson-notes/principal-lesson-dashboard';
 import { AILessonGenerator } from '@/components/lesson-notes/ai-lesson-generator';
 import { TeacherLessonNoteDashboard } from '@/components/lesson-notes/teacher-lesson-note-dashboard';
+import { 
+  Sparkles, 
+  Wand2, 
+  Settings, 
+  Archive, 
+  Trash, 
+  Share2, 
+  FileDown, 
+  Layout, 
+  Clock as ClockIcon,
+  Save,
+  Eye,
+  Send,
+  Printer,
+  Copy,
+  Plus as PlusIcon
+} from "lucide-react";
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
