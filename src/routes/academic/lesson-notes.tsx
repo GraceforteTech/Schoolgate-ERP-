@@ -121,16 +121,17 @@ function LessonNoteManagement() {
         </div>
       </div>
 
-      <Tabs defaultValue="overview" className="w-full" onValueChange={setActiveTab}>
+      <Tabs defaultValue="overview" className="w-full" value={activeTab} onValueChange={setActiveTab}>
         <div className="flex items-center justify-between mb-4">
-          <TabsList className="bg-white p-1 rounded-[14px] shadow-sm">
+          <TabsList className="bg-white p-1 rounded-[14px] shadow-sm overflow-x-auto max-w-full">
             <TabsTrigger value="overview" className="rounded-[10px]">Overview</TabsTrigger>
-            <TabsTrigger value="builder" className="rounded-[10px]">Builder</TabsTrigger>
+            <TabsTrigger value="my-notes" className="rounded-[10px]">My Lesson Notes</TabsTrigger>
+            <TabsTrigger value="builder" className="rounded-[10px]">Note Builder</TabsTrigger>
             <TabsTrigger value="planner" className="rounded-[10px]">Weekly Planner</TabsTrigger>
             <TabsTrigger value="approval" className="rounded-[10px]">Approval Centre</TabsTrigger>
-            <TabsTrigger value="curriculum" className="rounded-[10px]">Curriculum Progress</TabsTrigger>
+            <TabsTrigger value="curriculum" className="rounded-[10px]">Curriculum</TabsTrigger>
             <TabsTrigger value="analytics" className="rounded-[10px]">Analytics</TabsTrigger>
-            <TabsTrigger value="executive" className="rounded-[10px]">Principal Dashboard</TabsTrigger>
+            <TabsTrigger value="executive" className="rounded-[10px]">Principal Hub</TabsTrigger>
           </TabsList>
         </div>
 
