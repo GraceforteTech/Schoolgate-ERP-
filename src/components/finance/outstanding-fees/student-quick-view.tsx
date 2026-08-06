@@ -8,9 +8,13 @@ import {
   Eye, 
   DollarSign, 
   Calendar, 
-  User
+  User,
+  History,
+  FileText,
+  FileDown
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Skeleton } from "@/components/ui/skeleton";
 
 
 interface QuickViewProps {
@@ -121,12 +125,48 @@ export function StudentQuickView({ open, onOpenChange, student }: QuickViewProps
   );
 }
 
-function BreakdownRow({ label, value, color, isBold }: any) {
+  return (
+    <Sheet open={open} onOpenChange={onOpenChange}>
+      <SheetContent className="w-full sm:max-w-md border-none p-0 bg-slate-50 shadow-2xl">
+        <SheetHeader className="p-6 bg-white border-b border-slate-100">
+          <SheetTitle className="text-xl font-black text-slate-900 tracking-tight">Student Financial 360°</SheetTitle>
+        </SheetHeader>
+        
+        {renderContent()}
+      </SheetContent>
+    </Sheet>
+  );
+}
+
+function BreakdownRow({ label, value, color, isBold, icon: Icon }: any) {
   return (
     <div className="flex justify-between items-center text-sm">
-      <span className="text-slate-500 font-medium">{label}</span>
-      <span className={cn("font-bold tabular-nums", color || "text-slate-900", isBold && "text-base")}>{value}</span>
+      <div className="flex items-center gap-2">
+        {Icon && <Icon size={12} className="text-slate-300" />}
+        <span className="text-slate-500 font-bold">{label}</span>
+      </div>
+      <span className={cn("font-black tabular-nums", color || "text-slate-900", isBold && "text-base")}>{value}</span>
     </div>
+  );
+}
+
+function CheckCircle2Icon(props: any) {
+  return (
+    <svg 
+      {...props} 
+      xmlns="http://www.w3.org/2000/svg" 
+      width="24" 
+      height="24" 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      stroke="currentColor" 
+      strokeWidth="2" 
+      strokeLinecap="round" 
+      strokeLinejoin="round"
+    >
+      <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
+      <path d="m9 12 2 2 4-4" />
+    </svg>
   );
 }
 
