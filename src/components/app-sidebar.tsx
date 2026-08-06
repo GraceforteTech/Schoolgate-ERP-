@@ -9,6 +9,7 @@ import {
   LayoutDashboard,
   Settings,
   Users,
+  Wallet,
 } from "lucide-react";
 
 import {
@@ -39,6 +40,7 @@ const financeNavItems = [
   { title: "Outstanding", url: "/finance/outstanding-fees", icon: CreditCard },
   { title: "Expenses", url: "/finance/expense-management", icon: Banknote },
   { title: "Payroll", url: "/finance/payroll-management", icon: Banknote },
+  { title: "Wealth & Loan", url: "/finance/wealth-loan", icon: Wallet },
 ];
 
 const systemNavItems = [
