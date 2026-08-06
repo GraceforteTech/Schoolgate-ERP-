@@ -3,46 +3,203 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lesson Note Builder - Schoolgate ERP</title>
+    <title>Lesson Note Builder | Schoolgate ERP</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-bottom: 2rem; }
-        .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
-        label { font-size: 0.8rem; font-weight: 700; color: #475569; text-transform: uppercase; }
-        input, select, textarea { padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: 10px; font-size: 0.9rem; }
-        .steps-container { margin-top: 2rem; }
-        .step-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 1rem; overflow: hidden; }
-        .step-header { padding: 1rem; background: white; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
-        .step-body { padding: 1.5rem; }
-        .floating-ai { position: fixed; bottom: 2rem; right: 2rem; background: #4f46e5; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; items: center; justify-content: center; box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.4); }
+        .editor-container {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+            margin-bottom: 5rem;
+        }
+        .section-header {
+            background: var(--bg-light);
+            padding: 1rem;
+            border-radius: var(--radius-sm);
+            margin-bottom: 1rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .rich-editor {
+            min-height: 200px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            background: var(--white);
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header class="header">
-            <h2>New Lesson Note</h2>
-        </header>
-        
-        <section class="form-section card">
-            <h3>Lesson Information</h3>
-            <div class="form-grid">
-                <div class="form-group"><label>Academic Session</label><select><option>2023/2024</option></select></div>
-                <div class="form-group"><label>Class</label><select><option>JSS 1</option></select></div>
-            </div>
-        </section>
+    <div class="app-container">
+        <main class="main-content" style="max-width: 1200px;">
+            <header class="page-header">
+                <div>
+                    <a href="index.html" style="color: var(--text-muted); text-decoration: none; font-size: 0.875rem;">← Back to Dashboard</a>
+                    <h1 style="margin-top: 0.5rem;">Lesson Note Builder</h1>
+                </div>
+                <div class="flex gap-2">
+                    <button class="btn btn-outline">Preview</button>
+                    <button class="btn btn-primary">Submit for Approval</button>
+                </div>
+            </header>
 
-        <section class="steps-container">
-            <h3>Teaching Steps</h3>
-            <div class="step-card">
-                <div class="step-header"><strong>Step 1: Introduction</strong></div>
-                <div class="step-body">
-                    <div class="form-group"><label>Teacher Activity</label><textarea rows="3"></textarea></div>
+            <div class="editor-container">
+                <div class="editor-main">
+                    <!-- Module 2: Lesson Information -->
+                    <div class="card">
+                        <div class="section-header">Lesson Information</div>
+                        <div class="grid-3">
+                            <div class="form-group">
+                                <label>Academic Session</label>
+                                <select><option>2023/2024</option></select>
+                            </div>
+                            <div class="form-group">
+                                <label>Term</label>
+                                <select><option>First Term</option></select>
+                            </div>
+                            <div class="form-group">
+                                <label>Week</label>
+                                <select><option>Week 3</option></select>
+                            </div>
+                        </div>
+                        <div class="grid-3">
+                            <div class="form-group">
+                                <label>School</label>
+                                <select><option>Secondary School</option></select>
+                            </div>
+                            <div class="form-group">
+                                <label>Class</label>
+                                <select><option>SSS 1</option></select>
+                            </div>
+                            <div class="form-group">
+                                <label>Subject</label>
+                                <select><option>Chemistry</option></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Topic</label>
+                            <input type="text" value="Chemical Reactions" placeholder="Enter topic">
+                        </div>
+                    </div>
+
+                    <!-- Module 3: Lesson Content -->
+                    <div class="card">
+                        <div class="section-header">Learning Objectives</div>
+                        <div class="rich-editor" contenteditable="true">
+                            <ul>
+                                <li>Define chemical reactions</li>
+                                <li>Identify types of chemical reactions</li>
+                            </ul>
+                        </div>
+
+                        <div class="section-header">Instructional Materials</div>
+                        <div class="rich-editor" contenteditable="true">
+                            Beakers, Bunsen burner, Magnesium ribbon, Test tubes.
+                        </div>
+                    </div>
+
+                    <!-- Module 4: Dynamic Teaching Steps -->
+                    <div class="card">
+                        <div class="section-header">
+                            Teaching Steps
+                            <button class="btn btn-outline" style="padding: 0.25rem 0.75rem;">+ Add Step</button>
+                        </div>
+                        
+                        <div class="card step-card">
+                            <div class="step-header">
+                                <strong>Step 1: Introduction</strong>
+                                <div class="flex gap-2">
+                                    <button class="btn btn-ghost">↑</button>
+                                    <button class="btn btn-ghost">↓</button>
+                                    <button class="btn btn-ghost" style="color: var(--danger);">Delete</button>
+                                </div>
+                            </div>
+                            <div class="grid-2">
+                                <div class="form-group">
+                                    <label>Teacher Activities</label>
+                                    <textarea rows="3">Review previous lesson on atoms.</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Student Activities</label>
+                                    <textarea rows="3">Respond to questions about atomic structure.</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Module 5: Assessment & Homework -->
+                    <div class="card">
+                        <div class="section-header">Assessment & Homework</div>
+                        <div class="form-group">
+                            <label>Class Exercise</label>
+                            <div class="rich-editor" contenteditable="true">Write 3 examples of exothermic reactions.</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Homework</label>
+                            <div class="rich-editor" contenteditable="true">Balance the following equations...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar / AI Assistant / Approval -->
+                <aside class="editor-sidebar">
+                    <!-- Module 6: AI Assistant -->
+                    <div class="card" style="border: 1px solid #C7D2FE; background: #F5F7FF;">
+                        <h3 style="display: flex; align-items: center; gap: 0.5rem; color: #4338CA;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+                            AI Assistant
+                        </h3>
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 1rem;">
+                            <button class="btn btn-outline" style="justify-content: flex-start; border-color: #C7D2FE;">Generate Objectives</button>
+                            <button class="btn btn-outline" style="justify-content: flex-start; border-color: #C7D2FE;">Generate Activities</button>
+                            <button class="btn btn-outline" style="justify-content: flex-start; border-color: #C7D2FE;">Generate Evaluation</button>
+                            <button class="btn btn-primary" style="background: #4338CA;">Full Lesson Generator</button>
+                        </div>
+                    </div>
+
+                    <!-- Module 7: Approval Workflow -->
+                    <div class="card">
+                        <h3>Approval Path</h3>
+                        <div class="timeline">
+                            <div class="timeline-item" style="color: var(--success);">
+                                <strong>Teacher</strong>
+                                <p style="font-size: 0.75rem;">Created • Today, 9:00 AM</p>
+                            </div>
+                            <div class="timeline-item" style="color: var(--text-muted);">
+                                <strong>HOD Science</strong>
+                                <p style="font-size: 0.75rem;">Pending Review</p>
+                            </div>
+                            <div class="timeline-item" style="color: var(--text-muted);">
+                                <strong>Principal</strong>
+                                <p style="font-size: 0.75rem;">Awaiting Approval</p>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+
+            <!-- Module 8: Action Center -->
+            <div class="sticky-toolbar">
+                <div class="toolbar-content">
+                    <div class="flex gap-2">
+                        <button class="btn btn-outline">Save Draft</button>
+                        <span style="font-size: 0.75rem; color: var(--text-muted); align-self: center;">Auto-saved at 14:22</span>
+                    </div>
+                    <div class="flex gap-2">
+                        <button class="btn btn-outline">Share</button>
+                        <button class="btn btn-outline">Download PDF</button>
+                        <button class="btn btn-primary">Submit Note</button>
+                    </div>
                 </div>
             </div>
-        </section>
-
-        <div class="floating-ai">✨</div>
+        </main>
     </div>
 </body>
 </html>
