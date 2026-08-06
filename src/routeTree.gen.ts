@@ -24,6 +24,7 @@ import { Route as TeachersIndexRouteImport } from './routes/teachers/index'
 import { Route as TimetableIndexRouteImport } from './routes/timetable/index'
 import { Route as TransportIndexRouteImport } from './routes/transport/index'
 import { Route as TransportDriversRouteImport } from './routes/transport/drivers'
+import { Route as TransportRoutesRouteImport } from './routes/transport/routes'
 import { Route as TransportVehiclesRouteImport } from './routes/transport/vehicles'
 import { Route as FinanceAdmissionsIndexRouteImport } from './routes/finance/admissions/index'
 import { Route as FinanceAdmissionsApplicantProfileRouteImport } from './routes/finance/admissions/applicant-profile'
@@ -118,6 +119,11 @@ const TransportIndexRoute = TransportIndexRouteImport.update({
 const TransportDriversRoute = TransportDriversRouteImport.update({
   id: '/transport/drivers',
   path: '/transport/drivers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TransportRoutesRoute = TransportRoutesRouteImport.update({
+  id: '/transport/routes',
+  path: '/transport/routes',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TransportVehiclesRoute = TransportVehiclesRouteImport.update({
@@ -237,6 +243,7 @@ export interface FileRoutesByFullPath {
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
   '/finance/dashboard': typeof FinanceDashboardRoute
   '/transport/drivers': typeof TransportDriversRoute
+  '/transport/routes': typeof TransportRoutesRoute
   '/transport/vehicles': typeof TransportVehiclesRoute
   '/academic/': typeof AcademicIndexRoute
   '/attendance/': typeof AttendanceIndexRoute
@@ -273,6 +280,7 @@ export interface FileRoutesByTo {
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
   '/finance/dashboard': typeof FinanceDashboardRoute
   '/transport/drivers': typeof TransportDriversRoute
+  '/transport/routes': typeof TransportRoutesRoute
   '/transport/vehicles': typeof TransportVehiclesRoute
   '/academic': typeof AcademicIndexRoute
   '/attendance': typeof AttendanceIndexRoute
@@ -310,6 +318,7 @@ export interface FileRoutesById {
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
   '/finance/dashboard': typeof FinanceDashboardRoute
   '/transport/drivers': typeof TransportDriversRoute
+  '/transport/routes': typeof TransportRoutesRoute
   '/transport/vehicles': typeof TransportVehiclesRoute
   '/academic/': typeof AcademicIndexRoute
   '/attendance/': typeof AttendanceIndexRoute
@@ -348,6 +357,7 @@ export interface FileRouteTypes {
     | '/finance/adjustment-management'
     | '/finance/dashboard'
     | '/transport/drivers'
+    | '/transport/routes'
     | '/transport/vehicles'
     | '/academic/'
     | '/attendance/'
@@ -384,6 +394,7 @@ export interface FileRouteTypes {
     | '/finance/adjustment-management'
     | '/finance/dashboard'
     | '/transport/drivers'
+    | '/transport/routes'
     | '/transport/vehicles'
     | '/academic'
     | '/attendance'
@@ -420,6 +431,7 @@ export interface FileRouteTypes {
     | '/finance/adjustment-management'
     | '/finance/dashboard'
     | '/transport/drivers'
+    | '/transport/routes'
     | '/transport/vehicles'
     | '/academic/'
     | '/attendance/'
@@ -457,6 +469,7 @@ export interface RootRouteChildren {
   FinanceAdjustmentManagementRoute: typeof FinanceAdjustmentManagementRoute
   FinanceDashboardRoute: typeof FinanceDashboardRoute
   TransportDriversRoute: typeof TransportDriversRoute
+  TransportRoutesRoute: typeof TransportRoutesRoute
   TransportVehiclesRoute: typeof TransportVehiclesRoute
   AcademicIndexRoute: typeof AcademicIndexRoute
   AttendanceIndexRoute: typeof AttendanceIndexRoute
@@ -590,6 +603,13 @@ declare module '@tanstack/react-router' {
       path: '/transport/drivers'
       fullPath: '/transport/drivers'
       preLoaderRoute: typeof TransportDriversRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/transport/routes': {
+      id: '/transport/routes'
+      path: '/transport/routes'
+      fullPath: '/transport/routes'
+      preLoaderRoute: typeof TransportRoutesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/transport/vehicles': {
@@ -737,6 +757,7 @@ const rootRouteChildren: RootRouteChildren = {
   FinanceAdjustmentManagementRoute: FinanceAdjustmentManagementRoute,
   FinanceDashboardRoute: FinanceDashboardRoute,
   TransportDriversRoute: TransportDriversRoute,
+  TransportRoutesRoute: TransportRoutesRoute,
   TransportVehiclesRoute: TransportVehiclesRoute,
   AcademicIndexRoute: AcademicIndexRoute,
   AttendanceIndexRoute: AttendanceIndexRoute,
