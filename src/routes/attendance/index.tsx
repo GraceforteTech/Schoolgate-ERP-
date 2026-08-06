@@ -6,6 +6,7 @@ import { StudentAttendanceProfile } from "@/components/attendance/student-attend
 import { ParentNotificationCentre } from "@/components/attendance/parent-notification-centre";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent } from "@/components/ui/card";
 import { 
   Plus, 
   Search, 
@@ -24,6 +25,7 @@ import {
 export const Route = createFileRoute('/attendance/')({
   component: AttendancePage,
 });
+
 
 function AttendancePage() {
   return (
