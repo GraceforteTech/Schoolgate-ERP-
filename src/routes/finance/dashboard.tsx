@@ -6,6 +6,9 @@ import { FinanceAnalytics } from '@/components/finance/dashboard/FinanceAnalytic
 import { RecentActivities } from '@/components/finance/dashboard/RecentActivities';
 import { QuickActions } from '@/components/finance/dashboard/QuickActions';
 import { ExecutiveInsights } from '@/components/finance/dashboard/ExecutiveInsights';
+import { FinancialVisibilityReport } from '@/components/finance/dashboard/FinancialVisibilityReport';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
 import { 
   LayoutDashboard, 
   Calendar, 
@@ -54,33 +57,49 @@ function FinanceDashboard() {
       </div>
 
       {/* Main Content Sections */}
-      <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-        
-        {/* Executive Overview */}
-        <section>
-          <div className="flex items-center gap-3 mb-6">
-            <div className="p-2 bg-schoolgate-green-light rounded-lg">
-              <LayoutDashboard size={20} className="text-schoolgate-green" />
-            </div>
-            <h2 className="text-xl font-black text-slate-800 tracking-tight">Executive Overview</h2>
-          </div>
-          <ExecutiveKPIs />
-        </section>
-
-        {/* Analytics & Today's Performance */}
-        <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
-          <div className="xl:col-span-8 space-y-6">
-            <FinanceAnalytics />
-            <RecentActivities />
-          </div>
-          <div className="xl:col-span-4 space-y-6">
-            <TodayCollections />
-            <QuickActions />
-            <ExecutiveInsights />
-          </div>
+      <Tabs defaultValue="overview" className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+        <div className="flex items-center justify-between">
+          <TabsList className="bg-white p-1 rounded-xl shadow-sm border-none h-12">
+            <TabsTrigger value="overview" className="rounded-lg px-6 font-bold data-[state=active]:bg-schoolgate-green data-[state=active]:text-white transition-all">
+              Executive Overview
+            </TabsTrigger>
+            <TabsTrigger value="visibility" className="rounded-lg px-6 font-bold data-[state=active]:bg-schoolgate-green data-[state=active]:text-white transition-all">
+              Financial Visibility
+            </TabsTrigger>
+          </TabsList>
         </div>
 
-      </div>
+        <TabsContent value="overview" className="space-y-8 mt-0 outline-none">
+          {/* Executive Overview */}
+          <section>
+            <div className="flex items-center gap-3 mb-6">
+              <div className="p-2 bg-schoolgate-green-light rounded-lg">
+                <LayoutDashboard size={20} className="text-schoolgate-green" />
+              </div>
+              <h2 className="text-xl font-black text-slate-800 tracking-tight">Executive Overview</h2>
+            </div>
+            <ExecutiveKPIs />
+          </section>
+
+          {/* Analytics & Today's Performance */}
+          <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
+            <div className="xl:col-span-8 space-y-6">
+              <FinanceAnalytics />
+              <RecentActivities />
+            </div>
+            <div className="xl:col-span-4 space-y-6">
+              <TodayCollections />
+              <QuickActions />
+              <ExecutiveInsights />
+            </div>
+          </div>
+        </TabsContent>
+
+        <TabsContent value="visibility" className="mt-0 outline-none">
+          <FinancialVisibilityReport />
+        </TabsContent>
+      </Tabs>
+
     </div>
   );
 }
