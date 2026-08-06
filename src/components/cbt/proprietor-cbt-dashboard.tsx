@@ -83,7 +83,7 @@ export function ProprietorCBTDashboard() {
               }`}>
                 <kpi.icon size={20} />
               </div>
-              <Badge variant="ghost" className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Monthly</Badge>
+              <Badge variant="outline" className="text-[10px] font-black text-slate-400 uppercase tracking-widest border-none">Monthly</Badge>
             </div>
             <p className="text-xs font-black text-slate-400 uppercase tracking-widest">{kpi.label}</p>
             <p className="text-3xl font-black text-slate-800 mt-1">{kpi.value}</p>
