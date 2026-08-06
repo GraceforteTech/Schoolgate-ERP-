@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payroll Processing - Schoolgate ERP</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .processing-grid {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 1.5rem;
+        }
+        .workflow-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .step-card {
+            background: white;
+            padding: 1.25rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            position: relative;
+        }
+        .step-card.completed { background: #f0fdf4; border-color: #dcfce7; }
+        .step-card.active { border-color: var(--primary); ring: 1px var(--primary); }
+        
+        .step-num {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #94a3b8;
+        }
+        .completed .step-num { background: var(--primary); color: white; }
+        .active .step-num { background: var(--primary); color: white; animation: pulse 2s infinite; }
+        
+        .step-info h4 { font-size: 0.875rem; font-weight: 700; margin-bottom: 2px; }
+        .step-info p { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); }
+        .completed .step-info p { color: var(--primary); }
+        
+        .quick-action-card {
+            background: #0f172a;
+            color: white;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+        }
+        .quick-action-card h3 { font-size: 1rem; margin-bottom: 1rem; }
+        
+        .progress-bar-container {
+            background: #f1f5f9;
+            height: 8px;
+            border-radius: 4px;
+            margin: 1.5rem 0;
+            overflow: hidden;
+        }
+        .progress-fill {
+            background: var(--primary);
+            height: 100%;
+            width: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-main">
+                <div>
+                    <h1>Payroll Processing Centre</h1>
+                    <p>Execute and validate the monthly payroll cycle.</p>
+                </div>
+                <div class="actions">
+                    <button class="btn btn-primary">Start Processing</button>
+                </div>
+            </div>
+        </header>
+
+        <div class="dashboard-main">
+            <div class="processing-grid">
+                <div class="main-content">
+                    <div class="card mb-4">
+                        <div class="card-header flex-row">
+                            <h3>Current Batch: #PAY-2024-08</h3>
+                            <span class="badge">In Progress</span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-fill"></div>
+                        </div>
+                        <div class="kpi-grid">
+                            <div class="kpi-item">
+                                <span class="kpi-label">Gross Total</span>
+                                <span class="kpi-value">₦22.5M</span>
+                            </div>
+                            <div class="kpi-item">
+                                <span class="kpi-label">Net Payable</span>
+                                <span class="kpi-value">₦18.4M</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-grid">
+                        <div class="step-card completed">
+                            <div class="step-num">✓</div>
+                            <div class="step-info"><h4>Load Employees</h4><p>Completed</p></div>
+                        </div>
+                        <div class="step-card completed">
+                            <div class="step-num">✓</div>
+                            <div class="step-info"><h4>Calculate Salaries</h4><p>Completed</p></div>
+                        </div>
+                        <div class="step-card active">
+                            <div class="step-num">3</div>
+                            <div class="step-info"><h4>Validate Payroll</h4><p>In Progress</p></div>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-num">4</div>
+                            <div class="step-info"><h4>Approve Batch</h4><p>Pending</p></div>
+                        </div>
+                    </div>
+                </div>
+
+                <aside class="quick-action-card">
+                    <h3>Review & Action</h3>
+                    <p style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 1.5rem;">Please verify all employee data before final validation.</p>
+                    <button class="btn btn-primary btn-full mb-2">Validate Payroll</button>
+                    <button class="btn btn-outline btn-full" style="background: transparent; color: white; border-color: #334155;">Preview Register</button>
+                </aside>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -54,11 +54,11 @@ const financeNavItems = [
   { title: "Payroll", url: "/finance/payroll-management", icon: Banknote },
   { title: "Results & Reports", url: "/finance/results", icon: FileText },
   { title: "HR & Payroll", url: "/finance/hr-payroll", icon: Users },
-  { title: "Employee Mgmt", url: "/finance/hr-payroll/employees", icon: UserPlus },
-  { title: "Payroll Dashboard", url: "/finance/hr-payroll/payroll-dashboard", icon: Banknote },
-  { title: "Salary Structure", url: "/finance/hr-payroll/salary-structure", icon: CreditCard },
-  { title: "Payroll Processing", url: "/finance/hr-payroll/processing", icon: FileSpreadsheet },
-  { title: "Salary Table", url: "/finance/hr-payroll/salary-table", icon: FileText },
+  { title: "Employee Hub", url: "/finance/hr-payroll/employees", icon: UserPlus },
+  { title: "Payroll Centre", url: "/finance/hr-payroll/payroll-dashboard", icon: Banknote },
+  { title: "Salary Grades", url: "/finance/hr-payroll/salary-structure", icon: CreditCard },
+  { title: "Payroll Engine", url: "/finance/hr-payroll/processing", icon: FileSpreadsheet },
+  { title: "Salary Ledger", url: "/finance/hr-payroll/salary-table", icon: FileText },
   { title: "Wealth & Loan", url: "/finance/wealth-loan", icon: Wallet },
 ];
 
