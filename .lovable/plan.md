@@ -1,6 +1,6 @@
 # Plan: Class Information Management Implementation
 
-The user is asking for a "CLASS INFORMATION" feature including "manage class" etc. Currently, there's a basic  component inside `src/routes/academic/index.tsx`, but it lacks a dedicated page and advanced management features (KPIs, detailed registry, etc.).
+The user is asking for a "CLASS INFORMATION" feature including "manage class" etc. Currently, there's a basic `ClassManagement` component inside `src/routes/academic/index.tsx`, but it lacks a dedicated page and advanced management features (KPIs, detailed registry, etc.).
 
 ## Proposed Changes
 
