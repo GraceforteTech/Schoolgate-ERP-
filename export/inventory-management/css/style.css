@@ -1,0 +1,128 @@
+:root {
+  --primary: #0B6E3C;
+  --primary-light: #E8F5EE;
+  --bg-light: #F5F7FA;
+  --text-main: #0F172A;
+  --text-muted: #64748B;
+  --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  --radius: 14px;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-light);
+  color: var(--text-main);
+  margin: 0;
+  padding: 0;
+}
+
+.dashboard {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.header-title h1 {
+  font-size: 1.875rem;
+  font-weight: 900;
+  margin: 0;
+}
+
+.header-title p {
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.kpi-card {
+  background: white;
+  padding: 1.25rem;
+  border-radius: var(--radius);
+  box-shadow: var(--card-shadow);
+}
+
+.kpi-icon {
+  background: var(--primary-light);
+  color: var(--primary);
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.kpi-value {
+  font-size: 1.5rem;
+  font-weight: 900;
+  margin: 0;
+}
+
+.kpi-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 20px;
+  box-shadow: var(--card-shadow);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  text-align: left;
+  padding: 1rem;
+  font-size: 0.7rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border-bottom: 1px solid #f1f5f9;
+}
+
+td {
+  padding: 1rem;
+  font-size: 0.875rem;
+  border-bottom: 1px solid #f8fafc;
+}
+
+.badge {
+  padding: 0.25rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.badge-success { background: #ecfdf5; color: #059669; }
+.badge-warning { background: #fffbeb; color: #d97706; }
+
+.btn {
+  padding: 0.6rem 1.25rem;
+  border-radius: 10px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  background: var(--primary);
+  color: white;
+}

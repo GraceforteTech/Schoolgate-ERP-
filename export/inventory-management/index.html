@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Management | Schoolgate ERP</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="dashboard">
+        <header>
+            <div class="header-title">
+                <h1>Inventory & Store</h1>
+                <p>Enterprise supply chain and stock control system.</p>
+            </div>
+            <button class="btn">+ New Item</button>
+        </header>
+
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-icon">📦</div>
+                <h3 class="kpi-value">2,480</h3>
+                <p class="kpi-label">Total Items</p>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon">💰</div>
+                <h3 class="kpi-value">₦24.5M</h3>
+                <p class="kpi-label">Inventory Value</p>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon">⚠️</div>
+                <h3 class="kpi-value">12</h3>
+                <p class="kpi-label">Low Stock</p>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon">🚚</div>
+                <h3 class="kpi-value">5</h3>
+                <p class="kpi-label">Pending Deliveries</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Stock Registry</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item Details</th>
+                        <th>Category</th>
+                        <th>Quantity</th>
+                        <th>Value</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Office A4 Paper</strong><br><small>INV-STA-001</small></td>
+                        <td>Stationery</td>
+                        <td>45 Reams</td>
+                        <td>₦202,500</td>
+                        <td><span class="badge badge-success">In Stock</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Sulphuric Acid (1L)</strong><br><small>INV-LAB-042</small></td>
+                        <td>Laboratory</td>
+                        <td>8 Bottles</td>
+                        <td>₦96,000</td>
+                        <td><span class="badge badge-warning">Low Stock</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
