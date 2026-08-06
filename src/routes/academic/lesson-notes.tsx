@@ -140,6 +140,10 @@ function LessonNoteManagement() {
           <TeacherLessonNoteDashboard onNewLesson={() => setActiveTab("builder")} />
         </TabsContent>
 
+        <TabsContent value="my-notes">
+          <MyLessonNotesList />
+        </TabsContent>
+
         <TabsContent value="builder">
           <LessonNoteBuilder />
         </TabsContent>
