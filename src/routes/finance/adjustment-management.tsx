@@ -318,10 +318,7 @@ function SummaryCard({
 
   return (
     <Card 
-      className={cn(
-        "group cursor-pointer rounded-[14px] border-0 bg-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md",
-        className
-      )}
+      className="group cursor-pointer rounded-[14px] border-0 bg-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
       onClick={onClick}
     >
       <CardContent className="flex flex-col gap-3 p-5">
