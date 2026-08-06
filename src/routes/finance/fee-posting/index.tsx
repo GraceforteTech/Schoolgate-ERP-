@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { 
   FileSpreadsheet, 
   Search, 
@@ -50,6 +50,12 @@ export const Route = createFileRoute("/finance/fee-posting/")({
 
 function FeePostingPage() {
   const [activeTab, setActiveTab] = useState("dashboard");
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 1500);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <SidebarProvider>
@@ -116,7 +122,7 @@ function FeePostingPage() {
                 </div>
 
                 <TabsContent value="dashboard" className="space-y-8 animate-in fade-in zoom-in-95 duration-300">
-                  <FeePostingKPIs />
+                  <FeePostingKPIs isLoading={isLoading} />
                   
                   <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
                     <div className="lg:col-span-8 space-y-6">
@@ -244,7 +250,7 @@ function FeePostingPage() {
                         </div>
                         <Button variant="ghost" size="sm" className="text-slate-500 hover:text-white h-8 text-[10px] font-black uppercase tracking-widest">Dismiss</Button>
                      </Alert>
-                     <FeePostingSpreadsheet />
+                     <FeePostingSpreadsheet isLoading={isLoading} />
                   </div>
                 </TabsContent>
 
