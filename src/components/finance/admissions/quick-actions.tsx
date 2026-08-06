@@ -10,19 +10,19 @@ import {
   Download 
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { Link } from "@tanstack/react-router";
 
 export function QuickActions() {
   const actions = [
-    { label: "New Enquiry", icon: UserPlus, variant: "outline" as const },
-    { label: "New Application", icon: FilePlus, variant: "default" as const },
-    { label: "Schedule Exam", icon: Calendar, variant: "outline" as const },
-    { label: "Schedule Interview", icon: GraduationCap, variant: "outline" as const },
-    { label: "Approve Admission", icon: CheckCircle, variant: "outline" as const },
-    { label: "Generate Letter", icon: Mail, variant: "outline" as const },
-    { label: "Print Letter", icon: Printer, variant: "outline" as const },
-    { label: "Enroll Student", icon: UserCheck, variant: "outline" as const },
-    { label: "Export Apps", icon: Download, variant: "outline" as const },
+    { label: "New Enquiry", icon: UserPlus, variant: "outline" as const, url: "#" },
+    { label: "New Application", icon: FilePlus, variant: "default" as const, url: "#" },
+    { label: "Schedule Exam", icon: Calendar, variant: "outline" as const, url: "/finance/admissions/exams" },
+    { label: "Schedule Interview", icon: GraduationCap, variant: "outline" as const, url: "/finance/admissions/decisions" },
+    { label: "Approve Admission", icon: CheckCircle, variant: "outline" as const, url: "/finance/admissions/decisions" },
+    { label: "Generate Letter", icon: Mail, variant: "outline" as const, url: "#" },
+    { label: "Print Letter", icon: Printer, variant: "outline" as const, url: "#" },
+    { label: "Enroll Student", icon: UserCheck, variant: "outline" as const, url: "/finance/admissions/enrolment" },
+    { label: "Export Apps", icon: Download, variant: "outline" as const, url: "#" },
   ];
 
   return (
@@ -31,12 +31,15 @@ export function QuickActions() {
         <Button
           key={i}
           variant={action.variant === "default" ? "default" : "outline"}
+          asChild
           className={`h-auto py-4 px-4 flex flex-col items-center gap-2 rounded-[14px] transition-all hover:shadow-md ${
             action.variant === "default" ? "bg-schoolgate-green hover:bg-schoolgate-green/90" : "border-slate-200"
           }`}
         >
-          <action.icon className={`h-5 w-5 ${action.variant === "default" ? "text-white" : "text-schoolgate-green"}`} />
-          <span className="text-xs font-semibold">{action.label}</span>
+          <Link to={action.url}>
+            <action.icon className={`h-5 w-5 ${action.variant === "default" ? "text-white" : "text-schoolgate-green"}`} />
+            <span className="text-xs font-semibold">{action.label}</span>
+          </Link>
         </Button>
       ))}
     </div>
