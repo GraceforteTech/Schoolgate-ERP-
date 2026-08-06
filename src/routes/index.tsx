@@ -1,5 +1,5 @@
 import { createFileRoute, Navigate } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
-  component: () => <Navigate to="/finance/invoice-management" replace />,
+  component: () => <Navigate to="/finance/dashboard" replace />,
 });
