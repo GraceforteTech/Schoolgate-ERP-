@@ -58,9 +58,10 @@ export function QuestionBank() {
             Bulk Upload
           </Button>
           <Button variant="outline" className="rounded-xl gap-2 h-11 border-slate-200 text-blue-600">
-            <FileWord size={18} />
+            <FileStack size={18} />
             Import Word
           </Button>
+
           <Button variant="outline" className="rounded-xl gap-2 h-11 border-slate-200 text-emerald-600">
             <FileSpreadsheet size={18} />
             Import Excel
