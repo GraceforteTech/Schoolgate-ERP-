@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result & Report Card Management - Schoolgate ERP</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo" style="display: flex; align-items: center; gap: 10px; margin-bottom: 2rem;">
+                <div style="width: 36px; height: 36px; background: var(--primary); border-radius: 10px; display: grid; place-items: center; color: white; font-weight: bold;">S</div>
+                <div style="font-weight: 800; color: var(--primary); font-size: 1.2rem; letter-spacing: -0.5px;">Schoolgate</div>
+            </div>
+            <nav style="display: flex; flex-direction: column; gap: 0.25rem;">
+                <a href="index.html" class="sidebar-nav-item active">
+                    <div class="icon-box">📊</div>
+                    Executive Dashboard
+                </a>
+                <a href="entry.html" class="sidebar-nav-item">
+                    <div class="icon-box">📝</div>
+                    Result Entry
+                </a>
+                <a href="report-cards.html" class="sidebar-nav-item">
+                    <div class="icon-box">📄</div>
+                    Report Cards
+                </a>
+                <a href="#" class="sidebar-nav-item">
+                    <div class="icon-box">⚖️</div>
+                    Approval Centre
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="page-header">
+                <div>
+                    <h1>Result & Report Card Management</h1>
+                    <p class="subtitle">Manage assessment scores, result computation and report card generation.</p>
+                </div>
+                <div class="flex gap-2">
+                    <button class="btn btn-outline">Export Archive</button>
+                    <div class="status-badge">Academic Engine Active</div>
+                </div>
+            </header>
+
+            <section class="grid-4" style="margin-bottom: 2rem;">
+                <div class="kpi-card"><span class="kpi-label">Average Score</span><span class="kpi-value">74.2%</span></div>
+                <div class="kpi-card"><span class="kpi-label">Results Computed</span><span class="kpi-value">1,840</span></div>
+                <div class="kpi-card"><span class="kpi-label">Pending Approval</span><span class="kpi-value">156</span></div>
+                <div class="kpi-card"><span class="kpi-label">Failing Grade Rate</span><span class="kpi-value">4.1%</span></div>
+            </section>
+
+            <div class="card">
+                <h3>Computation Status by Class</h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Class</th>
+                                <th>Students</th>
+                                <th>Subjects</th>
+                                <th>Status</th>
+                                <th>Progress</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>SS 3 Alpha</strong></td>
+                                <td>45</td>
+                                <td>12</td>
+                                <td><span class="badge badge-success">Completed</span></td>
+                                <td>100%</td>
+                                <td><button class="btn btn-ghost">View Results</button></td>
+                            </tr>
+                            <tr>
+                                <td><strong>JSS 1 Gold</strong></td>
+                                <td>38</td>
+                                <td>14</td>
+                                <td><span class="badge badge-info">In Progress</span></td>
+                                <td>65%</td>
+                                <td><button class="btn btn-ghost">Continue Entry</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

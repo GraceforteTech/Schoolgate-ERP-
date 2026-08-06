@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result Entry - Schoolgate ERP</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo" style="display: flex; align-items: center; gap: 10px; margin-bottom: 2rem;">
+                <div style="width: 36px; height: 36px; background: var(--primary); border-radius: 10px; display: grid; place-items: center; color: white; font-weight: bold;">S</div>
+                <div style="font-weight: 800; color: var(--primary); font-size: 1.2rem; letter-spacing: -0.5px;">Schoolgate</div>
+            </div>
+            <nav style="display: flex; flex-direction: column; gap: 0.25rem;">
+                <a href="index.html" class="sidebar-nav-item">
+                    <div class="icon-box">📊</div>
+                    Executive Dashboard
+                </a>
+                <a href="entry.html" class="sidebar-nav-item active">
+                    <div class="icon-box">📝</div>
+                    Result Entry
+                </a>
+                <a href="report-cards.html" class="sidebar-nav-item">
+                    <div class="icon-box">📄</div>
+                    Report Cards
+                </a>
+                <a href="#" class="sidebar-nav-item">
+                    <div class="icon-box">⚖️</div>
+                    Approval Centre
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="page-header">
+                <div>
+                    <h1>Result Entry System</h1>
+                    <p class="subtitle">Enter assessment and examination scores for individual students or bulk classes.</p>
+                </div>
+                <div class="flex gap-2">
+                    <button class="btn btn-outline">Import CSV</button>
+                    <button class="btn btn-primary">Save Changes</button>
+                </div>
+            </header>
+
+            <div class="card" style="margin-bottom: 1.5rem;">
+                <div class="grid-4">
+                    <div>
+                        <label>Session</label>
+                        <select><option>2024/2025</option></select>
+                    </div>
+                    <div>
+                        <label>Term</label>
+                        <select><option>First Term</option></select>
+                    </div>
+                    <div>
+                        <label>Class</label>
+                        <select><option>SS 3 Alpha</option></select>
+                    </div>
+                    <div>
+                        <label>Subject</label>
+                        <select><option>Mathematics</option></select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Admission No</th>
+                                <th>Student Name</th>
+                                <th>CA 1 (20)</th>
+                                <th>CA 2 (20)</th>
+                                <th>Exam (60)</th>
+                                <th>Total (100)</th>
+                                <th>Grade</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>2024/001</td>
+                                <td><strong>Olawale Adebayo</strong></td>
+                                <td><input type="number" value="18" style="width: 60px;"></td>
+                                <td><input type="number" value="15" style="width: 60px;"></td>
+                                <td><input type="number" value="45" style="width: 60px;"></td>
+                                <td style="font-weight: 800; color: var(--primary);">78</td>
+                                <td><span class="badge badge-success">A</span></td>
+                            </tr>
+                            <tr>
+                                <td>2024/042</td>
+                                <td><strong>Chiamaka Okoro</strong></td>
+                                <td><input type="number" value="12" style="width: 60px;"></td>
+                                <td><input type="number" value="14" style="width: 60px;"></td>
+                                <td><input type="number" value="38" style="width: 60px;"></td>
+                                <td style="font-weight: 800; color: var(--primary);">64</td>
+                                <td><span class="badge badge-info">B</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
