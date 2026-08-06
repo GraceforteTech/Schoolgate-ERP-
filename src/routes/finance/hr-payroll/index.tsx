@@ -110,6 +110,9 @@ function HRPayrollDashboard() {
                <Button variant="link" className="text-schoolgate-green text-xs">View Registry</Button>
              </div>
           </TabsContent>
+          <TabsContent value="employees" className="outline-none">
+            <EmployeeList />
+          </TabsContent>
         </Tabs>
       </div>
     </div>
