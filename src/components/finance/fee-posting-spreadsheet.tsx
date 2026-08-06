@@ -380,11 +380,11 @@ export function FeePostingSpreadsheet({ isLoading = false }: { isLoading?: boole
             <div className="h-5 w-px bg-slate-100 mx-1" />
             <ToolbarButton icon={Trash2} label="Clear Entries" variant="danger" />
          </div>
-         <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" className="h-9 rounded-xl gap-2 font-bold border-slate-200 text-slate-600">
+          <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" className="h-9 rounded-xl gap-2 font-bold border-slate-200 text-slate-600" onClick={() => toast.info("Downloading Template...")}>
                <Download size={14} /> Template
             </Button>
-            <Button variant="outline" size="sm" className="h-9 rounded-xl gap-2 font-bold border-slate-200 text-slate-600">
+            <Button variant="outline" size="sm" className="h-9 rounded-xl gap-2 font-bold border-slate-200 text-slate-600" onClick={handleImport}>
                <Upload size={14} /> Import Excel
             </Button>
             <Button variant="ghost" size="sm" className="h-9 rounded-xl gap-2 font-bold text-schoolgate-green hover:bg-schoolgate-green-light" onClick={() => toast.info("Data Refreshed", { className: "bg-blue-50 border-blue-100 text-blue-900" })}>
