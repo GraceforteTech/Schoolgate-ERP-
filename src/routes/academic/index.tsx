@@ -114,6 +114,23 @@ function AcademicManagementPage() {
         <TabsContent value="classes"><ClassManagement /></TabsContent>
         <TabsContent value="curriculum"><CurriculumManagement /></TabsContent>
         <TabsContent value="workload"><TeacherWorkload /></TabsContent>
+        <TabsContent value="lesson-notes">
+          <div className="bg-white p-12 rounded-3xl border border-dashed border-slate-200 flex flex-col items-center justify-center text-center gap-4">
+            <div className="w-16 h-16 bg-schoolgate-green-light rounded-full flex items-center justify-center text-schoolgate-green">
+              <FileText size={32} />
+            </div>
+            <div>
+              <h3 className="text-xl font-bold text-slate-900">Teacher Lesson Note Dashboard</h3>
+              <p className="text-slate-500 max-w-md mx-auto mt-2">Create, manage and monitor lesson notes digitally for all classes and subjects.</p>
+            </div>
+            <Button 
+              className="bg-schoolgate-green hover:bg-schoolgate-green/90 rounded-xl px-8 h-12 font-bold shadow-lg shadow-schoolgate-green/20"
+              onClick={() => window.location.href = '/academic/lesson-notes'}
+            >
+              Open Lesson Note Hub
+            </Button>
+          </div>
+        </TabsContent>
         <TabsContent value="reports"><AcademicReports /></TabsContent>
       </Tabs>
     </div>
