@@ -5,7 +5,6 @@ import {
   CheckCircle, 
   Clock, 
   FileText, 
-  Send, 
   AlertCircle, 
   TrendingUp, 
   Calendar,
@@ -13,7 +12,9 @@ import {
   Search,
   Plus,
   ArrowRight,
-  Filter
+  Filter,
+  Target,
+  Zap
 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LessonNoteKPIs } from '@/components/lesson-notes/lesson-note-kpis';
@@ -24,6 +25,26 @@ import { CurriculumCoverage } from '@/components/lesson-notes/curriculum-coverag
 import { LessonAnalytics } from '@/components/lesson-notes/lesson-analytics';
 import { PrincipalLessonDashboard } from '@/components/lesson-notes/principal-lesson-dashboard';
 import { AILessonGenerator } from '@/components/lesson-notes/ai-lesson-generator';
+import { TeacherLessonNoteDashboard } from '@/components/lesson-notes/teacher-lesson-note-dashboard';
+import { MyLessonNotesList } from '@/components/lesson-notes/my-lesson-notes-list';
+import { PrintDownloadCenter } from '@/components/lesson-notes/print-download-center';
+import { 
+  Sparkles, 
+  Wand2, 
+  Settings, 
+  Archive, 
+  Trash, 
+  Share2, 
+  FileDown, 
+  Layout, 
+  Clock as ClockIcon,
+  Save,
+  Eye,
+  Send,
+  Printer,
+  Copy,
+  Plus as PlusIcon
+} from "lucide-react";
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -102,73 +123,27 @@ function LessonNoteManagement() {
         </div>
       </div>
 
-      <Tabs defaultValue="overview" className="w-full" onValueChange={setActiveTab}>
+      <Tabs defaultValue="overview" className="w-full" value={activeTab} onValueChange={setActiveTab}>
         <div className="flex items-center justify-between mb-4">
-          <TabsList className="bg-white p-1 rounded-[14px] shadow-sm">
+          <TabsList className="bg-white p-1 rounded-[14px] shadow-sm overflow-x-auto max-w-full">
             <TabsTrigger value="overview" className="rounded-[10px]">Overview</TabsTrigger>
-            <TabsTrigger value="builder" className="rounded-[10px]">Builder</TabsTrigger>
+            <TabsTrigger value="my-notes" className="rounded-[10px]">My Lesson Notes</TabsTrigger>
+            <TabsTrigger value="builder" className="rounded-[10px]">Note Builder</TabsTrigger>
             <TabsTrigger value="planner" className="rounded-[10px]">Weekly Planner</TabsTrigger>
             <TabsTrigger value="approval" className="rounded-[10px]">Approval Centre</TabsTrigger>
-            <TabsTrigger value="curriculum" className="rounded-[10px]">Curriculum Progress</TabsTrigger>
+            <TabsTrigger value="curriculum" className="rounded-[10px]">Curriculum</TabsTrigger>
             <TabsTrigger value="analytics" className="rounded-[10px]">Analytics</TabsTrigger>
-            <TabsTrigger value="executive" className="rounded-[10px]">Principal Dashboard</TabsTrigger>
+            <TabsTrigger value="print" className="rounded-[10px]">Print & Export</TabsTrigger>
+            <TabsTrigger value="executive" className="rounded-[10px]">Principal Hub</TabsTrigger>
           </TabsList>
         </div>
 
         <TabsContent value="overview" className="space-y-6">
-          <LessonNoteKPIs />
-          
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <Card className="lg:col-span-2 p-6 rounded-[14px] shadow-sm border-none">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-lg font-semibold">Lesson Note Centre</h3>
-                <Button variant="ghost" size="sm" className="text-[#0B6E3C]">View All <ArrowRight className="ml-1 h-4 w-4" /></Button>
-              </div>
-              <div className="space-y-4">
-                {[1, 2, 3, 4].map((i) => (
-                  <div key={i} className="flex items-center justify-between p-4 rounded-[12px] bg-[#F5F7FA] hover:bg-schoolgate-green-light/30 transition-colors cursor-pointer group">
-                    <div className="flex items-center gap-4">
-                      <div className="p-2 rounded-lg bg-white text-[#0B6E3C] shadow-sm">
-                        <FileText className="h-5 w-5" />
-                      </div>
-                      <div>
-                        <p className="font-medium">Mathematics - Algebra Intro</p>
-                        <p className="text-xs text-muted-foreground">Class: JSS 1 • Week 4 • Submitted by: Sarah Johnson</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-4">
-                      <span className="px-2 py-1 rounded-full text-[10px] font-medium bg-yellow-100 text-yellow-700">Pending HOD</span>
-                      <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity">Preview</Button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </Card>
+          <TeacherLessonNoteDashboard onNewLesson={() => setActiveTab("builder")} />
+        </TabsContent>
 
-            <Card className="p-6 rounded-[14px] shadow-sm border-none">
-              <h3 className="text-lg font-semibold mb-6">Recent Activities</h3>
-              <div className="space-y-6">
-                {[
-                  { user: "Sarah Johnson", action: "submitted lesson note", time: "2 mins ago", subject: "Mathematics" },
-                  { user: "HOD Academics", action: "approved lesson note", time: "1 hour ago", subject: "English Language" },
-                  { user: "Principal", action: "returned for correction", time: "3 hours ago", subject: "Physics" },
-                  { user: "System", action: "auto-generated weekly plan", time: "5 hours ago", subject: "All Classes" },
-                ].map((activity, i) => (
-                  <div key={i} className="flex gap-4">
-                    <div className="h-8 w-8 rounded-full bg-schoolgate-green-light flex items-center justify-center shrink-0">
-                      <Users className="h-4 w-4 text-[#0B6E3C]" />
-                    </div>
-                    <div>
-                      <p className="text-sm">
-                        <span className="font-semibold">{activity.user}</span> {activity.action} for <span className="font-medium">{activity.subject}</span>
-                      </p>
-                      <p className="text-xs text-muted-foreground">{activity.time}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </Card>
-          </div>
+        <TabsContent value="my-notes">
+          <MyLessonNotesList />
         </TabsContent>
 
         <TabsContent value="builder">
@@ -191,10 +166,54 @@ function LessonNoteManagement() {
           <LessonAnalytics />
         </TabsContent>
 
+        <TabsContent value="print">
+          <PrintDownloadCenter />
+        </TabsContent>
+
         <TabsContent value="executive">
           <PrincipalLessonDashboard />
         </TabsContent>
+
       </Tabs>
+      {/* Floating AI Assistant (Module 6) */}
+      <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3 items-end">
+        <div className="bg-white rounded-2xl shadow-2xl border border-slate-100 p-2 hidden md:flex flex-col gap-2 animate-in slide-in-from-right-10">
+          <Button variant="ghost" size="icon" className="h-10 w-10 text-indigo-600 hover:bg-indigo-50" title="Generate Objectives"><Target className="h-5 w-5" /></Button>
+          <Button variant="ghost" size="icon" className="h-10 w-10 text-indigo-600 hover:bg-indigo-50" title="Generate Activities"><Zap className="h-5 w-5" /></Button>
+          <Button variant="ghost" size="icon" className="h-10 w-10 text-indigo-600 hover:bg-indigo-50" title="Improve Writing"><Wand2 className="h-5 w-5" /></Button>
+        </div>
+        <AILessonGenerator />
+      </div>
+
+      {/* Sticky Action Toolbar (Module 8) - Visible only on Builder tab */}
+      {activeTab === "builder" && (
+        <div className="fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-md border-t border-slate-200 p-4 z-40 flex items-center justify-center gap-2 animate-in slide-in-from-bottom-10">
+          <div className="max-w-[1200px] w-full flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Button variant="outline" className="rounded-lg h-10 px-4 font-bold border-slate-200">
+                <Save className="mr-2 h-4 w-4" /> Save Draft
+              </Button>
+              <Button variant="outline" className="rounded-lg h-10 px-4 font-bold border-slate-200">
+                <Eye className="mr-2 h-4 w-4" /> Preview
+              </Button>
+            </div>
+            <div className="flex items-center gap-2">
+              <Button variant="outline" className="rounded-lg h-10 w-10 p-0 border-slate-200">
+                <Printer className="h-4 w-4" />
+              </Button>
+              <Button variant="outline" className="rounded-lg h-10 w-10 p-0 border-slate-200">
+                <FileDown className="h-4 w-4" />
+              </Button>
+              <Button variant="outline" className="rounded-lg h-10 w-10 p-0 border-slate-200">
+                <Share2 className="h-4 w-4" />
+              </Button>
+              <Button className="bg-[#0B6E3C] hover:bg-[#0B6E3C]/90 text-white rounded-lg h-10 px-6 font-bold shadow-lg shadow-schoolgate-green/20">
+                <Send className="mr-2 h-4 w-4" /> Submit Note
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
