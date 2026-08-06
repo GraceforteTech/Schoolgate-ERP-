@@ -33,10 +33,13 @@ export function QuickActions() {
           <Button 
             key={i} 
             variant="outline" 
+            asChild
             className="flex flex-col items-center justify-center h-24 gap-3 rounded-xl border-slate-100 hover:border-schoolgate-green hover:bg-schoolgate-green-light hover:text-schoolgate-green transition-all group"
           >
-            <action.icon size={24} className="opacity-70 group-hover:opacity-100" />
-            <span className="text-[11px] font-bold uppercase tracking-wide">{action.label}</span>
+            <Link to={action.url}>
+              <action.icon size={24} className="opacity-70 group-hover:opacity-100" />
+              <span className="text-[11px] font-bold uppercase tracking-wide">{action.label}</span>
+            </Link>
           </Button>
         ))}
       </div>
