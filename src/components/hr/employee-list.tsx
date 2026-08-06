@@ -138,7 +138,7 @@ export const EmployeeList = () => {
           <Button variant="outline" className="h-10 gap-2 border-slate-200 rounded-lg flex-1 sm:flex-none">
             <Filter className="h-4 w-4" />
             Filters
-          </ins>
+          </Button>
           <Button variant="outline" className="h-10 gap-2 border-slate-200 rounded-lg flex-1 sm:flex-none">
             <ArrowUpDown className="h-4 w-4" />
             Sort
