@@ -8,10 +8,21 @@ import {
   ArrowUpRight,
   TrendingUp,
   Receipt,
-  AlertCircle
+  AlertCircle,
+  Search,
+  Filter,
+  Printer,
+  Download,
+  FileSpreadsheet,
+  X
 } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { useState } from "react";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const stats = [
   { 
@@ -80,11 +91,37 @@ const stats = [
   }
 ];
 
-export function FeePostingKPIs() {
+export function FeePostingKPIs({ isLoading = false }: { isLoading?: boolean }) {
+  const [selectedStat, setSelectedStat] = useState<typeof stats[0] | null>(null);
+
+  if (isLoading) {
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {[...Array(8)].map((_, i) => (
+          <Card key={i} className="rounded-[20px] border-none shadow-sm bg-white overflow-hidden p-5 space-y-4">
+            <div className="flex justify-between">
+              <Skeleton className="h-12 w-12 rounded-2xl" />
+              <Skeleton className="h-5 w-16 rounded-full" />
+            </div>
+            <div className="space-y-2">
+              <Skeleton className="h-3 w-24" />
+              <Skeleton className="h-8 w-32" />
+              <Skeleton className="h-3 w-40" />
+            </div>
+          </Card>
+        ))}
+      </div>
+    );
+  }
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
       {stats.map((stat, i) => (
-        <Card key={i} className="rounded-[20px] border-none shadow-sm bg-white overflow-hidden group hover:shadow-md transition-all duration-300">
+        <Card 
+          key={i} 
+          className="rounded-[20px] border-none shadow-sm bg-white overflow-hidden group hover:shadow-md transition-all duration-300 cursor-pointer"
+          onClick={() => setSelectedStat(stat)}
+        >
           <CardContent className="p-5">
             <div className="flex items-start justify-between mb-3">
               <div className={cn(
@@ -117,6 +154,68 @@ export function FeePostingKPIs() {
         </Card>
       ))}
     </div>
+    
+    <Sheet open={!!selectedStat} onOpenChange={(open) => !open && setSelectedStat(null)}>
+      <SheetContent className="w-full sm:max-w-md border-none p-0 bg-slate-50">
+        <SheetHeader className="p-6 bg-white border-b border-slate-100 flex flex-row items-center justify-between">
+          <div>
+            <SheetTitle className="text-xl font-bold text-slate-900">{selectedStat?.label}</SheetTitle>
+            <p className="text-xs font-medium text-slate-500 mt-1">{selectedStat?.subValue}</p>
+          </div>
+        </SheetHeader>
+        
+        <div className="p-6 space-y-6 overflow-y-auto h-[calc(100vh-80px)]">
+          <div className="bg-white p-6 rounded-[24px] border border-slate-100 shadow-sm flex flex-col items-center text-center">
+             <div className={cn(
+               "p-4 rounded-[20px] mb-4",
+               selectedStat?.color === "emerald" ? "bg-emerald-50 text-emerald-600" :
+               selectedStat?.color === "blue" ? "bg-blue-50 text-blue-600" :
+               selectedStat?.color === "amber" ? "bg-amber-50 text-amber-600" :
+               selectedStat?.color === "rose" ? "bg-rose-50 text-rose-600" :
+               selectedStat?.color === "indigo" ? "bg-indigo-50 text-indigo-600" :
+               selectedStat?.color === "teal" ? "bg-teal-50 text-teal-600" :
+               selectedStat?.color === "orange" ? "bg-orange-50 text-orange-600" :
+               "bg-sky-50 text-sky-600"
+             )}>
+               {selectedStat && <selectedStat.icon size={32} />}
+             </div>
+             <h2 className="text-4xl font-black tracking-tight text-slate-900">{selectedStat?.value}</h2>
+             <div className={cn(
+               "mt-2 flex items-center gap-1 text-xs font-bold px-3 py-1 rounded-full",
+               selectedStat?.trend.startsWith("+") ? "bg-emerald-50 text-emerald-600" : "bg-rose-50 text-rose-600"
+             )}>
+               {selectedStat?.trend.startsWith("+") ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
+               {selectedStat?.trend} Growth
+             </div>
+          </div>
+
+          <div className="bg-white p-5 rounded-[24px] border border-slate-100 shadow-sm space-y-4">
+             <div className="flex items-center justify-between">
+                <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest">Quick Search</h3>
+                <Filter size={14} className="text-slate-300" />
+             </div>
+             <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
+                <Input placeholder="Search records..." className="h-10 pl-9 rounded-xl border-slate-200 text-xs" />
+             </div>
+          </div>
+
+          <div className="space-y-3">
+             <Button className="w-full bg-schoolgate-green hover:bg-schoolgate-green/90 h-12 rounded-xl font-bold gap-2">
+                <Printer size={18} /> Print Category Report
+             </Button>
+             <div className="grid grid-cols-2 gap-3">
+                <Button variant="outline" className="rounded-xl h-11 font-bold gap-2 border-slate-200">
+                   <Download size={16} /> Excel
+                </Button>
+                <Button variant="outline" className="rounded-xl h-11 font-bold gap-2 border-slate-200">
+                   <Download size={16} /> PDF
+                </Button>
+             </div>
+          </div>
+        </div>
+      </SheetContent>
+    </Sheet>
   );
 }
 
