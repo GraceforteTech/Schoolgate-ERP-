@@ -5,35 +5,125 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HR & Payroll Dashboard - Schoolgate ERP</title>
     <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="app-container">
         <aside class="sidebar">
-            <div style="font-weight: 800; color: var(--primary); font-size: 1.25rem;">Schoolgate ERP</div>
-            <nav style="margin-top: 2rem;">
-                <a href="#" class="btn btn-ghost" style="justify-content: flex-start;">Dashboard</a>
+            <div class="logo" style="display: flex; align-items: center; gap: 10px; margin-bottom: 2rem;">
+                <div style="width: 32px; height: 32px; background: var(--primary); border-radius: 8px; display: grid; place-items: center; color: white; font-weight: bold;">S</div>
+                <div style="font-weight: 800; color: var(--primary); font-size: 1.1rem; letter-spacing: -0.5px;">Schoolgate <span style="font-weight: 400; color: var(--text-muted);">ERP</span></div>
+            </div>
+            <nav style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <div style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin: 1rem 0 0.5rem 0.5rem; letter-spacing: 0.05em;">Main</div>
+                <a href="#" class="btn btn-ghost" style="justify-content: flex-start; background: var(--primary-light); color: var(--primary);">Dashboard</a>
                 <a href="#" class="btn btn-ghost" style="justify-content: flex-start;">Employees</a>
-                <a href="#" class="btn btn-primary" style="justify-content: flex-start;">Payroll Management</a>
+                <a href="#" class="btn btn-ghost" style="justify-content: flex-start;">Payroll Process</a>
+                <a href="#" class="btn btn-ghost" style="justify-content: flex-start;">Salary Structures</a>
             </nav>
         </aside>
+        
         <main class="main-content">
             <header class="page-header">
                 <div>
                     <h1>HR & Payroll Management</h1>
-                    <p class="subtitle">Intelligent dashboard for staff welfare and financial operations.</p>
+                    <p class="subtitle">Manage employees, payroll and staff welfare from one intelligent dashboard.</p>
+                </div>
+                <div class="flex gap-2">
+                    <button class="btn btn-outline">Export Data</button>
+                    <button class="btn btn-primary">+ New Employee</button>
                 </div>
             </header>
-            <div class="grid-4">
-                <div class="kpi-card"><span class="kpi-label">Active Staff</span><span class="kpi-value">142</span></div>
-                <div class="kpi-card"><span class="kpi-label">Gross Payroll</span><span class="kpi-value">₦22.5M</span></div>
-                <div class="kpi-card"><span class="kpi-label">Net Payroll</span><span class="kpi-value">₦18.4M</span></div>
-                <div class="kpi-card"><span class="kpi-label">Deductions</span><span class="kpi-value">₦4.1M</span></div>
+
+            <section class="grid-4" style="grid-template-columns: repeat(4, 1fr);">
+                <div class="kpi-card">
+                    <span class="kpi-label">Total Employees</span>
+                    <span class="kpi-value">142</span>
+                    <span style="font-size: 0.7rem; color: var(--success);">+2 this month</span>
+                </div>
+                <div class="kpi-card">
+                    <span class="kpi-label">Gross Payroll</span>
+                    <span class="kpi-value">₦22.5M</span>
+                    <span style="font-size: 0.7rem; color: var(--text-muted);">August 2024</span>
+                </div>
+                <div class="kpi-card">
+                    <span class="kpi-label">Net Payroll</span>
+                    <span class="kpi-value">₦18.4M</span>
+                    <span style="font-size: 0.7rem; color: var(--primary);">82% of Gross</span>
+                </div>
+                <div class="kpi-card">
+                    <span class="kpi-label">Deductions</span>
+                    <span class="kpi-value">₦4.1M</span>
+                    <span style="font-size: 0.7rem; color: var(--danger);">Tax & Pension</span>
+                </div>
+            </section>
+
+            <div class="grid-2" style="margin-top: 2rem; display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem;">
+                <div class="card">
+                    <div class="flex justify-between items-center" style="margin-bottom: 1.5rem;">
+                        <h3>Payroll Analytics</h3>
+                        <div class="badge badge-info">Last 6 Months</div>
+                    </div>
+                    <div style="height: 250px; background: #f8fafc; border-radius: 8px; border: 1px dashed var(--border); display: grid; place-items: center; color: var(--text-muted); font-size: 0.8rem;">
+                        [Chart Visualization Placeholder]
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Recent Activities</h3>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <p style="font-size: 0.85rem;"><strong>HR Admin</strong> processed August 2024 Payroll Batch</p>
+                            <span style="font-size: 0.7rem; color: var(--text-muted);">2 hours ago</span>
+                        </div>
+                        <div class="timeline-item">
+                            <p style="font-size: 0.85rem;"><strong>Accountant</strong> applied Salary Advances for 5 staff</p>
+                            <span style="font-size: 0.7rem; color: var(--text-muted);">5 hours ago</span>
+                        </div>
+                        <div class="timeline-item">
+                            <p style="font-size: 0.85rem;"><strong>System</strong> locked July 2024 Final Payroll</p>
+                            <span style="font-size: 0.7rem; color: var(--text-muted);">Yesterday</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="card" style="margin-top: 2rem;">
-                <h3>Recent Activities</h3>
-                <div class="timeline">
-                    <div class="timeline-item"><p><strong>HR Admin</strong> processed August 2024 Payroll</p></div>
-                    <div class="timeline-item"><p><strong>Accountant</strong> applied Staff Advances</p></div>
+
+            <div class="card" style="margin-top: 1.5rem;">
+                <div class="flex justify-between items-center" style="margin-bottom: 1.5rem;">
+                    <h3>Employee Directory Quick View</h3>
+                    <a href="#" class="btn btn-ghost" style="font-size: 0.75rem;">View All</a>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Employee Name</th>
+                                <th>Department</th>
+                                <th>Designation</th>
+                                <th>Basic Salary</th>
+                                <th>Net Salary</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Adebayo Olawale</strong><br><span style="font-size: 0.7rem; color: var(--text-muted);">EMP/001</span></td>
+                                <td>Science</td>
+                                <td>Senior Teacher</td>
+                                <td>₦150,000</td>
+                                <td style="color: var(--primary); font-weight: 700;">₦167,000</td>
+                                <td><span class="badge badge-success">Verified</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Sarah Johnson</strong><br><span style="font-size: 0.7rem; color: var(--text-muted);">EMP/002</span></td>
+                                <td>Admin</td>
+                                <td>Admin Officer</td>
+                                <td>₦120,000</td>
+                                <td style="color: var(--primary); font-weight: 700;">₦135,000</td>
+                                <td><span class="badge badge-warning">Pending</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </main>
