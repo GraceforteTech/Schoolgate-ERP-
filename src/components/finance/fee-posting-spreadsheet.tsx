@@ -540,13 +540,24 @@ export function FeePostingSpreadsheet({ isLoading = false }: { isLoading?: boole
             </div>
 
             <div className="p-6 rounded-[20px] bg-slate-50 border border-slate-100 flex items-center justify-between">
-              <div>
+              <div className="flex-1">
                 <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Final Amount To Post</p>
                 <p className="text-2xl font-black text-slate-900">₦{finalAmount.toLocaleString()}</p>
+                {isPosting && (
+                  <div className="mt-4 space-y-1.5 animate-in fade-in slide-in-from-top-2">
+                    <div className="flex justify-between text-[10px] font-bold text-slate-500">
+                      <span>Processing Batch...</span>
+                      <span>{postingProgress}%</span>
+                    </div>
+                    <Progress value={postingProgress} className="h-1.5 bg-slate-200" />
+                  </div>
+                )}
               </div>
-              <div className="h-12 w-12 rounded-full bg-schoolgate-green-light flex items-center justify-center text-schoolgate-green">
-                <Check size={24} />
-              </div>
+              {!isPosting && (
+                <div className="h-12 w-12 rounded-full bg-schoolgate-green-light flex items-center justify-center text-schoolgate-green">
+                  <Check size={24} />
+                </div>
+              )}
             </div>
 
             <DialogFooter className="flex gap-3 sm:justify-between pt-2">
