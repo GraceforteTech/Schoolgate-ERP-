@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { LessonStepsEditor } from "./lesson-steps-editor";
+import { LessonAssessmentEditor } from "./lesson-assessment-editor";
 import { 
   Sparkles as SparklesIcon,
   Wand2,
@@ -27,7 +28,9 @@ import {
   Share2,
   FileDown as FileDownIcon,
   Layout,
-  Clock as ClockIcon
+  Clock as ClockIcon,
+  History as HistoryIcon,
+  RotateCcw
 } from "lucide-react";
 
 export function LessonNoteBuilder() {
