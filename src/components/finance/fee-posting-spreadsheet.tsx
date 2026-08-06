@@ -33,24 +33,26 @@ const COLUMNS: Column[] = [
   { key: "admNo", label: "Admission No", width: "w-40", type: "text", readOnly: true },
   { key: "name", label: "Student Name", width: "w-64", type: "text", readOnly: true },
   { key: "class", label: "Class", width: "w-32", type: "text", readOnly: true },
-  { key: "tuition", label: "Tuition Fee", width: "w-40", type: "currency" },
-  { key: "transport", label: "Transport", width: "w-40", type: "currency" },
-  { key: "boarding", label: "Boarding", width: "w-40", type: "currency" },
-  { key: "facility", label: "Facility", width: "w-40", type: "currency" },
+  { key: "fees", label: "School Fees", width: "w-40", type: "currency" },
+  { key: "bf", label: "B/F Debt", width: "w-40", type: "currency" },
+  { key: "discount", label: "Discount", width: "w-40", type: "currency" },
+  { key: "totalPayable", label: "Total Payable", width: "w-40", type: "currency", readOnly: true },
+  { key: "paid", label: "Amount Paid", width: "w-40", type: "currency", readOnly: true },
+  { key: "outstanding", label: "Outstanding", width: "w-40", type: "currency", readOnly: true },
   { key: "status", label: "Status", width: "w-32", type: "badge", readOnly: true },
 ];
 
 const INITIAL_DATA = [
-  { id: 1, admNo: "SCH/2024/001", name: "Adebayo Tunde", class: "JSS 1A", tuition: 75000, transport: 15000, boarding: 0, facility: 5000, status: "Active" },
-  { id: 2, admNo: "SCH/2024/002", name: "Chukwuma Ifeanyi", class: "JSS 1A", tuition: 75000, transport: 0, boarding: 120000, facility: 5000, status: "Active" },
-  { id: 3, admNo: "SCH/2024/003", name: "Fatima Yusuf", class: "JSS 1A", tuition: 75000, transport: 15000, boarding: 0, facility: 5000, status: "Active" },
-  { id: 4, admNo: "SCH/2024/004", name: "Grace Okon", class: "JSS 1A", tuition: 75000, transport: 15000, boarding: 0, facility: 5000, status: "Pending" },
-  { id: 5, admNo: "SCH/2024/005", name: "Ibrahim Musa", class: "JSS 1A", tuition: 75000, transport: 0, boarding: 0, facility: 5000, status: "Active" },
-  { id: 6, admNo: "SCH/2024/006", name: "John Doe", class: "JSS 1B", tuition: 75000, transport: 15000, boarding: 0, facility: 5000, status: "Active" },
-  { id: 7, admNo: "SCH/2024/007", name: "Jane Doe", class: "JSS 1B", tuition: 75000, transport: 15000, boarding: 0, facility: 5000, status: "Active" },
-  { id: 8, admNo: "SCH/2024/008", name: "Sam Smith", class: "JSS 1B", tuition: 75000, transport: 15000, boarding: 0, facility: 5000, status: "Active" },
-  { id: 9, admNo: "SCH/2024/009", name: "Alex Jones", class: "JSS 1B", tuition: 75000, transport: 0, boarding: 120000, facility: 5000, status: "Active" },
-  { id: 10, admNo: "SCH/2024/010", name: "Chris Evans", class: "JSS 1B", tuition: 75000, transport: 15000, boarding: 0, facility: 5000, status: "Active" },
+  { id: 1, admNo: "SCH/2024/001", name: "Adebayo Tunde", class: "JSS 1A", fees: 40000, bf: 8500, discount: 5000, totalPayable: 43500, paid: 20000, outstanding: 23500, status: "Active" },
+  { id: 2, admNo: "SCH/2024/002", name: "Chukwuma Ifeanyi", class: "JSS 1A", fees: 40000, bf: 0, discount: 0, totalPayable: 40000, paid: 40000, outstanding: 0, status: "Active" },
+  { id: 3, admNo: "SCH/2024/003", name: "Fatima Yusuf", class: "JSS 1A", fees: 40000, bf: 12500, discount: 4000, totalPayable: 48500, paid: 10000, outstanding: 38500, status: "Active" },
+  { id: 4, admNo: "SCH/2024/004", name: "Grace Okon", class: "JSS 1A", fees: 40000, bf: 0, discount: 2000, totalPayable: 38000, paid: 0, outstanding: 38000, status: "Pending" },
+  { id: 5, admNo: "SCH/2024/005", name: "Ibrahim Musa", class: "JSS 1A", fees: 40000, bf: 5000, discount: 0, totalPayable: 45000, paid: 45000, outstanding: 0, status: "Active" },
+  { id: 6, admNo: "SCH/2024/006", name: "John Doe", class: "JSS 1B", fees: 40000, bf: 0, discount: 0, totalPayable: 40000, paid: 15000, outstanding: 25000, status: "Active" },
+  { id: 7, admNo: "SCH/2024/007", name: "Jane Doe", class: "JSS 1B", fees: 40000, bf: 0, discount: 0, totalPayable: 40000, paid: 40000, outstanding: 0, status: "Active" },
+  { id: 8, admNo: "SCH/2024/008", name: "Sam Smith", class: "JSS 1B", fees: 40000, bf: 2000, discount: 0, totalPayable: 42000, paid: 42000, outstanding: 0, status: "Active" },
+  { id: 9, admNo: "SCH/2024/009", name: "Alex Jones", class: "JSS 1B", fees: 40000, bf: 0, discount: 10000, totalPayable: 30000, paid: 30000, outstanding: 0, status: "Active" },
+  { id: 10, admNo: "SCH/2024/010", name: "Chris Evans", class: "JSS 1B", fees: 40000, bf: 0, discount: 0, totalPayable: 40000, paid: 0, outstanding: 40000, status: "Active" },
 ];
 
 export function FeePostingSpreadsheet() {
@@ -97,7 +99,16 @@ export function FeePostingSpreadsheet() {
     
     if (col.type === "currency" && isNaN(numValue)) return;
     
-    (newData[r] as any)[key] = numValue;
+    const row = { ...newData[r] } as any;
+    row[key] = numValue;
+
+    // Auto-calculate Total Payable and Outstanding
+    if (["fees", "bf", "discount"].includes(key)) {
+      row.totalPayable = (row.fees || 0) + (row.bf || 0) - (row.discount || 0);
+      row.outstanding = row.totalPayable - (row.paid || 0);
+    }
+    
+    newData[r] = row;
     setData(newData);
     setSaveStatus("saving");
   };
