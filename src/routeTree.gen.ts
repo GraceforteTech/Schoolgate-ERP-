@@ -18,6 +18,7 @@ import { Route as AttendanceIndexRouteImport } from './routes/attendance/index'
 import { Route as CbtIndexRouteImport } from './routes/cbt/index'
 import { Route as FinanceAdjustmentManagementRouteImport } from './routes/finance/adjustment-management'
 import { Route as FinanceDashboardRouteImport } from './routes/finance/dashboard'
+import { Route as TeachersIndexRouteImport } from './routes/teachers/index'
 import { Route as FinanceAdmissionsIndexRouteImport } from './routes/finance/admissions/index'
 import { Route as FinanceAdmissionsApplicantProfileRouteImport } from './routes/finance/admissions/applicant-profile'
 import { Route as FinanceAdmissionsDecisionsRouteImport } from './routes/finance/admissions/decisions'
@@ -75,6 +76,11 @@ const FinanceAdjustmentManagementRoute =
 const FinanceDashboardRoute = FinanceDashboardRouteImport.update({
   id: '/finance/dashboard',
   path: '/finance/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TeachersIndexRoute = TeachersIndexRouteImport.update({
+  id: '/teachers/',
+  path: '/teachers/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FinanceAdmissionsIndexRoute = FinanceAdmissionsIndexRouteImport.update({
@@ -155,6 +161,7 @@ export interface FileRoutesByFullPath {
   '/academic/': typeof AcademicIndexRoute
   '/attendance/': typeof AttendanceIndexRoute
   '/cbt/': typeof CbtIndexRoute
+  '/teachers/': typeof TeachersIndexRoute
   '/finance/admissions/applicant-profile': typeof FinanceAdmissionsApplicantProfileRoute
   '/finance/admissions/decisions': typeof FinanceAdmissionsDecisionsRoute
   '/finance/admissions/enrolment': typeof FinanceAdmissionsEnrolmentRoute
@@ -178,6 +185,7 @@ export interface FileRoutesByTo {
   '/academic': typeof AcademicIndexRoute
   '/attendance': typeof AttendanceIndexRoute
   '/cbt': typeof CbtIndexRoute
+  '/teachers': typeof TeachersIndexRoute
   '/finance/admissions/applicant-profile': typeof FinanceAdmissionsApplicantProfileRoute
   '/finance/admissions/decisions': typeof FinanceAdmissionsDecisionsRoute
   '/finance/admissions/enrolment': typeof FinanceAdmissionsEnrolmentRoute
@@ -202,6 +210,7 @@ export interface FileRoutesById {
   '/academic/': typeof AcademicIndexRoute
   '/attendance/': typeof AttendanceIndexRoute
   '/cbt/': typeof CbtIndexRoute
+  '/teachers/': typeof TeachersIndexRoute
   '/finance/admissions/applicant-profile': typeof FinanceAdmissionsApplicantProfileRoute
   '/finance/admissions/decisions': typeof FinanceAdmissionsDecisionsRoute
   '/finance/admissions/enrolment': typeof FinanceAdmissionsEnrolmentRoute
@@ -227,6 +236,7 @@ export interface FileRouteTypes {
     | '/academic/'
     | '/attendance/'
     | '/cbt/'
+    | '/teachers/'
     | '/finance/admissions/applicant-profile'
     | '/finance/admissions/decisions'
     | '/finance/admissions/enrolment'
@@ -250,6 +260,7 @@ export interface FileRouteTypes {
     | '/academic'
     | '/attendance'
     | '/cbt'
+    | '/teachers'
     | '/finance/admissions/applicant-profile'
     | '/finance/admissions/decisions'
     | '/finance/admissions/enrolment'
@@ -273,6 +284,7 @@ export interface FileRouteTypes {
     | '/academic/'
     | '/attendance/'
     | '/cbt/'
+    | '/teachers/'
     | '/finance/admissions/applicant-profile'
     | '/finance/admissions/decisions'
     | '/finance/admissions/enrolment'
@@ -297,6 +309,7 @@ export interface RootRouteChildren {
   AcademicIndexRoute: typeof AcademicIndexRoute
   AttendanceIndexRoute: typeof AttendanceIndexRoute
   CbtIndexRoute: typeof CbtIndexRoute
+  TeachersIndexRoute: typeof TeachersIndexRoute
   FinanceAdmissionsApplicantProfileRoute: typeof FinanceAdmissionsApplicantProfileRoute
   FinanceAdmissionsDecisionsRoute: typeof FinanceAdmissionsDecisionsRoute
   FinanceAdmissionsEnrolmentRoute: typeof FinanceAdmissionsEnrolmentRoute
@@ -374,6 +387,13 @@ declare module '@tanstack/react-router' {
       path: '/finance/dashboard'
       fullPath: '/finance/dashboard'
       preLoaderRoute: typeof FinanceDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/teachers/': {
+      id: '/teachers/'
+      path: '/teachers'
+      fullPath: '/teachers/'
+      preLoaderRoute: typeof TeachersIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/finance/admissions/': {
@@ -473,6 +493,7 @@ const rootRouteChildren: RootRouteChildren = {
   AcademicIndexRoute: AcademicIndexRoute,
   AttendanceIndexRoute: AttendanceIndexRoute,
   CbtIndexRoute: CbtIndexRoute,
+  TeachersIndexRoute: TeachersIndexRoute,
   FinanceAdmissionsApplicantProfileRoute:
     FinanceAdmissionsApplicantProfileRoute,
   FinanceAdmissionsDecisionsRoute: FinanceAdmissionsDecisionsRoute,
