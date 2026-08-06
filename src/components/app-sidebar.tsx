@@ -12,7 +12,9 @@ import {
   Users,
   UserPlus,
   Wallet,
+  MonitorPlay,
 } from "lucide-react";
+
 
 import {
   Sidebar,
@@ -34,7 +36,9 @@ const mainNavItems = [
   { title: "Students", url: "/students", icon: Users },
   { title: "Academics", url: "/academic", icon: BookOpen },
   { title: "Attendance", url: "/attendance", icon: CalendarDays },
+  { title: "CBT", url: "/cbt", icon: MonitorPlay },
 ];
+
 
 const financeNavItems = [
   { title: "Dashboard", url: "/finance/dashboard", icon: LayoutDashboard },
