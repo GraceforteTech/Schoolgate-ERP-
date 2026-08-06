@@ -41,6 +41,8 @@ export const Route = createFileRoute("/inventory/")({
 });
 
 function InventoryManagementPage() {
+  const [activeTab, setActiveTab] = useState("items");
+
   return (
     <div className="min-h-screen bg-[#F5F7FA] p-4 lg:p-8 space-y-8 pb-20">
       {/* Premium Header */}
@@ -61,9 +63,31 @@ function InventoryManagementPage() {
           <Button variant="outline" className="h-11 rounded-xl bg-white border-none shadow-sm font-bold gap-2 text-slate-600">
             <History size={18} /> Audit Logs
           </Button>
-          <Button className="h-11 rounded-xl bg-schoolgate-green text-white font-bold gap-2 shadow-lg shadow-schoolgate-green/20">
-            <Plus size={18} /> New Item
-          </Button>
+          {activeTab === "items" && (
+            <Button className="h-11 rounded-xl bg-schoolgate-green text-white font-bold gap-2 shadow-lg shadow-schoolgate-green/20">
+              <Plus size={18} /> New Item
+            </Button>
+          )}
+          {activeTab === "suppliers" && (
+            <Button className="h-11 rounded-xl bg-schoolgate-green text-white font-bold gap-2 shadow-lg shadow-schoolgate-green/20">
+              <Plus size={18} /> Add Supplier
+            </Button>
+          )}
+          {activeTab === "orders" && (
+            <Button className="h-11 rounded-xl bg-schoolgate-green text-white font-bold gap-2 shadow-lg shadow-schoolgate-green/20">
+              <Plus size={18} /> Create PO
+            </Button>
+          )}
+          {activeTab === "received" && (
+            <Button className="h-11 rounded-xl bg-schoolgate-green text-white font-bold gap-2 shadow-lg shadow-schoolgate-green/20">
+              <Plus size={18} /> New GRN
+            </Button>
+          )}
+          {activeTab === "issued" && (
+            <Button className="h-11 rounded-xl bg-schoolgate-green text-white font-bold gap-2 shadow-lg shadow-schoolgate-green/20">
+              <Plus size={18} /> Issue Items
+            </Button>
+          )}
         </div>
       </div>
 
@@ -71,7 +95,7 @@ function InventoryManagementPage() {
       <InventoryKpiCards />
 
       {/* Main Workspace */}
-      <Tabs defaultValue="items" className="space-y-6">
+      <Tabs defaultValue="items" value={activeTab} onValueChange={setActiveTab} className="space-y-6">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <TabsList className="bg-white border border-slate-200 p-1 rounded-xl w-full flex flex-wrap h-auto overflow-hidden">
             <TabsTrigger value="items" className="data-[state=active]:bg-schoolgate-green-light data-[state=active]:text-schoolgate-green font-bold text-xs px-6 py-2 flex-1">
