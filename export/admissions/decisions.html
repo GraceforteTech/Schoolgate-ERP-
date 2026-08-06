@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admission Decisions - Schoolgate ERP</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo" style="display: flex; align-items: center; gap: 10px; margin-bottom: 2rem;">
+                <div style="width: 36px; height: 36px; background: var(--primary); border-radius: 10px; display: grid; place-items: center; color: white; font-weight: bold;">S</div>
+                <div style="font-weight: 800; color: var(--primary); font-size: 1.2rem; letter-spacing: -0.5px;">Schoolgate</div>
+            </div>
+            <nav style="display: flex; flex-direction: column; gap: 0.25rem;">
+                <a href="index.html" class="sidebar-nav-item">
+                    <div class="icon-box">🏠</div>
+                    Dashboard
+                </a>
+                <a href="exams.html" class="sidebar-nav-item">
+                    <div class="icon-box">📝</div>
+                    Entrance Exams
+                </a>
+                <a href="decisions.html" class="sidebar-nav-item active">
+                    <div class="icon-box">⚖️</div>
+                    Admission Decisions
+                </a>
+                <a href="enrolment.html" class="sidebar-nav-item">
+                    <div class="icon-box">🎓</div>
+                    Student Enrolment
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="page-header">
+                <div>
+                    <h1>Interview & Admission Decision</h1>
+                    <p class="subtitle">Review applicant performance and make final admission decisions.</p>
+                </div>
+            </header>
+
+            <div class="grid-12">
+                <div style="grid-column: span 8;">
+                    <div class="card" style="margin-bottom: 1.5rem;">
+                        <h3 style="margin-bottom: 1.5rem;">Applicant Performance Summary</h3>
+                        <div class="grid-3">
+                            <div style="padding: 1rem; background: var(--bg-light); border-radius: 12px;">
+                                <p style="font-size: 0.6rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Entrance Exam</p>
+                                <p style="font-size: 1.25rem; font-weight: 800; color: var(--primary);">85/100</p>
+                            </div>
+                            <div style="padding: 1rem; background: var(--bg-light); border-radius: 12px;">
+                                <p style="font-size: 0.6rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Interview Score</p>
+                                <p style="font-size: 1.25rem; font-weight: 800; color: var(--primary);">18/20</p>
+                            </div>
+                            <div style="padding: 1rem; background: var(--bg-light); border-radius: 12px;">
+                                <p style="font-size: 0.6rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Recommendation</p>
+                                <p style="font-size: 0.85rem; font-weight: 700;">Highly Recommended</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>Interview Remarks</h3>
+                        <div style="padding: 1rem; background: var(--bg-light); border-radius: 12px; margin-top: 1rem; font-style: italic; color: var(--text-muted); font-size: 0.9rem;">
+                            "The applicant demonstrated excellent communication skills and strong foundational knowledge in Mathematics. Highly recommended for JSS 1 placement."
+                        </div>
+                    </div>
+                </div>
+
+                <div style="grid-column: span 4;">
+                    <div class="card" style="margin-bottom: 1.5rem;">
+                        <h3>Final Decision</h3>
+                        <div style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem;">
+                            <button class="btn btn-primary" style="width: 100%; height: 50px;">Approve Admission</button>
+                            <button class="btn btn-outline" style="width: 100%; color: var(--warning); border-color: var(--warning);">Move to Waiting List</button>
+                            <button class="btn btn-outline" style="width: 100%; color: var(--danger); border-color: var(--danger);">Reject Admission</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
