@@ -19,7 +19,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AlumniKpiCards } from "@/components/alumni/alumni-kpi-cards";
-import { StudentDirectory } from "@/components/students/student-directory";
+import { AlumniTable } from "@/components/alumni/directory/alumni-table";
 
 export const Route = createFileRoute("/alumni/")({
   component: AlumniManagementPage,
