@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timetable Analytics | Schoolgate ERP</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-icon">SG</div>
+                <div class="logo-text">
+                    <span class="brand">Schoolgate</span>
+                    <span class="subtext">ERP SYSTEM</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-group">
+                    <label>Menu</label>
+                    <a href="index.html" class="nav-item">
+                        <span class="icon">📊</span> Dashboard
+                    </a>
+                    <a href="builder.html" class="nav-item">
+                        <span class="icon">🛠️</span> Smart Builder
+                    </a>
+                    <a href="views.html" class="nav-item">
+                        <span class="icon">📅</span> Timetable Views
+                    </a>
+                    <a href="ai-generator.html" class="nav-item">
+                        <span class="icon">🤖</span> AI Generator
+                    </a>
+                    <a href="analytics.html" class="nav-item active">
+                        <span class="icon">📈</span> Analytics
+                    </a>
+                    <a href="publishing.html" class="nav-item">
+                        <span class="icon">📢</span> Publishing
+                    </a>
+                    <a href="principal.html" class="nav-item">
+                        <span class="icon">👔</span> Principal Hub
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <div class="main-wrapper">
+            <header class="top-bar">
+                <div class="user-profile">
+                    <div class="avatar"></div>
+                    <span style="font-size: 14px; font-weight: 500;">Admin User</span>
+                </div>
+            </header>
+
+            <main class="main-content">
+                <header class="page-header">
+                    <div>
+                        <h1>Timetable Analytics</h1>
+                        <p>Deep insights into school resource utilization and workload.</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-outline">Download Report</button>
+                    </div>
+                </header>
+
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-label">Avg. Teacher Workload</div>
+                        <div class="kpi-value">18.5 hrs/wk</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Room Utilization</div>
+                        <div class="kpi-value">84%</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Subject Balance</div>
+                        <div class="kpi-value">Optimal</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Free Periods/Wk</div>
+                        <div class="kpi-value">124</div>
+                    </div>
+                </div>
+
+                <div class="content-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Teacher Workload Distribution</h2>
+                        </div>
+                        <div class="card-body">
+                            <!-- Placeholder for Chart -->
+                            <div style="height: 300px; background: #f9fafb; border-radius: 8px; border: 1px dashed var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 14px;">
+                                [Workload Analytics Visualization]
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Resource Stats</h2>
+                        </div>
+                        <div class="card-body">
+                            <div style="display: flex; flex-direction: column; gap: 16px;">
+                                <div>
+                                    <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 8px;">
+                                        <span>Classroom Usage</span>
+                                        <span>92%</span>
+                                    </div>
+                                    <div style="height: 8px; background: #f3f4f6; border-radius: 4px; overflow: hidden;">
+                                        <div style="width: 92%; height: 100%; background: var(--primary);"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 8px;">
+                                        <span>Science Labs</span>
+                                        <span>78%</span>
+                                    </div>
+                                    <div style="height: 8px; background: #f3f4f6; border-radius: 4px; overflow: hidden;">
+                                        <div style="width: 78%; height: 100%; background: #3b82f6;"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 8px;">
+                                        <span>Art Studios</span>
+                                        <span>45%</span>
+                                    </div>
+                                    <div style="height: 8px; background: #f3f4f6; border-radius: 4px; overflow: hidden;">
+                                        <div style="width: 45%; height: 100%; background: #f97316;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</body>
+</html>
