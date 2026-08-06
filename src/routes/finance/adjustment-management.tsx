@@ -249,6 +249,7 @@ function AdjustmentManagementPage() {
                               amount="+₦5,000"
                               status="Approved"
                               user="Ada Okonkwo"
+                              details={{ prev: "₦75,000", next: "₦80,000", reason: "Late Enrollment" }}
                             />
                             <AuditRow 
                               date="05 Aug 2026, 14:45"
@@ -265,22 +266,6 @@ function AdjustmentManagementPage() {
                               amount="-₦2,500"
                               status="Pending"
                               user="Bello Ibrahim"
-                            />
-                            <AuditRow 
-                              date="04 Aug 2026, 16:30"
-                              student="Smith, John (SS 3C)"
-                              action="Manual Outstanding"
-                              amount="₦45,000"
-                              status="Approved"
-                              user="Ada Okonkwo"
-                            />
-                            <AuditRow 
-                              date="04 Aug 2026, 09:15"
-                              student="Nnamdi, Grace (JSS 1)"
-                              action="Adjustment Reversed"
-                              amount="₦0"
-                              status="Reversed"
-                              user="Admin (Proprietor)"
                             />
                           </tbody>
                         </table>
@@ -370,7 +355,8 @@ function AuditRow({
   action, 
   amount, 
   status, 
-  user 
+  user,
+  details
 }: { 
   date: string; 
   student: string; 
@@ -378,6 +364,7 @@ function AuditRow({
   amount: string; 
   status: string; 
   user: string;
+  details?: { prev: string; next: string; reason: string };
 }) {
   const statusColors = {
     Approved: "bg-emerald-50 text-emerald-700 border-emerald-100",
@@ -387,18 +374,28 @@ function AuditRow({
   };
 
   return (
-    <tr className="hover:bg-page-background/30 transition-colors">
+    <tr className="hover:bg-page-background/30 transition-colors group">
       <td className="whitespace-nowrap px-6 py-4 text-xs text-muted-foreground">{date}</td>
       <td className="px-6 py-4">
         <div className="font-medium text-foreground">{student}</div>
+        {details && (
+          <div className="mt-1 text-[10px] text-slate-400 font-medium">
+            {details.reason}
+          </div>
+        )}
       </td>
       <td className="px-6 py-4">
         <Badge variant="outline" className="rounded-md border-border font-normal text-[10px] uppercase">
           {action}
         </Badge>
+        {details && (
+          <div className="mt-1 text-[9px] text-slate-400">
+            {details.prev} → {details.next}
+          </div>
+        )}
       </td>
       <td className={cn(
-        "px-6 py-4 font-semibold tabular-nums",
+        "px-6 py-4 font-semibold tabular-nums text-sm",
         amount.startsWith("+") ? "text-destructive" : amount.startsWith("-") ? "text-schoolgate-green" : "text-foreground"
       )}>
         {amount}
@@ -408,7 +405,10 @@ function AuditRow({
           {status}
         </Badge>
       </td>
-      <td className="px-6 py-4 text-xs text-muted-foreground">{user}</td>
+      <td className="px-6 py-4">
+        <div className="text-xs text-muted-foreground font-medium">{user}</div>
+        <div className="text-[9px] text-slate-400">IP: 192.168.1.XX</div>
+      </td>
     </tr>
   );
 }
