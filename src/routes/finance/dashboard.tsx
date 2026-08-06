@@ -6,6 +6,9 @@ import { FinanceAnalytics } from '@/components/finance/dashboard/FinanceAnalytic
 import { RecentActivities } from '@/components/finance/dashboard/RecentActivities';
 import { QuickActions } from '@/components/finance/dashboard/QuickActions';
 import { ExecutiveInsights } from '@/components/finance/dashboard/ExecutiveInsights';
+import { FinancialVisibilityReport } from '@/components/finance/dashboard/FinancialVisibilityReport';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
 import { 
   LayoutDashboard, 
   Calendar, 
