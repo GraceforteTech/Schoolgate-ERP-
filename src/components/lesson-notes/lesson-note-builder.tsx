@@ -94,6 +94,7 @@ export function LessonNoteBuilder() {
               </div>
             </div>
             <LessonStepsEditor />
+            <LessonAssessmentEditor />
           </div>
         </Card>
       </div>
