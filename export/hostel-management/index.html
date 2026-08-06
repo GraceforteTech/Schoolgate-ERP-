@@ -3,132 +3,263 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hostel & Boarding Management | Schoolgate ERP</title>
+    <title>Hostel & Boarding Management - Schoolgate ERP</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="dashboard-container">
+    <div class="container">
         <!-- Header -->
         <header class="header">
-            <div class="header-title">
-                <div class="icon-box">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <div class="header-left">
+                <div class="header-icon">
+                    <i class="bi bi-house-door-fill" style="font-size: 1.5rem;"></i>
                 </div>
-                <div class="title-text">
+                <div class="header-title">
                     <h1>Hostel & Boarding</h1>
                     <p>Manage accommodation, room allocations, and boarding operations.</p>
                 </div>
             </div>
             <div class="header-actions">
-                <button class="btn btn-primary">+ New Allocation</button>
+                <button class="btn btn-outline">
+                    <i class="bi bi-clock-history"></i> Audit Trail
+                </button>
+                <button class="btn btn-primary">
+                    <i class="bi bi-plus-lg"></i> New Allocation
+                </button>
             </div>
         </header>
 
         <!-- KPI Grid -->
-        <section class="kpi-grid">
-            <div class="card">
-                <div class="kpi-header">
-                    <div class="kpi-icon" style="background: #eff6ff; color: #2563eb;">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-                    </div>
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-icon-wrapper" style="background: #eff6ff;">
+                    <i class="bi bi-house" style="color: #2563eb;"></i>
                 </div>
-                <div class="kpi-content">
-                    <p>Total Capacity</p>
-                    <div class="kpi-value-row">
-                        <span class="kpi-value">850</span>
-                        <span class="kpi-trend">+20 new</span>
-                    </div>
+                <p class="kpi-label">Total Capacity</p>
+                <div class="kpi-value-row">
+                    <h3 class="kpi-value">850</h3>
+                    <span class="kpi-trend" style="color: #2563eb;">+20 beds</span>
                 </div>
+                <p class="kpi-subtext">Total Beds Available</p>
             </div>
-            <div class="card">
-                <div class="kpi-header">
-                    <div class="kpi-icon" style="background: #e8f5ee; color: #0b6e3c;">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                    </div>
+            <div class="kpi-card">
+                <div class="kpi-icon-wrapper" style="background: rgba(11, 110, 60, 0.1);">
+                    <i class="bi bi-people" style="color: #0B6E3C;"></i>
                 </div>
-                <div class="kpi-content">
-                    <p>Current Occupancy</p>
-                    <div class="kpi-value-row">
-                        <span class="kpi-value">742</span>
-                        <span class="kpi-trend">87.3%</span>
-                    </div>
+                <p class="kpi-label">Current Occupancy</p>
+                <div class="kpi-value-row">
+                    <h3 class="kpi-value">742</h3>
+                    <span class="kpi-trend">+5 week</span>
                 </div>
+                <p class="kpi-subtext">87.3% Occupied</p>
             </div>
-            <div class="card">
-                <div class="kpi-header">
-                    <div class="kpi-icon" style="background: #ecfdf5; color: #059669;">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 4v16"/><path d="M2 8h18a2 2 0 0 1 2 2v10"/><path d="M2 17h20"/><path d="M6 8v9"/></svg>
-                    </div>
+            <div class="kpi-card">
+                <div class="kpi-icon-wrapper" style="background: #ecfdf5;">
+                    <i class="bi bi-calendar-check" style="color: #059669;"></i>
                 </div>
-                <div class="kpi-content">
-                    <p>Available Beds</p>
-                    <div class="kpi-value-row">
-                        <span class="kpi-value">108</span>
-                        <span class="kpi-trend">Ready</span>
-                    </div>
+                <p class="kpi-label">Available Beds</p>
+                <div class="kpi-value-row">
+                    <h3 class="kpi-value">108</h3>
+                    <span class="kpi-trend">12 pend</span>
                 </div>
+                <p class="kpi-subtext">Ready for Allocation</p>
             </div>
-            <div class="card">
-                <div class="kpi-header">
-                    <div class="kpi-icon" style="background: #fff7ed; color: #ea580c;">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
-                    </div>
+            <div class="kpi-card">
+                <div class="kpi-icon-wrapper" style="background: #fffbeb;">
+                    <i class="bi bi-cash-stack" style="color: #d97706;"></i>
                 </div>
-                <div class="kpi-content">
-                    <p>Maintenance</p>
-                    <div class="kpi-value-row">
-                        <span class="kpi-value">14</span>
-                        <span class="kpi-trend">3 Urgent</span>
-                    </div>
+                <p class="kpi-label">Boarding Revenue</p>
+                <div class="kpi-value-row">
+                    <h3 class="kpi-value">₦18.4M</h3>
+                    <span class="kpi-trend">92% col</span>
                 </div>
+                <p class="kpi-subtext">Current Session</p>
             </div>
-        </section>
+        </div>
 
         <!-- AI Banner -->
         <div class="ai-banner">
-            <div>
-                <h2 style="font-weight: 900; font-size: 1.25rem;">AI Room Optimizer Active</h2>
-                <p style="font-size: 0.875rem; opacity: 0.9;">12 optimal placements identified to improve student dynamics.</p>
+            <div class="ai-banner-content">
+                <div class="ai-banner-icon">
+                    <i class="bi bi-shield-check" style="font-size: 2rem;"></i>
+                </div>
+                <div class="ai-banner-text">
+                    <h2>AI Room Optimizer Active</h2>
+                    <p>We've identified 12 optimal bed placements to improve student social dynamics in Boys Hostel A.</p>
+                </div>
             </div>
-            <button class="btn btn-white">View Suggestions</button>
-        </div>
-
-        <!-- Tabs -->
-        <div class="tabs">
-            <div class="tab-list">
-                <button class="tab-btn active">Room Registry</button>
-                <button class="tab-btn">Allocations</button>
-                <button class="tab-btn">Attendance</button>
-                <button class="tab-btn">Maintenance</button>
-                <button class="tab-btn">Analytics</button>
+            <div style="display: flex; gap: 0.75rem;">
+                <button class="btn" style="background: white; color: var(--primary);">View Suggestions</button>
+                <button class="btn btn-outline" style="background: transparent; color: white; border: 1px solid rgba(255,255,255,0.3);">Dismiss</button>
             </div>
         </div>
 
-        <!-- Registry Cards -->
-        <section class="kpi-grid">
-            <div class="card">
-                <div class="kpi-header">
-                    <div class="kpi-icon" style="background: #f8fafc; color: #64748b;">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="16" height="20" x="4" y="2" rx="2" ry="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M8 10h.01"/><path d="M16 10h.01"/><path d="M8 14h.01"/><path d="M16 14h.01"/></svg>
-                    </div>
-                </div>
-                <h3 style="font-weight: 900; margin-bottom: 0.25rem;">Boys Hostel A</h3>
-                <p style="font-size: 0.625rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 1.5rem;">Boys Boarding Section</p>
-                <div style="margin-bottom: 1rem;">
-                    <div style="display: flex; justify-content: space-between; font-size: 0.75rem; margin-bottom: 0.25rem;">
-                        <span>Occupancy</span>
-                        <span style="font-weight: 900; color: var(--primary);">92%</span>
-                    </div>
-                    <div style="height: 8px; background: #f1f5f9; border-radius: 4px; overflow: hidden;">
-                        <div style="width: 92%; height: 100%; background: var(--primary);"></div>
-                    </div>
-                </div>
-                <button class="btn btn-primary" style="width: 100%; height: 40px; font-size: 0.75rem;">View Rooms</button>
+        <!-- Search Center -->
+        <div class="filter-center">
+            <div class="search-input-wrapper">
+                <i class="bi bi-search" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-light);"></i>
+                <input type="text" class="search-input" placeholder="Search student, room number, or hostel name...">
             </div>
-        </section>
+            <select class="filter-select">
+                <option>All Hostels</option>
+                <option>Boys Hostel A</option>
+                <option>Girls Hostel A</option>
+            </select>
+            <select class="filter-select">
+                <option>All Floors</option>
+                <option>Ground Floor</option>
+                <option>First Floor</option>
+            </select>
+            <button class="btn btn-outline" style="width: 44px; padding: 0; justify-content: center;">
+                <i class="bi bi-filter"></i>
+            </button>
+            <button class="btn btn-outline">
+                <i class="bi bi-download"></i> Export
+            </button>
+        </div>
+
+        <!-- Registry Grid -->
+        <div class="registry-grid">
+            <!-- Card 1 -->
+            <div class="hostel-card">
+                <div class="hostel-card-header">
+                    <div class="hostel-icon-bg">
+                        <i class="bi bi-building" style="font-size: 1.5rem; color: var(--text-light);"></i>
+                    </div>
+                    <span class="badge badge-success">Active</span>
+                </div>
+                <h3 style="font-weight: 900; letter-spacing: -0.01em;">Boys Hostel A</h3>
+                <p style="font-size: 10px; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.05em; margin: 0.25rem 0 1.5rem 0;">Boys Boarding Section</p>
+                
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-size: 11px; font-weight: 700; color: var(--text-muted);">Occupancy Rate</span>
+                    <span style="font-size: 11px; font-weight: 900; color: var(--primary);">92%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 92%;"></div>
+                </div>
+
+                <div style="display: grid; grid-template-cols: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                    <div style="background: #f8fafc; padding: 0.75rem; border-radius: 12px;">
+                        <p style="font-size: 9px; font-weight: 700; color: var(--text-light); text-transform: uppercase;">Rooms</p>
+                        <p style="font-size: 1.125rem; font-weight: 900;">24</p>
+                    </div>
+                    <div style="background: #f8fafc; padding: 0.75rem; border-radius: 12px;">
+                        <p style="font-size: 9px; font-weight: 700; color: var(--text-light); text-transform: uppercase;">Capacity</p>
+                        <p style="font-size: 1.125rem; font-weight: 900;">120 Beds</p>
+                    </div>
+                </div>
+                <button class="btn" style="width: 100%; background: #0f172a; color: white;">View Room Details</button>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="hostel-card">
+                <div class="hostel-card-header">
+                    <div class="hostel-icon-bg">
+                        <i class="bi bi-building" style="font-size: 1.5rem; color: var(--text-light);"></i>
+                    </div>
+                    <span class="badge badge-success">Active</span>
+                </div>
+                <h3 style="font-weight: 900; letter-spacing: -0.01em;">Girls Hostel A</h3>
+                <p style="font-size: 10px; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.05em; margin: 0.25rem 0 1.5rem 0;">Girls Boarding Section</p>
+                
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-size: 11px; font-weight: 700; color: var(--text-muted);">Occupancy Rate</span>
+                    <span style="font-size: 11px; font-weight: 900; color: var(--primary);">85%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 85%;"></div>
+                </div>
+
+                <div style="display: grid; grid-template-cols: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                    <div style="background: #f8fafc; padding: 0.75rem; border-radius: 12px;">
+                        <p style="font-size: 9px; font-weight: 700; color: var(--text-light); text-transform: uppercase;">Rooms</p>
+                        <p style="font-size: 1.125rem; font-weight: 900;">24</p>
+                    </div>
+                    <div style="background: #f8fafc; padding: 0.75rem; border-radius: 12px;">
+                        <p style="font-size: 9px; font-weight: 700; color: var(--text-light); text-transform: uppercase;">Capacity</p>
+                        <p style="font-size: 1.125rem; font-weight: 900;">120 Beds</p>
+                    </div>
+                </div>
+                <button class="btn" style="width: 100%; background: #0f172a; color: white;">View Room Details</button>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="hostel-card">
+                <div class="hostel-card-header">
+                    <div class="hostel-icon-bg">
+                        <i class="bi bi-building" style="font-size: 1.5rem; color: var(--text-light);"></i>
+                    </div>
+                    <span class="badge badge-success">Active</span>
+                </div>
+                <h3 style="font-weight: 900; letter-spacing: -0.01em;">Boys Hostel B</h3>
+                <p style="font-size: 10px; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.05em; margin: 0.25rem 0 1.5rem 0;">Boys Boarding Section</p>
+                
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-size: 11px; font-weight: 700; color: var(--text-muted);">Occupancy Rate</span>
+                    <span style="font-size: 11px; font-weight: 900; color: var(--primary);">78%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 78%;"></div>
+                </div>
+
+                <div style="display: grid; grid-template-cols: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                    <div style="background: #f8fafc; padding: 0.75rem; border-radius: 12px;">
+                        <p style="font-size: 9px; font-weight: 700; color: var(--text-light); text-transform: uppercase;">Rooms</p>
+                        <p style="font-size: 1.125rem; font-weight: 900;">20</p>
+                    </div>
+                    <div style="background: #f8fafc; padding: 0.75rem; border-radius: 12px;">
+                        <p style="font-size: 9px; font-weight: 700; color: var(--text-light); text-transform: uppercase;">Capacity</p>
+                        <p style="font-size: 1.125rem; font-weight: 900;">100 Beds</p>
+                    </div>
+                </div>
+                <button class="btn" style="width: 100%; background: #0f172a; color: white;">View Room Details</button>
+            </div>
+        </div>
+
+        <!-- Maintenance Section -->
+        <div style="background: white; border-radius: var(--card-radius); padding: 1.5rem; border: 1px solid var(--border-color);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <div>
+                    <h3 style="font-weight: 900; letter-spacing: -0.01em;">Recent Maintenance Requests</h3>
+                    <p style="font-size: 10px; font-weight: 700; color: var(--text-light); text-transform: uppercase; margin-top: 0.25rem;">Pending and Urgent Repairs</p>
+                </div>
+                <button class="btn btn-outline" style="border: none; color: var(--primary);">View Maintenance Hub</button>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                <!-- Request 1 -->
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: #f8fafc; border-radius: 12px;">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <div style="width: 40px; height: 40px; background: #fff1f2; color: #e11d48; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                            <i class="bi bi-wrench"></i>
+                        </div>
+                        <div>
+                            <p style="font-size: 14px; font-weight: 700;">Leaking Pipe - Room B-204</p>
+                            <p style="font-size: 11px; color: var(--text-muted);">Boys Hostel B • 2 hours ago</p>
+                        </div>
+                    </div>
+                    <span class="badge" style="background: #fff1f2; color: #e11d48;">Urgent</span>
+                </div>
+                <!-- Request 2 -->
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: #f8fafc; border-radius: 12px;">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <div style="width: 40px; height: 40px; background: #fffbeb; color: #d97706; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                            <i class="bi bi-wrench"></i>
+                        </div>
+                        <div>
+                            <p style="font-size: 14px; font-weight: 700;">Broken Window - Room G-108</p>
+                            <p style="font-size: 11px; color: var(--text-muted);">Girls Hostel A • 5 hours ago</p>
+                        </div>
+                    </div>
+                    <span class="badge" style="background: #fffbeb; color: #d97706;">Pending</span>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>
