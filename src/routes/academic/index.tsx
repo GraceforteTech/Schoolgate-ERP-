@@ -7,7 +7,9 @@ import { TeacherWorkload } from "@/components/academic/teacher-workload";
 import { AcademicReports } from "@/components/academic/academic-reports";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { Download, LayoutDashboard, Calendar, Users, BookOpen, UserCheck, BarChart3, GraduationCap } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Download, LayoutDashboard, Calendar, Users, BookOpen, UserCheck, BarChart3, GraduationCap, Search, Filter } from "lucide-react";
 
 export const Route = createFileRoute("/academic/")({
   component: AcademicManagementPage,
@@ -31,6 +33,53 @@ function AcademicManagementPage() {
             System Active
           </div>
         </div>
+      </div>
+
+      {/* Filter Bar */}
+      <div className="mb-6 flex flex-wrap items-center gap-3 bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
+        <div className="relative flex-1 min-w-[240px]">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
+          <Input placeholder="Search academic records..." className="pl-9 h-11 rounded-xl border-slate-100 bg-slate-50/50 focus:bg-white transition-colors" />
+        </div>
+        
+        <Select defaultValue="all-schools">
+          <SelectTrigger className="w-[180px] h-11 rounded-xl border-slate-100 bg-slate-50/50">
+            <SelectValue placeholder="All Schools" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all-schools">All Schools</SelectItem>
+            <SelectItem value="primary">Primary School</SelectItem>
+            <SelectItem value="secondary">Secondary School</SelectItem>
+          </SelectContent>
+        </Select>
+
+        <Select defaultValue="term2">
+          <SelectTrigger className="w-[150px] h-11 rounded-xl border-slate-100 bg-slate-50/50">
+            <SelectValue placeholder="Term" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="term1">1st Term</SelectItem>
+            <SelectItem value="term2">2nd Term</SelectItem>
+            <SelectItem value="term3">3rd Term</SelectItem>
+          </SelectContent>
+        </Select>
+
+        <Select defaultValue="all-classes">
+          <SelectTrigger className="w-[150px] h-11 rounded-xl border-slate-100 bg-slate-50/50">
+            <SelectValue placeholder="All Classes" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all-classes">All Classes</SelectItem>
+            <SelectItem value="jss1">JSS 1</SelectItem>
+            <SelectItem value="jss2">JSS 2</SelectItem>
+            <SelectItem value="ss3">SS 3</SelectItem>
+          </SelectContent>
+        </Select>
+
+        <Button variant="outline" className="h-11 px-4 rounded-xl border-slate-100 text-slate-500 gap-2">
+          <Filter size={16} />
+          Advanced
+        </Button>
       </div>
 
       <div className="mb-8">
