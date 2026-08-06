@@ -166,41 +166,67 @@ function AlumniManagementPage() {
           </div>
         </TabsContent>
 
-        <TabsContent value="engagement">
+        <TabsContent value="membership">
+          <AlumniMembership />
+        </TabsContent>
+
+        <TabsContent value="events">
+          <AlumniEvents />
+        </TabsContent>
+
+        <TabsContent value="donations">
+          <AlumniDonations />
+        </TabsContent>
+
+        <TabsContent value="mentorship">
           <Card className="p-12 text-center bg-white border-none shadow-sm rounded-[20px]">
-            <div className="h-20 w-20 bg-schoolgate-green-light rounded-2xl grid place-items-center text-schoolgate-green mx-auto mb-6">
-              <MessageSquare className="h-10 w-10" />
+            <div className="h-20 w-20 bg-emerald-50 rounded-2xl grid place-items-center text-emerald-600 mx-auto mb-6">
+              <GraduationCap className="h-10 w-10" />
             </div>
-            <h3 className="text-xl font-bold text-slate-900">Alumni Engagement Suite</h3>
-            <p className="text-slate-500 mt-2 max-w-md mx-auto">Track events, email campaigns, and networking activity. This module is currently under strategic development.</p>
-            <Button className="mt-8 bg-schoolgate-green text-white font-bold px-8 rounded-xl h-11 shadow-lg shadow-schoolgate-green/20">
-              Schedule First Campaign
+            <h3 className="text-xl font-bold text-slate-900">Alumni Mentorship Hub</h3>
+            <p className="text-slate-500 mt-2 max-w-md mx-auto">Connect current students with verified alumni mentors worldwide. This portal facilitates knowledge transfer and professional guidance.</p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 max-w-4xl mx-auto text-left">
+              {[
+                { title: "Find a Mentor", desc: "Search for alumni by industry and expertise." },
+                { title: "Become a Mentor", desc: "Share your experience with the next generation." },
+                { title: "Impact Stories", desc: "Read success stories from our mentorship pairs." }
+              ].map((item, i) => (
+                <div key={i} className="p-5 rounded-2xl bg-slate-50 border border-slate-100">
+                  <h4 className="font-bold text-slate-900 mb-1">{item.title}</h4>
+                  <p className="text-[11px] text-slate-500">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+            <Button className="mt-12 bg-schoolgate-green text-white font-bold px-8 rounded-xl h-11 shadow-lg shadow-schoolgate-green/20">
+              Launch Mentorship Portal
             </Button>
           </Card>
         </TabsContent>
 
-        <TabsContent value="donations">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[1, 2, 3].map((i) => (
-              <Card key={i} className="p-6 bg-white border-none shadow-sm rounded-[20px]">
-                <div className="h-48 w-full bg-slate-50 rounded-xl mb-6 grid place-items-center text-slate-300">
-                  <MapPin size={48} />
-                </div>
-                <h3 className="font-bold text-slate-900">Project: Science Wing Expansion</h3>
-                <p className="text-xs text-slate-500 mt-1 mb-4">Goal: ₦15,000,000</p>
-                <div className="h-2 w-full bg-slate-50 rounded-full overflow-hidden mb-2">
-                  <div className="h-full bg-schoolgate-green w-[65%]" />
-                </div>
-                <div className="flex justify-between text-[10px] font-bold text-slate-400">
-                  <span>₦9,750,000 Raised</span>
-                  <span>65% Complete</span>
-                </div>
-                <Button variant="outline" className="w-full mt-6 rounded-xl font-bold border-slate-100 text-slate-600 hover:bg-slate-50">
-                  View Campaign Details
-                </Button>
-              </Card>
-            ))}
-          </div>
+        <TabsContent value="career">
+          <Card className="p-12 text-center bg-white border-none shadow-sm rounded-[20px]">
+            <div className="h-20 w-20 bg-blue-50 rounded-2xl grid place-items-center text-blue-600 mx-auto mb-6">
+              <TrendingUp className="h-10 w-10" />
+            </div>
+            <h3 className="text-xl font-bold text-slate-900">Alumni Career & Job Portal</h3>
+            <p className="text-slate-500 mt-2 max-w-md mx-auto">Exclusively for Schoolgate Alumni. Find jobs, post internships, and explore career opportunities within the network.</p>
+            <Button className="mt-8 bg-schoolgate-green text-white font-bold px-8 rounded-xl h-11 shadow-lg shadow-schoolgate-green/20">
+              Browse Job Board
+            </Button>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="business">
+          <Card className="p-12 text-center bg-white border-none shadow-sm rounded-[20px]">
+            <div className="h-20 w-20 bg-rose-50 rounded-2xl grid place-items-center text-rose-600 mx-auto mb-6">
+              <MapPin className="h-10 w-10" />
+            </div>
+            <h3 className="text-xl font-bold text-slate-900">Alumni Business Directory</h3>
+            <p className="text-slate-500 mt-2 max-w-md mx-auto">Support alumni-owned businesses. A comprehensive directory of products and services offered by our graduates.</p>
+            <Button className="mt-8 bg-schoolgate-green text-white font-bold px-8 rounded-xl h-11 shadow-lg shadow-schoolgate-green/20">
+              Explore Businesses
+            </Button>
+          </Card>
         </TabsContent>
       </Tabs>
     </div>
