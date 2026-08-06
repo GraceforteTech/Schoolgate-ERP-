@@ -160,6 +160,45 @@ function LessonNoteManagement() {
           <PrincipalLessonDashboard />
         </TabsContent>
       </Tabs>
+      {/* Floating AI Assistant (Module 6) */}
+      <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3 items-end">
+        <div className="bg-white rounded-2xl shadow-2xl border border-slate-100 p-2 hidden md:flex flex-col gap-2 animate-in slide-in-from-right-10">
+          <Button variant="ghost" size="icon" className="h-10 w-10 text-indigo-600 hover:bg-indigo-50" title="Generate Objectives"><Target className="h-5 w-5" /></Button>
+          <Button variant="ghost" size="icon" className="h-10 w-10 text-indigo-600 hover:bg-indigo-50" title="Generate Activities"><Zap className="h-5 w-5" /></Button>
+          <Button variant="ghost" size="icon" className="h-10 w-10 text-indigo-600 hover:bg-indigo-50" title="Improve Writing"><Wand2 className="h-5 w-5" /></Button>
+        </div>
+        <AILessonGenerator />
+      </div>
+
+      {/* Sticky Action Toolbar (Module 8) - Visible only on Builder tab */}
+      {activeTab === "builder" && (
+        <div className="fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-md border-t border-slate-200 p-4 z-40 flex items-center justify-center gap-2 animate-in slide-in-from-bottom-10">
+          <div className="max-w-[1200px] w-full flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Button variant="outline" className="rounded-lg h-10 px-4 font-bold border-slate-200">
+                <Save className="mr-2 h-4 w-4" /> Save Draft
+              </Button>
+              <Button variant="outline" className="rounded-lg h-10 px-4 font-bold border-slate-200">
+                <Eye className="mr-2 h-4 w-4" /> Preview
+              </Button>
+            </div>
+            <div className="flex items-center gap-2">
+              <Button variant="outline" className="rounded-lg h-10 w-10 p-0 border-slate-200">
+                <Printer className="h-4 w-4" />
+              </Button>
+              <Button variant="outline" className="rounded-lg h-10 w-10 p-0 border-slate-200">
+                <FileDown className="h-4 w-4" />
+              </Button>
+              <Button variant="outline" className="rounded-lg h-10 w-10 p-0 border-slate-200">
+                <Share2 className="h-4 w-4" />
+              </Button>
+              <Button className="bg-[#0B6E3C] hover:bg-[#0B6E3C]/90 text-white rounded-lg h-10 px-6 font-bold shadow-lg shadow-schoolgate-green/20">
+                <Send className="mr-2 h-4 w-4" /> Submit Note
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
