@@ -90,8 +90,112 @@ const mockStudents = [
 ];
 
 export function StudentDirectory() {
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+
+  const toggleAll = () => {
+    if (selectedIds.length === mockStudents.length) {
+      setSelectedIds([]);
+    } else {
+      setSelectedIds(mockStudents.map(s => s.id));
+    }
+  };
+
+  const toggleId = (id: string) => {
+    if (selectedIds.includes(id)) {
+      setSelectedIds(selectedIds.filter(i => i !== id));
+    } else {
+      setSelectedIds([...selectedIds, id]);
+    }
+  };
+
+  const handleBulkAction = (action: string) => {
+    toast.success(`${action} applied to ${selectedIds.length} students`);
+    setSelectedIds([]);
+  };
+
   return (
     <div className="space-y-4">
+      {/* Selection Banner */}
+      {selectedIds.length > 0 && (
+        <div className="bg-schoolgate-green/5 border border-schoolgate-green/20 rounded-xl p-3 flex items-center justify-between animate-in fade-in slide-in-from-top-2 duration-200">
+          <div className="flex items-center gap-3">
+            <div className="h-8 w-8 rounded-lg bg-schoolgate-green flex items-center justify-center text-white text-xs font-bold">
+              {selectedIds.length}
+            </div>
+            <div>
+              <p className="text-xs font-bold text-slate-800">Students Selected</p>
+              <p className="text-[10px] text-slate-500">Choose an action to apply to all selected students</p>
+            </div>
+          </div>
+          
+          <div className="flex items-center gap-2">
+            <Button 
+              size="sm" 
+              variant="outline" 
+              className="h-8 text-[10px] font-bold gap-1.5 border-slate-200 hover:bg-white"
+              onClick={() => handleBulkAction("Promotion")}
+            >
+              <TrendingUp className="h-3 w-3 text-blue-500" /> Promote
+            </Button>
+            <Button 
+              size="sm" 
+              variant="outline" 
+              className="h-8 text-[10px] font-bold gap-1.5 border-slate-200 hover:bg-white"
+              onClick={() => handleBulkAction("Transfer")}
+            >
+              <ArrowRightLeft className="h-3 w-3 text-violet-500" /> Transfer
+            </Button>
+            <Button 
+              size="sm" 
+              variant="outline" 
+              className="h-8 text-[10px] font-bold gap-1.5 border-slate-200 hover:bg-white"
+              onClick={() => handleBulkAction("Suspension")}
+            >
+              <UserMinus className="h-3 w-3 text-orange-500" /> Suspend
+            </Button>
+            <Button 
+              size="sm" 
+              variant="outline" 
+              className="h-8 text-[10px] font-bold gap-1.5 border-slate-200 hover:bg-white text-rose-600 border-rose-100 hover:bg-rose-50"
+              onClick={() => handleBulkAction("Withdrawal")}
+            >
+              <UserX className="h-3 w-3" /> Withdraw
+            </Button>
+            
+            <Separator orientation="vertical" className="h-6 mx-1" />
+            
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                  <MoreVertical className="h-3.5 w-3.5" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuItem className="text-xs font-bold gap-2" onClick={() => handleBulkAction("ID Card Printing")}>
+                  <Contact className="h-3.5 w-3.5 text-slate-400" /> Print ID Cards
+                </DropdownMenuItem>
+                <DropdownMenuItem className="text-xs font-bold gap-2" onClick={() => handleBulkAction("Profile Printing")}>
+                  <Printer className="h-3.5 w-3.5 text-slate-400" /> Print Profiles
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className="text-xs font-bold gap-2 text-rose-600" onClick={() => handleBulkAction("Deletion")}>
+                  <Trash2 className="h-3.5 w-3.5" /> Delete Records
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            <Button 
+              size="sm" 
+              variant="ghost" 
+              className="h-8 text-[10px] font-bold text-slate-400 hover:text-slate-600"
+              onClick={() => setSelectedIds([])}
+            >
+              Cancel
+            </Button>
+          </div>
+        </div>
+      )}
+
       {/* Filters Bar */}
       <div className="flex flex-wrap items-center gap-3">
         <div className="relative flex-1 min-w-[200px]">
@@ -153,21 +257,25 @@ export function StudentDirectory() {
       </div>
 
       {/* Table */}
-      <div className="rounded-xl border border-slate-200 overflow-hidden bg-white">
+      <div className="rounded-xl border border-slate-200 overflow-hidden bg-white shadow-sm">
         <div className="overflow-x-auto">
           <Table>
             <TableHeader className="bg-slate-50">
               <TableRow>
+                <TableHead className="w-12 text-center">
+                  <Checkbox 
+                    checked={selectedIds.length === mockStudents.length && mockStudents.length > 0}
+                    onCheckedChange={toggleAll}
+                    className="border-slate-300 data-[state=checked]:bg-schoolgate-green data-[state=checked]:border-schoolgate-green"
+                  />
+                </TableHead>
                 <TableHead className="w-[80px]">Photo</TableHead>
                 <TableHead className="font-semibold text-slate-700 whitespace-nowrap">Adm Number</TableHead>
                 <TableHead className="font-semibold text-slate-700 whitespace-nowrap">Student Name</TableHead>
                 <TableHead className="font-semibold text-slate-700 whitespace-nowrap">School</TableHead>
                 <TableHead className="font-semibold text-slate-700 whitespace-nowrap">Class & Arm</TableHead>
                 <TableHead className="font-semibold text-slate-700 whitespace-nowrap">Gender</TableHead>
-                <TableHead className="font-semibold text-slate-700 whitespace-nowrap">Parent</TableHead>
-                <TableHead className="font-semibold text-slate-700 whitespace-nowrap">Phone</TableHead>
-                <TableHead className="font-semibold text-slate-700 text-center">Status</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+                <TableHead className="font-semibold text-slate-700 whitespace-nowrap text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
