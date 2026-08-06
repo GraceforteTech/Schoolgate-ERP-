@@ -18,6 +18,14 @@ function OutstandingFeesPage() {
   const [activeTab, setActiveTab] = useState("dashboard");
   const [quickViewOpen, setQuickViewOpen] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState<any>(null);
+  const [isLoadingQuickView, setIsLoadingQuickView] = useState(false);
+
+  const handleViewStudent = (student: any) => {
+    setSelectedStudent(student);
+    setIsLoadingQuickView(true);
+    setQuickViewOpen(true);
+    setTimeout(() => setIsLoadingQuickView(false), 800);
+  };
 
   return (
     <div className="flex flex-col gap-6 p-6 md:p-8 bg-slate-50 min-h-screen">
@@ -63,7 +71,7 @@ function OutstandingFeesPage() {
             <div className="xl:col-span-3 space-y-8">
               <div className="bg-white p-6 rounded-[14px] shadow-sm border-none">
                 <h3 className="text-lg font-bold text-slate-900 mb-6">High Priority Recovery</h3>
-                <OutstandingStudentsTable />
+                <OutstandingStudentsTable onSelectStudent={handleViewStudent} />
               </div>
             </div>
           </div>
@@ -77,7 +85,7 @@ function OutstandingFeesPage() {
           <SmartFilters />
           <div className="bg-white p-6 rounded-[14px] shadow-sm border-none">
             <h3 className="text-lg font-bold text-slate-900 mb-6">Debt Recovery Workspace</h3>
-            <OutstandingStudentsTable />
+            <OutstandingStudentsTable onSelectStudent={handleViewStudent} />
           </div>
         </TabsContent>
 
@@ -94,6 +102,7 @@ function OutstandingFeesPage() {
         open={quickViewOpen} 
         onOpenChange={setQuickViewOpen} 
         student={selectedStudent} 
+        isLoading={isLoadingQuickView}
       />
     </div>
   );
