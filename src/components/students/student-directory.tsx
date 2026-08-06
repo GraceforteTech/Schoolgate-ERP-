@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { 
   Search, 
   Filter, 
@@ -13,7 +13,12 @@ import {
   FileText,
   Download,
   Printer,
-  FileSpreadsheet
+  FileSpreadsheet,
+  Trash2,
+  CheckCircle2,
+  XCircle,
+  AlertCircle,
+  ShieldCheck
 } from "lucide-react";
 import {
   Table,
@@ -41,6 +46,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Checkbox } from "@/components/ui/checkbox";
+import { toast } from "sonner";
+import { Separator } from "@/components/ui/separator";
 
 const mockStudents = [
   {
