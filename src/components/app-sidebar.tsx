@@ -4,6 +4,7 @@ import {
   BookOpen,
   CalendarDays,
   CreditCard,
+  FileText,
   GraduationCap,
   LayoutDashboard,
   Settings,
