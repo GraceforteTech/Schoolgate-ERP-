@@ -15,7 +15,7 @@ import {
   ArrowRight,
   Filter
 } from 'lucide-react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/select-tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LessonNoteKPIs } from '@/components/lesson-notes/lesson-note-kpis';
 import { LessonNoteBuilder } from '@/components/lesson-notes/lesson-note-builder';
 import { WeeklyLessonPlanner } from '@/components/lesson-notes/weekly-lesson-planner';
