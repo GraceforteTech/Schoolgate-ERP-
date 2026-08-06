@@ -34,7 +34,7 @@ const mainNavItems = [
 ];
 
 const financeNavItems = [
-  { title: "Fee Types", url: "/fee-types", icon: CreditCard },
+  { title: "Fee Types", url: "/fee-types-overview", icon: CreditCard },
   { title: "Adjustments", url: "/finance/adjustment-management", icon: Banknote },
   { title: "Invoices", url: "/finance/invoice-management", icon: FileText },
   { title: "Outstanding", url: "/finance/outstanding-fees", icon: CreditCard },

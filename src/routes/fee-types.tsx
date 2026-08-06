@@ -1,7 +1,8 @@
 import type { ComponentType } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   Archive,
+  ArrowLeft,
   CheckCircle2,
   DollarSign,
   FileSpreadsheet,
@@ -56,14 +57,21 @@ function FeeTypesPage() {
           <main className="flex-1 p-4 md:p-6">
             <div className="mx-auto max-w-7xl space-y-6">
               {/* Page header */}
-              <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 sm:flex sm:flex-wrap sm:items-center sm:justify-between">
-                <div className="min-w-0 space-y-1">
-                  <h1 className="truncate text-2xl font-semibold tracking-tight text-foreground">
-                    Fee Types
-                  </h1>
-                  <p className="text-sm text-muted-foreground">
-                    Create and manage school fee structures.
-                  </p>
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex items-center gap-3">
+                  <Link to="/fee-types-overview">
+                    <Button variant="ghost" size="icon" className="h-9 w-9 rounded-full bg-white shadow-sm border border-slate-100">
+                      <ArrowLeft className="h-4 w-4" />
+                    </Button>
+                  </Link>
+                  <div className="min-w-0 space-y-1">
+                    <h1 className="truncate text-2xl font-semibold tracking-tight text-foreground">
+                      Fee Types Registry
+                    </h1>
+                    <p className="text-sm text-muted-foreground">
+                      Complete register of school fee structures and allocations.
+                    </p>
+                  </div>
                 </div>
               </div>
 
