@@ -61,11 +61,15 @@ export function FeePostingSpreadsheet() {
   const tableRef = useRef<HTMLTableElement>(null);
 
   useEffect(() => {
+    let timer: any;
     if (saveStatus === "saving") {
-      const timer = setTimeout(() => setSaveStatus("saved"), 1000);
-      return () => clearTimeout(timer);
+      timer = setTimeout(() => setSaveStatus("saved"), 1000);
     }
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
   }, [saveStatus]);
+
 
   const handleCellClick = (r: number, c: number, shiftKey: boolean) => {
     if (shiftKey && selection) {
