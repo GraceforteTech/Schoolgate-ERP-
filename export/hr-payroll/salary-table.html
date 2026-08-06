@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Salary Table - Schoolgate ERP</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .table-wrapper {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-top: 1.5rem;
+            overflow: hidden;
+        }
+        .search-row {
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .search-input {
+            padding: 0.6rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            width: 300px;
+            font-size: 0.875rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th {
+            background: #f8fafc;
+            padding: 1rem;
+            font-size: 0.7rem;
+            font-weight: 800;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            text-align: left;
+        }
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 0.875rem;
+        }
+        .emp-cell { display: flex; align-items: center; gap: 0.75rem; }
+        .avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--primary-light); }
+        .emp-info h4 { font-size: 0.875rem; font-weight: 700; margin: 0; }
+        .emp-info p { font-size: 0.65rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
+        
+        .val-amount { font-family: monospace; font-weight: 600; }
+        .val-plus { color: #10b981; }
+        .val-minus { color: #ef4444; }
+        .val-net { color: var(--primary); font-weight: 800; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-main">
+                <div>
+                    <h1>Employee Salary Table</h1>
+                    <p>Detailed breakdown of individual staff payments.</p>
+                </div>
+                <div class="actions">
+                    <button class="btn btn-outline">Export Excel</button>
+                    <button class="btn btn-primary">Print Table</button>
+                </div>
+            </div>
+        </header>
+
+        <div class="dashboard-main">
+            <div class="table-wrapper">
+                <div class="search-row">
+                    <input type="text" class="search-input" placeholder="Search employee...">
+                    <button class="pill">Filter By Dept</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Employee</th>
+                            <th>Grade</th>
+                            <th>Basic</th>
+                            <th>Allowances</th>
+                            <th>Deductions</th>
+                            <th>Net Salary</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="emp-cell">
+                                    <div class="avatar"></div>
+                                    <div class="emp-info"><h4>Adebayo Olawale</h4><p>EMP/001</p></div>
+                                </div>
+                            </td>
+                            <td>Level 12 Step 4</td>
+                            <td class="val-amount">₦150,000</td>
+                            <td class="val-amount val-plus">+₦45,000</td>
+                            <td class="val-amount val-minus">-₦28,000</td>
+                            <td class="val-amount val-net">₦167,000</td>
+                            <td><span class="badge">Verified</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="emp-cell">
+                                    <div class="avatar"></div>
+                                    <div class="emp-info"><h4>Sarah Johnson</h4><p>EMP/002</p></div>
+                                </div>
+                            </td>
+                            <td>Level 10 Step 2</td>
+                            <td class="val-amount">₦120,000</td>
+                            <td class="val-amount val-plus">+₦35,000</td>
+                            <td class="val-amount val-minus">-₦20,000</td>
+                            <td class="val-amount val-net">₦135,000</td>
+                            <td><span class="badge" style="background: #fef3c7; color: #92400e;">Pending</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

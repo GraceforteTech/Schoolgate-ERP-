@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salary Structure - Schoolgate ERP</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .structure-grid {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 1.5rem;
+            align-items: start;
+        }
+        .table-container {
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+        th {
+            background: #f8fafc;
+            padding: 1rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--border-color);
+        }
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 0.875rem;
+        }
+        .grade-name { font-weight: 700; color: var(--text-main); }
+        .amount-basic { color: var(--text-muted); font-weight: 500; }
+        .amount-total { color: var(--primary); font-weight: 800; }
+        
+        .editor-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 100px;
+        }
+        .editor-header {
+            background: #1e293b;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 14px 14px 0 0;
+        }
+        .editor-header h3 { font-size: 1rem; margin-bottom: 0.25rem; }
+        .editor-header p { font-size: 0.75rem; color: #94a3b8; }
+        .editor-body { padding: 1.5rem; }
+        
+        .component-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            background: #f8fafc;
+            border-radius: 10px;
+            margin-bottom: 0.75rem;
+            border: 1px solid transparent;
+            transition: all 0.2s;
+        }
+        .component-item:hover { border-color: var(--primary-light); }
+        .comp-info { display: flex; align-items: center; gap: 0.75rem; }
+        .comp-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 0.875rem; }
+        .comp-name { font-size: 0.75rem; font-weight: 700; color: #475569; }
+        .comp-val { font-size: 0.875rem; font-weight: 800; color: var(--text-main); }
+        
+        .editor-footer {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #f1f5f9;
+        }
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .total-label { font-size: 0.875rem; font-weight: 600; color: var(--text-muted); }
+        .total-val { font-size: 1.5rem; font-weight: 900; color: var(--primary); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-main">
+                <div>
+                    <h1>Salary Structure Management</h1>
+                    <p>Configure grade-based earnings and allowances.</p>
+                </div>
+                <div class="actions">
+                    <button class="btn btn-outline">Find Grade</button>
+                    <button class="btn btn-primary">+ Add New Grade</button>
+                </div>
+            </div>
+        </header>
+
+        <div class="dashboard-main">
+            <div class="structure-grid">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Grade Name</th>
+                                <th>Basic Salary</th>
+                                <th>Gross Total</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="grade-name">Senior Academic Grade A</td>
+                                <td class="amount-basic">₦150,000</td>
+                                <td class="amount-total">₦285,000</td>
+                                <td><span class="badge">Active</span></td>
+                                <td><button class="pill">Edit</button></td>
+                            </tr>
+                            <tr>
+                                <td class="grade-name">Senior Academic Grade B</td>
+                                <td class="amount-basic">₦140,000</td>
+                                <td class="amount-total">₦265,000</td>
+                                <td><span class="badge">Active</span></td>
+                                <td><button class="pill">Edit</button></td>
+                            </tr>
+                            <tr>
+                                <td class="grade-name">Junior Academic Grade A</td>
+                                <td class="amount-basic">₦110,000</td>
+                                <td class="amount-total">₦210,000</td>
+                                <td><span class="badge">Active</span></td>
+                                <td><button class="pill">Edit</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <aside class="editor-card">
+                    <div class="editor-header">
+                        <h3>Edit Salary Structure</h3>
+                        <p>Senior Academic Grade A</p>
+                    </div>
+                    <div class="editor-body">
+                        <div class="component-item">
+                            <div class="comp-info">
+                                <div class="comp-icon icon-blue">💵</div>
+                                <span class="comp-name">Basic Salary</span>
+                            </div>
+                            <span class="comp-val">₦150,000</span>
+                        </div>
+                        <div class="component-item">
+                            <div class="comp-info">
+                                <div class="comp-icon icon-green">🏠</div>
+                                <span class="comp-name">Housing</span>
+                            </div>
+                            <span class="comp-val">₦45,000</span>
+                        </div>
+                        <div class="component-item">
+                            <div class="comp-info">
+                                <div class="comp-icon icon-orange">🚌</div>
+                                <span class="comp-name">Transport</span>
+                            </div>
+                            <span class="comp-val">₦30,000</span>
+                        </div>
+                        
+                        <div class="editor-footer">
+                            <div class="total-row">
+                                <span class="total-label">Monthly Gross</span>
+                                <span class="total-val">₦285,000</span>
+                            </div>
+                            <button class="btn btn-primary btn-full">Save Changes</button>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
