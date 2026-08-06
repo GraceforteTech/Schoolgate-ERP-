@@ -445,8 +445,8 @@ export function FeePostingSpreadsheet({ isLoading = false }: { isLoading?: boole
                             value={value}
                             onChange={(e) => {
                               const val = e.target.value;
-                              const col = COLUMNS[c];
-                              if (col.type === "currency" && val !== "" && !/^-?\d*\.?\d*$/.test(val)) return;
+                              const currentCol = COLUMNS[c];
+                              if (currentCol?.type === "currency" && val !== "" && !/^-?\d*\.?\d*$/.test(val)) return;
                               updateCellValue(r, c, val);
                             }}
                             onBlur={() => setEditing(null)}
