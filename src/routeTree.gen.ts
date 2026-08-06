@@ -16,6 +16,7 @@ import { Route as FinanceExpenseManagementIndexRouteImport } from './routes/fina
 import { Route as FinanceInvoiceManagementIndexRouteImport } from './routes/finance/invoice-management/index'
 import { Route as FinanceOutstandingFeesIndexRouteImport } from './routes/finance/outstanding-fees/index'
 import { Route as FinancePayrollManagementIndexRouteImport } from './routes/finance/payroll-management/index'
+import { Route as FinanceWealthLoanIndexRouteImport } from './routes/finance/wealth-loan/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -57,6 +58,11 @@ const FinancePayrollManagementIndexRoute =
     path: '/finance/payroll-management/',
     getParentRoute: () => rootRouteImport,
   } as any)
+const FinanceWealthLoanIndexRoute = FinanceWealthLoanIndexRouteImport.update({
+  id: '/finance/wealth-loan/',
+  path: '/finance/wealth-loan/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -66,6 +72,7 @@ export interface FileRoutesByFullPath {
   '/finance/invoice-management/': typeof FinanceInvoiceManagementIndexRoute
   '/finance/outstanding-fees/': typeof FinanceOutstandingFeesIndexRoute
   '/finance/payroll-management/': typeof FinancePayrollManagementIndexRoute
+  '/finance/wealth-loan/': typeof FinanceWealthLoanIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -75,6 +82,7 @@ export interface FileRoutesByTo {
   '/finance/invoice-management': typeof FinanceInvoiceManagementIndexRoute
   '/finance/outstanding-fees': typeof FinanceOutstandingFeesIndexRoute
   '/finance/payroll-management': typeof FinancePayrollManagementIndexRoute
+  '/finance/wealth-loan': typeof FinanceWealthLoanIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -85,6 +93,7 @@ export interface FileRoutesById {
   '/finance/invoice-management/': typeof FinanceInvoiceManagementIndexRoute
   '/finance/outstanding-fees/': typeof FinanceOutstandingFeesIndexRoute
   '/finance/payroll-management/': typeof FinancePayrollManagementIndexRoute
+  '/finance/wealth-loan/': typeof FinanceWealthLoanIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -96,6 +105,7 @@ export interface FileRouteTypes {
     | '/finance/invoice-management/'
     | '/finance/outstanding-fees/'
     | '/finance/payroll-management/'
+    | '/finance/wealth-loan/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -105,6 +115,7 @@ export interface FileRouteTypes {
     | '/finance/invoice-management'
     | '/finance/outstanding-fees'
     | '/finance/payroll-management'
+    | '/finance/wealth-loan'
   id:
     | '__root__'
     | '/'
@@ -114,6 +125,7 @@ export interface FileRouteTypes {
     | '/finance/invoice-management/'
     | '/finance/outstanding-fees/'
     | '/finance/payroll-management/'
+    | '/finance/wealth-loan/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -124,6 +136,7 @@ export interface RootRouteChildren {
   FinanceInvoiceManagementIndexRoute: typeof FinanceInvoiceManagementIndexRoute
   FinanceOutstandingFeesIndexRoute: typeof FinanceOutstandingFeesIndexRoute
   FinancePayrollManagementIndexRoute: typeof FinancePayrollManagementIndexRoute
+  FinanceWealthLoanIndexRoute: typeof FinanceWealthLoanIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -177,6 +190,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FinancePayrollManagementIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/finance/wealth-loan/': {
+      id: '/finance/wealth-loan/'
+      path: '/finance/wealth-loan'
+      fullPath: '/finance/wealth-loan/'
+      preLoaderRoute: typeof FinanceWealthLoanIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -188,17 +208,8 @@ const rootRouteChildren: RootRouteChildren = {
   FinanceInvoiceManagementIndexRoute: FinanceInvoiceManagementIndexRoute,
   FinanceOutstandingFeesIndexRoute: FinanceOutstandingFeesIndexRoute,
   FinancePayrollManagementIndexRoute: FinancePayrollManagementIndexRoute,
+  FinanceWealthLoanIndexRoute: FinanceWealthLoanIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
