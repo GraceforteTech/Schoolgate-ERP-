@@ -39,6 +39,7 @@ const mainNavItems = [
   { title: "Academics", url: "/academic", icon: BookOpen },
   { title: "Attendance", url: "/attendance", icon: CalendarDays },
   { title: "CBT", url: "/cbt", icon: MonitorPlay },
+  { title: "Timetable", url: "/timetable", icon: CalendarDays },
 ];
 
 
