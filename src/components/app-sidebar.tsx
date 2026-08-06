@@ -53,6 +53,7 @@ const financeNavItems = [
   { title: "Expenses", url: "/finance/expense-management", icon: Banknote },
   { title: "Payroll", url: "/finance/payroll-management", icon: Banknote },
   { title: "Results & Reports", url: "/finance/results", icon: FileText },
+  { title: "HR & Payroll", url: "/finance/hr-payroll", icon: Users },
   { title: "Wealth & Loan", url: "/finance/wealth-loan", icon: Wallet },
 ];
 
