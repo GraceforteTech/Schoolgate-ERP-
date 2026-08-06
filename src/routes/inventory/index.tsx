@@ -27,6 +27,15 @@ import { SupplierDirectory } from "@/components/inventory/suppliers/supplier-dir
 import { InventorySearchCenter } from "@/components/inventory/items/inventory-search-center";
 
 export const Route = createFileRoute("/inventory/")({
+  head: () => ({
+    title: "Inventory & Store Management | Schoolgate ERP",
+    meta: [
+      { name: "description", content: "Comprehensive school inventory and store management system. Track stock levels, suppliers, and procurement." },
+      { property: "og:title", content: "Inventory & Store Management | Schoolgate ERP" },
+      { property: "og:description", content: "Manage supplies, stock levels, and procurement operations with AI-powered forecasting." },
+      { name: "twitter:card", content: "summary_large_image" }
+    ],
+  }),
   component: InventoryManagementPage,
 });
 
