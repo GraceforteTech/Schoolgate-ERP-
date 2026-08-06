@@ -1,23 +1,15 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import { 
   CheckCircle2, 
   Cloud, 
   RefreshCcw, 
-  ChevronDown,
-  Search,
-  Filter,
-  FileDown,
-  Printer,
-  ChevronRight,
-  User,
-  MoreVertical,
-  Layers,
+  FileSpreadsheet,
   Sparkles
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
 
 interface CellPosition {
   r: number;
@@ -68,7 +60,6 @@ export function FeePostingSpreadsheet() {
   const [saveStatus, setSaveStatus] = useState<"saved" | "saving" | "idle">("idle");
   const tableRef = useRef<HTMLTableElement>(null);
 
-  // Auto-save simulation
   useEffect(() => {
     if (saveStatus === "saving") {
       const timer = setTimeout(() => setSaveStatus("saved"), 1000);
@@ -86,17 +77,21 @@ export function FeePostingSpreadsheet() {
   };
 
   const handleCellDoubleClick = (r: number, c: number) => {
-    if (!COLUMNS[c].readOnly) {
+    const col = COLUMNS[c];
+    if (col && !col.readOnly) {
       setEditing({ r, c });
     }
   };
 
   const updateCellValue = (r: number, c: number, value: any) => {
-    const key = COLUMNS[c].key;
-    const newData = [...data];
-    const numValue = COLUMNS[c].type === "currency" ? parseFloat(value.toString().replace(/[^0-9.-]+/g, "")) : value;
+    const col = COLUMNS[c];
+    if (!col) return;
     
-    if (COLUMNS[c].type === "currency" && isNaN(numValue)) return;
+    const key = col.key;
+    const newData = [...data];
+    const numValue = col.type === "currency" ? parseFloat(value.toString().replace(/[^0-9.-]+/g, "")) : value;
+    
+    if (col.type === "currency" && isNaN(numValue)) return;
     
     (newData[r] as any)[key] = numValue;
     setData(newData);
@@ -116,7 +111,7 @@ export function FeePostingSpreadsheet() {
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (!selection) return;
 
-    const { start, end } = selection;
+    const { end } = selection;
     const current = end;
 
     if (editing) {
@@ -156,17 +151,16 @@ export function FeePostingSpreadsheet() {
     }
 
     if (e.key === "Enter") {
-      if (!COLUMNS[current.c].readOnly) {
+      const col = COLUMNS[current.c];
+      if (col && !col.readOnly) {
         setEditing({ r: current.r, c: current.c });
       } else {
-        // Just move down
         const r = Math.min(data.length - 1, current.r + 1);
         setSelection({ start: { r, c: current.c }, end: { r, c: current.c } });
       }
       e.preventDefault();
     }
 
-    // Copy Paste
     if (e.ctrlKey && e.key === "c") {
       const { start, end } = selection;
       const minR = Math.min(start.r, end.r);
@@ -187,6 +181,7 @@ export function FeePostingSpreadsheet() {
 
     if (e.ctrlKey && e.key === "v") {
       navigator.clipboard.readText().then(text => {
+        if (!selection) return;
         const rows = text.split("\n").map(r => r.split("\t"));
         const newData = [...data];
         const { r: startR, c: startC } = selection.start;
@@ -196,7 +191,7 @@ export function FeePostingSpreadsheet() {
           row.forEach((cell, j) => {
             if (startC + j >= COLUMNS.length) return;
             const col = COLUMNS[startC + j];
-            if (!col.readOnly) {
+            if (col && !col.readOnly) {
               const key = col.key;
               let val: any = cell;
               if (col.type === "currency") {
@@ -219,10 +214,13 @@ export function FeePostingSpreadsheet() {
     const { start, end } = selection;
     if (start.r !== end.r || start.c !== end.c) return;
 
-    const sourceVal = (data[start.r] as any)[COLUMNS[start.c].key];
+    const col = COLUMNS[start.c];
+    if (!col) return;
+    
+    const sourceVal = (data[start.r] as any)[col.key];
     const newData = [...data];
     for (let r = start.r + 1; r < data.length; r++) {
-      (newData[r] as any)[COLUMNS[start.c].key] = sourceVal;
+      (newData[r] as any)[col.key] = sourceVal;
     }
     setData(newData);
     setSaveStatus("saving");
@@ -230,7 +228,6 @@ export function FeePostingSpreadsheet() {
 
   return (
     <div className="space-y-6">
-      {/* Spreadsheet Toolbar */}
       <Card className="rounded-[14px] border-none shadow-sm bg-white overflow-hidden">
         <div className="p-4 bg-slate-50/50 border-b flex items-center justify-between">
           <div className="flex items-center gap-4">
@@ -269,7 +266,7 @@ export function FeePostingSpreadsheet() {
             <thead>
               <tr className="bg-white border-b border-slate-100">
                 <th className="w-10 bg-slate-50/50 border-r border-slate-100" />
-                {COLUMNS.map((col, i) => (
+                {COLUMNS.map((col) => (
                   <th key={col.key} className={cn("px-4 py-3 text-left font-bold text-slate-500 uppercase tracking-wider text-[11px] border-r border-slate-100 last:border-r-0", col.width)}>
                     {col.label}
                   </th>
@@ -316,7 +313,7 @@ export function FeePostingSpreadsheet() {
                             {col.type === "currency" ? `₦${value.toLocaleString()}` : value}
                           </div>
                         )}
-                        {selected && r === selection?.end.r && c === selection?.end.c && (
+                        {selected && r === (selection?.end.r ?? -1) && c === (selection?.end.c ?? -1) && (
                           <div className="absolute -bottom-1 -right-1 w-2 h-2 bg-schoolgate-green border border-white cursor-crosshair z-30" />
                         )}
                       </td>
@@ -329,7 +326,6 @@ export function FeePostingSpreadsheet() {
         </div>
       </Card>
 
-      {/* Spreadsheet Stats Footer */}
       <div className="flex items-center justify-between px-2">
         <div className="flex items-center gap-6 text-[11px] font-bold text-slate-400 uppercase tracking-widest">
            <div className="flex items-center gap-2"><div className="h-1.5 w-1.5 rounded-full bg-emerald-500" /> Total Students: {data.length}</div>
@@ -343,3 +339,4 @@ export function FeePostingSpreadsheet() {
     </div>
   );
 }
+
