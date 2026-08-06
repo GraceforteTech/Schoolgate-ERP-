@@ -85,6 +85,11 @@ function ExpenseManagementPage() {
           <ExpenseAnalytics />
         </TabsContent>
 
+        {/* Module 6: Category Management */}
+        <TabsContent value="categories">
+          <CategoryManagement />
+        </TabsContent>
+
         {/* Module 7: Approval Workflow */}
         <TabsContent value="approval">
           <ApprovalCentre />
