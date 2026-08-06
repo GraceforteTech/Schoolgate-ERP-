@@ -58,7 +58,7 @@ export function SupplierDirectory() {
           <p className="text-sm text-slate-500">Manage vendor relationships and delivery performance.</p>
         </div>
         <Button className="h-10 rounded-xl bg-schoolgate-green text-white font-bold gap-2 shadow-lg shadow-schoolgate-green/20">
-          <Plus size={18} /> Register Supplier
+          <Plus size={18} /> Add Supplier
         </Button>
       </div>
 
