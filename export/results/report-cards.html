@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Card Generator - Schoolgate ERP</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo" style="display: flex; align-items: center; gap: 10px; margin-bottom: 2rem;">
+                <div style="width: 36px; height: 36px; background: var(--primary); border-radius: 10px; display: grid; place-items: center; color: white; font-weight: bold;">S</div>
+                <div style="font-weight: 800; color: var(--primary); font-size: 1.2rem; letter-spacing: -0.5px;">Schoolgate</div>
+            </div>
+            <nav style="display: flex; flex-direction: column; gap: 0.25rem;">
+                <a href="index.html" class="sidebar-nav-item">
+                    <div class="icon-box">📊</div>
+                    Executive Dashboard
+                </a>
+                <a href="entry.html" class="sidebar-nav-item">
+                    <div class="icon-box">📝</div>
+                    Result Entry
+                </a>
+                <a href="report-cards.html" class="sidebar-nav-item active">
+                    <div class="icon-box">📄</div>
+                    Report Cards
+                </a>
+                <a href="#" class="sidebar-nav-item">
+                    <div class="icon-box">⚖️</div>
+                    Approval Centre
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="page-header">
+                <div>
+                    <h1>Report Card Generator</h1>
+                    <p class="subtitle">Generate, preview and print student academic report cards.</p>
+                </div>
+                <div class="flex gap-2">
+                    <button class="btn btn-outline">Bulk Generate</button>
+                    <button class="btn btn-primary">Print All</button>
+                </div>
+            </header>
+
+            <div class="grid-12">
+                <div style="grid-column: span 8;">
+                    <div class="card" style="height: 600px; display: grid; place-items: center; border: 2px dashed var(--border); background: var(--bg-light);">
+                        <div style="text-align: center; color: var(--text-muted);">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">📄</div>
+                            <p>Select a student to preview their report card.</p>
+                        </div>
+                    </div>
+                </div>
+                <div style="grid-column: span 4;">
+                    <div class="card">
+                        <h3>Student Registry</h3>
+                        <input type="text" placeholder="Filter student..." style="width: 100%; padding: 0.5rem; margin: 1rem 0; border: 1px solid var(--border); border-radius: 8px;">
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                            <div style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 10px; display: flex; justify-content: space-between; align-items: center; cursor: pointer;" class="hover-row">
+                                <div>
+                                    <p style="font-weight: 700; font-size: 0.85rem;">Olawale Adebayo</p>
+                                    <p style="font-size: 0.7rem; color: var(--text-muted);">JSS 1 Alpha</p>
+                                </div>
+                                <span class="badge badge-success">Ready</span>
+                            </div>
+                            <div style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 10px; display: flex; justify-content: space-between; align-items: center; cursor: pointer;" class="hover-row">
+                                <div>
+                                    <p style="font-weight: 700; font-size: 0.85rem;">Chiamaka Okoro</p>
+                                    <p style="font-size: 0.7rem; color: var(--text-muted);">Primary 4 Gold</p>
+                                </div>
+                                <span class="badge badge-warning">Pending</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
