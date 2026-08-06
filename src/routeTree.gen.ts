@@ -16,7 +16,6 @@ import { Route as StudentsRouteImport } from './routes/students'
 import { Route as AttendanceIndexRouteImport } from './routes/attendance/index'
 import { Route as FinanceAdjustmentManagementRouteImport } from './routes/finance/adjustment-management'
 import { Route as FinanceDashboardRouteImport } from './routes/finance/dashboard'
-import { Route as FinanceResultsRouteImport } from './routes/finance/results'
 import { Route as FinanceAdmissionsIndexRouteImport } from './routes/finance/admissions/index'
 import { Route as FinanceExpenseManagementIndexRouteImport } from './routes/finance/expense-management/index'
 import { Route as FinanceFeePostingIndexRouteImport } from './routes/finance/fee-posting/index'
@@ -59,11 +58,6 @@ const FinanceAdjustmentManagementRoute =
 const FinanceDashboardRoute = FinanceDashboardRouteImport.update({
   id: '/finance/dashboard',
   path: '/finance/dashboard',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FinanceResultsRoute = FinanceResultsRouteImport.update({
-  id: '/finance/results',
-  path: '/finance/results',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FinanceAdmissionsIndexRoute = FinanceAdmissionsIndexRouteImport.update({
@@ -113,7 +107,6 @@ export interface FileRoutesByFullPath {
   '/students': typeof StudentsRoute
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
   '/finance/dashboard': typeof FinanceDashboardRoute
-  '/finance/results': typeof FinanceResultsRoute
   '/attendance/': typeof AttendanceIndexRoute
   '/finance/admissions/': typeof FinanceAdmissionsIndexRoute
   '/finance/expense-management/': typeof FinanceExpenseManagementIndexRoute
@@ -130,7 +123,6 @@ export interface FileRoutesByTo {
   '/students': typeof StudentsRoute
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
   '/finance/dashboard': typeof FinanceDashboardRoute
-  '/finance/results': typeof FinanceResultsRoute
   '/attendance': typeof AttendanceIndexRoute
   '/finance/admissions': typeof FinanceAdmissionsIndexRoute
   '/finance/expense-management': typeof FinanceExpenseManagementIndexRoute
@@ -148,7 +140,6 @@ export interface FileRoutesById {
   '/students': typeof StudentsRoute
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
   '/finance/dashboard': typeof FinanceDashboardRoute
-  '/finance/results': typeof FinanceResultsRoute
   '/attendance/': typeof AttendanceIndexRoute
   '/finance/admissions/': typeof FinanceAdmissionsIndexRoute
   '/finance/expense-management/': typeof FinanceExpenseManagementIndexRoute
@@ -167,7 +158,6 @@ export interface FileRouteTypes {
     | '/students'
     | '/finance/adjustment-management'
     | '/finance/dashboard'
-    | '/finance/results'
     | '/attendance/'
     | '/finance/admissions/'
     | '/finance/expense-management/'
@@ -184,7 +174,6 @@ export interface FileRouteTypes {
     | '/students'
     | '/finance/adjustment-management'
     | '/finance/dashboard'
-    | '/finance/results'
     | '/attendance'
     | '/finance/admissions'
     | '/finance/expense-management'
@@ -201,7 +190,6 @@ export interface FileRouteTypes {
     | '/students'
     | '/finance/adjustment-management'
     | '/finance/dashboard'
-    | '/finance/results'
     | '/attendance/'
     | '/finance/admissions/'
     | '/finance/expense-management/'
@@ -219,7 +207,6 @@ export interface RootRouteChildren {
   StudentsRoute: typeof StudentsRoute
   FinanceAdjustmentManagementRoute: typeof FinanceAdjustmentManagementRoute
   FinanceDashboardRoute: typeof FinanceDashboardRoute
-  FinanceResultsRoute: typeof FinanceResultsRoute
   AttendanceIndexRoute: typeof AttendanceIndexRoute
   FinanceAdmissionsIndexRoute: typeof FinanceAdmissionsIndexRoute
   FinanceExpenseManagementIndexRoute: typeof FinanceExpenseManagementIndexRoute
@@ -281,13 +268,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FinanceDashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/finance/results': {
-      id: '/finance/results'
-      path: '/finance/results'
-      fullPath: '/finance/results'
-      preLoaderRoute: typeof FinanceResultsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/finance/admissions/': {
       id: '/finance/admissions/'
       path: '/finance/admissions'
@@ -347,7 +327,6 @@ const rootRouteChildren: RootRouteChildren = {
   StudentsRoute: StudentsRoute,
   FinanceAdjustmentManagementRoute: FinanceAdjustmentManagementRoute,
   FinanceDashboardRoute: FinanceDashboardRoute,
-  FinanceResultsRoute: FinanceResultsRoute,
   AttendanceIndexRoute: AttendanceIndexRoute,
   FinanceAdmissionsIndexRoute: FinanceAdmissionsIndexRoute,
   FinanceExpenseManagementIndexRoute: FinanceExpenseManagementIndexRoute,
