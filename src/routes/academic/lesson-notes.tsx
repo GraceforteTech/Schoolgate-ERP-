@@ -12,7 +12,9 @@ import {
   Search,
   Plus,
   ArrowRight,
-  Filter
+  Filter,
+  Target,
+  Zap
 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LessonNoteKPIs } from '@/components/lesson-notes/lesson-note-kpis';
