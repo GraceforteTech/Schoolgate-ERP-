@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management - Schoolgate ERP</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar Placeholder -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>Schoolgate ERP</span>
+            </div>
+            <nav>
+                <ul>
+                    <li class="active"><i class="fas fa-th-large"></i> Dashboard</li>
+                    <li><i class="fas fa-book-open"></i> Catalogue</li>
+                    <li><i class="fas fa-exchange-alt"></i> Circulation</li>
+                    <li><i class="fas fa-file-pdf"></i> Digital Library</li>
+                    <li><i class="fas fa-chart-line"></i> Analytics</li>
+                    <li><i class="fas fa-shield-alt"></i> Proprietor View</li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="page-header">
+                <div class="header-left">
+                    <h1>Library Management</h1>
+                    <p>Manage books, members and library activities efficiently.</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-outline"><i class="fas fa-download"></i> Export</button>
+                    <button class="btn btn-primary"><i class="fas fa-plus"></i> Add New Book</button>
+                </div>
+            </header>
+
+            <!-- AI Assistant -->
+            <section class="ai-banner">
+                <div class="ai-content">
+                    <div class="ai-icon">
+                        <i class="fas fa-magic"></i>
+                    </div>
+                    <div class="ai-text">
+                        <h3>AI Library Assistant</h3>
+                        <p>Discover resources and get personalized book recommendations.</p>
+                    </div>
+                </div>
+                <button class="btn btn-white">Ask AI Assistant <i class="fas fa-arrow-right"></i></button>
+            </section>
+
+            <!-- KPI Cards -->
+            <section class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-icon icon-blue"><i class="fas fa-book"></i></div>
+                    <div class="kpi-info">
+                        <span class="kpi-value">12,450</span>
+                        <span class="kpi-label">Total Books</span>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon icon-green"><i class="fas fa-check-circle"></i></div>
+                    <div class="kpi-info">
+                        <span class="kpi-value">10,210</span>
+                        <span class="kpi-label">Available</span>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon icon-orange"><i class="fas fa-book-reader"></i></div>
+                    <div class="kpi-info">
+                        <span class="kpi-value">1,840</span>
+                        <span class="kpi-label">Borrowed</span>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon icon-red"><i class="fas fa-exclamation-triangle"></i></div>
+                    <div class="kpi-info">
+                        <span class="kpi-value">145</span>
+                        <span class="kpi-label">Overdue</span>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon icon-purple"><i class="fas fa-history"></i></div>
+                    <div class="kpi-info">
+                        <span class="kpi-value">255</span>
+                        <span class="kpi-label">Reserved</span>
+                    </div>
+                </div>
+            </section>
+
+            <div class="content-grid">
+                <div class="left-col">
+                    <div class="card catalogue-card">
+                        <div class="card-header">
+                            <h2>Book Catalogue</h2>
+                            <div class="tabs">
+                                <span class="active">All Books</span>
+                                <span>Categories</span>
+                                <span>Subject</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="book-grid">
+                                <div class="book-item">
+                                    <div class="book-cover"></div>
+                                    <div class="book-meta">
+                                        <h4>Things Fall Apart</h4>
+                                        <p>Chinua Achebe</p>
+                                    </div>
+                                </div>
+                                <div class="book-item">
+                                    <div class="book-cover"></div>
+                                    <div class="book-meta">
+                                        <h4>Purple Hibiscus</h4>
+                                        <p>Chimamanda Adichie</p>
+                                    </div>
+                                </div>
+                                <div class="book-item">
+                                    <div class="book-cover"></div>
+                                    <div class="book-meta">
+                                        <h4>Advanced Maths</h4>
+                                        <p>Academic Press</p>
+                                    </div>
+                                </div>
+                                <div class="book-item">
+                                    <div class="book-cover"></div>
+                                    <div class="book-meta">
+                                        <h4>Modern Physics</h4>
+                                        <p>Science Hub</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="right-col">
+                    <div class="card activity-card">
+                        <div class="card-header">
+                            <h2>Recent Activities</h2>
+                        </div>
+                        <div class="card-body">
+                            <ul class="activity-list">
+                                <li>
+                                    <div class="activity-icon bg-blue"><i class="fas fa-arrow-up"></i></div>
+                                    <div class="activity-text">
+                                        <strong>Adebayo Samuel</strong> borrowed "Things Fall Apart"
+                                        <span>2 mins ago</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="activity-icon bg-green"><i class="fas fa-arrow-down"></i></div>
+                                    <div class="activity-text">
+                                        <strong>Chidi Okafor</strong> returned "Purple Hibiscus"
+                                        <span>15 mins ago</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="activity-icon bg-purple"><i class="fas fa-clock"></i></div>
+                                    <div class="activity-text">
+                                        <strong>Mrs. Oluchi</strong> reserved "Advanced Maths"
+                                        <span>45 mins ago</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
