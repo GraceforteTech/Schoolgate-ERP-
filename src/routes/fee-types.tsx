@@ -17,6 +17,7 @@ import {
 
 import { AppSidebar } from "@/components/app-sidebar";
 import { FeeTypesTable } from "@/components/fee-types-table";
+import { ImportProtectionDialog } from "@/components/finance/import-protection-dialog";
 import { TopNav } from "@/components/top-nav";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -28,6 +29,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useState } from "react";
+
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 
 export const Route = createFileRoute("/fee-types")({
@@ -47,8 +50,20 @@ export const Route = createFileRoute("/fee-types")({
 });
 
 function FeeTypesPage() {
+  const [importDialogOpen, setImportDialogOpen] = useState(false);
+
   return (
     <SidebarProvider>
+      <ImportProtectionDialog 
+        open={importDialogOpen} 
+        onOpenChange={setImportDialogOpen}
+        onConfirm={(opt) => {
+          console.log("Importing with strategy:", opt);
+          setImportDialogOpen(false);
+        }}
+        stats={{ total: 120, existing: 45, new: 75, conflicts: 12 }}
+      />
+
       <div className="flex min-h-screen w-full bg-page-background">
         <AppSidebar />
         <SidebarInset className="flex flex-1 flex-col">
@@ -180,10 +195,19 @@ function FeeTypesPage() {
                       <Button
                         variant="outline"
                         className="h-9 shrink-0 gap-2 rounded-lg border-border text-sm font-medium"
+                        onClick={() => setImportDialogOpen(true)}
+                      >
+                        <FileSpreadsheet className="h-4 w-4" />
+                        Import CSV
+                      </Button>
+                      <Button
+                        variant="outline"
+                        className="h-9 shrink-0 gap-2 rounded-lg border-border text-sm font-medium"
                       >
                         <FileSpreadsheet className="h-4 w-4" />
                         Export Excel
                       </Button>
+
                       <Button
                         variant="outline"
                         className="h-9 shrink-0 gap-2 rounded-lg border-border text-sm font-medium"
