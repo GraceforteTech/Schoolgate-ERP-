@@ -23,6 +23,8 @@ export const Route = createFileRoute("/academic/classes")({
 });
 
 function ClassInformationPage() {
+  const [isOptimizerOpen, setIsOptimizerOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-[#F5F7FA] p-4 lg:p-8 space-y-8 pb-20">
       {/* Header Section */}
