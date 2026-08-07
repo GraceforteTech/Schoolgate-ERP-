@@ -69,6 +69,23 @@ const auditLogs = [
     reason: "Sibling Discount (10%)",
     status: "Pending",
     remarks: "Awaiting final confirmation from HOD"
+  },
+  {
+    id: 4,
+    user: "HR Manager",
+    role: "Admin",
+    device: "iPad Air",
+    browser: "Safari",
+    ip: "192.168.1.88",
+    date: "07 Aug 2026",
+    time: "08:20 AM",
+    action: "Staff Archiving",
+    student: "EMP/2024/015 (Former Staff)",
+    previousValue: "Active",
+    newValue: "Archived",
+    reason: "Resignation - Relocated",
+    status: "Approved",
+    remarks: "All clearance forms verified"
   }
 ];
 
