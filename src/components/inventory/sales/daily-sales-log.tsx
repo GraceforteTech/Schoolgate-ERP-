@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { 
   Table, 
   TableBody, 
@@ -17,7 +18,9 @@ import {
   AlertTriangle,
   ShoppingCart,
   ArrowUpRight,
-  History
+  History,
+  Calendar,
+  Layers
 } from "lucide-react";
 import { 
   DropdownMenu, 
@@ -26,11 +29,13 @@ import {
   DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { PostSalesDialog } from "./post-sales-dialog";
 
 const dailySalesData = [
   { 
     id: "DS-001", 
     date: "2026-08-07", 
+    type: "daily",
     item: "English Textbook (JSS1)", 
     category: "Books",
     collected: 100, 
@@ -41,8 +46,22 @@ const dailySalesData = [
     status: "Posted" 
   },
   { 
+    id: "WS-001", 
+    date: "Aug 01 - Aug 07", 
+    type: "weekly",
+    item: "Office A4 Paper", 
+    category: "Stationery",
+    collected: 250, 
+    sold: 180, 
+    unsold: 70, 
+    returns: 0, 
+    revenue: 810000, 
+    status: "Posted" 
+  },
+  { 
     id: "DS-002", 
     date: "2026-08-07", 
+    type: "daily",
     item: "Office A4 Paper", 
     category: "Stationery",
     collected: 50, 
@@ -67,21 +86,27 @@ const dailySalesData = [
 ];
 
 export function DailySalesLog() {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
   return (
     <div className="bg-white rounded-[20px] overflow-hidden border border-slate-100 shadow-sm">
       <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
         <div>
-          <h3 className="text-lg font-bold text-slate-900">Daily Sales & Inventory Returns</h3>
-          <p className="text-xs text-slate-500 font-medium">Post daily collections, sales, and supplier returns for audit tracking.</p>
+          <h3 className="text-lg font-bold text-slate-900">Sales Posting & Inventory Returns</h3>
+          <p className="text-xs text-slate-500 font-medium">Record daily collections or weekly summaries for sales audit tracking.</p>
         </div>
-        <Button className="bg-schoolgate-green hover:bg-schoolgate-green/90 text-white rounded-xl font-bold text-xs h-10">
-          Post Daily Sales
+        <Button 
+          onClick={() => setIsDialogOpen(true)}
+          className="bg-schoolgate-green hover:bg-schoolgate-green/90 text-white rounded-xl font-bold text-xs h-10 shadow-lg shadow-schoolgate-green/20"
+        >
+          Post Sales Amount
         </Button>
       </div>
       <Table>
         <TableHeader className="bg-slate-50/50">
           <TableRow className="hover:bg-transparent border-slate-100">
-            <TableHead className="text-[10px] font-black uppercase tracking-wider text-slate-500 py-4">Item / Date</TableHead>
+            <TableHead className="text-[10px] font-black uppercase tracking-wider text-slate-500 py-4">Entry / Period</TableHead>
+            <TableHead className="text-[10px] font-black uppercase tracking-wider text-slate-500 py-4">Mode</TableHead>
             <TableHead className="text-[10px] font-black uppercase tracking-wider text-slate-500 py-4">Collected</TableHead>
             <TableHead className="text-[10px] font-black uppercase tracking-wider text-slate-500 py-4">Sold</TableHead>
             <TableHead className="text-[10px] font-black uppercase tracking-wider text-slate-500 py-4">Left Unsold</TableHead>
@@ -99,6 +124,15 @@ export function DailySalesLog() {
                   <p className="font-bold text-slate-900 text-sm">{row.item}</p>
                   <p className="text-[10px] text-slate-400 font-bold uppercase tracking-tight">{row.date}</p>
                 </div>
+              </TableCell>
+              <TableCell>
+                <Badge variant="outline" className={`
+                  ${row.type === 'daily' ? 'bg-blue-50 text-blue-600 border-blue-100' : 'bg-indigo-50 text-indigo-600 border-indigo-100'} 
+                  font-black text-[9px] uppercase px-2 py-0.5 rounded-lg flex items-center gap-1 w-fit
+                `}>
+                  {row.type === 'daily' ? <Calendar className="h-2.5 w-2.5" /> : <Layers className="h-2.5 w-2.5" />}
+                  {row.type}
+                </Badge>
               </TableCell>
               <TableCell className="font-bold text-slate-700">{row.collected}</TableCell>
               <TableCell className="font-bold text-emerald-600">{row.sold}</TableCell>
@@ -151,6 +185,8 @@ export function DailySalesLog() {
           ))}
         </TableBody>
       </Table>
+      
+      <PostSalesDialog open={isDialogOpen} onOpenChange={setIsDialogOpen} />
     </div>
   );
 }
