@@ -112,16 +112,21 @@ export function SmartTimetableBuilder() {
 
             <div className="pt-4 space-y-3">
               <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-500">Periods per day</span>
-                <Badge variant="secondary">8 Periods</Badge>
+                <span className="text-gray-500 font-medium">Auto-Resolve Conflicts</span>
+                <div className="h-5 w-10 bg-emerald-500 rounded-full relative shadow-inner"><div className="absolute right-1 top-1 h-3 w-3 bg-white rounded-full shadow-sm" /></div>
               </div>
               <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-500">Break Time</span>
-                <Badge variant="secondary">10:30 - 11:00</Badge>
+                <span className="text-gray-500 font-medium">Admin Priority Mode</span>
+                <div className="h-5 w-10 bg-emerald-500 rounded-full relative shadow-inner"><div className="absolute right-1 top-1 h-3 w-3 bg-white rounded-full shadow-sm" /></div>
               </div>
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-500">Closing Time</span>
-                <Badge variant="secondary">15:30</Badge>
+              <div className="p-3 bg-blue-50 rounded-xl border border-blue-100 mt-2">
+                <div className="flex items-center gap-2 mb-1">
+                  <Zap className="h-3 w-3 text-blue-600" />
+                  <span className="text-[10px] font-bold text-blue-700 uppercase tracking-tighter">System Logic</span>
+                </div>
+                <p className="text-[9px] text-blue-600 leading-tight">
+                  Admin timetable entries will automatically override teacher-scheduled slots in case of time/room conflicts.
+                </p>
               </div>
             </div>
           </div>
