@@ -17,6 +17,7 @@ import { Route as AcademicIndexRouteImport } from './routes/academic/index'
 import { Route as AcademicClassesRouteImport } from './routes/academic/classes'
 import { Route as AcademicLessonNotesRouteImport } from './routes/academic/lesson-notes'
 import { Route as AcademicSyllabusRouteImport } from './routes/academic/syllabus'
+import { Route as AcademicVirtualClassroomRouteImport } from './routes/academic/virtual-classroom'
 import { Route as AlumniIndexRouteImport } from './routes/alumni/index'
 import { Route as AttendanceIndexRouteImport } from './routes/attendance/index'
 import { Route as CbtIndexRouteImport } from './routes/cbt/index'
@@ -96,6 +97,12 @@ const AcademicSyllabusRoute = AcademicSyllabusRouteImport.update({
   path: '/academic/syllabus',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AcademicVirtualClassroomRoute =
+  AcademicVirtualClassroomRouteImport.update({
+    id: '/academic/virtual-classroom',
+    path: '/academic/virtual-classroom',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AlumniIndexRoute = AlumniIndexRouteImport.update({
   id: '/alumni/',
   path: '/alumni/',
@@ -308,6 +315,7 @@ export interface FileRoutesByFullPath {
   '/academic/classes': typeof AcademicClassesRoute
   '/academic/lesson-notes': typeof AcademicLessonNotesRoute
   '/academic/syllabus': typeof AcademicSyllabusRoute
+  '/academic/virtual-classroom': typeof AcademicVirtualClassroomRoute
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
   '/finance/dashboard': typeof FinanceDashboardRoute
   '/library/analytics': typeof LibraryAnalyticsRoute
@@ -356,6 +364,7 @@ export interface FileRoutesByTo {
   '/academic/classes': typeof AcademicClassesRoute
   '/academic/lesson-notes': typeof AcademicLessonNotesRoute
   '/academic/syllabus': typeof AcademicSyllabusRoute
+  '/academic/virtual-classroom': typeof AcademicVirtualClassroomRoute
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
   '/finance/dashboard': typeof FinanceDashboardRoute
   '/library/analytics': typeof LibraryAnalyticsRoute
@@ -405,6 +414,7 @@ export interface FileRoutesById {
   '/academic/classes': typeof AcademicClassesRoute
   '/academic/lesson-notes': typeof AcademicLessonNotesRoute
   '/academic/syllabus': typeof AcademicSyllabusRoute
+  '/academic/virtual-classroom': typeof AcademicVirtualClassroomRoute
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
   '/finance/dashboard': typeof FinanceDashboardRoute
   '/library/analytics': typeof LibraryAnalyticsRoute
@@ -455,6 +465,7 @@ export interface FileRouteTypes {
     | '/academic/classes'
     | '/academic/lesson-notes'
     | '/academic/syllabus'
+    | '/academic/virtual-classroom'
     | '/finance/adjustment-management'
     | '/finance/dashboard'
     | '/library/analytics'
@@ -503,6 +514,7 @@ export interface FileRouteTypes {
     | '/academic/classes'
     | '/academic/lesson-notes'
     | '/academic/syllabus'
+    | '/academic/virtual-classroom'
     | '/finance/adjustment-management'
     | '/finance/dashboard'
     | '/library/analytics'
@@ -551,6 +563,7 @@ export interface FileRouteTypes {
     | '/academic/classes'
     | '/academic/lesson-notes'
     | '/academic/syllabus'
+    | '/academic/virtual-classroom'
     | '/finance/adjustment-management'
     | '/finance/dashboard'
     | '/library/analytics'
@@ -600,6 +613,7 @@ export interface RootRouteChildren {
   AcademicClassesRoute: typeof AcademicClassesRoute
   AcademicLessonNotesRoute: typeof AcademicLessonNotesRoute
   AcademicSyllabusRoute: typeof AcademicSyllabusRoute
+  AcademicVirtualClassroomRoute: typeof AcademicVirtualClassroomRoute
   FinanceAdjustmentManagementRoute: typeof FinanceAdjustmentManagementRoute
   FinanceDashboardRoute: typeof FinanceDashboardRoute
   LibraryAnalyticsRoute: typeof LibraryAnalyticsRoute
@@ -697,6 +711,13 @@ declare module '@tanstack/react-router' {
       path: '/academic/syllabus'
       fullPath: '/academic/syllabus'
       preLoaderRoute: typeof AcademicSyllabusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/academic/virtual-classroom': {
+      id: '/academic/virtual-classroom'
+      path: '/academic/virtual-classroom'
+      fullPath: '/academic/virtual-classroom'
+      preLoaderRoute: typeof AcademicVirtualClassroomRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/alumni/': {
@@ -976,6 +997,7 @@ const rootRouteChildren: RootRouteChildren = {
   AcademicClassesRoute: AcademicClassesRoute,
   AcademicLessonNotesRoute: AcademicLessonNotesRoute,
   AcademicSyllabusRoute: AcademicSyllabusRoute,
+  AcademicVirtualClassroomRoute: AcademicVirtualClassroomRoute,
   FinanceAdjustmentManagementRoute: FinanceAdjustmentManagementRoute,
   FinanceDashboardRoute: FinanceDashboardRoute,
   LibraryAnalyticsRoute: LibraryAnalyticsRoute,
@@ -1020,13 +1042,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
