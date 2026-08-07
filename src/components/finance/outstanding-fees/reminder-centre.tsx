@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { PlaceholderForm } from "@/components/ui/placeholder-form";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -17,6 +19,14 @@ const history = [
 ];
 
 export function ReminderCentre() {
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [formConfig, setFormConfig] = useState({ title: '', description: '', icon: Send });
+
+  const openForm = (title: string, description: string, icon: any) => {
+    setFormConfig({ title, description, icon });
+    setIsFormOpen(true);
+  };
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-8">
       {/* Channels & Templates */}
@@ -27,19 +37,31 @@ export function ReminderCentre() {
             Quick Channels
           </h3>
           <div className="grid grid-cols-2 gap-3">
-            <Button variant="outline" className="h-16 flex-col gap-1 rounded-xl border-slate-100 hover:bg-schoolgate-green-light/30 hover:text-schoolgate-green">
+            <Button 
+              onClick={() => openForm("WhatsApp Reminder", "Send a fee reminder via WhatsApp.", MessageSquare)}
+              variant="outline" className="h-16 flex-col gap-1 rounded-xl border-slate-100 hover:bg-schoolgate-green-light/30 hover:text-schoolgate-green"
+            >
               <MessageSquare size={20} />
               <span className="text-[11px] font-bold uppercase">WhatsApp</span>
             </Button>
-            <Button variant="outline" className="h-16 flex-col gap-1 rounded-xl border-slate-100 hover:bg-schoolgate-green-light/30 hover:text-schoolgate-green">
+            <Button 
+              onClick={() => openForm("SMS Reminder", "Send an automated SMS alert.", Smartphone)}
+              variant="outline" className="h-16 flex-col gap-1 rounded-xl border-slate-100 hover:bg-schoolgate-green-light/30 hover:text-schoolgate-green"
+            >
               <Smartphone size={20} />
               <span className="text-[11px] font-bold uppercase">SMS</span>
             </Button>
-            <Button variant="outline" className="h-16 flex-col gap-1 rounded-xl border-slate-100 hover:bg-schoolgate-green-light/30 hover:text-schoolgate-green">
+            <Button 
+              onClick={() => openForm("Email Reminder", "Dispatch a professional email notice.", Mail)}
+              variant="outline" className="h-16 flex-col gap-1 rounded-xl border-slate-100 hover:bg-schoolgate-green-light/30 hover:text-schoolgate-green"
+            >
               <Mail size={20} />
               <span className="text-[11px] font-bold uppercase">Email</span>
             </Button>
-            <Button variant="outline" className="h-16 flex-col gap-1 rounded-xl border-slate-100 hover:bg-schoolgate-green-light/30 hover:text-schoolgate-green">
+            <Button 
+              onClick={() => openForm("Physical Letter", "Generate a printed debt recovery letter.", FileText)}
+              variant="outline" className="h-16 flex-col gap-1 rounded-xl border-slate-100 hover:bg-schoolgate-green-light/30 hover:text-schoolgate-green"
+            >
               <FileText size={20} />
               <span className="text-[11px] font-bold uppercase">Letter</span>
             </Button>
@@ -96,6 +118,14 @@ export function ReminderCentre() {
           </div>
         </Card>
       </div>
+
+      <PlaceholderForm 
+        open={isFormOpen} 
+        onOpenChange={setIsFormOpen} 
+        title={formConfig.title} 
+        description={formConfig.description} 
+        icon={formConfig.icon} 
+      />
     </div>
   );
 }

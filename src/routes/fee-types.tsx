@@ -30,6 +30,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useState } from "react";
+import { PlaceholderForm } from "@/components/ui/placeholder-form";
 
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 
@@ -51,6 +52,7 @@ export const Route = createFileRoute("/fee-types")({
 
 function FeeTypesPage() {
   const [importDialogOpen, setImportDialogOpen] = useState(false);
+  const [isNewFeeTypeOpen, setIsNewFeeTypeOpen] = useState(false);
 
   return (
     <SidebarProvider>
@@ -188,7 +190,10 @@ function FeeTypesPage() {
 
                     {/* Actions */}
                     <div className="flex flex-wrap items-center gap-2">
-                      <Button className="h-9 shrink-0 gap-2 rounded-lg bg-schoolgate-green px-4 text-sm font-medium text-white hover:bg-schoolgate-green/90">
+                      <Button 
+                        onClick={() => setIsNewFeeTypeOpen(true)}
+                        className="h-9 shrink-0 gap-2 rounded-lg bg-schoolgate-green px-4 text-sm font-medium text-white hover:bg-schoolgate-green/90"
+                      >
                         <Plus className="h-4 w-4" />
                         New Fee Type
                       </Button>
@@ -261,6 +266,14 @@ function FeeTypesPage() {
           </main>
         </SidebarInset>
       </div>
+
+      <PlaceholderForm 
+        open={isNewFeeTypeOpen} 
+        onOpenChange={setIsNewFeeTypeOpen} 
+        title="Create New Fee Type"
+        description="Define a new fee category, amount, and allocation rules."
+        icon={Plus}
+      />
     </SidebarProvider>
   );
 }

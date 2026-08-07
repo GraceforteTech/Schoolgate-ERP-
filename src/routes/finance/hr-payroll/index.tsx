@@ -9,12 +9,16 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { RecruitmentHub } from "@/components/hr/recruitment/recruitment-hub";
 import { AwardsPromotions } from "@/components/hr/performance/awards-promotions";
 import { LeaveManagementSystem } from "@/components/hr/leave/leave-management-system";
+import { PlaceholderForm } from "@/components/ui/placeholder-form";
+import { useState } from "react";
 
 export const Route = createFileRoute("/finance/hr-payroll/")({
   component: HRPayrollDashboard,
 });
 
 function HRPayrollDashboard() {
+  const [isNewEmployeeOpen, setIsNewEmployeeOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-[#F5F7FA] pb-12">
       {/* Header Area */}
@@ -37,7 +41,10 @@ function HRPayrollDashboard() {
               <Printer className="h-4 w-4" />
               <span className="hidden sm:inline">Print</span>
             </Button>
-            <Button className="h-9 gap-2 bg-schoolgate-green hover:bg-schoolgate-green/90 text-white rounded-lg shadow-sm">
+            <Button 
+              onClick={() => setIsNewEmployeeOpen(true)}
+              className="h-9 gap-2 bg-schoolgate-green hover:bg-schoolgate-green/90 text-white rounded-lg shadow-sm"
+            >
               <Plus className="h-4 w-4" />
               New Employee
             </Button>
@@ -128,6 +135,14 @@ function HRPayrollDashboard() {
           </TabsContent>
         </Tabs>
       </div>
+
+      <PlaceholderForm 
+        open={isNewEmployeeOpen} 
+        onOpenChange={setIsNewEmployeeOpen} 
+        title="Register New Employee"
+        description="Onboard a new staff member with personal and professional details."
+        icon={Plus}
+      />
     </div>
   );
 }

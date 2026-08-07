@@ -14,7 +14,9 @@ import {
   ArrowUpRight,
   Settings,
   History,
-  AlertCircle
+  AlertCircle,
+  Truck,
+  FileCheck
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -30,6 +32,7 @@ import { DailySalesLog } from "@/components/inventory/sales/daily-sales-log";
 import { ItemAccountSummary } from "@/components/inventory/items/item-account-summary";
 import { AddItemForm } from "@/components/inventory/items/add-item-form";
 import { CreateCategoryForm } from "@/components/inventory/items/create-category-form";
+import { PlaceholderForm } from "@/components/ui/placeholder-form";
 
 export const Route = createFileRoute("/inventory/")({
   head: () => ({
@@ -48,6 +51,10 @@ function InventoryManagementPage() {
   const [activeTab, setActiveTab] = useState("items");
   const [isAddItemOpen, setIsAddItemOpen] = useState(false);
   const [isAddCategoryOpen, setIsAddCategoryOpen] = useState(false);
+  const [isAddSupplierOpen, setIsAddSupplierOpen] = useState(false);
+  const [isCreatePOOpen, setIsCreatePOOpen] = useState(false);
+  const [isNewGRNOpen, setIsNewGRNOpen] = useState(false);
+  const [isIssueItemsOpen, setIsIssueItemsOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-[#F5F7FA] p-4 lg:p-8 space-y-8 pb-20">
@@ -86,22 +93,34 @@ function InventoryManagementPage() {
             </Button>
           )}
           {activeTab === "suppliers" && (
-            <Button className="h-11 rounded-xl bg-schoolgate-green text-white font-bold gap-2 shadow-lg shadow-schoolgate-green/20">
+            <Button 
+              onClick={() => setIsAddSupplierOpen(true)}
+              className="h-11 rounded-xl bg-schoolgate-green text-white font-bold gap-2 shadow-lg shadow-schoolgate-green/20"
+            >
               <Plus size={18} /> Add Supplier
             </Button>
           )}
           {activeTab === "orders" && (
-            <Button className="h-11 rounded-xl bg-schoolgate-green text-white font-bold gap-2 shadow-lg shadow-schoolgate-green/20">
+            <Button 
+              onClick={() => setIsCreatePOOpen(true)}
+              className="h-11 rounded-xl bg-schoolgate-green text-white font-bold gap-2 shadow-lg shadow-schoolgate-green/20"
+            >
               <Plus size={18} /> Create PO
             </Button>
           )}
           {activeTab === "received" && (
-            <Button className="h-11 rounded-xl bg-schoolgate-green text-white font-bold gap-2 shadow-lg shadow-schoolgate-green/20">
+            <Button 
+              onClick={() => setIsNewGRNOpen(true)}
+              className="h-11 rounded-xl bg-schoolgate-green text-white font-bold gap-2 shadow-lg shadow-schoolgate-green/20"
+            >
               <Plus size={18} /> New GRN
             </Button>
           )}
           {activeTab === "issued" && (
-            <Button className="h-11 rounded-xl bg-schoolgate-green text-white font-bold gap-2 shadow-lg shadow-schoolgate-green/20">
+            <Button 
+              onClick={() => setIsIssueItemsOpen(true)}
+              className="h-11 rounded-xl bg-schoolgate-green text-white font-bold gap-2 shadow-lg shadow-schoolgate-green/20"
+            >
               <Plus size={18} /> Issue Items
             </Button>
           )}
@@ -149,7 +168,6 @@ function InventoryManagementPage() {
           </Card>
         </TabsContent>
         
-        {/* Other TabsContent placeholders */}
         <TabsContent value="categories">
            <CategoryGrid />
         </TabsContent>
@@ -161,7 +179,10 @@ function InventoryManagementPage() {
              </div>
              <h3 className="text-xl font-bold text-slate-900">Goods Received (Stock-In)</h3>
              <p className="text-slate-500 mt-2 max-w-md mx-auto">Generate Goods Received Notes (GRN) and update inventory automatically from supplier deliveries.</p>
-             <Button className="mt-8 bg-schoolgate-green text-white font-bold px-8 rounded-xl h-11 shadow-lg shadow-schoolgate-green/20">
+             <Button 
+               onClick={() => setIsNewGRNOpen(true)}
+               className="mt-8 bg-schoolgate-green text-white font-bold px-8 rounded-xl h-11 shadow-lg shadow-schoolgate-green/20"
+             >
                New GRN Entry
              </Button>
            </Card>
@@ -178,7 +199,10 @@ function InventoryManagementPage() {
              </div>
              <h3 className="text-xl font-bold text-slate-900">Goods Issued (Stock-Out)</h3>
              <p className="text-slate-500 mt-2 max-w-md mx-auto">Record inventory consumption by departments, staff, or specialized units with signature tracking.</p>
-             <Button className="mt-8 bg-schoolgate-green text-white font-bold px-8 rounded-xl h-11 shadow-lg shadow-schoolgate-green/20">
+             <Button 
+               onClick={() => setIsIssueItemsOpen(true)}
+               className="mt-8 bg-schoolgate-green text-white font-bold px-8 rounded-xl h-11 shadow-lg shadow-schoolgate-green/20"
+             >
                Issue New Items
              </Button>
            </Card>
@@ -191,7 +215,10 @@ function InventoryManagementPage() {
              </div>
              <h3 className="text-xl font-bold text-slate-900">Purchase Order Management</h3>
              <p className="text-slate-500 mt-2 max-w-md mx-auto">Manage the full procurement lifecycle from request to final stock update.</p>
-             <Button className="mt-8 bg-schoolgate-green text-white font-bold px-8 rounded-xl h-11 shadow-lg shadow-schoolgate-green/20">
+             <Button 
+               onClick={() => setIsCreatePOOpen(true)}
+               className="mt-8 bg-schoolgate-green text-white font-bold px-8 rounded-xl h-11 shadow-lg shadow-schoolgate-green/20"
+             >
                Create Purchase Order
              </Button>
            </Card>
@@ -280,6 +307,35 @@ function InventoryManagementPage() {
 
       <AddItemForm open={isAddItemOpen} onOpenChange={setIsAddItemOpen} />
       <CreateCategoryForm open={isAddCategoryOpen} onOpenChange={setIsAddCategoryOpen} />
+      
+      <PlaceholderForm 
+        open={isAddSupplierOpen} 
+        onOpenChange={setIsAddSupplierOpen} 
+        title="Add New Supplier"
+        description="Register a new vendor for procurement and supply chain management."
+        icon={Truck}
+      />
+      <PlaceholderForm 
+        open={isCreatePOOpen} 
+        onOpenChange={setIsCreatePOOpen} 
+        title="Create Purchase Order"
+        description="Initiate a new procurement request for approval."
+        icon={ShoppingCart}
+      />
+      <PlaceholderForm 
+        open={isNewGRNOpen} 
+        onOpenChange={setIsNewGRNOpen} 
+        title="New GRN Entry"
+        description="Acknowledge delivery of goods and update stock levels."
+        icon={FileCheck}
+      />
+      <PlaceholderForm 
+        open={isIssueItemsOpen} 
+        onOpenChange={setIsIssueItemsOpen} 
+        title="Issue Inventory Items"
+        description="Record the transfer of stock to departments or staff."
+        icon={ArrowUpRight}
+      />
     </div>
   );
 }

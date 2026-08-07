@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { PlaceholderForm } from "@/components/ui/placeholder-form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -86,6 +88,14 @@ const aiRecommendations = [
 ];
 
 export function ExecutiveAcademicDashboard() {
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [formConfig, setFormConfig] = useState({ title: '', description: '', icon: Save });
+
+  const openForm = (title: string, description: string, icon: any) => {
+    setFormConfig({ title, description, icon });
+    setIsFormOpen(true);
+  };
+
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-20">
       {/* Executive Overview Section */}
@@ -111,25 +121,46 @@ export function ExecutiveAcademicDashboard() {
 
       {/* Quick Actions Bar */}
       <div className="flex flex-wrap items-center gap-2">
-        <Button className="bg-schoolgate-green hover:bg-schoolgate-green/90 h-10 rounded-xl px-4 gap-2 font-bold shadow-sm">
+        <Button 
+          onClick={() => openForm("Post Scores", "Record academic assessments and exam marks.", Save)}
+          className="bg-schoolgate-green hover:bg-schoolgate-green/90 h-10 rounded-xl px-4 gap-2 font-bold shadow-sm"
+        >
           <Save size={16} /> Post Scores
         </Button>
-        <Button variant="outline" className="h-10 rounded-xl px-4 gap-2 font-bold bg-white border-slate-200 text-slate-700 shadow-sm">
+        <Button 
+          onClick={() => openForm("Compute Results", "Calculate final grades and averages based on assessment weights.", Zap)}
+          variant="outline" className="h-10 rounded-xl px-4 gap-2 font-bold bg-white border-slate-200 text-slate-700 shadow-sm"
+        >
           <Zap size={16} /> Compute Results
         </Button>
-        <Button variant="outline" className="h-10 rounded-xl px-4 gap-2 font-bold bg-white border-slate-200 text-slate-700 shadow-sm">
+        <Button 
+          onClick={() => openForm("Generate Report Sheets", "Initialize and draft individual student report cards.", FileText)}
+          variant="outline" className="h-10 rounded-xl px-4 gap-2 font-bold bg-white border-slate-200 text-slate-700 shadow-sm"
+        >
           <FileText size={16} /> Generate Report Sheets
         </Button>
-        <Button variant="outline" className="h-10 rounded-xl px-4 gap-2 font-bold bg-white border-slate-200 text-slate-700 shadow-sm">
+        <Button 
+          onClick={() => openForm("Approve Results", "Review and authorize final term results for publishing.", CheckCircle2)}
+          variant="outline" className="h-10 rounded-xl px-4 gap-2 font-bold bg-white border-slate-200 text-slate-700 shadow-sm"
+        >
           <CheckCircle2 size={16} /> Approve Results
         </Button>
-        <Button variant="outline" className="h-10 rounded-xl px-4 gap-2 font-bold bg-white border-slate-200 text-slate-700 shadow-sm">
+        <Button 
+          onClick={() => openForm("Lock Results", "Prevent further score modifications for approved records.", Lock)}
+          variant="outline" className="h-10 rounded-xl px-4 gap-2 font-bold bg-white border-slate-200 text-slate-700 shadow-sm"
+        >
           <Lock size={16} /> Lock Results
         </Button>
-        <Button variant="outline" className="h-10 rounded-xl px-4 gap-2 font-bold bg-white border-slate-200 text-slate-700 shadow-sm">
+        <Button 
+          onClick={() => openForm("Publish Results", "Make results visible to students and parents on their portals.", Globe)}
+          variant="outline" className="h-10 rounded-xl px-4 gap-2 font-bold bg-white border-slate-200 text-slate-700 shadow-sm"
+        >
           <Globe size={16} /> Publish Results
         </Button>
-        <Button variant="outline" className="h-10 rounded-xl px-4 gap-2 font-bold bg-white border-slate-200 text-slate-700 shadow-sm">
+        <Button 
+          onClick={() => openForm("Print Report Sheets", "Batch print high-fidelity physical report cards.", Printer)}
+          variant="outline" className="h-10 rounded-xl px-4 gap-2 font-bold bg-white border-slate-200 text-slate-700 shadow-sm"
+        >
           <Printer size={16} /> Print Report Sheets
         </Button>
       </div>
@@ -338,6 +369,14 @@ export function ExecutiveAcademicDashboard() {
           </Card>
         </div>
       </div>
+
+      <PlaceholderForm 
+        open={isFormOpen} 
+        onOpenChange={setIsFormOpen} 
+        title={formConfig.title} 
+        description={formConfig.description} 
+        icon={formConfig.icon} 
+      />
     </div>
   );
 }

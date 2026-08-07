@@ -15,12 +15,16 @@ import {
   PieChart
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { useState } from "react";
+import { PlaceholderForm } from "@/components/ui/placeholder-form";
 
 export const Route = createFileRoute("/academic/classes")({
   component: ClassInformationPage,
 });
 
 function ClassInformationPage() {
+  const [isOptimizerOpen, setIsOptimizerOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-[#F5F7FA] p-4 lg:p-8 space-y-8 pb-20">
       {/* Header Section */}
@@ -85,7 +89,10 @@ function ClassInformationPage() {
               <p className="text-sm text-white/80 mt-2 mb-6">
                 Automatically resolve class conflicts and optimize teacher workload distribution.
               </p>
-              <Button className="w-full bg-white text-schoolgate-green hover:bg-slate-50 font-bold rounded-xl h-12 shadow-md">
+              <Button 
+                onClick={() => setIsOptimizerOpen(true)}
+                className="w-full bg-white text-schoolgate-green hover:bg-slate-50 font-bold rounded-xl h-12 shadow-md"
+              >
                 Launch Optimizer
               </Button>
             </div>
@@ -143,6 +150,13 @@ function ClassInformationPage() {
           </Card>
         </div>
       </div>
+      <PlaceholderForm 
+        open={isOptimizerOpen} 
+        onOpenChange={setIsOptimizerOpen} 
+        title="AI Smart Scheduler"
+        description="Optimize teacher workloads and resolve timetable conflicts automatically."
+        icon={Sparkles}
+      />
     </div>
   );
 }
