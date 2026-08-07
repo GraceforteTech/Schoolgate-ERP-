@@ -369,6 +369,14 @@ export function ExecutiveAcademicDashboard() {
           </Card>
         </div>
       </div>
+
+      <PlaceholderForm 
+        open={isFormOpen} 
+        onOpenChange={setIsFormOpen} 
+        title={formConfig.title} 
+        description={formConfig.description} 
+        icon={formConfig.icon} 
+      />
     </div>
   );
 }
