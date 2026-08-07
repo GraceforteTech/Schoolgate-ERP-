@@ -150,8 +150,6 @@ function ClassInformationPage() {
           </Card>
         </div>
       </div>
-    </div>
-
       <PlaceholderForm 
         open={isOptimizerOpen} 
         onOpenChange={setIsOptimizerOpen} 
