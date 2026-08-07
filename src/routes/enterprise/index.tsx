@@ -97,6 +97,45 @@ const ENROLLMENT_TREND = [
   { name: '2024', students: 1240 },
 ]
 
+const TEXTBOOK_ANALYTICS_DATA = [
+  {
+    class: "JSS 1",
+    subject: "English Language",
+    delivered: 30,
+    sold: 25,
+    unsold: 5,
+    worth: 75000,
+    profit: 15000,
+  },
+  {
+    class: "JSS 1",
+    subject: "Mathematics",
+    delivered: 30,
+    sold: 28,
+    unsold: 2,
+    worth: 84000,
+    profit: 16800,
+  },
+  {
+    class: "JSS 2",
+    subject: "Basic Science",
+    delivered: 25,
+    sold: 20,
+    unsold: 5,
+    worth: 60000,
+    profit: 12000,
+  },
+  {
+    class: "SS 1",
+    subject: "Physics",
+    delivered: 20,
+    sold: 15,
+    unsold: 5,
+    worth: 75000,
+    profit: 15000,
+  },
+]
+
 function EnterpriseCommandCenter() {
   const [time, setTime] = useState(new Date())
 
@@ -258,6 +297,53 @@ function EnterpriseCommandCenter() {
                 </div>
               </Card>
             </div>
+          </section>
+
+          {/* 4.5 Textbook & Store Analytics */}
+          <section className="space-y-6">
+            <SectionHeader title="Textbook & Store Analytics" icon={BookOpen} color="text-indigo-600" />
+            <Card className="rounded-[14px] border-none shadow-sm bg-white overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="bg-slate-50 border-b border-slate-100">
+                      <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Class & Subject</th>
+                      <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Delivered</th>
+                      <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Sold</th>
+                      <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Unsold</th>
+                      <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Worth</th>
+                      <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Profit</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-50">
+                    {TEXTBOOK_ANALYTICS_DATA.map((item, idx) => (
+                      <tr key={idx} className="hover:bg-slate-50/50 transition-colors group">
+                        <td className="px-6 py-4">
+                          <div className="flex items-center gap-3">
+                            <div className="h-8 w-8 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 group-hover:scale-110 transition-transform">
+                              <BookOpen size={16} />
+                            </div>
+                            <div>
+                              <p className="text-sm font-black text-slate-900 leading-tight">{item.subject}</p>
+                              <p className="text-[10px] font-bold text-slate-400 uppercase">{item.class}</p>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 text-center">
+                          <Badge variant="outline" className="bg-slate-50 border-slate-100 font-bold text-slate-600">{item.delivered} copies</Badge>
+                        </td>
+                        <td className="px-6 py-4 text-center font-bold text-emerald-600">{item.sold}</td>
+                        <td className="px-6 py-4 text-center">
+                          <span className={cn("text-sm font-bold", item.unsold > 5 ? "text-slate-400" : "text-amber-500")}>{item.unsold}</span>
+                        </td>
+                        <td className="px-6 py-4 text-right font-black text-slate-900">₦{item.worth.toLocaleString()}</td>
+                        <td className="px-6 py-4 text-right font-black text-schoolgate-green">₦{item.profit.toLocaleString()}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </Card>
           </section>
         </div>
 
