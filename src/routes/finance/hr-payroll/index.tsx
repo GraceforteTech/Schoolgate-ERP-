@@ -80,6 +80,7 @@ function HRPayrollDashboard() {
                 { id: "overview", label: "Overview" },
                 { id: "payroll", label: "Payroll Summary" },
                 { id: "employees", label: "Employee Hub" },
+                { id: "recruitment", label: "Recruitment" },
                 { id: "attendance", label: "Attendance" },
                 { id: "leave", label: "Leave Mgmt" },
                 { id: "performance", label: "Performance" },
