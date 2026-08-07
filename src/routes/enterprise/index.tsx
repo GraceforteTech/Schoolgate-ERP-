@@ -139,6 +139,14 @@ const TEXTBOOK_ANALYTICS_DATA = [
 
 function EnterpriseCommandCenter() {
   const [time, setTime] = useState(new Date())
+  const [isFormOpen, setIsFormOpen] = useState(false)
+  const [formConfig, setFormConfig] = useState({ title: '', description: '', icon: Users })
+
+  const openForm = (title: string, description: string, icon: any) => {
+    setFormConfig({ title, description, icon })
+    setIsFormOpen(true)
+  }
+
 
   useEffect(() => {
     const timer = setInterval(() => setTime(new Date()), 1000)
