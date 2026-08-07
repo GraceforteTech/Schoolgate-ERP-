@@ -19,8 +19,10 @@ import {
   FileText,
   Smartphone,
   QrCode,
-  Fingerprint
+  Fingerprint,
+  Cpu
 } from "lucide-react";
+import { BiometricIntegration } from "@/components/attendance/biometric-integration";
 
 export const Route = createFileRoute('/attendance/')({
   component: AttendancePage,
@@ -57,6 +59,9 @@ function AttendancePage() {
           </TabsTrigger>
           <TabsTrigger value="analytics" className="rounded-lg data-[state=active]:bg-schoolgate-green-light data-[state=active]:text-schoolgate-green px-6">
             <BarChart3 className="h-4 w-4 mr-2" /> Analytics
+          </TabsTrigger>
+          <TabsTrigger value="biometrics" className="rounded-lg data-[state=active]:bg-schoolgate-green-light data-[state=active]:text-schoolgate-green px-6">
+            <Fingerprint className="h-4 w-4 mr-2" /> Biometric Sync
           </TabsTrigger>
           <TabsTrigger value="profile" className="rounded-lg data-[state=active]:bg-schoolgate-green-light data-[state=active]:text-schoolgate-green px-6">
             <User className="h-4 w-4 mr-2" /> Student Profile
@@ -102,6 +107,10 @@ function AttendancePage() {
 
         <TabsContent value="analytics">
           <AttendanceAnalytics />
+        </TabsContent>
+
+        <TabsContent value="biometrics">
+          <BiometricIntegration />
         </TabsContent>
 
         <TabsContent value="profile">
