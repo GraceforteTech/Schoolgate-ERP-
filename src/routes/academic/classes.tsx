@@ -89,7 +89,10 @@ function ClassInformationPage() {
               <p className="text-sm text-white/80 mt-2 mb-6">
                 Automatically resolve class conflicts and optimize teacher workload distribution.
               </p>
-              <Button className="w-full bg-white text-schoolgate-green hover:bg-slate-50 font-bold rounded-xl h-12 shadow-md">
+              <Button 
+                onClick={() => setIsOptimizerOpen(true)}
+                className="w-full bg-white text-schoolgate-green hover:bg-slate-50 font-bold rounded-xl h-12 shadow-md"
+              >
                 Launch Optimizer
               </Button>
             </div>
