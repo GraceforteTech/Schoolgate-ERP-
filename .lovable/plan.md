@@ -1,17 +1,21 @@
-# Plan: Staff Archiving and Audit Trail
+# Plan: Online Class Scheduling and WhatsApp Integration
 
-The user asked if the ERP allows deleting staff while keeping history. The system's architecture promotes archiving and audit trails over destructive deletion to ensure compliance and historical reporting.
+1.  **Online Class Scheduler Component**:
+    *   Created `src/components/academic/virtual-classroom/online-class-scheduler.tsx` featuring:
+        *   Form for Admin/Teacher to schedule classes (Topic, Date, Time, Teacher, Class, Platform, Link).
+        *   **WhatsApp Share Feature**: Generates a pre-formatted message with class details and the join link.
+        *   **Online Class Timetable**: A dedicated view showing scheduled sessions.
+        *   **Conflict Resolution**: Visual indicators for Admin-overridden schedules.
 
-## Proposed Changes
+2.  **Timetable Management Enhancement**:
+    *   Updated `src/components/timetable/smart-timetable-builder.tsx` with "Admin Priority Mode" and conflict resolution logic settings.
+    *   Modified `src/routes/timetable/index.tsx` activity log to show conflict overrides.
 
-1.  **Memory Management**:
-    *   Create `mem://features/staff-archiving.md` to document the requirement for preserving historical staff data and audit logs.
-    *   Update `mem://index.md` to include a reference to the new archiving memory.
+3.  **Virtual Classroom Integration**:
+    *   Integrated the new `OnlineClassScheduler` into the "Class Schedule" tab of the Virtual Classroom route (`src/routes/academic/virtual-classroom.tsx`).
+    *   Added WhatsApp notification toggle to the `VirtualClassroomHub` settings.
 
-2.  **UI Updates**:
-    *   Modify `src/components/hr/employee-mgmt/employee-directory.tsx` to include an "Archive Record" option in the employee action menu.
-    *   Update `src/components/finance/enhanced-audit-trail.tsx` with a sample log entry for staff archiving to demonstrate historical tracking.
-
-3.  **Verification**:
-    *   Visual check of the Employee Directory action menu.
-    *   Visual check of the Audit Trail logs.
+4.  **Verification**:
+    *   Ensure all components render correctly.
+    *   Verify the WhatsApp share functionality opens a new window with the correct payload.
+    *   Confirm conflict resolution UI labels are visible.

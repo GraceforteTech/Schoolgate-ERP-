@@ -192,6 +192,10 @@ export function VirtualClassroomHub() {
               <span className="text-slate-500 font-medium">Allow Guest Participants</span>
               <div className="h-5 w-10 bg-slate-200 rounded-full relative"><div className="absolute left-1 top-1 h-3 w-3 bg-white rounded-full shadow-sm" /></div>
             </div>
+            <div className="flex items-center justify-between text-sm">
+              <span className="text-slate-500 font-medium">WhatsApp Notification</span>
+              <div className="h-5 w-10 bg-emerald-500 rounded-full relative"><div className="absolute right-1 top-1 h-3 w-3 bg-white rounded-full shadow-sm" /></div>
+            </div>
             <div className="pt-4">
               <Button variant="link" className="text-schoolgate-green p-0 h-auto font-bold">Manage Advanced Virtual Settings →</Button>
             </div>
