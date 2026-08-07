@@ -40,7 +40,10 @@ import {
   Printer,
   ChevronRight,
   History,
-  AlertCircle
+  AlertCircle,
+  Cake,
+  Gift,
+  UserPlus
 } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
