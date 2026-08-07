@@ -36,7 +36,7 @@ import {
 import { cn } from "@/lib/utils";
 
 const mainNavItems = [
-  { title: "Dashboard", url: "/", icon: LayoutDashboard },
+  { title: "Dashboard", url: "/enterprise", icon: LayoutDashboard },
   { title: "Staff Portal", url: "/staff/dashboard", icon: ShieldCheck },
   { title: "Admissions", url: "/finance/admissions", icon: UserPlus },
   { title: "Inventory & Store", url: "/inventory", icon: Package },
