@@ -6,6 +6,9 @@ import { HRDashboardAnalytics } from "@/components/hr/hr-dashboard-analytics";
 import { HRDashboardFeeds } from "@/components/hr/hr-dashboard-feeds";
 import { EmployeeList } from "@/components/hr/employee-list";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { RecruitmentHub } from "@/components/hr/recruitment/recruitment-hub";
+import { AwardsPromotions } from "@/components/hr/performance/awards-promotions";
+import { LeaveManagementSystem } from "@/components/hr/leave/leave-management-system";
 
 export const Route = createFileRoute("/finance/hr-payroll/")({
   component: HRPayrollDashboard,
@@ -80,6 +83,7 @@ function HRPayrollDashboard() {
                 { id: "overview", label: "Overview" },
                 { id: "payroll", label: "Payroll Summary" },
                 { id: "employees", label: "Employee Hub" },
+                { id: "recruitment", label: "Recruitment" },
                 { id: "attendance", label: "Attendance" },
                 { id: "leave", label: "Leave Mgmt" },
                 { id: "performance", label: "Performance" },
@@ -112,6 +116,15 @@ function HRPayrollDashboard() {
           </TabsContent>
           <TabsContent value="employees" className="outline-none">
             <EmployeeList />
+          </TabsContent>
+          <TabsContent value="recruitment" className="outline-none">
+            <RecruitmentHub />
+          </TabsContent>
+          <TabsContent value="leave" className="outline-none">
+            <LeaveManagementSystem />
+          </TabsContent>
+          <TabsContent value="performance" className="outline-none">
+            <AwardsPromotions />
           </TabsContent>
         </Tabs>
       </div>

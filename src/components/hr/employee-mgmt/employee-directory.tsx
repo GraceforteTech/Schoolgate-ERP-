@@ -19,7 +19,8 @@ import {
   Archive,
   Printer,
   Download,
-  Plus
+  Plus,
+  Award
 } from "lucide-react";
 import { 
   Table, 
@@ -224,6 +225,12 @@ export const EmployeeDirectory = () => {
                         </DropdownMenuItem>
                         <DropdownMenuItem className="gap-2.5 rounded-lg py-2 focus:bg-schoolgate-green-light focus:text-schoolgate-green cursor-pointer">
                           <Edit className="h-4 w-4" /> Edit Employee
+                        </DropdownMenuItem>
+                        <DropdownMenuItem className="gap-2.5 rounded-lg py-2 focus:bg-schoolgate-green-light focus:text-schoolgate-green cursor-pointer">
+                          <Award className="h-4 w-4" /> Awards & Promotions
+                        </DropdownMenuItem>
+                        <DropdownMenuItem className="gap-2.5 rounded-lg py-2 focus:bg-schoolgate-green-light focus:text-schoolgate-green cursor-pointer">
+                          <Calendar className="h-4 w-4" /> Leave History
                         </DropdownMenuItem>
                         <DropdownMenuItem className="gap-2.5 rounded-lg py-2 focus:bg-schoolgate-green-light focus:text-schoolgate-green cursor-pointer">
                           <FileText className="h-4 w-4" /> Upload Documents

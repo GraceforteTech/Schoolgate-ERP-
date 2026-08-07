@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Management - Schoolgate ERP</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="main-header">
+            <div class="header-content">
+                <div class="title-area">
+                    <h1>HR & Staff Management Suite</h1>
+                    <p>Comprehensive recruitment, performance, and lifecycle management.</p>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn btn-outline">Export Data</button>
+                    <button class="btn btn-primary">+ Add Employee</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- KPI Grid -->
+        <section class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-icon bg-blue">👥</div>
+                <div class="kpi-info">
+                    <span class="kpi-label">Total Staff</span>
+                    <span class="kpi-value">142</span>
+                </div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon bg-green">💼</div>
+                <div class="kpi-info">
+                    <span class="kpi-label">Open Vacancies</span>
+                    <span class="kpi-value">8</span>
+                </div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon bg-orange">📅</div>
+                <div class="kpi-info">
+                    <span class="kpi-label">Pending Leave</span>
+                    <span class="kpi-value">12</span>
+                </div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon bg-purple">🏆</div>
+                <div class="kpi-info">
+                    <span class="kpi-label">Awards Given</span>
+                    <span class="kpi-value">24</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content -->
+        <main class="content-tabs">
+            <div class="tabs-nav">
+                <button class="tab-btn active">Recruitment</button>
+                <button class="tab-btn">Leave Mgmt</button>
+                <button class="tab-btn">Performance</button>
+                <button class="tab-btn">Directory</button>
+            </div>
+
+            <div class="tab-panel">
+                <div class="panel-header">
+                    <h2>Recruitment Pipeline</h2>
+                    <div class="panel-actions">
+                        <button class="btn btn-sm">Filter</button>
+                        <button class="btn btn-primary btn-sm">+ New Job</button>
+                    </div>
+                </div>
+
+                <div class="pipeline-container">
+                    <div class="pipeline-column">
+                        <h3>Applied <span class="badge">12</span></h3>
+                        <div class="card applicant-card">
+                            <div class="applicant-header">
+                                <div class="avatar">JM</div>
+                                <div class="name">John Maxwell</div>
+                            </div>
+                            <p class="job-title">Senior Math Teacher</p>
+                            <div class="card-footer">
+                                <span>Aug 05</span>
+                                <span class="rating">⭐ 4.5</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pipeline-column">
+                        <h3>Screening <span class="badge">5</span></h3>
+                        <div class="card applicant-card">
+                            <div class="applicant-header">
+                                <div class="avatar">AY</div>
+                                <div class="name">Amina Yusuf</div>
+                            </div>
+                            <p class="job-title">Senior Math Teacher</p>
+                            <div class="card-footer">
+                                <span>Aug 06</span>
+                                <span class="rating">⭐ 4.2</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pipeline-column">
+                        <h3>Interview <span class="badge">3</span></h3>
+                    </div>
+                    <div class="pipeline-column">
+                        <h3>Offered <span class="badge">1</span></h3>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
