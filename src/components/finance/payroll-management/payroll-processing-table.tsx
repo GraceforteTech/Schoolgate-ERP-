@@ -32,7 +32,26 @@ export function PayrollProcessingTable() {
               <TableCell className="font-medium">{row.id}</TableCell>
               <TableCell>{row.name}</TableCell>
               <TableCell>₦{row.gross.toLocaleString()}</TableCell>
-              <TableCell>₦{(row.gross - row.net).toLocaleString()}</TableCell>
+              <TableCell>
+                <div className="flex flex-col gap-1">
+                  <span className="text-slate-600">₦{(row.gross - row.net).toLocaleString()}</span>
+                  {row.lateness > 0 && (
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger className="flex items-center gap-1 text-[10px] font-black text-rose-500 uppercase cursor-help">
+                          <AlertTriangle className="h-3 w-3" /> Auto-Penalty (₦{row.lateness})
+                        </TooltipTrigger>
+                        <TooltipContent className="bg-slate-900 text-white border-none rounded-lg p-3 max-w-xs shadow-xl">
+                          <p className="font-bold text-xs mb-1">Automated Lateness Deduction</p>
+                          <p className="text-[10px] text-slate-400 font-medium leading-relaxed">
+                            This deduction was calculated automatically based on biometric attendance logs for the current cycle.
+                          </p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  )}
+                </div>
+              </TableCell>
               <TableCell className="font-bold text-schoolgate-green">₦{row.net.toLocaleString()}</TableCell>
               <TableCell>
                 <Badge variant={row.status === "Paid" ? "default" : row.status === "Pending" ? "outline" : "destructive"}>
