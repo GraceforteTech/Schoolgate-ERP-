@@ -7,8 +7,9 @@ import {
   AlertTriangle,
   UserPlus,
   Plane,
-  CreditCard,
-  MessageSquare
+  CreditCard, 
+  MessageSquare,
+  Cake
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -18,6 +19,15 @@ import { cn } from "@/lib/utils";
 const notifications = [
   {
     id: 1,
+    title: "Upcoming Birthday",
+    desc: "Dr. Sarah Adebayo (Physics) celebrates her birthday tomorrow.",
+    time: "Just now",
+    type: "celebration",
+    icon: Cake,
+    color: "bg-purple-50 text-purple-600"
+  },
+  {
+    id: 2,
     title: "Leave Approval Required",
     desc: "Mr. Adebayo (Mathematics) requested 3 days sick leave.",
     time: "10 mins ago",
