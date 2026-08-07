@@ -32,6 +32,7 @@ import { Route as LibraryBorrowReturnRouteImport } from './routes/library/borrow
 import { Route as LibraryCatalogueRouteImport } from './routes/library/catalogue'
 import { Route as LibraryDigitalRouteImport } from './routes/library/digital'
 import { Route as LibraryProprietorRouteImport } from './routes/library/proprietor'
+import { Route as StaffDashboardRouteImport } from './routes/staff/dashboard'
 import { Route as TeachersIndexRouteImport } from './routes/teachers/index'
 import { Route as TimetableIndexRouteImport } from './routes/timetable/index'
 import { Route as TransportIndexRouteImport } from './routes/transport/index'
@@ -172,6 +173,11 @@ const LibraryDigitalRoute = LibraryDigitalRouteImport.update({
 const LibraryProprietorRoute = LibraryProprietorRouteImport.update({
   id: '/library/proprietor',
   path: '/library/proprietor',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StaffDashboardRoute = StaffDashboardRouteImport.update({
+  id: '/staff/dashboard',
+  path: '/staff/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TeachersIndexRoute = TeachersIndexRouteImport.update({
@@ -323,6 +329,7 @@ export interface FileRoutesByFullPath {
   '/library/catalogue': typeof LibraryCatalogueRoute
   '/library/digital': typeof LibraryDigitalRoute
   '/library/proprietor': typeof LibraryProprietorRoute
+  '/staff/dashboard': typeof StaffDashboardRoute
   '/transport/drivers': typeof TransportDriversRoute
   '/transport/routes': typeof TransportRoutesRoute
   '/transport/vehicles': typeof TransportVehiclesRoute
@@ -372,6 +379,7 @@ export interface FileRoutesByTo {
   '/library/catalogue': typeof LibraryCatalogueRoute
   '/library/digital': typeof LibraryDigitalRoute
   '/library/proprietor': typeof LibraryProprietorRoute
+  '/staff/dashboard': typeof StaffDashboardRoute
   '/transport/drivers': typeof TransportDriversRoute
   '/transport/routes': typeof TransportRoutesRoute
   '/transport/vehicles': typeof TransportVehiclesRoute
@@ -422,6 +430,7 @@ export interface FileRoutesById {
   '/library/catalogue': typeof LibraryCatalogueRoute
   '/library/digital': typeof LibraryDigitalRoute
   '/library/proprietor': typeof LibraryProprietorRoute
+  '/staff/dashboard': typeof StaffDashboardRoute
   '/transport/drivers': typeof TransportDriversRoute
   '/transport/routes': typeof TransportRoutesRoute
   '/transport/vehicles': typeof TransportVehiclesRoute
@@ -473,6 +482,7 @@ export interface FileRouteTypes {
     | '/library/catalogue'
     | '/library/digital'
     | '/library/proprietor'
+    | '/staff/dashboard'
     | '/transport/drivers'
     | '/transport/routes'
     | '/transport/vehicles'
@@ -522,6 +532,7 @@ export interface FileRouteTypes {
     | '/library/catalogue'
     | '/library/digital'
     | '/library/proprietor'
+    | '/staff/dashboard'
     | '/transport/drivers'
     | '/transport/routes'
     | '/transport/vehicles'
@@ -571,6 +582,7 @@ export interface FileRouteTypes {
     | '/library/catalogue'
     | '/library/digital'
     | '/library/proprietor'
+    | '/staff/dashboard'
     | '/transport/drivers'
     | '/transport/routes'
     | '/transport/vehicles'
@@ -621,6 +633,7 @@ export interface RootRouteChildren {
   LibraryCatalogueRoute: typeof LibraryCatalogueRoute
   LibraryDigitalRoute: typeof LibraryDigitalRoute
   LibraryProprietorRoute: typeof LibraryProprietorRoute
+  StaffDashboardRoute: typeof StaffDashboardRoute
   TransportDriversRoute: typeof TransportDriversRoute
   TransportRoutesRoute: typeof TransportRoutesRoute
   TransportVehiclesRoute: typeof TransportVehiclesRoute
@@ -818,6 +831,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LibraryProprietorRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/staff/dashboard': {
+      id: '/staff/dashboard'
+      path: '/staff/dashboard'
+      fullPath: '/staff/dashboard'
+      preLoaderRoute: typeof StaffDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/teachers/': {
       id: '/teachers/'
       path: '/teachers'
@@ -1005,6 +1025,7 @@ const rootRouteChildren: RootRouteChildren = {
   LibraryCatalogueRoute: LibraryCatalogueRoute,
   LibraryDigitalRoute: LibraryDigitalRoute,
   LibraryProprietorRoute: LibraryProprietorRoute,
+  StaffDashboardRoute: StaffDashboardRoute,
   TransportDriversRoute: TransportDriversRoute,
   TransportRoutesRoute: TransportRoutesRoute,
   TransportVehiclesRoute: TransportVehiclesRoute,
