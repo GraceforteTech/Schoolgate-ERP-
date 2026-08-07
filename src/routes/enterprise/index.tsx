@@ -389,13 +389,41 @@ function EnterpriseCommandCenter() {
               </CardTitle>
             </CardHeader>
             <div className="grid grid-cols-1 gap-2">
-              <QuickActionButton icon={CreditCard} label="Collect School Fees" />
-              <QuickActionButton icon={Plus} label="Admit Student" />
-              <QuickActionButton icon={UserPlus} label="Register Staff" />
-              <QuickActionButton icon={Save} label="Post Scores" />
-              <QuickActionButton icon={CheckCircle2} label="Approve Results" />
-              <QuickActionButton icon={FileText} label="Approve Lesson Notes" />
-              <QuickActionButton icon={TrendingUp} label="Approve Expenses" />
+              <QuickActionButton 
+                icon={CreditCard} 
+                label="Collect School Fees" 
+                onClick={() => openForm("Collect School Fees", "Process tuition and sundry fee payments.", CreditCard)} 
+              />
+              <QuickActionButton 
+                icon={Plus} 
+                label="Admit Student" 
+                onClick={() => openForm("Admit Student", "Register a new student into the institution.", Plus)} 
+              />
+              <QuickActionButton 
+                icon={UserPlus} 
+                label="Register Staff" 
+                onClick={() => openForm("Register Staff", "Onboard new academic or non-academic staff.", UserPlus)} 
+              />
+              <QuickActionButton 
+                icon={Save} 
+                label="Post Scores" 
+                onClick={() => openForm("Post Scores", "Record academic assessments and exam marks.", Save)} 
+              />
+              <QuickActionButton 
+                icon={CheckCircle2} 
+                label="Approve Results" 
+                onClick={() => openForm("Approve Results", "Review and authorize final term results.", CheckCircle2)} 
+              />
+              <QuickActionButton 
+                icon={FileText} 
+                label="Approve Lesson Notes" 
+                onClick={() => openForm("Approve Lesson Notes", "Review teacher lesson plans and schemes of work.", FileText)} 
+              />
+              <QuickActionButton 
+                icon={TrendingUp} 
+                label="Approve Expenses" 
+                onClick={() => openForm("Approve Expenses", "Authorize pending financial expenditure requests.", TrendingUp)} 
+              />
               <div className="grid grid-cols-3 gap-2 mt-2">
                 <Button variant="outline" className="flex-col h-16 rounded-xl border-slate-100 font-bold text-[10px] gap-1 bg-slate-50">
                   <MessageSquare size={16} /> SMS
