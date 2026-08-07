@@ -100,7 +100,7 @@ function ResultManagementPage() {
         </div>
 
         <TabsContent value="dashboard" className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-          <ExecutiveExaminationDashboard />
+          <ExecutiveAcademicDashboard />
         </TabsContent>
 
         <TabsContent value="config" className="animate-in fade-in slide-in-from-bottom-4 duration-500">
