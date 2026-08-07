@@ -266,6 +266,14 @@ function FeeTypesPage() {
           </main>
         </SidebarInset>
       </div>
+
+      <PlaceholderForm 
+        open={isNewFeeTypeOpen} 
+        onOpenChange={setIsNewFeeTypeOpen} 
+        title="Create New Fee Type"
+        description="Define a new fee category, amount, and allocation rules."
+        icon={Plus}
+      />
     </SidebarProvider>
   );
 }
