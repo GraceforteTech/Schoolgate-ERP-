@@ -54,7 +54,7 @@ export function StaffPersonalKpis() {
             <div className={`p-3 rounded-xl ${kpi.bg} ${kpi.color} group-hover:scale-110 transition-transform`}>
               <kpi.icon size={24} />
             </div>
-            <Badge variant="ghost" className="text-[10px] font-black text-slate-300 uppercase tracking-tighter">Personal</Badge>
+            <Badge variant="outline" className="text-[10px] font-black text-slate-300 uppercase tracking-tighter border-none">Personal</Badge>
           </div>
           <div className="mt-4">
             <h3 className="text-2xl font-black text-slate-800">{kpi.value}</h3>
