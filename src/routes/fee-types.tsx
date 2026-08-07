@@ -190,7 +190,10 @@ function FeeTypesPage() {
 
                     {/* Actions */}
                     <div className="flex flex-wrap items-center gap-2">
-                      <Button className="h-9 shrink-0 gap-2 rounded-lg bg-schoolgate-green px-4 text-sm font-medium text-white hover:bg-schoolgate-green/90">
+                      <Button 
+                        onClick={() => setIsNewFeeTypeOpen(true)}
+                        className="h-9 shrink-0 gap-2 rounded-lg bg-schoolgate-green px-4 text-sm font-medium text-white hover:bg-schoolgate-green/90"
+                      >
                         <Plus className="h-4 w-4" />
                         New Fee Type
                       </Button>
