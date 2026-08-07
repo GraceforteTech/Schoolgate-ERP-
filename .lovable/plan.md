@@ -1,30 +1,40 @@
-# Plan: Enhance Staff Dashboard with Ratings and Query Management
+# Plan: Implement Biometric Attendance & Automated Lateness Deductions
 
-The objective is to augment the existing Staff Dashboard with detailed performance effectiveness ratings and a dedicated Query Management Centre to handle administrative/disciplinary queries.
+The objective is to enable external thumbprint device integration for staff attendance and automate salary deductions based on lateness rules defined by the admin.
 
 ## Proposed Changes
 
 ### 1. New Components
-- **`src/components/staff/staff-performance-ratings.tsx`**: 
-  - Visual breakdown of effectiveness scores (Punctuality, Teaching Quality, Curriculum Coverage, Student Feedback).
-  - Overall "Star Rating" or "Grade".
-  - Historical trend chart for performance.
-- **`src/components/staff/staff-query-centre.tsx`**:
-  - A management interface for staff queries.
-  - Tabs/Filters for: "Unanswered Queries" (Urgent), "Answered Queries", and "Archived".
-  - Status indicators (Pending Reply, Under Review, Resolved).
-  - Quick-action buttons to "Reply to Query" or "View Details".
+- **`src/components/attendance/biometric-integration.tsx`**: 
+  - Interface to connect and sync with external biometric devices.
+  - Device status monitor (Connected/Disconnected/Syncing).
+  - Data mapping (Device ID to Staff ID).
+- **`src/components/hr/payroll-mgmt/lateness-rules.tsx`**: 
+  - Admin interface to set lateness thresholds (e.g., "Grace period of 15 mins").
+  - Automated deduction formulas (e.g., "₦500 per 30 mins late" or "1% of basic salary").
+  - Rule activation toggle.
+- **`src/components/attendance/staff-punctuality-log.tsx`**:
+  - Detailed log showing "Arrival Time", "Lateness Duration", and "Calculated Penalty".
 
-### 2. Dashboard Updates (`src/routes/staff/dashboard.tsx`)
-- Integrate the new **Performance Ratings** section, likely next to the existing KPIs or as a dedicated "My Growth" section.
-- Add a prominent **Compliance & Query Centre** section to ensure staff are alerted to pending queries immediately.
-- Use conditional highlighting (e.g., pulse animation or red badges) if there are unanswered queries.
+### 2. Route Updates
+- **`src/routes/attendance/index.tsx`**: 
+  - Add a "Biometric Integration" tab.
+  - Add a "Staff Punctuality" sub-view.
+- **`src/routes/finance/hr-payroll/salary-structure.tsx`**:
+  - Integrate "Automated Deduction Rules" into the salary structure configuration.
+- **`src/routes/finance/payroll-management/index.tsx`**:
+  - Update the payroll processing view to include "Automated Lateness Deductions" calculated from biometric attendance logs.
 
-### 3. Standalone Export Update
-- Update `export/staff-portal/index.html` to reflect the new performance metrics and query management features.
+### 3. Logic Enhancement
+- Update `AttendanceRegister` to include "Time In" and lateness status.
+- Mock the automated calculation logic that links attendance lateness to payroll line items.
+
+### 4. Standalone Export Update
+- Update `export/hr-management/` and `export/staff-portal/` to reflect these new capabilities.
 
 ## Verification Plan
-1.  Navigate to `/staff/dashboard`.
-2.  Verify that detailed rating scores are visible with correct styling.
-3.  Check the "Query Centre" to ensure unanswered queries are clearly identified and accessible.
-4.  Test responsiveness of the new sections on mobile and desktop views.
+1.  Navigate to `/attendance`.
+2.  Verify the "Biometric Integration" tab exists and shows device connection options.
+3.  Navigate to `/finance/hr-payroll/salary-structure`.
+4.  Verify that "Lateness Deduction Rules" can be configured.
+5.  Check `/finance/payroll-management` to ensure lateness deductions are automatically applied to the processing table.
