@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Class Timetable & Scheduler - Schoolgate ERP</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="page-header">
+            <div class="header-content">
+                <h1>Virtual Learning Hub</h1>
+                <p>Schedule and manage online live sessions with students.</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-outline"><i class="fas fa-cog"></i> Integrations</button>
+                <button class="btn btn-primary"><i class="fas fa-plus"></i> Schedule Online Class</button>
+            </div>
+        </header>
+
+        <div class="main-layout">
+            <!-- Sidebar / Form -->
+            <aside class="scheduler-form">
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-calendar-alt text-green"></i> Schedule New Class</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label>Class Topic</label>
+                            <input type="text" placeholder="e.g. Intro to Algebra">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Date</label>
+                                <input type="date">
+                            </div>
+                            <div class="form-group">
+                                <label>Time</label>
+                                <input type="time">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Teacher</label>
+                            <select>
+                                <option>Select Teacher</option>
+                                <option>Dr. Adebayo Olawale</option>
+                                <option>Mrs. Okoro</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Class / Grade</label>
+                            <select>
+                                <option>Select Class</option>
+                                <option>SS3 A</option>
+                                <option>SS2 B</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Platform & Link</label>
+                            <div class="input-group">
+                                <select style="width: 100px;">
+                                    <option>Zoom</option>
+                                    <option>Meet</option>
+                                </select>
+                                <input type="text" placeholder="Meeting URL">
+                            </div>
+                        </div>
+                        <div class="alert alert-warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <p><strong>Admin Priority:</strong> This entry will override teacher conflicts.</p>
+                        </div>
+                        <button class="btn btn-primary btn-block">Save to Timetable</button>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Timetable -->
+            <section class="timetable-section">
+                <div class="card">
+                    <div class="card-header flex-between">
+                        <h2>Online Class Timetable</h2>
+                        <div class="tab-group">
+                            <button class="tab">Daily</button>
+                            <button class="tab active">Weekly</button>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Time & Date</th>
+                                        <th>Subject & Teacher</th>
+                                        <th>Status</th>
+                                        <th>Platform</th>
+                                        <th class="text-right">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="text-bold">09:00 AM</div>
+                                            <div class="text-xs text-muted">2024-05-20</div>
+                                        </td>
+                                        <td>
+                                            <div class="text-bold">Intro to Algebra</div>
+                                            <div class="text-xs text-green">SS3 A • Dr. Adebayo</div>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-purple">By Admin</span>
+                                        </td>
+                                        <td>
+                                            <div class="flex-center gap-2">
+                                                <i class="fas fa-video text-muted"></i>
+                                                <span class="text-bold">Zoom</span>
+                                            </div>
+                                        </td>
+                                        <td class="text-right">
+                                            <button class="btn-icon text-whatsapp" title="Share to WhatsApp"><i class="fab fa-whatsapp"></i></button>
+                                            <button class="btn-icon"><i class="fas fa-link"></i></button>
+                                            <button class="btn-icon text-red"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr class="row-conflict">
+                                        <td>
+                                            <div class="text-bold">11:00 AM</div>
+                                            <div class="text-xs text-muted">2024-05-20</div>
+                                        </td>
+                                        <td>
+                                            <div class="text-bold">Periodic Table</div>
+                                            <div class="text-xs text-green">SS2 B • Mrs. Okoro</div>
+                                        </td>
+                                        <td>
+                                            <div class="flex-column gap-1">
+                                                <span class="badge badge-blue">By Teacher</span>
+                                                <span class="text-xs text-red animate-pulse">Overridden by Admin</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="flex-center gap-2">
+                                                <i class="fas fa-video text-muted"></i>
+                                                <span class="text-bold">Meet</span>
+                                            </div>
+                                        </td>
+                                        <td class="text-right">
+                                            <button class="btn-icon text-whatsapp"><i class="fab fa-whatsapp"></i></button>
+                                            <button class="btn-icon"><i class="fas fa-link"></i></button>
+                                            <button class="btn-icon text-red"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="table-footer">
+                            <span class="text-xs text-muted italic font-bold">CONFLICT RESOLUTION: ADMIN PRIORITY [ENABLED]</span>
+                            <div class="footer-actions">
+                                <button class="btn-text"><i class="fas fa-download"></i> Export</button>
+                                <button class="btn-text"><i class="fas fa-external-link-alt"></i> Student Portal</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</body>
+</html>
