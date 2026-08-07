@@ -29,6 +29,7 @@ import { InventorySearchCenter } from "@/components/inventory/items/inventory-se
 import { DailySalesLog } from "@/components/inventory/sales/daily-sales-log";
 import { ItemAccountSummary } from "@/components/inventory/items/item-account-summary";
 import { AddItemForm } from "@/components/inventory/items/add-item-form";
+import { CreateCategoryForm } from "@/components/inventory/items/create-category-form";
 
 export const Route = createFileRoute("/inventory/")({
   head: () => ({
@@ -46,6 +47,7 @@ export const Route = createFileRoute("/inventory/")({
 function InventoryManagementPage() {
   const [activeTab, setActiveTab] = useState("items");
   const [isAddItemOpen, setIsAddItemOpen] = useState(false);
+  const [isAddCategoryOpen, setIsAddCategoryOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-[#F5F7FA] p-4 lg:p-8 space-y-8 pb-20">
@@ -73,6 +75,14 @@ function InventoryManagementPage() {
               className="h-11 rounded-xl bg-schoolgate-green text-white font-bold gap-2 shadow-lg shadow-schoolgate-green/20"
             >
               <Plus size={18} /> New Item
+            </Button>
+          )}
+          {activeTab === "categories" && (
+            <Button 
+              onClick={() => setIsAddCategoryOpen(true)}
+              className="h-11 rounded-xl bg-schoolgate-green text-white font-bold gap-2 shadow-lg shadow-schoolgate-green/20"
+            >
+              <Plus size={18} /> Add Category
             </Button>
           )}
           {activeTab === "suppliers" && (
@@ -269,6 +279,7 @@ function InventoryManagementPage() {
       </div>
 
       <AddItemForm open={isAddItemOpen} onOpenChange={setIsAddItemOpen} />
+      <CreateCategoryForm open={isAddCategoryOpen} onOpenChange={setIsAddCategoryOpen} />
     </div>
   );
 }
