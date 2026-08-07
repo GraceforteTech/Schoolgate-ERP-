@@ -19,7 +19,8 @@ import {
   Archive,
   Printer,
   Download,
-  Plus
+  Plus,
+  Award
 } from "lucide-react";
 import { 
   Table, 
