@@ -231,6 +231,9 @@ export const EmployeeDirectory = () => {
                         <DropdownMenuItem className="gap-2.5 rounded-lg py-2 focus:bg-schoolgate-green-light focus:text-schoolgate-green cursor-pointer">
                           <Lock className="h-4 w-4" /> Reset Password
                         </DropdownMenuItem>
+                        <DropdownMenuItem className="gap-2.5 rounded-lg py-2 focus:bg-schoolgate-green-light focus:text-schoolgate-green cursor-pointer">
+                          <Archive className="h-4 w-4" /> Archive Record
+                        </DropdownMenuItem>
                         <DropdownMenuSeparator className="my-1 bg-slate-100" />
                         <DropdownMenuItem className="gap-2.5 rounded-lg py-2 text-red-600 focus:bg-red-50 focus:text-red-600 cursor-pointer">
                           <XCircle className="h-4 w-4" /> Deactivate
