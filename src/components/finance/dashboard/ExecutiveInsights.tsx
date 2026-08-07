@@ -5,10 +5,12 @@ import {
   ArrowDownRight, 
   Target, 
   AlertCircle,
-  TrendingUp,
-  Wallet,
-  Activity,
-  Heart
+  TrendingUp, 
+  Wallet, 
+  Activity, 
+  Heart,
+  Cake,
+  Gift
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Progress } from "@/components/ui/progress";
@@ -49,7 +51,7 @@ export function ExecutiveInsights() {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 border-t border-slate-50 pt-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 border-t border-slate-50 pt-8">
           <div className="space-y-6">
             <h5 className="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
               <Activity size={14} className="text-schoolgate-green" />
@@ -97,6 +99,31 @@ export function ExecutiveInsights() {
                   <p className="text-[10px] text-amber-600 font-medium">Driven by diesel and maintenance costs.</p>
                 </div>
               </div>
+            </div>
+          </div>
+
+          <div className="space-y-6">
+            <h5 className="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
+              <Cake size={14} className="text-purple-500" />
+              Upcoming Celebrations
+            </h5>
+            <div className="space-y-3">
+              {[
+                { name: "Dr. Sarah Adebayo", role: "Teacher", date: "Tomorrow", icon: Cake, color: "text-purple-600", bg: "bg-purple-50" },
+                { name: "Olawale Adebayo", role: "Student (SS 1)", date: "Aug 10", icon: Gift, color: "text-blue-600", bg: "bg-blue-50" },
+                { name: "Mr. Johnson Okeke", role: "Teacher", date: "Aug 12", icon: Cake, color: "text-purple-600", bg: "bg-purple-50" },
+              ].map((celebration, i) => (
+                <div key={i} className={cn("flex items-center gap-3 p-3 rounded-xl border border-slate-100", celebration.bg + "/30")}>
+                  <div className={cn("w-8 h-8 rounded-lg bg-white flex items-center justify-center shadow-sm", celebration.color)}>
+                    <celebration.icon size={16} />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-xs font-bold text-slate-900">{celebration.name}</p>
+                    <p className="text-[10px] text-slate-500 font-medium">{celebration.role}</p>
+                  </div>
+                  <Badge variant="outline" className="text-[9px] font-black border-slate-200 text-slate-400">{celebration.date}</Badge>
+                </div>
+              ))}
             </div>
           </div>
         </div>
