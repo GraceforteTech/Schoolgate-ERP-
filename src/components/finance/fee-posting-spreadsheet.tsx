@@ -93,6 +93,16 @@ export function FeePostingSpreadsheet({ isLoading = false }: { isLoading?: boole
   const [modifiedRows, setModifiedRows] = useState<Set<number>>(new Set());
   const tableRef = useRef<HTMLTableElement>(null);
 
+  useEffect(() => {
+    let timer: any;
+    if (saveStatus === "saving") {
+      timer = setTimeout(() => setSaveStatus("saved"), 1000);
+    }
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [saveStatus]);
+
   // Calculations for dialog
   const totalAmount = data.reduce((acc, curr) => acc + (curr.fees || 0), 0);
   const totalBf = data.reduce((acc, curr) => acc + (curr.bf || 0), 0);
@@ -176,16 +186,6 @@ export function FeePostingSpreadsheet({ isLoading = false }: { isLoading?: boole
       </Card>
     );
   }
-
-  useEffect(() => {
-    let timer: any;
-    if (saveStatus === "saving") {
-      timer = setTimeout(() => setSaveStatus("saved"), 1000);
-    }
-    return () => {
-      if (timer) clearTimeout(timer);
-    };
-  }, [saveStatus]);
 
 
   const handleCellClick = (r: number, c: number, shiftKey: boolean) => {
