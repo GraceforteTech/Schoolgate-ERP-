@@ -86,6 +86,14 @@ const aiRecommendations = [
 ];
 
 export function ExecutiveAcademicDashboard() {
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [formConfig, setFormConfig] = useState({ title: '', description: '', icon: Save });
+
+  const openForm = (title: string, description: string, icon: any) => {
+    setFormConfig({ title, description, icon });
+    setIsFormOpen(true);
+  };
+
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-20">
       {/* Executive Overview Section */}
