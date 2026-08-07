@@ -443,6 +443,14 @@ function EnterpriseCommandCenter() {
 
         </div>
       </div>
+
+      <PlaceholderForm 
+        open={isFormOpen} 
+        onOpenChange={setIsFormOpen} 
+        title={formConfig.title} 
+        description={formConfig.description} 
+        icon={formConfig.icon} 
+      />
     </div>
   )
 }
