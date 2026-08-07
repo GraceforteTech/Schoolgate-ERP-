@@ -30,6 +30,14 @@ import { DailySalesLog } from "@/components/inventory/sales/daily-sales-log";
 import { ItemAccountSummary } from "@/components/inventory/items/item-account-summary";
 import { AddItemForm } from "@/components/inventory/items/add-item-form";
 import { CreateCategoryForm } from "@/components/inventory/items/create-category-form";
+import { PlaceholderForm } from "@/components/ui/placeholder-form";
+import { 
+  Truck, 
+  ShoppingCart, 
+  ArrowDownLeft, 
+  ArrowUpRight, 
+  FileCheck
+} from "lucide-react";
 
 export const Route = createFileRoute("/inventory/")({
   head: () => ({
