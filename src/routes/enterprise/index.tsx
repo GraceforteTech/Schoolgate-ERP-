@@ -65,6 +65,7 @@ import {
   Legend
 } from 'recharts'
 import { useState, useEffect } from 'react'
+import { PlaceholderForm } from '@/components/ui/placeholder-form'
 
 export const Route = createFileRoute('/enterprise/')({
   component: EnterpriseCommandCenter,

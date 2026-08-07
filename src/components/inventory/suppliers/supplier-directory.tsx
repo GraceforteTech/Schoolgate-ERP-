@@ -52,6 +52,8 @@ const suppliers = [
 ];
 
 export function SupplierDirectory() {
+  const [isAddSupplierOpen, setIsAddSupplierOpen] = useState(false);
+
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="flex items-center justify-between">
@@ -59,10 +61,21 @@ export function SupplierDirectory() {
           <h2 className="text-xl font-bold text-slate-900">Supplier Network</h2>
           <p className="text-sm text-slate-500">Manage vendor relationships and delivery performance.</p>
         </div>
-        <Button className="h-10 rounded-xl bg-schoolgate-green text-white font-bold gap-2 shadow-lg shadow-schoolgate-green/20">
+        <Button 
+          onClick={() => setIsAddSupplierOpen(true)}
+          className="h-10 rounded-xl bg-schoolgate-green text-white font-bold gap-2 shadow-lg shadow-schoolgate-green/20"
+        >
           <Plus size={18} /> Add Supplier
         </Button>
       </div>
+
+      <PlaceholderForm 
+        open={isAddSupplierOpen} 
+        onOpenChange={setIsAddSupplierOpen} 
+        title="Add New Supplier"
+        description="Register a new vendor for procurement and supply chain management."
+        icon={Truck}
+      />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {suppliers.map((sup) => (
