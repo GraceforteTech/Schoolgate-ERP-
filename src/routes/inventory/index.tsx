@@ -26,6 +26,7 @@ import { ItemRegistry } from "@/components/inventory/items/item-registry";
 import { CategoryGrid } from "@/components/inventory/items/category-grid";
 import { SupplierDirectory } from "@/components/inventory/suppliers/supplier-directory";
 import { InventorySearchCenter } from "@/components/inventory/items/inventory-search-center";
+import { DailySalesLog } from "@/components/inventory/sales/daily-sales-log";
 
 export const Route = createFileRoute("/inventory/")({
   head: () => ({
@@ -110,6 +111,9 @@ function InventoryManagementPage() {
             <TabsTrigger value="issued" className="data-[state=active]:bg-schoolgate-green-light data-[state=active]:text-schoolgate-green font-bold text-xs px-6 py-2 flex-1">
               Stock-Out
             </TabsTrigger>
+            <TabsTrigger value="sales" className="data-[state=active]:bg-schoolgate-green-light data-[state=active]:text-schoolgate-green font-bold text-xs px-6 py-2 flex-1">
+              Daily Sales
+            </TabsTrigger>
             <TabsTrigger value="orders" className="data-[state=active]:bg-schoolgate-green-light data-[state=active]:text-schoolgate-green font-bold text-xs px-6 py-2 flex-1">
               Purchase Orders
             </TabsTrigger>
@@ -145,6 +149,10 @@ function InventoryManagementPage() {
                New GRN Entry
              </Button>
            </Card>
+        </TabsContent>
+        
+        <TabsContent value="sales">
+          <DailySalesLog />
         </TabsContent>
 
         <TabsContent value="issued">
