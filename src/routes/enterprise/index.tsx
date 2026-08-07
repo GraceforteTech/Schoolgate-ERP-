@@ -250,7 +250,7 @@ function EnterpriseCommandCenter() {
               <KPICard title="Salary Paid" value="₦7.8M" change="Last month" icon={Wallet} color="blue" />
               <KPICard title="Visitors Today" value="28" change="+4" icon={Users} color="indigo" />
               <KPICard title="Pending Approvals" value="4" change="High Priority" icon={CheckSquare} color="rose" />
-              <KPICard title="Upcoming Birthdays" value="8" change="Students" icon={Calendar} color="purple" />
+              <KPICard title="Upcoming Birthdays" value="8" change="Staff & Students" icon={Cake} color="purple" />
               <KPICard title="Overdue Books" value="15" change="Alert" icon={AlertCircle} color="rose" />
             </div>
           </section>
