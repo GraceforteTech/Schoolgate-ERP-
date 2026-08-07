@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Link } from "@tanstack/react-router";
 import { VirtualClassroomHub } from "@/components/academic/virtual-classroom/virtual-classroom-hub";
+import { OnlineClassScheduler } from "@/components/academic/virtual-classroom/online-class-scheduler";
 
 export const Route = createFileRoute("/academic/virtual-classroom")({
   component: VirtualClassroomPage,
