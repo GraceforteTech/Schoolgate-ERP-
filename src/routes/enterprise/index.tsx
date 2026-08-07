@@ -196,6 +196,7 @@ function EnterpriseCommandCenter() {
         </CardHeader>
         <CardContent className="p-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+            <AlertItem label="Dr. Sarah Adebayo (Staff) birthday today!" isCelebration />
             <AlertItem label="35 Students with outstanding fees" />
             <AlertItem label="6 Teachers yet to submit lesson notes" />
             <AlertItem label="SS2 Mathematics scores incomplete" />
