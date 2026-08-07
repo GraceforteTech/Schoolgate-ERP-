@@ -3,72 +3,236 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventory Management | Schoolgate ERP</title>
+    <title>Inventory & Store Management | Schoolgate ERP</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="dashboard">
-        <header>
-            <div class="header-title">
-                <h1>Inventory & Store</h1>
-                <p>Enterprise supply chain and stock control system.</p>
+    <div class="app-container">
+        <!-- Sidebar Placeholder -->
+        <aside class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">SG</div>
+                <span>Schoolgate</span>
             </div>
-            <button class="btn">+ New Item</button>
-        </header>
+            <nav>
+                <div class="nav-item">Dashboard</div>
+                <div class="nav-item active">Inventory</div>
+                <div class="nav-item">Finance</div>
+                <div class="nav-item">HR & Payroll</div>
+            </nav>
+        </aside>
 
-        <div class="kpi-grid">
-            <div class="kpi-card">
-                <div class="kpi-icon">📦</div>
-                <h3 class="kpi-value">2,480</h3>
-                <p class="kpi-label">Total Items</p>
-            </div>
-            <div class="kpi-card">
-                <div class="kpi-icon">💰</div>
-                <h3 class="kpi-value">₦24.5M</h3>
-                <p class="kpi-label">Inventory Value</p>
-            </div>
-            <div class="kpi-card">
-                <div class="kpi-icon">⚠️</div>
-                <h3 class="kpi-value">12</h3>
-                <p class="kpi-label">Low Stock</p>
-            </div>
-            <div class="kpi-card">
-                <div class="kpi-icon">🚚</div>
-                <h3 class="kpi-value">5</h3>
-                <p class="kpi-label">Pending Deliveries</p>
-            </div>
-        </div>
+        <main class="main-content">
+            <!-- Header -->
+            <header class="page-header">
+                <div class="header-left">
+                    <div class="icon-box">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+                    </div>
+                    <div class="header-text">
+                        <h1>Inventory & Store</h1>
+                        <p>Manage supplies, stock levels, and procurement operations.</p>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-outline">Export</button>
+                    <button class="btn btn-outline">Audit Logs</button>
+                    <button class="btn btn-primary">+ New Item</button>
+                </div>
+            </header>
 
-        <div class="card">
-            <h3>Stock Registry</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Item Details</th>
-                        <th>Category</th>
-                        <th>Quantity</th>
-                        <th>Value</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Office A4 Paper</strong><br><small>INV-STA-001</small></td>
-                        <td>Stationery</td>
-                        <td>45 Reams</td>
-                        <td>₦202,500</td>
-                        <td><span class="badge badge-success">In Stock</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Sulphuric Acid (1L)</strong><br><small>INV-LAB-042</small></td>
-                        <td>Laboratory</td>
-                        <td>8 Bottles</td>
-                        <td>₦96,000</td>
-                        <td><span class="badge badge-warning">Low Stock</span></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+            <!-- KPIs -->
+            <section class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-icon blue">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+                    </div>
+                    <div class="kpi-content">
+                        <span class="kpi-label">Total SKUs</span>
+                        <span class="kpi-value">1,248</span>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon green">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                    </div>
+                    <div class="kpi-content">
+                        <span class="kpi-label">Stock Value</span>
+                        <span class="kpi-value">₦42.5M</span>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon orange">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    </div>
+                    <div class="kpi-content">
+                        <span class="kpi-label">Low Stock</span>
+                        <span class="kpi-value">12</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tabs -->
+            <div class="tabs-container">
+                <div class="tabs-list">
+                    <button class="tab active">Stock Registry</button>
+                    <button class="tab">Categories</button>
+                    <button class="tab">Stock-In (GRN)</button>
+                    <button class="tab">Stock-Out</button>
+                    <button class="tab">Daily Sales</button>
+                    <button class="tab">Suppliers</button>
+                </div>
+
+                <div class="tab-content">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Item Details</th>
+                                    <th>Category</th>
+                                    <th>Quantity</th>
+                                    <th>Unit Cost</th>
+                                    <th>Stock Value</th>
+                                    <th>Status</th>
+                                    <th class="text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="item-name">English Textbook (JSS1)</div>
+                                        <div class="item-code">INV-BKS-001</div>
+                                    </td>
+                                    <td><span class="badge">Books</span></td>
+                                    <td>
+                                        <div class="item-qty">1,200 Units</div>
+                                        <div class="item-min">Min: 50</div>
+                                    </td>
+                                    <td>₦3,000</td>
+                                    <td class="text-green font-black">₦3,600,000</td>
+                                    <td><span class="status-badge green">IN STOCK</span></td>
+                                    <td class="text-right"><button class="btn-icon">...</button></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="item-name">Office A4 Paper</div>
+                                        <div class="item-code">INV-STA-001</div>
+                                    </td>
+                                    <td><span class="badge">Stationery</span></td>
+                                    <td>
+                                        <div class="item-qty">45 Reams</div>
+                                        <div class="item-min">Min: 20</div>
+                                    </td>
+                                    <td>₦4,500</td>
+                                    <td class="text-green font-black">₦202,500</td>
+                                    <td><span class="status-badge green">IN STOCK</span></td>
+                                    <td class="text-right"><button class="btn-icon">...</button></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="item-name">Sulphuric Acid (1L)</div>
+                                        <div class="item-code">INV-LAB-042</div>
+                                    </td>
+                                    <td><span class="badge">Laboratory</span></td>
+                                    <td>
+                                        <div class="item-qty">8 Bottles</div>
+                                        <div class="item-min">Min: 10</div>
+                                    </td>
+                                    <td>₦12,000</td>
+                                    <td class="text-green font-black">₦96,000</td>
+                                    <td><span class="status-badge orange">LOW STOCK</span></td>
+                                    <td class="text-right"><button class="btn-icon">...</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Enhanced Sales Feature Section -->
+            <section class="sales-section">
+                <div class="section-header">
+                    <h2>Recent Sales Posting & Returns</h2>
+                    <button class="btn btn-primary">Post Sales Amount</button>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Item / Date</th>
+                                <th>Mode</th>
+                                <th>Collected</th>
+                                <th>Sold</th>
+                                <th>Unsold</th>
+                                <th>Returns</th>
+                                <th>Revenue</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="item-name">English Textbook (JSS1)</div>
+                                    <div class="item-code">2026-08-07</div>
+                                </td>
+                                <td><span class="badge blue">DAILY</span></td>
+                                <td>100</td>
+                                <td class="text-green">85</td>
+                                <td>10</td>
+                                <td class="text-red">5</td>
+                                <td class="text-green font-black">₦255,000</td>
+                                <td><span class="status-badge green">POSTED</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="item-name">Office A4 Paper</div>
+                                    <div class="item-code">Aug 01 - Aug 07</div>
+                                </td>
+                                <td><span class="badge indigo">WEEKLY</span></td>
+                                <td>250</td>
+                                <td class="text-green">180</td>
+                                <td>70</td>
+                                <td class="text-red">0</td>
+                                <td class="text-green font-black">₦810,000</td>
+                                <td><span class="status-badge green">POSTED</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Suppliers Section -->
+            <section class="suppliers-section">
+                <div class="section-header">
+                    <h2>Supplier Directory</h2>
+                </div>
+                <div class="supplier-grid">
+                    <div class="supplier-card">
+                        <div class="supplier-header">
+                            <div class="supplier-logo">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 17h4V5H2v12h3m0 0a2 2 0 1 0 4 0 2 2 0 1 0-4 0m7 0a2 2 0 1 0 4 0 2 2 0 1 0-4 0m3-2h3l2-4h-2m-1 10h1.4c.6 0 1.1-.4 1.3-.9l1.4-4.4c.2-.6-.2-1.2-.8-1.2h-3.8"/></svg>
+                            </div>
+                            <div class="supplier-info">
+                                <h3>Supreme Stationery Ltd</h3>
+                                <div class="rating">⭐ 4.8 Rating</div>
+                            </div>
+                            <span class="status-badge green">ACTIVE</span>
+                        </div>
+                        <div class="supplier-details">
+                            <div class="detail-item">👤 Mr. Kunle Adeyemi</div>
+                            <div class="detail-item">📞 +234 802 123 4567</div>
+                            <div class="detail-item">📍 Mushin Industrial Estate, Lagos</div>
+                        </div>
+                        <div class="supplier-footer">
+                            <button class="btn btn-ghost">View History</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
     </div>
 </body>
 </html>
