@@ -8,7 +8,7 @@ import { ReportCardGenerator } from "@/components/finance/results/report-card-ge
 import { ResultAnalytics } from "@/components/finance/results/result-analytics";
 import { TranscriptManagement } from "@/components/finance/results/transcript-management";
 import { AcademicDashboard } from "@/components/finance/results/academic-dashboard";
-import { ExecutiveExaminationDashboard } from "@/components/finance/results/executive-examination-dashboard";
+import { ExecutiveAcademicDashboard } from "@/components/finance/results/executive-examination-dashboard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Download, LayoutDashboard, FileText, Settings, ClipboardList, CheckCircle2, BarChart3, GraduationCap } from "lucide-react";
