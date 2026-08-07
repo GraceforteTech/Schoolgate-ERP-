@@ -114,6 +114,15 @@ function HRPayrollDashboard() {
           <TabsContent value="employees" className="outline-none">
             <EmployeeList />
           </TabsContent>
+          <TabsContent value="recruitment" className="outline-none">
+            <RecruitmentHub />
+          </TabsContent>
+          <TabsContent value="leave" className="outline-none">
+            <LeaveManagementSystem />
+          </TabsContent>
+          <TabsContent value="performance" className="outline-none">
+            <AwardsPromotions />
+          </TabsContent>
         </Tabs>
       </div>
     </div>
