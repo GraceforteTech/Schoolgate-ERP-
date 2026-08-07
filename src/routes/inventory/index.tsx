@@ -28,6 +28,7 @@ import { SupplierDirectory } from "@/components/inventory/suppliers/supplier-dir
 import { InventorySearchCenter } from "@/components/inventory/items/inventory-search-center";
 import { DailySalesLog } from "@/components/inventory/sales/daily-sales-log";
 import { ItemAccountSummary } from "@/components/inventory/items/item-account-summary";
+import { AddItemForm } from "@/components/inventory/items/add-item-form";
 
 export const Route = createFileRoute("/inventory/")({
   head: () => ({
@@ -44,6 +45,7 @@ export const Route = createFileRoute("/inventory/")({
 
 function InventoryManagementPage() {
   const [activeTab, setActiveTab] = useState("items");
+  const [isAddItemOpen, setIsAddItemOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-[#F5F7FA] p-4 lg:p-8 space-y-8 pb-20">
@@ -66,7 +68,10 @@ function InventoryManagementPage() {
             <History size={18} /> Audit Logs
           </Button>
           {activeTab === "items" && (
-            <Button className="h-11 rounded-xl bg-schoolgate-green text-white font-bold gap-2 shadow-lg shadow-schoolgate-green/20">
+            <Button 
+              onClick={() => setIsAddItemOpen(true)}
+              className="h-11 rounded-xl bg-schoolgate-green text-white font-bold gap-2 shadow-lg shadow-schoolgate-green/20"
+            >
               <Plus size={18} /> New Item
             </Button>
           )}
@@ -262,6 +267,8 @@ function InventoryManagementPage() {
            <Package className="absolute -right-10 -bottom-10 h-48 w-48 text-white/5 rotate-12" />
         </Card>
       </div>
+
+      <AddItemForm open={isAddItemOpen} onOpenChange={setIsAddItemOpen} />
     </div>
   );
 }
