@@ -582,6 +582,32 @@ function QuickActionButton({ icon: Icon, label, onClick }: any) {
   )
 }
 
+function BirthdayItem({ name, role, date, isToday }: any) {
+  return (
+    <div className={cn(
+      "flex items-center gap-3 p-2.5 rounded-xl transition-all cursor-pointer group border border-transparent hover:bg-slate-50",
+      isToday && "bg-purple-50 border-purple-100 hover:bg-purple-100/50"
+    )}>
+      <div className={cn(
+        "h-9 w-9 rounded-full flex items-center justify-center shrink-0 shadow-sm transition-transform group-hover:scale-110",
+        isToday ? "bg-white text-purple-600" : "bg-slate-100 text-slate-400 group-hover:text-purple-600 group-hover:bg-white"
+      )}>
+        {isToday ? <Cake size={16} /> : <Gift size={16} />}
+      </div>
+      <div className="flex-1 min-w-0">
+        <p className="text-[11px] font-black text-slate-900 truncate tracking-tight">{name}</p>
+        <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest leading-none mt-0.5">{role}</p>
+      </div>
+      <Badge variant="outline" className={cn(
+        "text-[8px] font-black border-slate-200 px-1.5 h-4",
+        isToday ? "bg-purple-600 text-white border-none shadow-sm shadow-purple-200" : "text-slate-400"
+      )}>
+        {date}
+      </Badge>
+    </div>
+  )
+}
+
 function EventItem({ date, title, category, color }: any) {
   const textColor = color === 'rose' ? 'text-rose-600' : color === 'schoolgate-green' ? 'text-schoolgate-green' : 'text-indigo-600'
   const bgColor = color === 'rose' ? 'bg-rose-50' : color === 'schoolgate-green' ? 'bg-schoolgate-green-light' : 'bg-indigo-50'
