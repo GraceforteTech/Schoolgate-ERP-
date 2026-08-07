@@ -151,5 +151,14 @@ function ClassInformationPage() {
         </div>
       </div>
     </div>
+
+      <PlaceholderForm 
+        open={isOptimizerOpen} 
+        onOpenChange={setIsOptimizerOpen} 
+        title="AI Smart Scheduler"
+        description="Optimize teacher workloads and resolve timetable conflicts automatically."
+        icon={Sparkles}
+      />
+    </div>
   );
 }
