@@ -537,9 +537,13 @@ function InsightCard({ text, type }: { text: string, type: 'warning' | 'info' | 
   )
 }
 
-function QuickActionButton({ icon: Icon, label }: any) {
+function QuickActionButton({ icon: Icon, label, onClick }: any) {
   return (
-    <Button variant="outline" className="w-full justify-start h-11 rounded-xl border-slate-100 bg-slate-50 hover:bg-schoolgate-green-light hover:text-schoolgate-green hover:border-schoolgate-green transition-all font-bold text-xs gap-3">
+    <Button 
+      onClick={onClick}
+      variant="outline" 
+      className="w-full justify-start h-11 rounded-xl border-slate-100 bg-slate-50 hover:bg-schoolgate-green-light hover:text-schoolgate-green hover:border-schoolgate-green transition-all font-bold text-xs gap-3"
+    >
       <div className="w-6 h-6 rounded-lg bg-white shadow-sm flex items-center justify-center">
         <Icon size={14} />
       </div>
