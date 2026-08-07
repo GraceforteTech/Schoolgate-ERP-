@@ -6,7 +6,8 @@ import {
   Users, BookOpen, GraduationCap, Award, CheckCircle2, 
   Clock, AlertTriangle, Zap, ArrowUpRight, FileText, 
   Printer, Save, ClipboardList, Lock, Globe, Download,
-  BarChart3, LayoutDashboard, Search, MessageSquare, ShieldAlert
+  BarChart3, LayoutDashboard, Search, MessageSquare, ShieldAlert,
+  Star, TrendingUp
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Cell, LineChart, Line } from 'recharts';
