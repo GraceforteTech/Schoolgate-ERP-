@@ -8,6 +8,7 @@ import { ReportCardGenerator } from "@/components/finance/results/report-card-ge
 import { ResultAnalytics } from "@/components/finance/results/result-analytics";
 import { TranscriptManagement } from "@/components/finance/results/transcript-management";
 import { AcademicDashboard } from "@/components/finance/results/academic-dashboard";
+import { ExecutiveExaminationDashboard } from "@/components/finance/results/executive-examination-dashboard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Download, LayoutDashboard, FileText, Settings, ClipboardList, CheckCircle2, BarChart3, GraduationCap } from "lucide-react";
@@ -43,7 +44,7 @@ function ResultManagementPage() {
       </div>
 
       {/* Main Workspace Tabs */}
-      <Tabs defaultValue="entry" className="space-y-8">
+      <Tabs defaultValue="dashboard" className="space-y-8">
         <div className="flex items-center justify-between overflow-x-auto pb-2 scrollbar-hide">
           <TabsList className="bg-white border border-slate-100 rounded-xl p-1 shadow-sm h-12 inline-flex min-w-max">
             <TabsTrigger 
@@ -99,7 +100,7 @@ function ResultManagementPage() {
         </div>
 
         <TabsContent value="dashboard" className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-          <AcademicDashboard />
+          <ExecutiveExaminationDashboard />
         </TabsContent>
 
         <TabsContent value="config" className="animate-in fade-in slide-in-from-bottom-4 duration-500">
