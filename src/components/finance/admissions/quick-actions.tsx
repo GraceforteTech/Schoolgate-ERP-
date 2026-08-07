@@ -37,29 +37,32 @@ export function QuickActions() {
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
-      {actions.map((action, i) => (
-        <Button
-          key={i}
-          variant={action.variant as "default" | "outline"}
-          onClick={action.onClick}
-          asChild={!action.onClick}
-          className={`h-auto py-4 px-4 flex flex-col items-center gap-2 rounded-[14px] transition-all hover:shadow-md ${
-            action.variant === "default" ? "bg-schoolgate-green hover:bg-schoolgate-green/90" : "border-slate-200"
-          }`}
-        >
-          {action.onClick ? (
-            <div className="flex flex-col items-center gap-2">
-              <action.icon className={`h-5 w-5 ${action.variant === "default" ? "text-white" : "text-schoolgate-green"}`} />
-              <span className="text-xs font-semibold">{action.label}</span>
-            </div>
-          ) : (
-            <Link to={action.url}>
-              <action.icon className={`h-5 w-5 ${action.variant === "default" ? "text-white" : "text-schoolgate-green"}`} />
-              <span className="text-xs font-semibold">{action.label}</span>
-            </Link>
-          )}
-        </Button>
-      ))}
+      {actions.map((action, i) => {
+        const isDefault = (action.variant as string) === "default";
+        return (
+          <Button
+            key={i}
+            variant={action.variant as "default" | "outline"}
+            onClick={action.onClick}
+            asChild={!action.onClick}
+            className={`h-auto py-4 px-4 flex flex-col items-center gap-2 rounded-[14px] transition-all hover:shadow-md ${
+              isDefault ? "bg-schoolgate-green hover:bg-schoolgate-green/90" : "border-slate-200"
+            }`}
+          >
+            {action.onClick ? (
+              <div className="flex flex-col items-center gap-2">
+                <action.icon className={`h-5 w-5 ${isDefault ? "text-white" : "text-schoolgate-green"}`} />
+                <span className="text-xs font-semibold">{action.label}</span>
+              </div>
+            ) : (
+              <Link to={action.url}>
+                <action.icon className={`h-5 w-5 ${isDefault ? "text-white" : "text-schoolgate-green"}`} />
+                <span className="text-xs font-semibold">{action.label}</span>
+              </Link>
+            )}
+          </Button>
+        );
+      })}
 
       <PlaceholderForm 
         open={isFormOpen} 
