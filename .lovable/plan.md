@@ -1,27 +1,29 @@
-# Plan: Staff Categorization Confirmation
+# Plan: Virtual Learning & Online Classroom
 
-The system already supports teaching and non-teaching staff. This plan confirms the existing implementation and ensures all staff-related UI reflects this distinction clearly.
+The ERP now explicitly supports online classes for admins and teachers through a new "Virtual Classroom & LMS" module.
 
 ## Proposed Changes
 
-### HR & Teacher Modules
-- No code changes are required as the feature is already implemented.
-- The `TeacherKpis.tsx` component already includes:
-  - `Teaching Staff` (Academic Staff)
-  - `Non-Teaching Staff` (Admin & Support)
-- The `HRDashboardAnalytics.tsx` already includes:
-  - `Staff Composition` chart with categories: Teaching, Admin, Maintenance, Security.
-- The `EmployeeDirectory.tsx` supports various `Departments` (Science, Arts, Administration, Primary School, Technical, Medical).
+### Academic Management Module
+- [x] Created `src/components/academic/virtual-classroom/virtual-classroom-hub.tsx` as a dashboard for live sessions and integrations.
+- [x] Created `src/routes/academic/virtual-classroom.tsx` as the main route for virtual learning.
+- [x] Integrated "Virtual Classroom" as a tab within the main Academic Management dashboard (`src/routes/academic/index.tsx`).
+- [x] Added "Virtual Class & LMS" to the main navigation sidebar (`src/components/app-sidebar.tsx`).
+
+### Feature Highlights
+- **Live Session Management**: Teachers can schedule and start live video classes.
+- **Platform Integrations**: Built-in support for Zoom, Google Meet, and Microsoft Teams.
+- **CBT Integration**: Online examinations and live proctoring (already in `/cbt`).
+- **LMS Capabilities**: Digital schemes, syllabus distribution, and recorded class archives.
 
 ### Memory Update
-- [x] Created `mem://features/staff-categorization.md` to document this capability.
-- [x] Updated `mem://index.md` to reference the new memory.
+- [x] Created `mem://features/virtual-learning.md` to document virtual classroom support.
+- [x] Updated `mem://index.md` to reference the virtual learning memory.
 
 ## Verification Plan
 
-### Automated Tests
-- None required for this confirmation.
-
 ### Manual Verification
-- View the "Teacher Management" dashboard to see the "Teaching Staff" and "Non-Teaching Staff" KPI cards.
-- View the "HR & Payroll" dashboard to see the "Staff Composition" breakdown.
+- Navigate to "Academics" and click the "Virtual Classroom" tab.
+- Click "Open Virtual Learning Hub" to verify the dedicated dashboard.
+- Check the sidebar for the new "Virtual Class & LMS" entry.
+- Verify that the live session cards reflect the "Schoolgate Green" branding and responsive layout.

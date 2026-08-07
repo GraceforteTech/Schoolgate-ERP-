@@ -44,6 +44,7 @@ const mainNavItems = [
   { title: "Teachers", url: "/teachers", icon: GraduationCap },
 
   { title: "Academics", url: "/academic", icon: BookOpen },
+  { title: "Virtual Class & LMS", url: "/academic/virtual-classroom", icon: MonitorPlay },
   { title: "Class Information", url: "/academic/classes", icon: Users },
   { title: "Syllabus & Schemes", url: "/academic/syllabus", icon: FileText },
   { title: "Lesson Notes", url: "/academic/lesson-notes", icon: FileText },
