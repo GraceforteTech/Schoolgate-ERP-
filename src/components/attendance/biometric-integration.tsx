@@ -95,7 +95,7 @@ export function BiometricIntegration() {
                     <span className="text-xs font-bold text-slate-400 font-mono">{log.time}</span>
                     <span className="text-sm font-semibold text-slate-700">{log.event}</span>
                   </div>
-                  <Badge variant="ghost" className="text-[10px] text-slate-400 font-black uppercase">{log.device}</Badge>
+                  <Badge variant="outline" className="text-[10px] text-slate-400 font-black uppercase border-none"> {log.device}</Badge>
                 </div>
               ))}
             </div>
