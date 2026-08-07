@@ -170,6 +170,7 @@ function TimetableManagement() {
 function RecentActivities() {
   const activities = [
     { title: "Timetable Published", description: "JS3 Gold timetable published by Admin", time: "2 hours ago", type: "success" },
+    { title: "Conflict Overridden", description: "Admin overrode SS1 Math slot (Dr. Adebayo)", time: "3 hours ago", type: "warning" },
     { title: "Conflict Detected", description: "Teacher conflict in SS1 Science (Mrs. Okoro)", time: "5 hours ago", type: "error" },
     { title: "Draft Saved", description: "Primary 4 Blue draft saved by Mr. Yusuf", time: "1 day ago", type: "info" },
     { title: "AI Generation Complete", description: "Secondary school block generated", time: "2 days ago", type: "success" },
