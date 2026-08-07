@@ -509,14 +509,21 @@ function EnterpriseCommandCenter() {
   )
 }
 
-function HeaderMetadata({ icon: Icon, label, value }: any) {
+function HeaderMetadata({ icon: Icon, label, value, isClientOnly }: any) {
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   return (
     <div className="flex flex-col gap-1">
       <div className="flex items-center gap-2">
         <Icon size={14} className="text-slate-400" />
         <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">{label}</span>
       </div>
-      <p className="text-sm font-black text-slate-800 leading-none">{value}</p>
+      <p className="text-sm font-black text-slate-800 leading-none">
+        {isClientOnly && !isMounted ? "--:--" : value}
+      </p>
     </div>
   )
 }
