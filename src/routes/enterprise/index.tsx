@@ -40,7 +40,9 @@ import {
   Printer,
   ChevronRight,
   History,
-  AlertCircle
+  AlertCircle,
+  Cake,
+  Gift
 } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -194,6 +196,7 @@ function EnterpriseCommandCenter() {
         </CardHeader>
         <CardContent className="p-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+            <AlertItem label="Dr. Sarah Adebayo (Staff) birthday today!" isCelebration />
             <AlertItem label="35 Students with outstanding fees" />
             <AlertItem label="6 Teachers yet to submit lesson notes" />
             <AlertItem label="SS2 Mathematics scores incomplete" />
@@ -248,7 +251,7 @@ function EnterpriseCommandCenter() {
               <KPICard title="Salary Paid" value="₦7.8M" change="Last month" icon={Wallet} color="blue" />
               <KPICard title="Visitors Today" value="28" change="+4" icon={Users} color="indigo" />
               <KPICard title="Pending Approvals" value="4" change="High Priority" icon={CheckSquare} color="rose" />
-              <KPICard title="Upcoming Birthdays" value="8" change="Students" icon={Calendar} color="purple" />
+              <KPICard title="Upcoming Birthdays" value="8" change="Staff & Students" icon={Cake} color="purple" />
               <KPICard title="Overdue Books" value="15" change="Alert" icon={AlertCircle} color="rose" />
             </div>
           </section>
@@ -456,6 +459,29 @@ function EnterpriseCommandCenter() {
             </div>
           </Card>
 
+          {/* 7.5 Upcoming Celebrations (Birthdays) */}
+          <Card className="rounded-[14px] border-none shadow-sm bg-white p-6 overflow-hidden relative">
+            <div className="absolute top-0 right-0 p-4 opacity-5">
+              <Cake size={80} className="text-purple-600" />
+            </div>
+            <CardHeader className="p-0 mb-6 flex flex-row items-center justify-between relative z-10">
+              <CardTitle className="text-sm font-black text-slate-800 uppercase tracking-wider flex items-center gap-2">
+                <Cake className="text-purple-600" size={16} />
+                Upcoming Celebrations
+              </CardTitle>
+              <Badge className="bg-purple-50 text-purple-600 border-none font-black text-[10px] px-2">8 Birthdays</Badge>
+            </CardHeader>
+            <div className="space-y-2 relative z-10">
+               <BirthdayItem name="Dr. Sarah Adebayo" role="Staff (Physics)" date="Today" isToday />
+               <BirthdayItem name="Olawale Johnson" role="Student (SS 3)" date="Tomorrow" />
+               <BirthdayItem name="Mrs. Blessing Udoh" role="Staff (Admin)" date="Aug 10" />
+               <BirthdayItem name="Chidi Okafor" role="Student (JSS 2)" date="Aug 12" />
+               <Button variant="ghost" className="w-full h-8 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-purple-600 hover:bg-purple-50 rounded-lg mt-2">
+                 View All Celebrations <ChevronRight size={12} className="ml-1" />
+               </Button>
+            </div>
+          </Card>
+
           {/* 8. Visitors Today */}
           <Card className="rounded-[14px] border-none shadow-sm bg-white p-6">
             <CardHeader className="p-0 mb-4 flex flex-row items-center justify-between">
@@ -541,12 +567,24 @@ function KPICard({ title, value, change, trend, icon: Icon, color }: any) {
   )
 }
 
-function AlertItem({ label }: { label: string }) {
+function AlertItem({ label, isCelebration }: { label: string, isCelebration?: boolean }) {
   return (
-    <div className="flex items-center gap-2 p-2 rounded-xl bg-white/50 border border-rose-200/50 hover:bg-white transition-colors cursor-pointer">
-      <ShieldAlert size={14} className="text-rose-500 shrink-0" />
-      <span className="text-xs font-bold text-slate-700 truncate">{label}</span>
-      <ChevronRight size={14} className="text-slate-300 ml-auto" />
+    <div className={cn(
+      "flex items-center gap-2 p-2 rounded-xl border transition-colors cursor-pointer",
+      isCelebration 
+        ? "bg-purple-50 border-purple-200/50 hover:bg-purple-100/50" 
+        : "bg-white/50 border-rose-200/50 hover:bg-white"
+    )}>
+      {isCelebration ? (
+        <Cake size={14} className="text-purple-500 shrink-0" />
+      ) : (
+        <ShieldAlert size={14} className="text-rose-500 shrink-0" />
+      )}
+      <span className={cn(
+        "text-xs font-bold truncate",
+        isCelebration ? "text-purple-700" : "text-slate-700"
+      )}>{label}</span>
+      <ChevronRight size={14} className={cn("ml-auto", isCelebration ? "text-purple-300" : "text-slate-300")} />
     </div>
   )
 }
@@ -577,6 +615,32 @@ function QuickActionButton({ icon: Icon, label, onClick }: any) {
       </div>
       {label}
     </Button>
+  )
+}
+
+function BirthdayItem({ name, role, date, isToday }: any) {
+  return (
+    <div className={cn(
+      "flex items-center gap-3 p-2.5 rounded-xl transition-all cursor-pointer group border border-transparent hover:bg-slate-50",
+      isToday && "bg-purple-50 border-purple-100 hover:bg-purple-100/50"
+    )}>
+      <div className={cn(
+        "h-9 w-9 rounded-full flex items-center justify-center shrink-0 shadow-sm transition-transform group-hover:scale-110",
+        isToday ? "bg-white text-purple-600" : "bg-slate-100 text-slate-400 group-hover:text-purple-600 group-hover:bg-white"
+      )}>
+        {isToday ? <Cake size={16} /> : <Gift size={16} />}
+      </div>
+      <div className="flex-1 min-w-0">
+        <p className="text-[11px] font-black text-slate-900 truncate tracking-tight">{name}</p>
+        <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest leading-none mt-0.5">{role}</p>
+      </div>
+      <Badge variant="outline" className={cn(
+        "text-[8px] font-black border-slate-200 px-1.5 h-4",
+        isToday ? "bg-purple-600 text-white border-none shadow-sm shadow-purple-200" : "text-slate-400"
+      )}>
+        {date}
+      </Badge>
+    </div>
   )
 }
 
