@@ -15,8 +15,11 @@ import {
   TrendingUp,
   Clock,
   ShieldCheck,
-  Gift
+  Gift,
+  Gavel
 } from "lucide-react";
+import { LatenessRules } from "@/components/hr/payroll-mgmt/lateness-rules";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -76,52 +79,69 @@ function SalaryStructurePage() {
       <div className="px-6 mt-6 max-w-[1600px] mx-auto grid grid-cols-1 xl:grid-cols-3 gap-6">
         {/* Left: Grade List */}
         <div className="xl:col-span-2 space-y-6">
-          <Card className="border-none shadow-sm rounded-[14px]">
-            <CardHeader className="flex flex-row items-center justify-between border-b border-slate-100 pb-4">
-               <div>
-                  <CardTitle className="text-lg font-bold">Salary Grades</CardTitle>
-                  <CardDescription>Select a grade to edit its structure</CardDescription>
-               </div>
-               <div className="flex items-center gap-2">
-                  <Input placeholder="Search grades..." className="h-9 w-48 text-xs border-slate-200 rounded-lg" />
-                  <Button variant="outline" size="icon" className="h-9 w-9 rounded-lg">
-                     <Filter className="h-4 w-4" />
-                  </Button>
-               </div>
-            </CardHeader>
-            <CardContent className="p-0">
-               <Table>
-                  <TableHeader className="bg-slate-50/50">
-                    <TableRow className="hover:bg-transparent">
-                      <TableHead>Grade Name</TableHead>
-                      <TableHead>Basic Salary</TableHead>
-                      <TableHead>Gross Total</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead className="text-right">Actions</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {structures.map((str) => (
-                      <TableRow key={str.id} className="cursor-pointer hover:bg-slate-50/80 transition-colors border-b border-slate-100 last:border-0">
-                        <TableCell className="font-bold text-slate-900 py-4">{str.name}</TableCell>
-                        <TableCell className="text-slate-600 font-medium">{str.basic}</TableCell>
-                        <TableCell className="text-schoolgate-green font-extrabold">{str.total}</TableCell>
-                        <TableCell>
-                          <Badge className="bg-green-50 text-green-700 border-green-200 rounded-full font-bold text-[10px]">Active</Badge>
-                        </TableCell>
-                        <TableCell className="text-right">
-                          <div className="flex items-center justify-end gap-1">
-                             <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-400 hover:text-schoolgate-green"><Edit className="h-4 w-4" /></Button>
-                             <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-400 hover:text-blue-500"><Copy className="h-4 w-4" /></Button>
-                             <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-400 hover:text-red-500"><Trash className="h-4 w-4" /></Button>
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-               </Table>
-            </CardContent>
-          </Card>
+          <Tabs defaultValue="grades" className="w-full">
+            <TabsList className="bg-white border border-slate-100 rounded-xl p-1 shadow-sm h-12 mb-6">
+              <TabsTrigger value="grades" className="px-6 rounded-lg text-xs font-bold uppercase tracking-wider data-[state=active]:bg-schoolgate-green data-[state=active]:text-white h-full">
+                Salary Grades
+              </TabsTrigger>
+              <TabsTrigger value="lateness" className="px-6 rounded-lg text-xs font-bold uppercase tracking-wider data-[state=active]:bg-schoolgate-green data-[state=active]:text-white h-full">
+                <Gavel className="h-3 w-3 mr-2" /> Lateness Rules
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="grades">
+              <Card className="border-none shadow-sm rounded-[14px]">
+                <CardHeader className="flex flex-row items-center justify-between border-b border-slate-100 pb-4">
+                   <div>
+                      <CardTitle className="text-lg font-bold">Salary Grades</CardTitle>
+                      <CardDescription>Select a grade to edit its structure</CardDescription>
+                   </div>
+                   <div className="flex items-center gap-2">
+                      <Input placeholder="Search grades..." className="h-9 w-48 text-xs border-slate-200 rounded-lg" />
+                      <Button variant="outline" size="icon" className="h-9 w-9 rounded-lg">
+                         <Filter className="h-4 w-4" />
+                      </Button>
+                   </div>
+                </CardHeader>
+                <CardContent className="p-0">
+                   <Table>
+                      <TableHeader className="bg-slate-50/50">
+                        <TableRow className="hover:bg-transparent">
+                          <TableHead>Grade Name</TableHead>
+                          <TableHead>Basic Salary</TableHead>
+                          <TableHead>Gross Total</TableHead>
+                          <TableHead>Status</TableHead>
+                          <TableHead className="text-right">Actions</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {structures.map((str) => (
+                          <TableRow key={str.id} className="cursor-pointer hover:bg-slate-50/80 transition-colors border-b border-slate-100 last:border-0">
+                            <TableCell className="font-bold text-slate-900 py-4">{str.name}</TableCell>
+                            <TableCell className="text-slate-600 font-medium">{str.basic}</TableCell>
+                            <TableCell className="text-schoolgate-green font-extrabold">{str.total}</TableCell>
+                            <TableCell>
+                              <Badge className="bg-green-50 text-green-700 border-green-200 rounded-full font-bold text-[10px]">Active</Badge>
+                            </TableCell>
+                            <TableCell className="text-right">
+                              <div className="flex items-center justify-end gap-1">
+                                 <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-400 hover:text-schoolgate-green"><Edit className="h-4 w-4" /></Button>
+                                 <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-400 hover:text-blue-500"><Copy className="h-4 w-4" /></Button>
+                                 <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-400 hover:text-red-500"><Trash className="h-4 w-4" /></Button>
+                              </div>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                   </Table>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="lateness">
+              <LatenessRules />
+            </TabsContent>
+          </Tabs>
         </div>
 
         {/* Right: Structure Editor (Live Preview of selected grade) */}
