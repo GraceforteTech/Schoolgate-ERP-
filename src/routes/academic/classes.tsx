@@ -15,6 +15,8 @@ import {
   PieChart
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { useState } from "react";
+import { PlaceholderForm } from "@/components/ui/placeholder-form";
 
 export const Route = createFileRoute("/academic/classes")({
   component: ClassInformationPage,
