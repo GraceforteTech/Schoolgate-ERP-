@@ -40,7 +40,7 @@ export function QuickActions() {
       {actions.map((action, i) => (
         <Button
           key={i}
-          variant={action.variant === "default" ? "default" : "outline"}
+          variant={action.variant as "default" | "outline"}
           onClick={action.onClick}
           asChild={!action.onClick}
           className={`h-auto py-4 px-4 flex flex-col items-center gap-2 rounded-[14px] transition-all hover:shadow-md ${
