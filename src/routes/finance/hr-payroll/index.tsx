@@ -9,6 +9,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { RecruitmentHub } from "@/components/hr/recruitment/recruitment-hub";
 import { AwardsPromotions } from "@/components/hr/performance/awards-promotions";
 import { LeaveManagementSystem } from "@/components/hr/leave/leave-management-system";
+import { PlaceholderForm } from "@/components/ui/placeholder-form";
+import { useState } from "react";
 
 export const Route = createFileRoute("/finance/hr-payroll/")({
   component: HRPayrollDashboard,
