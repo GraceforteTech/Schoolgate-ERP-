@@ -458,6 +458,29 @@ function EnterpriseCommandCenter() {
             </div>
           </Card>
 
+          {/* 7.5 Upcoming Celebrations (Birthdays) */}
+          <Card className="rounded-[14px] border-none shadow-sm bg-white p-6 overflow-hidden relative">
+            <div className="absolute top-0 right-0 p-4 opacity-5">
+              <Cake size={80} className="text-purple-600" />
+            </div>
+            <CardHeader className="p-0 mb-6 flex flex-row items-center justify-between relative z-10">
+              <CardTitle className="text-sm font-black text-slate-800 uppercase tracking-wider flex items-center gap-2">
+                <Cake className="text-purple-600" size={16} />
+                Upcoming Celebrations
+              </CardTitle>
+              <Badge className="bg-purple-50 text-purple-600 border-none font-black text-[10px] px-2">8 Birthdays</Badge>
+            </CardHeader>
+            <div className="space-y-2 relative z-10">
+               <BirthdayItem name="Dr. Sarah Adebayo" role="Staff (Physics)" date="Today" isToday />
+               <BirthdayItem name="Olawale Johnson" role="Student (SS 3)" date="Tomorrow" />
+               <BirthdayItem name="Mrs. Blessing Udoh" role="Staff (Admin)" date="Aug 10" />
+               <BirthdayItem name="Chidi Okafor" role="Student (JSS 2)" date="Aug 12" />
+               <Button variant="ghost" className="w-full h-8 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-purple-600 hover:bg-purple-50 rounded-lg mt-2">
+                 View All Celebrations <ChevronRight size={12} className="ml-1" />
+               </Button>
+            </div>
+          </Card>
+
           {/* 8. Visitors Today */}
           <Card className="rounded-[14px] border-none shadow-sm bg-white p-6">
             <CardHeader className="p-0 mb-4 flex flex-row items-center justify-between">
