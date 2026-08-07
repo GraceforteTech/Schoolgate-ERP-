@@ -52,6 +52,7 @@ export const Route = createFileRoute("/fee-types")({
 
 function FeeTypesPage() {
   const [importDialogOpen, setImportDialogOpen] = useState(false);
+  const [isNewFeeTypeOpen, setIsNewFeeTypeOpen] = useState(false);
 
   return (
     <SidebarProvider>
