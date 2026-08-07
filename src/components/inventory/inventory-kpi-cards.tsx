@@ -45,13 +45,33 @@ export function InventoryKpiCards() {
       tooltip: "Number of active inventory categories."
     },
     {
-      label: "Inventory Value",
-      value: "₦24.5M",
-      change: "+12.4%",
+      label: "Total Sales",
+      value: "₦8.45M",
+      change: "+15.2%",
       isPositive: true,
       icon: Banknote,
       color: "text-emerald-600",
       bgColor: "bg-emerald-50",
+      tooltip: "Total revenue generated from item sales."
+    },
+    {
+      label: "Net Profit",
+      value: "₦2.85M",
+      change: "+8.4%",
+      isPositive: true,
+      icon: Banknote,
+      color: "text-schoolgate-green",
+      bgColor: "bg-schoolgate-green-light",
+      tooltip: "Total profit after deducting unit costs from sales."
+    },
+    {
+      label: "Inventory Value",
+      value: "₦24.5M",
+      change: "+12.4%",
+      isPositive: true,
+      icon: Layers,
+      color: "text-blue-600",
+      bgColor: "bg-blue-50",
       tooltip: "Total financial valuation of current stock."
     },
     {

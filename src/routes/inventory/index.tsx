@@ -27,6 +27,7 @@ import { CategoryGrid } from "@/components/inventory/items/category-grid";
 import { SupplierDirectory } from "@/components/inventory/suppliers/supplier-directory";
 import { InventorySearchCenter } from "@/components/inventory/items/inventory-search-center";
 import { DailySalesLog } from "@/components/inventory/sales/daily-sales-log";
+import { ItemAccountSummary } from "@/components/inventory/items/item-account-summary";
 
 export const Route = createFileRoute("/inventory/")({
   head: () => ({
@@ -121,7 +122,7 @@ function InventoryManagementPage() {
               Suppliers
             </TabsTrigger>
             <TabsTrigger value="valuation" className="data-[state=active]:bg-schoolgate-green-light data-[state=active]:text-schoolgate-green font-bold text-xs px-6 py-2 flex-1">
-              Valuation
+              Item Accounts
             </TabsTrigger>
           </TabsList>
         </div>
@@ -185,18 +186,8 @@ function InventoryManagementPage() {
            <SupplierDirectory />
         </TabsContent>
 
-        <TabsContent value="valuation">
-           <Card className="p-12 text-center bg-white border-none shadow-sm rounded-[20px]">
-             <div className="h-20 w-20 bg-indigo-50 rounded-2xl grid place-items-center text-indigo-600 mx-auto mb-6">
-               <LayoutGrid className="h-10 w-10" />
-             </div>
-             <h3 className="text-xl font-bold text-slate-900">Inventory Valuation Report</h3>
-             <p className="text-slate-500 mt-2 max-w-md mx-auto">Analyze stock value using FIFO, LIFO, or Weighted Average Cost methods for accurate financial reporting.</p>
-             <div className="flex justify-center gap-4 mt-8">
-                <Button className="bg-schoolgate-green text-white font-bold px-8 rounded-xl h-11">Generate Valuation</Button>
-                <Button variant="outline" className="border-slate-200 rounded-xl h-11 font-bold">Export PDF</Button>
-             </div>
-           </Card>
+        <TabsContent value="valuation" className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+           <ItemAccountSummary />
         </TabsContent>
       </Tabs>
 
