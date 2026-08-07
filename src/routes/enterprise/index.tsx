@@ -567,12 +567,24 @@ function KPICard({ title, value, change, trend, icon: Icon, color }: any) {
   )
 }
 
-function AlertItem({ label }: { label: string }) {
+function AlertItem({ label, isCelebration }: { label: string, isCelebration?: boolean }) {
   return (
-    <div className="flex items-center gap-2 p-2 rounded-xl bg-white/50 border border-rose-200/50 hover:bg-white transition-colors cursor-pointer">
-      <ShieldAlert size={14} className="text-rose-500 shrink-0" />
-      <span className="text-xs font-bold text-slate-700 truncate">{label}</span>
-      <ChevronRight size={14} className="text-slate-300 ml-auto" />
+    <div className={cn(
+      "flex items-center gap-2 p-2 rounded-xl border transition-colors cursor-pointer",
+      isCelebration 
+        ? "bg-purple-50 border-purple-200/50 hover:bg-purple-100/50" 
+        : "bg-white/50 border-rose-200/50 hover:bg-white"
+    )}>
+      {isCelebration ? (
+        <Cake size={14} className="text-purple-500 shrink-0" />
+      ) : (
+        <ShieldAlert size={14} className="text-rose-500 shrink-0" />
+      )}
+      <span className={cn(
+        "text-xs font-bold truncate",
+        isCelebration ? "text-purple-700" : "text-slate-700"
+      )}>{label}</span>
+      <ChevronRight size={14} className={cn("ml-auto", isCelebration ? "text-purple-300" : "text-slate-300")} />
     </div>
   )
 }
