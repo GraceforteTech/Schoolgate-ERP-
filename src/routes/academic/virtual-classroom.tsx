@@ -87,22 +87,7 @@ function VirtualClassroomPage() {
         </TabsContent>
 
         <TabsContent value="schedule">
-          <div className="bg-white p-6 rounded-[14px] shadow-sm border border-slate-100">
-             <h3 className="text-lg font-bold text-slate-800 mb-6">Online Class Calendar</h3>
-             <div className="grid grid-cols-7 gap-4">
-               {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(day => (
-                 <div key={day} className="text-center font-bold text-[10px] text-slate-400 uppercase tracking-widest py-2 border-b border-slate-50">{day}</div>
-               ))}
-               {Array.from({ length: 31 }).map((_, i) => (
-                 <div key={i} className="h-24 bg-slate-50/50 rounded-xl p-2 border border-slate-100/50 hover:bg-white hover:border-schoolgate-green/30 transition-all cursor-pointer">
-                    <span className="text-xs font-bold text-slate-400">{i + 1}</span>
-                    {i === 6 && (
-                      <div className="mt-1 p-1 bg-red-100 text-[8px] font-bold text-red-600 rounded uppercase">Live: Math</div>
-                    )}
-                 </div>
-               ))}
-             </div>
-          </div>
+          <OnlineClassScheduler />
         </TabsContent>
       </Tabs>
     </div>
