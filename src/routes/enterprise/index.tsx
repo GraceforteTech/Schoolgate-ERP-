@@ -168,8 +168,8 @@ function EnterpriseCommandCenter() {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 xl:gap-8 items-center">
-          <HeaderMetadata icon={Calendar} label="Date" value={time.toLocaleDateString()} />
-          <HeaderMetadata icon={Clock} label="Time" value={time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} />
+          <HeaderMetadata icon={Calendar} label="Date" value={new Date().toLocaleDateString()} />
+          <HeaderMetadata icon={Clock} label="Time" value={new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} isClientOnly />
           <HeaderMetadata icon={ShieldCheck} label="Session" value="2023/2024" />
           <HeaderMetadata icon={Target} label="Term" value="Second Term" />
           <HeaderMetadata icon={Cloud} label="Weather" value="28°C Sunny" />
@@ -509,14 +509,21 @@ function EnterpriseCommandCenter() {
   )
 }
 
-function HeaderMetadata({ icon: Icon, label, value }: any) {
+function HeaderMetadata({ icon: Icon, label, value, isClientOnly }: any) {
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   return (
     <div className="flex flex-col gap-1">
       <div className="flex items-center gap-2">
         <Icon size={14} className="text-slate-400" />
         <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">{label}</span>
       </div>
-      <p className="text-sm font-black text-slate-800 leading-none">{value}</p>
+      <p className="text-sm font-black text-slate-800 leading-none">
+        {isClientOnly && !isMounted ? "--:--" : value}
+      </p>
     </div>
   )
 }
