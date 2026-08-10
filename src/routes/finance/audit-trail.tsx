@@ -52,6 +52,8 @@ function AuditTrailPage() {
   const navigate = useNavigate({ from: Route.fullPath });
   const filters = Route.useSearch();
   const fetchLogs = useServerFn(getAuditLogs);
+  const triggerExport = useServerFn(exportAuditLogs);
+  const [isExporting, setIsExporting] = useState(false);
 
   const { data, isLoading } = useQuery({
     queryKey: ['finance-audit-logs', filters],
