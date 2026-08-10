@@ -21,7 +21,7 @@ export const getAlumniDashboardMetrics = createServerFn({ method: "GET" })
   });
 
 export const getAlumniDirectory = createServerFn({ method: "GET" })
-  .inputValidator((data) => z.object({
+  .validator((data) => z.object({
     query: z.string().optional(),
     year: z.string().optional(),
     industry: z.string().optional(),

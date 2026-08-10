@@ -1,9 +1,10 @@
 import { createServerFn } from "@tanstack/react-start";
-import { supabaseAdmin } from "@/integrations/supabase/client.server";
 
 export const checkTableExists = createServerFn({ method: "GET" })
   .handler(async () => {
-    const { data, error } = await (supabaseAdmin
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    
+    const { error } = await (supabaseAdmin
       .from('report_pins' as any) as any)
       .select('count', { count: 'exact', head: true });
     
