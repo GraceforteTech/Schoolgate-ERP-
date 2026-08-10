@@ -30,11 +30,16 @@ export const getFeeTypesRegistry = createServerFn({ method: "GET" })
     if (feeTypesError) throw new Error(feeTypesError.message);
 
     // 2. Fetch Aggregated Assignment Stats for these Fee Types
-    // We want to know how many students are assigned to each fee type and total expected revenue
-    const { data: feeStats, error: statsError } = await supabaseAdmin
+    let statsQuery = supabaseAdmin
       .from('student_fees')
       .select('fee_type_id, student_id, amount_due')
       .eq('tenant_id', data.tenantId);
+    
+    if (data.filters?.session) statsQuery = statsQuery.eq('academic_session', data.filters.session);
+    if (data.filters?.term) statsQuery = statsQuery.eq('term', data.filters.term);
+
+    const { data: feeStats, error: statsError } = await statsQuery;
+
 
     if (statsError) throw new Error(statsError.message);
 
