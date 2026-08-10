@@ -116,14 +116,13 @@ export function StudentDirectory({ forcedStatus }: { forcedStatus?: string }) {
 
   const { data: students = [], isLoading } = useQuery({
     queryKey: ["students", { search, status: forcedStatus }],
-    queryFn: () => fetchStudents({
-      data: {
-        tenantId: "1c2069b2-3e2b-4d56-a36c-2f2222222222",
-        search,
-        status: forcedStatus || undefined
+    queryFn: () => {
+      const payload: any = { tenantId: "1c2069b2-3e2b-4d56-a36c-2f2222222222" };
+      if (search) payload.search = search;
+      if (forcedStatus) payload.status = forcedStatus;
+      return fetchStudents({ data: payload });
+    }
 
-      }
-    })
   });
 
   const toggleAll = () => {
