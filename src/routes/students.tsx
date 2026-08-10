@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 import { 
   Users, 
   Search, 
@@ -16,12 +17,14 @@ import { ExecutiveKpiCards } from "@/components/students/executive-kpi-cards";
 import { StudentDirectory } from "@/components/students/student-directory";
 import { Student360Profile } from "@/components/students/student-360-profile";
 import { StudentAnalytics } from "@/components/students/student-analytics";
+import { PlaceholderForm } from "@/components/ui/placeholder-form";
 
 export const Route = createFileRoute("/students")({
   component: StudentInformationPage,
 });
 
 function StudentInformationPage() {
+  const [isEnrollFormOpen, setIsEnrollFormOpen] = useState(false);
   return (
     <div className="min-h-screen bg-[#F5F7FA] p-4 lg:p-8 space-y-8 pb-20">
       {/* Header Section */}
@@ -89,7 +92,10 @@ function StudentInformationPage() {
                 <div className="relative z-10">
                   <h3 className="font-bold text-lg">Enrol New Student</h3>
                   <p className="text-xs text-white/80 mt-1 mb-4">Add a new student to the school register.</p>
-                  <Button className="w-full bg-white text-schoolgate-green hover:bg-slate-50 font-bold rounded-lg h-10 group">
+                  <Button 
+                    className="w-full bg-white text-schoolgate-green hover:bg-slate-50 font-bold rounded-lg h-10 group"
+                    onClick={() => setIsEnrollFormOpen(true)}
+                  >
                     Get Started <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </div>
@@ -150,6 +156,14 @@ function StudentInformationPage() {
           </div>
         </TabsContent>
       </Tabs>
+
+      <PlaceholderForm 
+        open={isEnrollFormOpen}
+        onOpenChange={setIsEnrollFormOpen}
+        title="Enrol New Student"
+        description="Add a new student to the school register."
+        icon={UserPlus}
+      />
     </div>
   );
 }
