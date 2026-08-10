@@ -9,6 +9,7 @@ import { ResultAnalytics } from "@/components/finance/results/result-analytics";
 import { TranscriptManagement } from "@/components/finance/results/transcript-management";
 import { AcademicDashboard } from "@/components/finance/results/academic-dashboard";
 import { ExecutiveAcademicDashboard } from "@/components/finance/results/executive-examination-dashboard";
+import { PinManagementSystem } from "@/components/finance/results/pin-management/pin-table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Download, LayoutDashboard, FileText, Settings, ClipboardList, CheckCircle2, BarChart3, GraduationCap, ShieldCheck } from "lucide-react";
@@ -135,18 +136,7 @@ function ResultManagementPage() {
         </TabsContent>
 
         <TabsContent value="pins" className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-          <div className="bg-white p-12 rounded-3xl border border-dashed border-slate-200 text-center space-y-4">
-             <div className="h-16 w-16 bg-schoolgate-green-light rounded-2xl flex items-center justify-center text-schoolgate-green mx-auto">
-                <ShieldCheck size={32} />
-             </div>
-             <div className="space-y-2">
-                <h3 className="text-xl font-black text-slate-800 tracking-tight">Report Access PIN System</h3>
-                <p className="text-slate-500 max-w-md mx-auto text-sm font-medium">Generate and manage secure 6-digit PINs for students to access their terminal report cards.</p>
-             </div>
-             <Button className="bg-schoolgate-green hover:bg-schoolgate-green/90 rounded-xl px-8 h-12 font-bold shadow-lg shadow-schoolgate-green/20">
-                Generate PINs for Class
-             </Button>
-          </div>
+          <PinManagementSystem />
         </TabsContent>
       </Tabs>
     </div>
