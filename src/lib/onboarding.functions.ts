@@ -160,6 +160,26 @@ export const getExecutiveDashboardStats = createServerFn({ method: "GET" })
 
     const collectionRate = totalFeesBilled > 0 ? (approvedCollections / totalFeesBilled) * 100 : 0;
 
+    // 7. Operations Breakdowns (Added for charts)
+    // Fees by class
+    const { data: feesByClass } = await supabaseAdmin
+      .from('student_fees')
+      .select('class_id, amount_paid')
+      .eq('tenant_id', data.tenantId);
+    
+    const classTotals: Record<string, number> = {};
+    feesByClass?.forEach((f: any) => {
+      const cls = f.class_id || 'Unknown';
+      classTotals[cls] = (classTotals[cls] || 0) + Number(f.amount_paid || 0);
+    });
+
+    // Daily trends (last 7 days)
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+    const dailyData = transactions?.filter((t: any) => new Date(t.created_at) >= sevenDaysAgo) || [];
+    
+    // Visitor placeholders (since no table exists yet, keeping these as calculated constants or empty)
+    
     return {
       totalStudents: totalStudents || 0,
       totalClasses: totalClasses || 0,
@@ -179,6 +199,7 @@ export const getExecutiveDashboardStats = createServerFn({ method: "GET" })
       totalExpenses,
       approvedExpenses,
       netPosition: approvedCollections - approvedExpenses,
+      classRevenueBreakdown: Object.entries(classTotals).map(([name, value]) => ({ name, value })),
       lastRefresh: new Date().toISOString()
     };
   });

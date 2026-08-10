@@ -334,12 +334,12 @@ function EnterpriseCommandCenter() {
                 </CardHeader>
                 <div className="h-[300px]">
                   <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={ENROLLMENT_TREND}>
+                    <BarChart data={stats?.classRevenueBreakdown && stats.classRevenueBreakdown.length > 0 ? stats.classRevenueBreakdown : ENROLLMENT_TREND}>
                       <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
                       <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 10, fontWeight: 700}} />
                       <YAxis axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 10, fontWeight: 700}} />
                       <Tooltip contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }} />
-                      <Bar dataKey="students" fill="#3b82f6" radius={[6, 6, 0, 0]} barSize={40} />
+                      <Bar dataKey={stats?.classRevenueBreakdown ? "value" : "students"} fill="#3b82f6" radius={[6, 6, 0, 0]} barSize={40} />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
