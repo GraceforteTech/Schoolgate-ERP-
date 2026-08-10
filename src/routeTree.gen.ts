@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as FeeTypesRouteImport } from './routes/fee-types'
 import { Route as FeeTypesOverviewRouteImport } from './routes/fee-types-overview'
+import { Route as LandingRouteImport } from './routes/landing'
 import { Route as StudentsRouteImport } from './routes/students'
 import { Route as AcademicIndexRouteImport } from './routes/academic/index'
 import { Route as AcademicClassesRouteImport } from './routes/academic/classes'
@@ -73,6 +74,11 @@ const FeeTypesRoute = FeeTypesRouteImport.update({
 const FeeTypesOverviewRoute = FeeTypesOverviewRouteImport.update({
   id: '/fee-types-overview',
   path: '/fee-types-overview',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LandingRoute = LandingRouteImport.update({
+  id: '/landing',
+  path: '/landing',
   getParentRoute: () => rootRouteImport,
 } as any)
 const StudentsRoute = StudentsRouteImport.update({
@@ -329,6 +335,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/fee-types': typeof FeeTypesRoute
   '/fee-types-overview': typeof FeeTypesOverviewRoute
+  '/landing': typeof LandingRoute
   '/students': typeof StudentsRoute
   '/academic/classes': typeof AcademicClassesRoute
   '/academic/lesson-notes': typeof AcademicLessonNotesRoute
@@ -381,6 +388,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/fee-types': typeof FeeTypesRoute
   '/fee-types-overview': typeof FeeTypesOverviewRoute
+  '/landing': typeof LandingRoute
   '/students': typeof StudentsRoute
   '/academic/classes': typeof AcademicClassesRoute
   '/academic/lesson-notes': typeof AcademicLessonNotesRoute
@@ -434,6 +442,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/fee-types': typeof FeeTypesRoute
   '/fee-types-overview': typeof FeeTypesOverviewRoute
+  '/landing': typeof LandingRoute
   '/students': typeof StudentsRoute
   '/academic/classes': typeof AcademicClassesRoute
   '/academic/lesson-notes': typeof AcademicLessonNotesRoute
@@ -488,6 +497,7 @@ export interface FileRouteTypes {
     | '/'
     | '/fee-types'
     | '/fee-types-overview'
+    | '/landing'
     | '/students'
     | '/academic/classes'
     | '/academic/lesson-notes'
@@ -540,6 +550,7 @@ export interface FileRouteTypes {
     | '/'
     | '/fee-types'
     | '/fee-types-overview'
+    | '/landing'
     | '/students'
     | '/academic/classes'
     | '/academic/lesson-notes'
@@ -592,6 +603,7 @@ export interface FileRouteTypes {
     | '/'
     | '/fee-types'
     | '/fee-types-overview'
+    | '/landing'
     | '/students'
     | '/academic/classes'
     | '/academic/lesson-notes'
@@ -645,6 +657,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   FeeTypesRoute: typeof FeeTypesRoute
   FeeTypesOverviewRoute: typeof FeeTypesOverviewRoute
+  LandingRoute: typeof LandingRoute
   StudentsRoute: typeof StudentsRoute
   AcademicClassesRoute: typeof AcademicClassesRoute
   AcademicLessonNotesRoute: typeof AcademicLessonNotesRoute
@@ -715,6 +728,13 @@ declare module '@tanstack/react-router' {
       path: '/fee-types-overview'
       fullPath: '/fee-types-overview'
       preLoaderRoute: typeof FeeTypesOverviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/landing': {
+      id: '/landing'
+      path: '/landing'
+      fullPath: '/landing'
+      preLoaderRoute: typeof LandingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/students': {
@@ -1053,6 +1073,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   FeeTypesRoute: FeeTypesRoute,
   FeeTypesOverviewRoute: FeeTypesOverviewRoute,
+  LandingRoute: LandingRoute,
   StudentsRoute: StudentsRoute,
   AcademicClassesRoute: AcademicClassesRoute,
   AcademicLessonNotesRoute: AcademicLessonNotesRoute,
