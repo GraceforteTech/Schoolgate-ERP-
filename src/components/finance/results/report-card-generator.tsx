@@ -1,11 +1,77 @@
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { Eye, Printer, Download, Send, Share2, Mail, QrCode, User, BookOpen, GraduationCap, Calendar, BarChart3, Info } from "lucide-react";
+import { Eye, Printer, Download, Send, Share2, Mail, QrCode, User, BookOpen, GraduationCap, Calendar, BarChart3, Info, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { useTenant } from "@/hooks/use-tenant";
+import { supabase } from "@/integrations/supabase/client";
+import { getStudentResultDrillDown } from "@/lib/results.functions";
+import { useServerFn } from "@tanstack/react-start";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export function ReportCardGenerator() {
-  return (
+  const { tenantId } = useTenant();
+  const [selectedClass, setSelectedClass] = useState<string | null>(null);
+  const [session, setSession] = useState("2023/2024");
+  const [term, setTerm] = useState("Second Term");
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const getDrillDown = useServerFn(getStudentResultDrillDown);
+
+  // 1. Fetch classes for the dropdown
+  const { data: classes } = useQuery({
+    queryKey: ['classes-for-reports', tenantId],
+    queryFn: async () => {
+      const { data, error } = await supabase.from('campuses').select('id, name').eq('tenant_id', tenantId!);
+      if (error) throw error;
+      return data;
+    },
+    enabled: !!tenantId
+  });
+
+  // 2. Fetch students in the selected class
+  const { data: students, isLoading: loadingStudents } = useQuery({
+    queryKey: ['students-for-reports', tenantId, selectedClass],
+    queryFn: async () => {
+      const { data, error } = await supabase.from('students')
+        .select('id, full_name, admission_number')
+        .eq('tenant_id', tenantId!)
+        .eq('class_id', selectedClass!);
+      if (error) throw error;
+      return data;
+    },
+    enabled: !!tenantId && !!selectedClass
+  });
+
+  const currentStudent = students?.[currentIndex];
+
+  // 3. Fetch detailed results for the current student
+  const { data: reportData, isLoading: loadingReport } = useQuery({
+    queryKey: ['student-report-detail', tenantId, currentStudent?.id, session, term],
+    queryFn: () => getDrillDown({
+      data: {
+        tenantId: tenantId!,
+        studentId: currentStudent!.id,
+        session,
+        term
+      }
+    }),
+    enabled: !!tenantId && !!currentStudent
+  });
+
+  const nextStudent = () => {
+    if (students && currentIndex < students.length - 1) {
+      setCurrentIndex(prev => prev + 1);
+    }
+  };
+
+  const prevStudent = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex(prev => prev - 1);
+    }
+  };
+
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
       {/* Control Panel */}
       <div className="lg:col-span-4 space-y-6">
