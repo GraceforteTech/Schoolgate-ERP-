@@ -54,13 +54,32 @@ type SortDirection = "asc" | "desc";
 const naira = (value: number) =>
   `₦${value.toLocaleString("en-NG", { maximumFractionDigits: 0 })}`;
 
-export function FeeTypesTable({ data = [] }: { data?: any[] }) {
+export function FeeTypesTable({ 
+  data = [], 
+  selected = [], 
+  onSelectionChange 
+}: { 
+  data?: any[]; 
+  selected?: string[];
+  onSelectionChange?: (ids: string[]) => void;
+}) {
+
   const queryClient = useQueryClient();
   const updateStatus = useServerFn(updateFeeTypeStatus);
 
   const [sortKey, setSortKey] = useState<SortKey>("name");
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
-  const [selected, setSelected] = useState<string[]>([]);
+
+  const toggleAll = (checked: boolean) => {
+    const newSelection = checked ? rows.map((r) => r.id) : [];
+    onSelectionChange?.(newSelection);
+  };
+
+  const toggleRow = (id: string, checked: boolean) => {
+    const newSelection = checked ? [...selected, id] : selected.filter((v) => v !== id);
+    onSelectionChange?.(newSelection);
+  };
+
 
   const rows = useMemo(() => {
     const factor = sortDirection === "asc" ? 1 : -1;
@@ -108,11 +127,6 @@ export function FeeTypesTable({ data = [] }: { data?: any[] }) {
 
   const allSelected = selected.length === rows.length && rows.length > 0;
 
-  const toggleAll = (checked: boolean) =>
-    setSelected(checked ? rows.map((r) => r.id) : []);
-
-  const toggleRow = (id: string, checked: boolean) =>
-    setSelected((prev) => (checked ? [...prev, id] : prev.filter((v) => v !== id)));
 
   const SortButton = ({ label, sortValue }: { label: string; sortValue: SortKey }) => {
     const active = sortKey === sortValue;
