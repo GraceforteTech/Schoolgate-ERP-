@@ -207,34 +207,63 @@ function AuditTrailPage() {
                   </div>
                </div>
 
+               {newAuditToast && (
+                 <div className="bg-schoolgate-green/10 border border-schoolgate-green/20 p-4 rounded-2xl flex items-center justify-between animate-in fade-in slide-in-from-top-4">
+                   <div className="flex items-center gap-3">
+                     <Clock className="text-schoolgate-green" size={18} />
+                     <p className="text-sm font-bold text-schoolgate-green">New audit activity detected</p>
+                   </div>
+                   <Button 
+                    size="sm" 
+                    className="bg-schoolgate-green hover:bg-schoolgate-green/90 text-white font-bold h-8 rounded-lg"
+                    onClick={() => {
+                      queryClient.invalidateQueries({ queryKey: ['finance-audit-logs'] });
+                      setNewAuditToast(false);
+                    }}
+                   >
+                     Show new activity
+                   </Button>
+                 </div>
+               )}
+
                <Card className="rounded-[20px] border-none shadow-sm bg-white overflow-hidden">
                   <CardHeader className="p-4 bg-slate-50/50 border-b">
-                     <div className="flex flex-wrap items-center gap-3">
-                        <div className="relative">
-                           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
-                           <Input 
-                             placeholder="Search description, user..." 
-                             className="h-10 w-64 pl-10 rounded-xl border-slate-200 text-xs font-medium"
-                             defaultValue={filters.searchTerm || ""}
-                             onKeyDown={(e) => {
-                               if (e.key === 'Enter') {
-                                 handleSearch(e.currentTarget.value);
-                               }
-                             }}
-                           />
+                     <div className="flex flex-wrap items-center justify-between gap-3">
+                        <div className="flex flex-wrap items-center gap-3">
+                          <div className="relative">
+                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
+                             <Input 
+                               placeholder="Search description, user..." 
+                               className="h-10 w-64 pl-10 rounded-xl border-slate-200 text-xs font-medium"
+                               defaultValue={filters.searchTerm || ""}
+                               onKeyDown={(e) => {
+                                 if (e.key === 'Enter') {
+                                   handleSearch(e.currentTarget.value);
+                                 }
+                               }}
+                             />
+                          </div>
+                          <Button variant="outline" className="h-10 rounded-xl border-slate-200 gap-2 text-xs font-bold px-4">
+                             <Filter size={14} /> Filters
+                          </Button>
+                          <Button variant="outline" className="h-10 rounded-xl border-slate-200 gap-2 text-xs font-bold px-4">
+                             <Calendar size={14} /> Date Range
+                          </Button>
+                          <Button 
+                            variant="ghost" 
+                            className="h-10 rounded-xl text-xs font-bold px-4 text-slate-400"
+                            onClick={() => navigate({ search: {} })}
+                          >
+                            Reset
+                          </Button>
                         </div>
-                        <Button variant="outline" className="h-10 rounded-xl border-slate-200 gap-2 text-xs font-bold px-4">
-                           <Filter size={14} /> Filters
-                        </Button>
-                        <Button variant="outline" className="h-10 rounded-xl border-slate-200 gap-2 text-xs font-bold px-4">
-                           <Calendar size={14} /> Date Range
-                        </Button>
+                        
                         <Button 
-                          variant="ghost" 
-                          className="h-10 rounded-xl text-xs font-bold px-4 text-slate-400"
-                          onClick={() => navigate({ search: {} })}
+                          onClick={() => setShowSaveDialog(true)}
+                          variant="outline" 
+                          className="h-10 rounded-xl border-schoolgate-green/20 bg-schoolgate-green/5 text-schoolgate-green gap-2 text-xs font-bold px-4 hover:bg-schoolgate-green/10"
                         >
-                          Reset
+                          <ClipboardList size={14} /> Save Filter
                         </Button>
                      </div>
                   </CardHeader>

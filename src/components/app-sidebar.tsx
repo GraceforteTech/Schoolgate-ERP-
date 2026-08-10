@@ -187,24 +187,33 @@ export function AppSidebar() {
           <SidebarGroupLabel>School Management</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {managementNavItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={isActive(item.url)} disabled={(item as any).disabled}>
-                    <Link
-                      to={item.url}
-                      className={cn(
-                        "flex items-center gap-3 rounded-lg px-3 py-2 transition-colors",
-                        isActive(item.url)
-                          ? "bg-schoolgate-green-light text-schoolgate-green"
-                          : (item as any).disabled ? "opacity-50 cursor-not-allowed" : "text-muted-foreground hover:bg-accent hover:text-foreground",
-                      )}
-                    >
-                      <item.icon className="h-4 w-4 shrink-0" />
-                      {!collapsed && <span className="truncate">{item.title}</span>}
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              {managementNavItems
+                .filter(item => {
+                  if (item.url === '/students' && !isAdmin && !isTeacher) return false;
+                  if (item.url === '/student' && !isStudent) return false;
+                  if (item.url === '/parent' && !isParent) return false;
+                  if (item.url === '/finance/hr-payroll/employees' && !isAdmin) return false;
+                  if (item.url === '/academic/classes' && !isAdmin && !isTeacher) return false;
+                  return true;
+                })
+                .map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild isActive={isActive(item.url)} disabled={(item as any).disabled}>
+                      <Link
+                        to={item.url}
+                        className={cn(
+                          "flex items-center gap-3 rounded-lg px-3 py-2 transition-colors",
+                          isActive(item.url)
+                            ? "bg-schoolgate-green-light text-schoolgate-green"
+                            : (item as any).disabled ? "opacity-50 cursor-not-allowed" : "text-muted-foreground hover:bg-accent hover:text-foreground",
+                        )}
+                      >
+                        <item.icon className="h-4 w-4 shrink-0" />
+                        {!collapsed && <span className="truncate">{item.title}</span>}
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -213,24 +222,26 @@ export function AppSidebar() {
           <SidebarGroupLabel>Academics</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {academicNavItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={isActive(item.url)}>
-                    <Link
-                      to={item.url}
-                      className={cn(
-                        "flex items-center gap-3 rounded-lg px-3 py-2 transition-colors",
-                        isActive(item.url)
-                          ? "bg-schoolgate-green-light text-schoolgate-green"
-                          : "text-muted-foreground hover:bg-accent hover:text-foreground",
-                      )}
-                    >
-                      <item.icon className="h-4 w-4 shrink-0" />
-                      {!collapsed && <span className="truncate">{item.title}</span>}
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              {academicNavItems
+                .filter(() => isAdmin || isTeacher)
+                .map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild isActive={isActive(item.url)}>
+                      <Link
+                        to={item.url}
+                        className={cn(
+                          "flex items-center gap-3 rounded-lg px-3 py-2 transition-colors",
+                          isActive(item.url)
+                            ? "bg-schoolgate-green-light text-schoolgate-green"
+                            : "text-muted-foreground hover:bg-accent hover:text-foreground",
+                        )}
+                      >
+                        <item.icon className="h-4 w-4 shrink-0" />
+                        {!collapsed && <span className="truncate">{item.title}</span>}
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -239,24 +250,26 @@ export function AppSidebar() {
           <SidebarGroupLabel>Finance</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {financeNavItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={isActive(item.url)}>
-                    <Link
-                      to={item.url}
-                      className={cn(
-                        "flex items-center gap-3 rounded-lg px-3 py-2 transition-colors",
-                        isActive(item.url)
-                          ? "bg-schoolgate-green-light text-schoolgate-green"
-                          : "text-muted-foreground hover:bg-accent hover:text-foreground",
-                      )}
-                    >
-                      <item.icon className="h-4 w-4 shrink-0" />
-                      {!collapsed && <span className="truncate">{item.title}</span>}
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              {financeNavItems
+                .filter(() => isBursar || isAdmin)
+                .map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild isActive={isActive(item.url)}>
+                      <Link
+                        to={item.url}
+                        className={cn(
+                          "flex items-center gap-3 rounded-lg px-3 py-2 transition-colors",
+                          isActive(item.url)
+                            ? "bg-schoolgate-green-light text-schoolgate-green"
+                            : "text-muted-foreground hover:bg-accent hover:text-foreground",
+                        )}
+                      >
+                        <item.icon className="h-4 w-4 shrink-0" />
+                        {!collapsed && <span className="truncate">{item.title}</span>}
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
