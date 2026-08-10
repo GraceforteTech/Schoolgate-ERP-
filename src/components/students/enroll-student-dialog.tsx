@@ -137,7 +137,7 @@ export function EnrollStudentDialog({ open, onOpenChange, tenantId }: EnrollStud
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Gender</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value ?? undefined}>
+                    <Select onValueChange={field.onChange} defaultValue={field.value!}>
                       <FormControl>
                         <SelectTrigger className="h-12 rounded-xl border-slate-100 bg-slate-50/50">
                           <SelectValue placeholder="Select gender" />
@@ -162,7 +162,7 @@ export function EnrollStudentDialog({ open, onOpenChange, tenantId }: EnrollStud
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Target Class</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value ?? undefined}>
+                    <Select onValueChange={field.onChange} defaultValue={field.value!}>
                       <FormControl>
                         <SelectTrigger className="h-12 rounded-xl border-slate-100 bg-slate-50/50">
                           <SelectValue placeholder="Select class" />
@@ -186,7 +186,7 @@ export function EnrollStudentDialog({ open, onOpenChange, tenantId }: EnrollStud
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Campus</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value ?? undefined}>
+                    <Select onValueChange={field.onChange} defaultValue={field.value!}>
                       <FormControl>
                         <SelectTrigger className="h-12 rounded-xl border-slate-100 bg-slate-50/50">
                           <SelectValue placeholder="Select campus" />
