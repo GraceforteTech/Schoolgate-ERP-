@@ -225,8 +225,8 @@ export function ResultEntrySystem() {
                       </TableCell>
                       <TableCell className="text-center">
                         <Badge variant="outline" className={`rounded-full border-none px-3 py-1 text-[9px] font-black uppercase ${
-                          result?.status === 'published' ? 'bg-emerald-100 text-emerald-600' : 
-                          result?.status === 'approved' ? 'bg-blue-100 text-blue-600' : 
+                          (result?.status as string) === 'published' ? 'bg-emerald-100 text-emerald-600' : 
+                          (result?.status as string) === 'approved' ? 'bg-blue-100 text-blue-600' : 
                           'bg-slate-100 text-slate-400'
                         }`}>
                           {result?.status || 'Pending'}
