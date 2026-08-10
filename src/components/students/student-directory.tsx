@@ -431,7 +431,8 @@ export function StudentDirectory({ forcedStatus }: { forcedStatus?: string }) {
                     </DropdownMenu>
                   </TableCell>
                 </TableRow>
-              ))}
+                ))
+              )}
             </TableBody>
           </Table>
         </div>
