@@ -1,5 +1,7 @@
 import type { ComponentType } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { z } from "zod";
+
 import {
   Archive,
   ArrowLeft,
@@ -49,6 +51,13 @@ import { BulkActionConfirmation } from "@/components/finance/bulk-action-confirm
 
 
 export const Route = createFileRoute("/fee-types")({
+  validateSearch: (search: Record<string, unknown>) => ({
+    session: z.string().optional().catch("2025-2026").parse(search['session']),
+    term: z.string().optional().catch("first").parse(search['term']),
+    q: z.string().optional().catch("").parse(search['q']),
+  }),
+
+
   head: () => ({
     meta: [
       { title: "Fee Types — Schoolgate ERP" },
@@ -66,9 +75,12 @@ export const Route = createFileRoute("/fee-types")({
 
 function FeeTypesPage() {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  const { session = "2025-2026", term = "first", q = "" } = Route.useSearch() as any;
   const [importDialogOpen, setImportDialogOpen] = useState(false);
   const [isNewFeeTypeOpen, setIsNewFeeTypeOpen] = useState(false);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
+
   const [bulkAction, setBulkAction] = useState<{
     type: 'waiver' | 'adjustment' | 'assign' | 'remove';
     count: number;
@@ -83,15 +95,21 @@ function FeeTypesPage() {
 
 
   const { data: registry, isLoading } = useQuery({
-    queryKey: ['fee-types-registry'],
+    queryKey: ['fee-types-registry', session, term, q],
     queryFn: async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return null;
       const { data: membership } = await supabase.from('memberships').select('tenant_id').eq('user_id', user.id).single();
       if (!membership) return null;
-      return fetchRegistry({ data: { tenantId: membership.tenant_id } });
+      return fetchRegistry({ 
+        data: { 
+          tenantId: membership.tenant_id,
+          filters: { session, term, search: q }
+        } 
+      });
     }
   });
+
 
   const naira = (value: number) =>
     `₦${value.toLocaleString("en-NG", { maximumFractionDigits: 0 })}`;
@@ -185,32 +203,48 @@ function FeeTypesPage() {
                   <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                     {/* Filters */}
                     <div className="flex flex-col flex-wrap gap-3 sm:flex-row sm:items-center">
-                      <FilterSelect
-                        placeholder="Session"
-                        defaultValue="2025-2026"
-                        options={[
-                          { value: "2025-2026", label: "2025/2026 Session" },
-                          { value: "2024-2025", label: "2024/2025 Session" },
-                        ]}
-                      />
-                      <FilterSelect
-                        placeholder="Term"
-                        defaultValue="first"
-                        options={[
-                          { value: "first", label: "First Term" },
-                          { value: "second", label: "Second Term" },
-                          { value: "third", label: "Third Term" },
-                        ]}
-                      />
+                      <Select 
+                        value={session} 
+                        onValueChange={(val) => navigate({ search: { ...Route.useSearch(), session: val }, replace: true })}
+                      >
+                        <SelectTrigger className="h-9 w-full rounded-lg border-border bg-white px-3 text-sm sm:w-40">
+                          <SelectValue placeholder="Session" />
+                        </SelectTrigger>
+                        <SelectContent className="rounded-lg border-border">
+                          <SelectItem value="2024-2025" className="text-sm">2024/2025 Session</SelectItem>
+                          <SelectItem value="2025-2026" className="text-sm">2025/2026 Session</SelectItem>
+                        </SelectContent>
+                      </Select>
+
+                      <Select 
+                        value={term} 
+                        onValueChange={(val) => navigate({ search: { ...Route.useSearch(), term: val }, replace: true })}
+                      >
+                        <SelectTrigger className="h-9 w-full rounded-lg border-border bg-white px-3 text-sm sm:w-40">
+                          <SelectValue placeholder="Term" />
+                        </SelectTrigger>
+                        <SelectContent className="rounded-lg border-border">
+                          <SelectItem value="first" className="text-sm">First Term</SelectItem>
+                          <SelectItem value="second" className="text-sm">Second Term</SelectItem>
+                          <SelectItem value="third" className="text-sm">Third Term</SelectItem>
+                        </SelectContent>
+                      </Select>
+
                       <div className="relative w-full sm:w-56">
                         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                         <Input
                           type="search"
                           placeholder="Search Fee Type"
+                          value={q}
+                          onChange={(e) => navigate({ search: { ...Route.useSearch(), q: e.target.value }, replace: true })}
                           className="h-9 rounded-lg border-border pl-9 pr-4 text-sm"
                         />
                       </div>
+
+
                     </div>
+
+
 
                     {/* Actions */}
                     <div className="flex flex-wrap items-center gap-2">

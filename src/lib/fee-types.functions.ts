@@ -2,27 +2,45 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
 export const getFeeTypesRegistry = createServerFn({ method: "GET" })
-  .validator((data: { tenantId: string }) => z.object({
-    tenantId: z.string().uuid()
+  .validator((data: any) => z.object({
+    tenantId: z.string().uuid(),
+    filters: z.object({
+      session: z.string().optional(),
+      term: z.string().optional(),
+      search: z.string().optional()
+    }).optional()
   }).parse(data))
+
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     
     // 1. Fetch Fee Types
-    const { data: feeTypes, error: feeTypesError } = await supabaseAdmin
+    let feeQuery = supabaseAdmin
       .from('fee_types')
-      .select('*')
-      .eq('tenant_id', data.tenantId)
-      .order('created_at', { ascending: false });
+      .select('*, created_by_profile:profiles!fee_types_created_by_fkey(full_name)')
+      .eq('tenant_id', data.tenantId);
+
+    
+    if (data.filters?.session) feeQuery = feeQuery.eq('academic_session', data.filters.session);
+    if (data.filters?.term) feeQuery = feeQuery.eq('term', data.filters.term);
+    if (data.filters?.search) feeQuery = feeQuery.ilike('name', `%${data.filters.search}%`);
+
+    const { data: feeTypes, error: feeTypesError } = await feeQuery.order('created_at', { ascending: false });
+
 
     if (feeTypesError) throw new Error(feeTypesError.message);
 
     // 2. Fetch Aggregated Assignment Stats for these Fee Types
-    // We want to know how many students are assigned to each fee type and total expected revenue
-    const { data: feeStats, error: statsError } = await supabaseAdmin
+    let statsQuery = supabaseAdmin
       .from('student_fees')
       .select('fee_type_id, student_id, amount_due')
       .eq('tenant_id', data.tenantId);
+    
+    if (data.filters?.session) statsQuery = statsQuery.eq('academic_session', data.filters.session);
+    if (data.filters?.term) statsQuery = statsQuery.eq('term', data.filters.term);
+
+    const { data: feeStats, error: statsError } = await statsQuery;
+
 
     if (statsError) throw new Error(statsError.message);
 

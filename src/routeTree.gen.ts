@@ -29,6 +29,7 @@ import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as AuthSignupRouteImport } from './routes/auth/signup'
 import { Route as CbtIndexRouteImport } from './routes/cbt/index'
 import { Route as EnterpriseIndexRouteImport } from './routes/enterprise/index'
+import { Route as EnterpriseDrillDownRouteImport } from './routes/enterprise/drill-down'
 import { Route as FinanceAdjustmentManagementRouteImport } from './routes/finance/adjustment-management'
 import { Route as FinanceApprovalsRouteImport } from './routes/finance/approvals'
 import { Route as FinanceAuditTrailRouteImport } from './routes/finance/audit-trail'
@@ -170,6 +171,11 @@ const CbtIndexRoute = CbtIndexRouteImport.update({
 const EnterpriseIndexRoute = EnterpriseIndexRouteImport.update({
   id: '/enterprise/',
   path: '/enterprise/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EnterpriseDrillDownRoute = EnterpriseDrillDownRouteImport.update({
+  id: '/enterprise/drill-down',
+  path: '/enterprise/drill-down',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FinanceAdjustmentManagementRoute =
@@ -407,6 +413,7 @@ export interface FileRoutesByFullPath {
   '/auth/callback': typeof AuthCallbackRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
+  '/enterprise/drill-down': typeof EnterpriseDrillDownRoute
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
   '/finance/approvals': typeof FinanceApprovalsRoute
   '/finance/audit-trail': typeof FinanceAuditTrailRoute
@@ -470,6 +477,7 @@ export interface FileRoutesByTo {
   '/auth/callback': typeof AuthCallbackRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
+  '/enterprise/drill-down': typeof EnterpriseDrillDownRoute
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
   '/finance/approvals': typeof FinanceApprovalsRoute
   '/finance/audit-trail': typeof FinanceAuditTrailRoute
@@ -534,6 +542,7 @@ export interface FileRoutesById {
   '/auth/callback': typeof AuthCallbackRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
+  '/enterprise/drill-down': typeof EnterpriseDrillDownRoute
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
   '/finance/approvals': typeof FinanceApprovalsRoute
   '/finance/audit-trail': typeof FinanceAuditTrailRoute
@@ -599,6 +608,7 @@ export interface FileRouteTypes {
     | '/auth/callback'
     | '/auth/login'
     | '/auth/signup'
+    | '/enterprise/drill-down'
     | '/finance/adjustment-management'
     | '/finance/approvals'
     | '/finance/audit-trail'
@@ -662,6 +672,7 @@ export interface FileRouteTypes {
     | '/auth/callback'
     | '/auth/login'
     | '/auth/signup'
+    | '/enterprise/drill-down'
     | '/finance/adjustment-management'
     | '/finance/approvals'
     | '/finance/audit-trail'
@@ -725,6 +736,7 @@ export interface FileRouteTypes {
     | '/auth/callback'
     | '/auth/login'
     | '/auth/signup'
+    | '/enterprise/drill-down'
     | '/finance/adjustment-management'
     | '/finance/approvals'
     | '/finance/audit-trail'
@@ -789,6 +801,7 @@ export interface RootRouteChildren {
   AuthCallbackRoute: typeof AuthCallbackRoute
   AuthLoginRoute: typeof AuthLoginRoute
   AuthSignupRoute: typeof AuthSignupRoute
+  EnterpriseDrillDownRoute: typeof EnterpriseDrillDownRoute
   FinanceAdjustmentManagementRoute: typeof FinanceAdjustmentManagementRoute
   FinanceApprovalsRoute: typeof FinanceApprovalsRoute
   FinanceAuditTrailRoute: typeof FinanceAuditTrailRoute
@@ -977,6 +990,13 @@ declare module '@tanstack/react-router' {
       path: '/enterprise'
       fullPath: '/enterprise/'
       preLoaderRoute: typeof EnterpriseIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/enterprise/drill-down': {
+      id: '/enterprise/drill-down'
+      path: '/enterprise/drill-down'
+      fullPath: '/enterprise/drill-down'
+      preLoaderRoute: typeof EnterpriseDrillDownRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/finance/adjustment-management': {
@@ -1285,6 +1305,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthCallbackRoute: AuthCallbackRoute,
   AuthLoginRoute: AuthLoginRoute,
   AuthSignupRoute: AuthSignupRoute,
+  EnterpriseDrillDownRoute: EnterpriseDrillDownRoute,
   FinanceAdjustmentManagementRoute: FinanceAdjustmentManagementRoute,
   FinanceApprovalsRoute: FinanceApprovalsRoute,
   FinanceAuditTrailRoute: FinanceAuditTrailRoute,

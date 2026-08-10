@@ -178,8 +178,10 @@ export function FeeTypesTable({
               <th className="px-4 py-3">
                 <SortButton label="Status" sortValue="status" />
               </th>
+              <th className="px-4 py-3">Category</th>
               <th className="px-4 py-3">Created By</th>
               <th className="px-4 py-3">Date Created</th>
+
               <th className="w-16 px-4 py-3 text-right">Actions</th>
             </tr>
           </thead>
@@ -234,7 +236,10 @@ export function FeeTypesTable({
                       {fee.is_active ? 'Active' : 'Inactive'}
                     </Badge>
                   </td>
+                  <td className="whitespace-nowrap px-4 py-3.5 text-muted-foreground uppercase text-[10px] font-bold">{fee.category}</td>
+                  <td className="whitespace-nowrap px-4 py-3.5 text-muted-foreground">{fee.created_by_profile?.full_name || 'System'}</td>
                   <td className="whitespace-nowrap px-4 py-3.5 text-muted-foreground">{new Date(fee.created_at).toLocaleDateString()}</td>
+
 
                   <td className="px-4 py-3.5 text-right">
                     <DropdownMenu>

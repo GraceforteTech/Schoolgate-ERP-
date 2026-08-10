@@ -1,5 +1,6 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { 
+
   ShieldCheck, 
   TrendingUp, 
   Activity, 
@@ -146,8 +147,10 @@ const TEXTBOOK_ANALYTICS_DATA = [
 ]
 
 function EnterpriseCommandCenter() {
+  const navigate = useNavigate()
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [formConfig, setFormConfig] = useState({ title: '', description: '', icon: Users })
+
   const fetchStats = useServerFn(getExecutiveDashboardStats)
 
   const { data: stats, isLoading, refetch } = useQuery({
@@ -253,30 +256,32 @@ function EnterpriseCommandCenter() {
           <section className="space-y-6">
             <SectionHeader title="Financial Performance" icon={Wallet} color="text-emerald-600" />
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <KPICard title="Today's Revenue" value={formatCurrency(stats?.todayRevenue || 0)} change="+12%" icon={TrendingUp} color="emerald" />
-              <KPICard title="Today's Expenses" value={formatCurrency(stats?.todayExpenses || 0)} change="+5%" icon={TrendingUp} color="rose" />
+              <KPICard title="Today's Revenue" value={formatCurrency(stats?.todayRevenue || 0)} change="+12%" icon={TrendingUp} color="emerald" onClick={() => navigate({ to: '/enterprise/drill-down', search: { type: 'total_collected' } })} />
+              <KPICard title="Today's Expenses" value={formatCurrency(stats?.todayExpenses || 0)} change="+5%" icon={TrendingUp} color="rose" onClick={() => navigate({ to: '/enterprise/drill-down', search: { type: 'total_expenses' } })} />
               <KPICard title="Today's Net Income" value={formatCurrency((stats?.todayRevenue || 0) - (stats?.todayExpenses || 0))} change="+18%" icon={Zap} color="emerald" />
               <KPICard title="Collection Rate" value={`${(stats?.collectionRate || 0).toFixed(1)}%`} change="+2.4%" icon={Target} color="blue" />
-              <KPICard title="Outstanding Fees" value={formatCurrency(stats?.outstandingFees || 0)} change="-5%" icon={AlertCircle} color="amber" />
-              <KPICard title="Expected Revenue" value={formatCurrency(stats?.totalFeesBilled || 0)} change="+8%" icon={TrendingUp} color="blue" />
-              <KPICard title="Total Expenses" value={formatCurrency(stats?.totalExpenses || 0)} change="+10%" icon={TrendingUp} color="rose" />
+              <KPICard title="Outstanding Fees" value={formatCurrency(stats?.outstandingFees || 0)} change="-5%" icon={AlertCircle} color="amber" onClick={() => navigate({ to: '/enterprise/drill-down', search: { type: 'outstanding_fees' } })} />
+              <KPICard title="Expected Revenue" value={formatCurrency(stats?.totalFeesBilled || 0)} change="+8%" icon={TrendingUp} color="blue" onClick={() => navigate({ to: '/enterprise/drill-down', search: { type: 'total_fees_billed' } })} />
+              <KPICard title="Total Expenses" value={formatCurrency(stats?.totalExpenses || 0)} change="+10%" icon={TrendingUp} color="rose" onClick={() => navigate({ to: '/enterprise/drill-down', search: { type: 'total_expenses' } })} />
               <KPICard title="Net Position" value={formatCurrency(stats?.netPosition || 0)} change="Overall" icon={Wallet} color="indigo" />
             </div>
+
           </section>
 
           <section className="space-y-6">
             <SectionHeader title="Academic & Student Lifecycle" icon={GraduationCap} color="text-blue-600" />
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <KPICard title="Total Students" value={stats?.totalStudents.toLocaleString() || "0"} change="+42" icon={Users} color="blue" />
+              <KPICard title="Total Students" value={stats?.totalStudents.toLocaleString() || "0"} change="+42" icon={Users} color="blue" onClick={() => navigate({ to: '/enterprise/drill-down', search: { type: 'total_students' } })} />
               <KPICard title="Total Classes" value={stats?.totalClasses.toLocaleString() || "0"} change="Active" icon={School} color="blue" />
               <KPICard title="Total Staff" value={stats?.totalStaff.toLocaleString() || "0"} change="Active" icon={Users} color="blue" />
-              <KPICard title="Paid Students" value={stats?.paidStudents.toLocaleString() || "0"} change="Fully Paid" icon={CheckCircle2} color="emerald" />
-              <KPICard title="Unpaid Students" value={stats?.unpaidStudents.toLocaleString() || "0"} change="Outstanding" icon={UserX} color="rose" />
-              <KPICard title="Partially Paid" value={stats?.partiallyPaidStudents.toLocaleString() || "0"} change="Balance Due" icon={Clock} color="amber" />
-              <KPICard title="Approved Payments" value={stats?.approvedPayments.toLocaleString() || "0"} change="Total processed" icon={CheckSquare} color="indigo" />
+              <KPICard title="Paid Students" value={stats?.paidStudents.toLocaleString() || "0"} change="Fully Paid" icon={CheckCircle2} color="emerald" onClick={() => navigate({ to: '/enterprise/drill-down', search: { type: 'paid_students' } })} />
+              <KPICard title="Unpaid Students" value={stats?.unpaidStudents.toLocaleString() || "0"} change="Outstanding" icon={UserX} color="rose" onClick={() => navigate({ to: '/enterprise/drill-down', search: { type: 'unpaid_students' } })} />
+              <KPICard title="Partially Paid" value={stats?.partiallyPaidStudents.toLocaleString() || "0"} change="Balance Due" icon={Clock} color="amber" onClick={() => navigate({ to: '/enterprise/drill-down', search: { type: 'partially_paid_students' } })} />
+              <KPICard title="Approved Payments" value={stats?.approvedPayments.toLocaleString() || "0"} change="Total processed" icon={CheckSquare} color="indigo" onClick={() => navigate({ to: '/enterprise/drill-down', search: { type: 'total_collected' } })} />
               <KPICard title="Low Stock Items" value="12" change="Alert" icon={Package} color="rose" />
             </div>
           </section>
+
 
           <section className="space-y-6">
             <SectionHeader title="Operations & Logistics" icon={Bus} color="text-amber-600" />
@@ -286,10 +291,11 @@ function EnterpriseCommandCenter() {
               <KPICard title="Transport Revenue" value="₦1.2M" change="This month" icon={TrendingUp} color="emerald" />
               <KPICard title="Salary Paid" value="₦7.8M" change="Last month" icon={Wallet} color="blue" />
               <KPICard title="Visitors Today" value="28" change="+4" icon={Users} color="indigo" />
-              <KPICard title="Pending Approvals" value={stats?.pendingPayments.toString() || "0"} change="High Priority" icon={CheckSquare} color="rose" />
+              <KPICard title="Pending Approvals" value={stats?.pendingPayments.toString() || "0"} change="High Priority" icon={CheckSquare} color="rose" onClick={() => navigate({ to: '/enterprise/drill-down', search: { type: 'pending_payments' } })} />
               <KPICard title="Upcoming Birthdays" value="8" change="Staff & Students" icon={Cake} color="purple" />
               <KPICard title="Overdue Books" value="15" change="Alert" icon={AlertCircle} color="rose" />
             </div>
+
           </section>
 
           {/* 4. Executive Analytics */}
@@ -599,7 +605,7 @@ function SectionHeader({ title, icon: Icon, color }: any) {
   )
 }
 
-function KPICard({ title, value, change, trend, icon: Icon, color }: any) {
+function KPICard({ title, value, change, trend, icon: Icon, color, onClick }: any) {
   const colorMap: any = {
     emerald: 'bg-emerald-50 text-emerald-600',
     rose: 'bg-rose-50 text-rose-600',
@@ -610,7 +616,10 @@ function KPICard({ title, value, change, trend, icon: Icon, color }: any) {
   }
 
   return (
-    <Card className="rounded-[14px] border-none shadow-sm bg-white p-5 hover:shadow-md transition-all cursor-pointer group hover:-translate-y-1">
+    <Card 
+      className="rounded-[14px] border-none shadow-sm bg-white p-5 hover:shadow-md transition-all cursor-pointer group hover:-translate-y-1"
+      onClick={onClick}
+    >
       <div className="flex items-center justify-between mb-4">
         <div className={cn("h-10 w-10 rounded-xl flex items-center justify-center transition-transform group-hover:scale-110 shadow-sm", colorMap[color])}>
           <Icon size={20} />
@@ -632,6 +641,7 @@ function KPICard({ title, value, change, trend, icon: Icon, color }: any) {
     </Card>
   )
 }
+
 
 function AlertItem({ label, isCelebration }: { label: string, isCelebration?: boolean }) {
   return (
