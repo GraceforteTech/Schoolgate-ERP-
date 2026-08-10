@@ -31,8 +31,9 @@ export const getFeeTypesRegistry = createServerFn({ method: "GET" })
     (feeStats || []).forEach((f: any) => {
       if (!f.fee_type_id) return;
       if (!statsMap[f.fee_type_id]) statsMap[f.fee_type_id] = { count: 0, expected: 0 };
-      statsMap[f.fee_type_id].count += 1;
-      statsMap[f.fee_type_id].expected += Number(f.amount_due);
+      const current = statsMap[f.fee_type_id]!;
+      current.count += 1;
+      current.expected += Number(f.amount_due);
     });
 
     // 3. Overall Registry Summary
