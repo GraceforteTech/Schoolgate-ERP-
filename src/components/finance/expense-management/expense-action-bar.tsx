@@ -25,9 +25,12 @@ import { Card } from "@/components/ui/card";
 import { exportToCSV } from "@/lib/csv-export";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { RecordExpenseDialog } from "./record-expense-dialog";
 
 export function ExpenseActionBar() {
+  const queryClient = useQueryClient();
+  const [isRecordOpen, setIsRecordOpen] = React.useState(false);
   const { data: expenses } = useQuery({
     queryKey: ['expenses-register'],
     queryFn: async () => {
