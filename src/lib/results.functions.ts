@@ -2,10 +2,10 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
 /**
- * Gets result details for a specific student, session, and term.
- * Includes student info and a list of subjects with scores.
+ * Gets a student's full result details including all subject scores,
+ * CA/Exam breakdown, and calculated summary metrics.
  */
-export const getStudentResultDetails = createServerFn({ method: "GET" })
+export const getStudentResultDrillDown = createServerFn({ method: "GET" })
   .validator((data: { 
     tenantId: string, 
     studentId: string, 
@@ -20,7 +20,8 @@ export const getStudentResultDetails = createServerFn({ method: "GET" })
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     
-    // 1. Get Student Info
+    // 1. Get Student & Teacher Info
+    // Note: class_id is on students table, we use that to find the class teacher
     const { data: student, error: studentError } = await supabaseAdmin
       .from('students')
       .select('*, profiles!students_parent_id_fkey(full_name)')
@@ -41,32 +42,52 @@ export const getStudentResultDetails = createServerFn({ method: "GET" })
 
     if (resultsError) throw new Error(resultsError.message);
 
-    // 3. Aggregate metrics
-    const validScores = (results || []).filter((r: any) => r.total_score !== null);
-    const totalScore = validScores.reduce((sum: number, r: any) => sum + Number(r.total_score), 0);
+    // 3. Get Grading Scheme to calculate grades properly
+    const { data: gradingScheme } = await supabaseAdmin
+      .from('grading_rules')
+      .select('*')
+      .eq('tenant_id', data.tenantId);
+
+    // Helper to calculate grade from score
+    const getGrade = (score: number) => {
+      if (!gradingScheme || gradingScheme.length === 0) {
+        if (score >= 75) return 'A1';
+        if (score >= 70) return 'B2';
+        if (score >= 65) return 'B3';
+        if (score >= 60) return 'C4';
+        if (score >= 55) return 'C5';
+        if (score >= 50) return 'C6';
+        if (score >= 45) return 'D7';
+        if (score >= 40) return 'E8';
+        return 'F9';
+      }
+      const rule = gradingScheme.find(g => score >= g.min_score && score <= g.max_score);
+      return rule ? rule.grade : 'F9';
+    };
+
+    // 4. Transform results with calculated fields
+    const enrichedResults = (results || []).map((r: any) => ({
+      ...r,
+      total_score: (Number(r.ca_score || 0) + Number(r.exam_score || 0)),
+      grade: getGrade(Number(r.ca_score || 0) + Number(r.exam_score || 0)),
+      remark: (Number(r.ca_score || 0) + Number(r.exam_score || 0)) >= 40 ? 'Pass' : 'Fail'
+    }));
+
+    // 5. Aggregate metrics
+    const validScores = enrichedResults.filter(r => r.total_score !== null);
+    const totalScore = validScores.reduce((sum, r) => sum + Number(r.total_score), 0);
     const averageScore = validScores.length > 0 ? totalScore / validScores.length : 0;
     
-    // Determine overall grade (simple logic for now, should use grading_schemes eventually)
-    let overallGrade = 'N/A';
-    if (averageScore >= 75) overallGrade = 'A1';
-    else if (averageScore >= 70) overallGrade = 'B2';
-    else if (averageScore >= 65) overallGrade = 'B3';
-    else if (averageScore >= 60) overallGrade = 'C4';
-    else if (averageScore >= 55) overallGrade = 'C5';
-    else if (averageScore >= 50) overallGrade = 'C6';
-    else if (averageScore >= 45) overallGrade = 'D7';
-    else if (averageScore >= 40) overallGrade = 'E8';
-    else if (averageScore > 0) overallGrade = 'F9';
-
     return {
       student,
-      results: results || [],
+      results: enrichedResults,
       summary: {
         totalScore,
         averageScore: Number(averageScore.toFixed(2)),
-        overallGrade,
+        overallGrade: getGrade(averageScore),
         subjectCount: results?.length || 0,
-        status: results?.every((r: any) => r.status === 'approved') ? 'Approved' : 'Pending'
+        status: results?.every(r => r.status === 'published') ? 'Published' : 
+                results?.some(r => r.status === 'approved') ? 'Approved' : 'Pending'
       }
     };
   });
@@ -98,15 +119,16 @@ export const bulkUpdateResultStatus = createServerFn({ method: "POST" })
     if (error) throw new Error(error.message);
     
     // Log in audit trail
-    await (supabaseAdmin.from('academic_results_audit' as any) as any).insert(
-      data.resultIds.map(id => ({
-        result_id: id,
-        changed_by: 'system', // Should be auth.uid() in real usage
-        old_status: 'unknown',
-        new_status: data.status,
-        action: `BULK_${data.status.toUpperCase()}`
-      }))
-    );
+    if (updated && updated.length > 0) {
+      await (supabaseAdmin.from('academic_results_audit' as any) as any).insert(
+        data.resultIds.map(id => ({
+          result_id: id,
+          changed_by: 'system', 
+          new_status: data.status,
+          action: `BULK_${data.status.toUpperCase()}`
+        }))
+      );
+    }
 
     return { success: true, count: updated?.length || 0 };
   });
