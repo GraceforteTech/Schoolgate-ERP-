@@ -78,7 +78,7 @@ export function RecordExpenseDialog({ open, onOpenChange }: RecordExpenseDialogP
       vendor: "",
       method: "bank_transfer",
       reference: "",
-      date: new Date().toISOString().split("T")[0],
+      date: new Date().toISOString().slice(0, 10),
       description: "",
     },
   });
