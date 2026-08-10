@@ -142,12 +142,12 @@ export const approveTransaction = createServerFn({ method: "POST" })
             for (const fee of fees) {
                 if (remainingPayment <= 0) break;
                 
-                const outstanding = Number(fee.total_amount) - Number(fee.amount_paid);
+                const outstanding = Number(fee.amount_due) - Number(fee.amount_paid);
                 if (outstanding <= 0) continue;
                 
                 const paymentForThisFee = Math.min(remainingPayment, outstanding);
                 const newAmountPaid = Number(fee.amount_paid) + paymentForThisFee;
-                const totalAmount = Number(fee.total_amount);
+                const totalAmount = Number(fee.amount_due);
                 let status = 'partially_paid';
                 if (newAmountPaid >= totalAmount) {
                     status = 'paid';
