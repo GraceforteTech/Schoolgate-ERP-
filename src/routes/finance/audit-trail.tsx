@@ -70,7 +70,7 @@ function AuditTrailPage() {
             ...filters,
           },
           page: filters.page || 1,
-          pageSize: 50
+          pageSize: filters.pageSize || 50
         } 
       });
     }
