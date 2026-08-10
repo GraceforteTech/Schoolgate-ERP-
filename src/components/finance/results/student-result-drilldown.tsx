@@ -37,10 +37,12 @@ export function StudentResultDrillDown({
   const { data, isLoading, error } = useQuery({
     queryKey: ['student-result-drilldown', studentId, session, term, tenantId],
     queryFn: () => getStudentResultDrillDown({ 
-      tenantId: tenantId!, 
-      studentId, 
-      session, 
-      term 
+      data: {
+        tenantId: tenantId!, 
+        studentId, 
+        session, 
+        term 
+      }
     }),
     enabled: !!tenantId && !!studentId,
   });
