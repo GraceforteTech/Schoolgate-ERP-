@@ -493,6 +493,7 @@ export type Database = {
       }
       notifications: {
         Row: {
+          archived_at: string | null
           created_at: string | null
           id: string
           message: string
@@ -507,6 +508,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          archived_at?: string | null
           created_at?: string | null
           id?: string
           message: string
@@ -521,6 +523,7 @@ export type Database = {
           user_id: string
         }
         Update: {
+          archived_at?: string | null
           created_at?: string | null
           id?: string
           message?: string
@@ -570,6 +573,50 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      saved_audit_filters: {
+        Row: {
+          created_at: string | null
+          filter_definition: Json
+          id: string
+          is_default: boolean | null
+          is_shared: boolean | null
+          name: string
+          tenant_id: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          filter_definition: Json
+          id?: string
+          is_default?: boolean | null
+          is_shared?: boolean | null
+          name: string
+          tenant_id: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          filter_definition?: Json
+          id?: string
+          is_default?: boolean | null
+          is_shared?: boolean | null
+          name?: string
+          tenant_id?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "saved_audit_filters_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       student_fees: {
         Row: {

@@ -1,4 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
+import { useState, useEffect } from "react";
 import {
   Banknote,
   BookOpen,
@@ -20,6 +21,7 @@ import {
   Home as HomeIcon,
   LogOut,
   History,
+  ClipboardList,
 } from "lucide-react";
 
 import { supabase } from "@/integrations/supabase/client";
@@ -92,9 +94,25 @@ const systemNavItems = [
 export function AppSidebar() {
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
+  const [userRole, setUserRole] = useState<string | null>(null);
   const currentPath = useRouterState({
     select: (router) => router.location.pathname,
   });
+
+  useEffect(() => {
+    const fetchRole = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data: role } = await supabase
+          .from('user_roles')
+          .select('role')
+          .eq('user_id', user.id)
+          .single();
+        setUserRole(role?.role || null);
+      }
+    };
+    fetchRole();
+  }, []);
 
   const isActive = (path: string) => currentPath === path;
 
@@ -128,6 +146,17 @@ export function AppSidebar() {
       </SidebarHeader>
 
       <SidebarContent>
+        {/* Helper to filter by role */}
+        {(() => {
+          const isOwner = userRole === 'school_owner';
+          const isAdmin = userRole === 'admin' || isOwner;
+          const isBursar = userRole === 'bursar' || isOwner;
+          const isTeacher = userRole === 'teacher';
+          const isStudent = userRole === 'student';
+          const isParent = userRole === 'parent';
+
+          return (
+            <>
         <SidebarGroup>
           <SidebarGroupLabel>Main</SidebarGroupLabel>
           <SidebarGroupContent>
@@ -257,6 +286,10 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+            </>
+          );
+        })()}
+
 
         <div className="mt-auto p-4 border-t border-border">
           <SidebarMenu>

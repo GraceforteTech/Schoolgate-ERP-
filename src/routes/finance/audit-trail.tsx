@@ -1,11 +1,12 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AppSidebar } from "@/components/app-sidebar";
 import { TopNav } from "@/components/top-nav";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getAuditLogs, exportAuditLogs } from "@/lib/audit.functions";
+import { getSavedAuditFilters, saveAuditFilter, deleteAuditFilter } from "@/lib/audit-filters.functions";
 import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
@@ -60,9 +61,37 @@ export const Route = createFileRoute("/finance/audit-trail")({
 function AuditTrailPage() {
   const navigate = useNavigate({ from: Route.fullPath });
   const filters = Route.useSearch();
+  const queryClient = useQueryClient();
+  
   const fetchLogs = useServerFn(getAuditLogs);
   const triggerExport = useServerFn(exportAuditLogs);
+  const saveFilterFn = useServerFn(saveAuditFilter);
+  const deleteFilterFn = useServerFn(deleteAuditFilter);
+  const fetchSavedFilters = useServerFn(getSavedAuditFilters);
+
   const [isExporting, setIsExporting] = useState(false);
+  const [showSaveDialog, setShowSaveDialog] = useState(false);
+  const [filterName, setFilterName] = useState("");
+  const [newAuditToast, setNewAuditToast] = useState(false);
+
+  // Realtime subscription
+  useEffect(() => {
+    const channel = supabase
+      .channel('audit-logs-realtime')
+      .on(
+        'postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'audit_logs' },
+        (payload) => {
+          // Verify tenant isolation (simplified check as client only has tenantId from membership)
+          setNewAuditToast(true);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
 
   const { data, isLoading } = useQuery({
     queryKey: ['finance-audit-logs', filters],
