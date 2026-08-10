@@ -20,7 +20,8 @@ import {
   Monitor,
   Globe,
   Info,
-  Loader2
+  Loader2,
+  ClipboardList
 } from "lucide-react";
 import { 
   Select, 
