@@ -10,10 +10,10 @@ export function TopNav() {
       <div className="flex items-center gap-3">
         <SidebarTrigger className="-ml-1 h-8 w-8" />
         <div className="hidden h-6 w-px bg-border sm:block" />
-        <nav className="hidden items-center gap-1 text-sm text-muted-foreground sm:flex">
-          <span>Finance</span>
-          <span className="text-border">/</span>
-          <span className="font-medium text-foreground">Fee Types</span>
+        <nav className="hidden items-center gap-1 text-xs font-bold uppercase tracking-widest text-muted-foreground sm:flex">
+          <span className="hover:text-schoolgate-green cursor-pointer transition-colors">Enterprise</span>
+          <span className="text-slate-300">/</span>
+          <span className="text-slate-900">Dashboard</span>
         </nav>
       </div>
 
