@@ -93,8 +93,8 @@ function HRPayrollDashboard() {
             <TabsList className="bg-transparent h-auto p-0 gap-1">
               {[
                 { id: "overview", label: "Overview" },
-                { id: "payroll", label: "Payroll Summary" },
-                { id: "employees", label: "Employee Hub" },
+                { id: "payroll", label: "Payroll Centre" },
+                { id: "employees", label: "Staff Management" },
                 { id: "recruitment", label: "Recruitment" },
                 { id: "attendance", label: "Attendance" },
                 { id: "leave", label: "Leave Mgmt" },
@@ -129,7 +129,18 @@ function HRPayrollDashboard() {
              </div>
           </TabsContent>
           <TabsContent value="employees" className="outline-none">
-            <EmployeeList />
+            <div className="flex flex-col items-center justify-center bg-white p-12 rounded-3xl border border-dashed border-slate-200 text-center gap-4">
+              <div className="h-16 w-16 bg-schoolgate-green-light rounded-full flex items-center justify-center text-schoolgate-green">
+                <Users size={32} />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-slate-900">Staff & Employee Registry</h3>
+                <p className="text-slate-500 max-w-md mx-auto mt-2">Access comprehensive staff records, manage appointments and track employment lifecycles.</p>
+              </div>
+              <Button className="bg-schoolgate-green hover:bg-schoolgate-green/90 rounded-xl px-8 h-12 font-bold shadow-lg shadow-schoolgate-green/20" asChild>
+                <Link to="/finance/hr-payroll/employees">Enter Staff Management Hub</Link>
+              </Button>
+            </div>
           </TabsContent>
           <TabsContent value="recruitment" className="outline-none">
             <RecruitmentHub />
