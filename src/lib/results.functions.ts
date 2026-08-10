@@ -153,3 +153,57 @@ export const getResultsForBulkAction = createServerFn({ method: "GET" })
 
     return results || [];
   });
+
+export const saveResultScores = createServerFn({ method: "POST" })
+  .validator((data: { 
+    tenantId: string, 
+    results: Array<{
+      id?: string,
+      studentId: string,
+      subjectId: string,
+      classId: string,
+      session: string,
+      term: string,
+      caScore: number,
+      examScore: number,
+      status?: string
+    }> 
+  }) => z.object({
+    tenantId: z.string().uuid(),
+    results: z.array(z.object({
+      id: z.string().uuid().optional(),
+      studentId: z.string().uuid(),
+      subjectId: z.string().uuid(),
+      classId: z.string().uuid(),
+      session: z.string(),
+      term: z.string(),
+      caScore: z.number(),
+      examScore: z.number(),
+      status: z.string().optional()
+    }))
+  }).parse(data))
+  .handler(async ({ data }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    
+    const upsertData = data.results.map(r => ({
+      id: r.id,
+      tenant_id: data.tenantId,
+      student_id: r.studentId,
+      subject_id: r.subjectId,
+      class_id: r.classId,
+      academic_session: r.session,
+      term: r.term,
+      ca_score: r.caScore,
+      exam_score: r.examScore,
+      status: r.status || 'submitted',
+      total_score: r.caScore + r.examScore
+    }));
+
+    const { data: saved, error } = await supabaseAdmin
+      .from('academic_results')
+      .upsert(upsertData)
+      .select();
+
+    if (error) throw new Error(error.message);
+    return { success: true, count: saved?.length || 0 };
+  });
