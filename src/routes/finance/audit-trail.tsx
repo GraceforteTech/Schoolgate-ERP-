@@ -79,21 +79,49 @@ function AuditTrailPage() {
   const logs = data?.logs || [];
   const totalCount = data?.count || 0;
 
-  const handleExport = () => {
-    if (!logs.length) return;
-    exportToCSV(
-        logs.map((log: any) => ({
-            Date: new Date(log.created_at).toLocaleString(),
-            User: log.user_name || 'System',
-            Role: log.user_role || 'N/A',
-            Action: log.action,
-            Entity: log.entity_type,
-            Description: log.description || '',
-            Details: JSON.stringify(log.metadata || {})
-        })),
-        `schoolgate_audit_trail_${new Date().toISOString().split('T')[0]}.csv`
-    );
-    toast.success("Audit trail exported successfully");
+  const handleExport = async () => {
+    setIsExporting(true);
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Not authenticated");
+      
+      const { data: membership } = await supabase.from('memberships').select('tenant_id').eq('user_id', user.id).single();
+      if (!membership) throw new Error("Tenant not found");
+
+      const result = await triggerExport({
+        data: {
+          tenantId: membership.tenant_id,
+          userId: user.id,
+          filters: { ...filters }
+        }
+      });
+
+      if (!result?.logs?.length) {
+        toast.error("No records found to export");
+        return;
+      }
+
+      exportToCSV(
+          result.logs.map((log: any) => ({
+              'Audit ID': log.id,
+              'Date/Time': new Date(log.created_at).toLocaleString(),
+              'User': log.user_name || 'System',
+              'Role': log.user_role || 'N/A',
+              'Action': log.action,
+              'Entity Type': log.entity_type,
+              'Entity ID': log.entity_id,
+              'Description': log.description || '',
+              'Status': log.metadata?.status || 'Completed',
+              'Reference ID': log.metadata?.reference_id || ''
+          })),
+          `schoolgate_audit_trail_${new Date().toISOString().split('T')[0]}.csv`
+      );
+      toast.success("Audit trail exported successfully");
+    } catch (error: any) {
+      toast.error(error.message || "Export failed");
+    } finally {
+      setIsExporting(false);
+    }
   };
 
   const handleSearch = (val: string) => {
