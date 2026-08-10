@@ -28,7 +28,7 @@ export const getFeeTypesRegistry = createServerFn({ method: "GET" })
 
     // Group stats by fee_type_id
     const statsMap: Record<string, { count: number; expected: number }> = {};
-    feeStats?.forEach(f => {
+    (feeStats || []).forEach((f: any) => {
       if (!f.fee_type_id) return;
       if (!statsMap[f.fee_type_id]) statsMap[f.fee_type_id] = { count: 0, expected: 0 };
       statsMap[f.fee_type_id].count += 1;
@@ -37,12 +37,12 @@ export const getFeeTypesRegistry = createServerFn({ method: "GET" })
 
     // 3. Overall Registry Summary
     const totalFeeTypes = feeTypes?.length || 0;
-    const activeFeeTypes = feeTypes?.filter(f => f.is_active).length || 0;
-    const totalExpectedRevenue = feeStats?.reduce((sum, f) => sum + Number(f.amount_due), 0) || 0;
+    const activeFeeTypes = feeTypes?.filter((f: any) => f.is_active).length || 0;
+    const totalExpectedRevenue = (feeStats || []).reduce((sum: number, f: any) => sum + Number(f.amount_due), 0) || 0;
     const totalAssignedFees = feeStats?.length || 0;
 
     return {
-      feeTypes: feeTypes.map(f => ({
+      feeTypes: (feeTypes || []).map((f: any) => ({
         ...f,
         studentsAssigned: statsMap[f.id]?.count || 0,
         expectedRevenue: statsMap[f.id]?.expected || 0
