@@ -140,7 +140,6 @@ const TEXTBOOK_ANALYTICS_DATA = [
 ]
 
 function EnterpriseCommandCenter() {
-  const [time, setTime] = useState(new Date())
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [formConfig, setFormConfig] = useState({ title: '', description: '', icon: Users })
 
@@ -148,12 +147,6 @@ function EnterpriseCommandCenter() {
     setFormConfig({ title, description, icon })
     setIsFormOpen(true)
   }
-
-
-  useEffect(() => {
-    const timer = setInterval(() => setTime(new Date()), 1000)
-    return () => clearInterval(timer)
-  }, [])
 
   return (
     <div className="min-h-screen bg-[#F5F7FA] p-4 lg:p-8 space-y-8 pb-20">
@@ -169,7 +162,7 @@ function EnterpriseCommandCenter() {
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 xl:gap-8 items-center">
           <HeaderMetadata icon={Calendar} label="Date" value={new Date().toLocaleDateString()} />
-          <HeaderMetadata icon={Clock} label="Time" value={new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} isClientOnly />
+          <HeaderMetadata icon={Clock} label="Time" value="09:00 AM" />
           <HeaderMetadata icon={ShieldCheck} label="Session" value="2023/2024" />
           <HeaderMetadata icon={Target} label="Term" value="Second Term" />
           <HeaderMetadata icon={Cloud} label="Weather" value="28°C Sunny" />

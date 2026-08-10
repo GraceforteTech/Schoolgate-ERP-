@@ -16,6 +16,7 @@ import {
   Search,
   ChevronRight,
   Plus,
+  Banknote,
 } from "lucide-react";
 import { ComponentType } from "react";
 
@@ -55,13 +56,18 @@ function AdjustmentManagementPage() {
           <main className="flex-1 p-4 md:p-6">
             <div className="mx-auto max-w-7xl space-y-6">
               {/* Page Header */}
-              <div className="flex flex-col gap-1">
-                <h1 className="text-2xl font-semibold tracking-tight text-foreground">
-                  Financial Adjustment & Outstanding Management
-                </h1>
-                <p className="text-sm text-muted-foreground">
-                  Manage student balances, manual adjustments, and financial history with full auditability.
-                </p>
+              <div className="flex flex-col md:flex-row md:items-center gap-4">
+                <div className="h-12 w-12 rounded-2xl bg-schoolgate-green-light flex items-center justify-center text-schoolgate-green">
+                  <Banknote size={24} />
+                </div>
+                <div>
+                  <h1 className="text-2xl font-semibold tracking-tight text-foreground">
+                    Individual Fee Adjustment
+                  </h1>
+                  <p className="text-sm text-muted-foreground">
+                    Manage student balances, manual adjustments, and financial history with full auditability.
+                  </p>
+                </div>
               </div>
 
               {/* Summary Cards */}

@@ -25,12 +25,17 @@ function StudentInformationPage() {
   return (
     <div className="min-h-screen bg-[#F5F7FA] p-4 lg:p-8 space-y-8 pb-20">
       {/* Header Section */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-900">Student Information Management</h1>
-          <p className="text-sm text-slate-500 mt-1">
-            Manage student records, profiles and academic information from one central location.
-          </p>
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div className="flex items-center gap-4">
+          <div className="h-12 w-12 rounded-2xl bg-schoolgate-green-light flex items-center justify-center text-schoolgate-green">
+            <Users size={24} />
+          </div>
+          <div>
+            <h1 className="text-3xl font-black text-slate-900 tracking-tight">Student Information</h1>
+            <p className="text-slate-500 font-medium italic mt-1">
+              Manage student records, profiles and academic information from one central location.
+            </p>
+          </div>
         </div>
         <div className="flex items-center gap-2">
           <Card className="flex items-center gap-3 py-2 px-4 border-slate-200 rounded-xl shadow-sm bg-white">

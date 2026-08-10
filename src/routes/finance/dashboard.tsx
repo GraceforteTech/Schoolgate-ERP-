@@ -29,9 +29,14 @@ function FinanceDashboard() {
     <div className="flex flex-col gap-6 p-6 md:p-8 bg-[#F5F7FA] min-h-screen">
       {/* Page Header */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-        <div>
-          <h1 className="text-3xl font-black text-slate-900 tracking-tight">Finance Dashboard</h1>
-          <p className="text-slate-500 mt-1 font-medium">Monitor the financial health of your school in real time.</p>
+        <div className="flex items-center gap-4">
+          <div className="h-12 w-12 rounded-2xl bg-schoolgate-green-light flex items-center justify-center text-schoolgate-green">
+            <LayoutDashboard size={24} />
+          </div>
+          <div>
+            <h1 className="text-3xl font-black text-slate-900 tracking-tight">Finance Dashboard</h1>
+            <p className="text-slate-500 mt-1 font-medium italic">Monitor the financial health of your school in real time.</p>
+          </div>
         </div>
         
         <div className="flex flex-wrap items-center gap-3">

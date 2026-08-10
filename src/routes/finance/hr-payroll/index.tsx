@@ -1,5 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { LayoutDashboard, Download, Filter, Plus, Printer, Share2 } from "lucide-react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { LayoutDashboard, Download, Filter, Plus, Printer, Share2, Users, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { HRDashboardKPIs } from "@/components/hr/hr-dashboard-kpis";
 import { HRDashboardAnalytics } from "@/components/hr/hr-dashboard-analytics";
@@ -24,13 +24,18 @@ function HRPayrollDashboard() {
       {/* Header Area */}
       <div className="bg-white border-b border-slate-200 sticky top-0 z-30">
         <div className="flex flex-col md:flex-row md:items-center justify-between px-6 py-4 gap-4 max-w-[1600px] mx-auto">
-          <div>
-            <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
-              HR & Payroll Management
-            </h1>
-            <p className="text-sm text-muted-foreground mt-1">
-              Manage employees, payroll and staff welfare from one intelligent dashboard.
-            </p>
+          <div className="flex items-center gap-4">
+            <div className="h-12 w-12 rounded-2xl bg-schoolgate-green-light flex items-center justify-center text-schoolgate-green">
+              <ShieldCheck size={24} />
+            </div>
+            <div>
+              <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
+                HR & Payroll Management
+              </h1>
+              <p className="text-sm text-muted-foreground mt-1">
+                Manage employees, payroll and staff welfare from one intelligent dashboard.
+              </p>
+            </div>
           </div>
           <div className="flex items-center gap-2">
             <Button variant="outline" className="h-9 gap-2 border-slate-200 rounded-lg">
@@ -88,8 +93,8 @@ function HRPayrollDashboard() {
             <TabsList className="bg-transparent h-auto p-0 gap-1">
               {[
                 { id: "overview", label: "Overview" },
-                { id: "payroll", label: "Payroll Summary" },
-                { id: "employees", label: "Employee Hub" },
+                { id: "payroll", label: "Payroll Centre" },
+                { id: "employees", label: "Staff Management" },
                 { id: "recruitment", label: "Recruitment" },
                 { id: "attendance", label: "Attendance" },
                 { id: "leave", label: "Leave Mgmt" },
@@ -117,12 +122,25 @@ function HRPayrollDashboard() {
           
           <TabsContent value="payroll" className="h-40 flex items-center justify-center bg-white rounded-[14px] border border-dashed border-slate-300">
              <div className="text-center">
-               <p className="text-sm text-muted-foreground font-medium italic">Payroll Detailed Module Placeholder</p>
-               <Button variant="link" className="text-schoolgate-green text-xs">View Registry</Button>
+               <p className="text-sm text-muted-foreground font-medium italic">Detailed payroll processing, salary ledgers, and grade management.</p>
+               <Button variant="link" className="text-schoolgate-green text-xs font-bold uppercase tracking-widest" asChild>
+                 <Link to="/finance/hr-payroll/payroll-dashboard">Enter Payroll Centre</Link>
+               </Button>
              </div>
           </TabsContent>
           <TabsContent value="employees" className="outline-none">
-            <EmployeeList />
+            <div className="flex flex-col items-center justify-center bg-white p-12 rounded-3xl border border-dashed border-slate-200 text-center gap-4">
+              <div className="h-16 w-16 bg-schoolgate-green-light rounded-full flex items-center justify-center text-schoolgate-green">
+                <Users size={32} />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-slate-900">Staff & Employee Registry</h3>
+                <p className="text-slate-500 max-w-md mx-auto mt-2">Access comprehensive staff records, manage appointments and track employment lifecycles.</p>
+              </div>
+              <Button className="bg-schoolgate-green hover:bg-schoolgate-green/90 rounded-xl px-8 h-12 font-bold shadow-lg shadow-schoolgate-green/20" asChild>
+                <Link to="/finance/hr-payroll/employees">Enter Staff Management Hub</Link>
+              </Button>
+            </div>
           </TabsContent>
           <TabsContent value="recruitment" className="outline-none">
             <RecruitmentHub />

@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { 
   Banknote, 
   LayoutDashboard, 
@@ -9,7 +9,8 @@ import {
   Bell,
   CheckCircle2,
   Clock,
-  ArrowRight
+  ArrowRight,
+  ArrowLeft
 } from "lucide-react";
 import { PayrollKPIs } from "@/components/hr/payroll-mgmt/payroll-kpis";
 import { cn } from "@/lib/utils";
@@ -48,9 +49,19 @@ function PayrollDashboard() {
     <div className="min-h-screen bg-[#F5F7FA] pb-12">
       <div className="bg-white border-b border-slate-200 sticky top-0 z-30">
         <div className="px-6 py-6 max-w-[1600px] mx-auto flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">Payroll Management Dashboard</h1>
-            <p className="text-sm text-muted-foreground mt-1">Provide HR officers, accountants and proprietors with a complete overview of payroll activities.</p>
+          <div className="flex items-center gap-4">
+            <Button variant="outline" size="icon" className="h-10 w-10 rounded-xl bg-white border-none shadow-sm" asChild>
+              <Link to="/finance/hr-payroll">
+                <ArrowLeft className="h-5 w-5 text-slate-600" />
+              </Link>
+            </Button>
+            <div className="h-12 w-12 rounded-2xl bg-schoolgate-green-light flex items-center justify-center text-schoolgate-green">
+              <Banknote size={24} />
+            </div>
+            <div>
+              <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">Payroll Management Centre</h1>
+              <p className="text-sm text-muted-foreground mt-1">Provide HR officers, accountants and proprietors with a complete overview of payroll activities.</p>
+            </div>
           </div>
           <div className="flex items-center gap-2">
              <Button variant="outline" className="h-10 gap-2 border-slate-200 rounded-lg">
