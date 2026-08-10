@@ -15,7 +15,7 @@ export const getStudentFinanceProfile = createServerFn({ method: "GET" })
       .select('*')
       .eq('student_id', data.studentId)
       .eq('tenant_id', data.tenantId)
-      .single());
+      .maybeSingle());
 
     // Fetch Fees
     const { data: fees } = await (supabaseAdmin
@@ -50,7 +50,19 @@ export const processPayment = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     
-    // 1. Create Transaction record (Pending by default)
+    // 1. Check for Duplicate Reference
+    if (data.reference) {
+      const { data: existing } = await (supabaseAdmin
+        .from('transactions')
+        .select('id')
+        .eq('reference', data.reference)
+        .eq('tenant_id', data.tenantId)
+        .maybeSingle());
+      
+      if (existing) throw new Error(`Duplicate payment detected. Reference ${data.reference} already exists.`);
+    }
+
+    // 2. Create Transaction record (Pending by default)
     const { data: transaction, error } = await (supabaseAdmin
       .from('transactions')
       .insert({
@@ -81,6 +93,17 @@ export const approveTransaction = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     
+    // 1. Get Transaction
+    const { data: transaction } = await (supabaseAdmin
+      .from('transactions')
+      .select('*')
+      .eq('id', data.transactionId)
+      .single());
+
+    if (!transaction) throw new Error("Transaction not found");
+    if (transaction.status === 'approved') throw new Error("Transaction already approved");
+
+    // 2. Update Status
     const { error } = await (supabaseAdmin
       .from('transactions')
       .update({
@@ -91,5 +114,25 @@ export const approveTransaction = createServerFn({ method: "POST" })
       .eq('id', data.transactionId));
 
     if (error) throw new Error(`Approval failed: ${error.message}`);
+
+    // 3. If it's a fee payment, update the student_fees record
+    if (transaction.type === 'fee_payment') {
+        const { data: currentFee } = await (supabaseAdmin
+            .from('student_fees')
+            .select('*')
+            .eq('student_id', transaction.student_id)
+            .eq('academic_session', transaction.academic_session || '2023/2024')
+            .eq('term', transaction.term || 'First Term')
+            .limit(1)
+            .maybeSingle());
+
+        if (currentFee) {
+            await (supabaseAdmin
+                .from('student_fees')
+                .update({ amount_paid: Number(currentFee.amount_paid) + Number(transaction.amount) })
+                .eq('id', currentFee.id));
+        }
+    }
+
     return { success: true };
   });
