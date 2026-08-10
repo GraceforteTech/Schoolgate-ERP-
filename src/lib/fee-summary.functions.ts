@@ -28,14 +28,14 @@ export const getFeeSummaryStats = createServerFn({ method: "GET" })
     const { data: fees, error } = await query;
     if (error) throw new Error(error.message);
 
-    const totalFeesBilled = fees?.reduce((sum, f) => sum + Number(f.amount_due), 0) || 0;
-    const totalCollected = fees?.reduce((sum, f) => sum + Number(f.amount_paid), 0) || 0;
+    const totalFeesBilled = (fees || []).reduce((sum: number, f: any) => sum + Number(f.amount_due), 0);
+    const totalCollected = (fees || []).reduce((sum: number, f: any) => sum + Number(f.amount_paid), 0);
     const totalOutstanding = totalFeesBilled - totalCollected;
     const paymentRate = totalFeesBilled > 0 ? (totalCollected / totalFeesBilled) * 100 : 0;
 
-    const uniqueStudents = new Set(fees?.map(f => f.student_id)).size;
-    const paidStudents = new Set(fees?.filter(f => f.status === 'paid').map(f => f.student_id)).size;
-    const partiallyPaidStudents = new Set(fees?.filter(f => f.status === 'partially_paid').map(f => f.student_id)).size;
+    const uniqueStudents = new Set((fees || []).map((f: any) => f.student_id)).size;
+    const paidStudents = new Set((fees || []).filter((f: any) => f.status === 'paid').map((f: any) => f.student_id)).size;
+    const partiallyPaidStudents = new Set((fees || []).filter((f: any) => f.status === 'partially_paid').map((f: any) => f.student_id)).size;
     const unpaidStudents = uniqueStudents - paidStudents - partiallyPaidStudents;
 
     // Fetch pending payments (transactions)
@@ -50,7 +50,7 @@ export const getFeeSummaryStats = createServerFn({ method: "GET" })
     if (data.term) txQuery = txQuery.eq('term', data.term);
 
     const { data: pendingTxs } = await txQuery;
-    const pendingPaymentsValue = pendingTxs?.reduce((sum, t) => sum + Number(t.amount), 0) || 0;
+    const pendingPaymentsValue = (pendingTxs || []).reduce((sum: number, t: any) => sum + Number(t.amount), 0);
 
     return {
       totalFeesBilled,
