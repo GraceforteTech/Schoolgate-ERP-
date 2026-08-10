@@ -30,11 +30,9 @@ function ClassInformationPage() {
       {/* Header Section */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="flex items-center gap-4">
-          <Button variant="outline" size="icon" className="h-12 w-12 rounded-2xl bg-white border-none shadow-sm" asChild>
-            <Link to="/academic">
-              <ArrowLeft className="h-5 w-5 text-slate-600" />
-            </Link>
-          </Button>
+          <div className="h-12 w-12 rounded-2xl bg-schoolgate-green-light flex items-center justify-center text-schoolgate-green">
+            <Users size={24} />
+          </div>
           <div>
             <h1 className="text-3xl font-black text-slate-900 tracking-tight">Class Information</h1>
             <p className="text-slate-500 font-medium italic mt-1">
