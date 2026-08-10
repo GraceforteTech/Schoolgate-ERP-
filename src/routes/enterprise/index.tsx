@@ -228,7 +228,7 @@ function EnterpriseCommandCenter() {
             <ShieldAlert className="text-rose-600" size={20} />
             <CardTitle className="text-sm font-black text-rose-900 uppercase tracking-wider">Executive Alert Center</CardTitle>
           </div>
-          <Badge className="bg-rose-600 text-white border-none font-black">{((stats?.pendingPayments || 0) + (stats?.unpaidStudents || 0)) || 12} Urgent Actions</Badge>
+          <Badge className="bg-rose-600 text-white border-none font-black">{((stats?.pendingPayments || 0) + (stats?.pendingExpenses || 0) + (stats?.unpaidStudents || 0)) || 12} Urgent Actions</Badge>
         </CardHeader>
         <CardContent className="p-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
@@ -240,7 +240,7 @@ function EnterpriseCommandCenter() {
             <AlertItem label="Inventory: HB Pencils Running Low" />
             <AlertItem label="Missing Cognitive Assessment - JSS1" />
             <AlertItem label="Expiring Staff Documents (3)" />
-            <AlertItem label={`${stats?.pendingPayments || 2} Pending Expense Approvals (>₦50k)`} />
+            <AlertItem label={`${stats?.pendingExpenses || 2} Pending Expense Approvals`} />
           </div>
         </CardContent>
       </Card>
