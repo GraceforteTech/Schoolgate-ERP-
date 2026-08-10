@@ -3,6 +3,8 @@ import { z } from "zod";
 
 const LessonNoteSchema = z.object({
   id: z.string().uuid().optional(),
+  teacher_id: z.string().uuid().optional(),
+  tenant_id: z.string().uuid().optional(),
   academic_session: z.string(),
   term: z.string(),
   week: z.number(),
@@ -32,13 +34,9 @@ export const saveLessonNote = createServerFn({ method: "POST" })
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { id, ...noteData } = data;
     
-    // In a real app, we'd get teacher_id and tenant_id from the session context
-    // For this implementation, we assume the middleware or context provides these.
-    // For now, let's assume we need to fetch them if not provided.
-    
     const { data: note, error } = id 
-      ? await supabaseAdmin.from('lesson_notes').update(noteData).eq('id', id).select().single()
-      : await supabaseAdmin.from('lesson_notes').insert(noteData).select().single();
+      ? await (supabaseAdmin.from('lesson_notes' as any) as any).update(noteData).eq('id', id).select().single()
+      : await (supabaseAdmin.from('lesson_notes' as any) as any).insert(noteData).select().single();
 
     if (error) throw new Error(error.message);
     return note;
@@ -48,8 +46,8 @@ export const getMyLessonNotes = createServerFn({ method: "GET" })
   .validator((data: { teacherId: string }) => z.object({ teacherId: z.string().uuid() }).parse(data))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { data: notes, error } = await supabaseAdmin
-      .from('lesson_notes')
+    const { data: notes, error } = await (supabaseAdmin
+      .from('lesson_notes' as any) as any)
       .select('*')
       .eq('teacher_id', data.teacherId)
       .order('created_at', { ascending: false });
@@ -63,8 +61,8 @@ export const duplicateLessonNote = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     
-    const { data: original, error: fetchError } = await supabaseAdmin
-      .from('lesson_notes')
+    const { data: original, error: fetchError } = await (supabaseAdmin
+      .from('lesson_notes' as any) as any)
       .select('*')
       .eq('id', data.noteId)
       .single();
@@ -73,8 +71,8 @@ export const duplicateLessonNote = createServerFn({ method: "POST" })
 
     const { id, created_at, updated_at, status, reviewer_id, review_date, review_comment, ...newData } = original;
     
-    const { data: newNode, error: insertError } = await supabaseAdmin
-      .from('lesson_notes')
+    const { data: newNode, error: insertError } = await (supabaseAdmin
+      .from('lesson_notes' as any) as any)
       .insert({ ...newData, status: 'draft' })
       .select()
       .single();
@@ -87,8 +85,8 @@ export const getBiometricDevices = createServerFn({ method: "GET" })
   .validator((data: { tenantId: string }) => z.object({ tenantId: z.string().uuid() }).parse(data))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { data: devices, error } = await supabaseAdmin
-      .from('biometric_devices')
+    const { data: devices, error } = await (supabaseAdmin
+      .from('biometric_devices' as any) as any)
       .select('*')
       .eq('tenant_id', data.tenantId);
 
@@ -108,8 +106,8 @@ export const registerBiometricDevice = createServerFn({ method: "POST" })
   }).parse(data))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { data: device, error } = await supabaseAdmin
-      .from('biometric_devices')
+    const { data: device, error } = await (supabaseAdmin
+      .from('biometric_devices' as any) as any)
       .insert(data)
       .select()
       .single();
