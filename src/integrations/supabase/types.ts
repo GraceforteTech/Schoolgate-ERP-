@@ -14,6 +14,62 @@ export type Database = {
   }
   public: {
     Tables: {
+      audit_logs: {
+        Row: {
+          action: string
+          created_at: string | null
+          description: string | null
+          entity_id: string
+          entity_type: string
+          id: string
+          metadata: Json | null
+          new_values: Json | null
+          old_values: Json | null
+          tenant_id: string
+          user_id: string | null
+          user_name: string | null
+          user_role: Database["public"]["Enums"]["app_role"] | null
+        }
+        Insert: {
+          action: string
+          created_at?: string | null
+          description?: string | null
+          entity_id: string
+          entity_type: string
+          id?: string
+          metadata?: Json | null
+          new_values?: Json | null
+          old_values?: Json | null
+          tenant_id: string
+          user_id?: string | null
+          user_name?: string | null
+          user_role?: Database["public"]["Enums"]["app_role"] | null
+        }
+        Update: {
+          action?: string
+          created_at?: string | null
+          description?: string | null
+          entity_id?: string
+          entity_type?: string
+          id?: string
+          metadata?: Json | null
+          new_values?: Json | null
+          old_values?: Json | null
+          tenant_id?: string
+          user_id?: string | null
+          user_name?: string | null
+          user_role?: Database["public"]["Enums"]["app_role"] | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "audit_logs_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       campuses: {
         Row: {
           address: string | null
@@ -266,6 +322,9 @@ export type Database = {
       student_fees: {
         Row: {
           academic_session: string
+          adjusted_by: string | null
+          adjustment_amount: number | null
+          adjustment_reason: string | null
           amount_due: number
           amount_paid: number | null
           class_id: string
@@ -277,9 +336,13 @@ export type Database = {
           tenant_id: string
           term: string
           updated_at: string | null
+          waived_amount: number | null
         }
         Insert: {
           academic_session: string
+          adjusted_by?: string | null
+          adjustment_amount?: number | null
+          adjustment_reason?: string | null
           amount_due: number
           amount_paid?: number | null
           class_id: string
@@ -291,9 +354,13 @@ export type Database = {
           tenant_id: string
           term: string
           updated_at?: string | null
+          waived_amount?: number | null
         }
         Update: {
           academic_session?: string
+          adjusted_by?: string | null
+          adjustment_amount?: number | null
+          adjustment_reason?: string | null
           amount_due?: number
           amount_paid?: number | null
           class_id?: string
@@ -305,6 +372,7 @@ export type Database = {
           tenant_id?: string
           term?: string
           updated_at?: string | null
+          waived_amount?: number | null
         }
         Relationships: [
           {
