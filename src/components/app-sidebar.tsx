@@ -75,6 +75,7 @@ const financeNavItems = [
   { title: "Finance Dashboard", url: "/finance/dashboard", icon: LayoutDashboard },
   { title: "Expenses", url: "/finance/expense-management", icon: Banknote },
   { title: "Payments", url: "/finance/payroll-management", icon: Banknote },
+  { title: "Approval Centre", url: "/finance/approvals", icon: ShieldCheck },
 ];
 
 const systemNavItems = [
