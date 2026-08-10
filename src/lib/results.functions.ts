@@ -42,8 +42,8 @@ export const getStudentResultDetails = createServerFn({ method: "GET" })
     if (resultsError) throw new Error(resultsError.message);
 
     // 3. Aggregate metrics
-    const validScores = (results || []).filter(r => r.total_score !== null);
-    const totalScore = validScores.reduce((sum, r) => sum + Number(r.total_score), 0);
+    const validScores = (results || []).filter((r: any) => r.total_score !== null);
+    const totalScore = validScores.reduce((sum: number, r: any) => sum + Number(r.total_score), 0);
     const averageScore = validScores.length > 0 ? totalScore / validScores.length : 0;
     
     // Determine overall grade (simple logic for now, should use grading_schemes eventually)
@@ -53,7 +53,7 @@ export const getStudentResultDetails = createServerFn({ method: "GET" })
     else if (averageScore >= 65) overallGrade = 'B3';
     else if (averageScore >= 60) overallGrade = 'C4';
     else if (averageScore >= 55) overallGrade = 'C5';
-    else if (averageScore >= 50) overallScore = 'C6';
+    else if (averageScore >= 50) overallGrade = 'C6';
     else if (averageScore >= 45) overallGrade = 'D7';
     else if (averageScore >= 40) overallGrade = 'E8';
     else if (averageScore > 0) overallGrade = 'F9';
@@ -66,7 +66,7 @@ export const getStudentResultDetails = createServerFn({ method: "GET" })
         averageScore: Number(averageScore.toFixed(2)),
         overallGrade,
         subjectCount: results?.length || 0,
-        status: results?.every(r => r.status === 'approved') ? 'Approved' : 'Pending'
+        status: results?.every((r: any) => r.status === 'approved') ? 'Approved' : 'Pending'
       }
     };
   });
