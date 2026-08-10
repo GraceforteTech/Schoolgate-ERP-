@@ -12,7 +12,8 @@ export function ExecutiveKPIs() {
     queryKey: ['school-financial-summary'],
     queryFn: async () => {
       const { data: { user } } = await supabase.auth.getUser();
-      const { data: profile } = await supabase.from('memberships').select('tenant_id').eq('user_id', user?.id).single();
+      if (!user) throw new Error("Not authenticated");
+      const { data: profile } = await supabase.from('memberships').select('tenant_id').eq('user_id', user.id).single();
       if (!profile) throw new Error("Tenant not found");
       return fetchSummary({ data: { tenantId: profile.tenant_id } });
     }
