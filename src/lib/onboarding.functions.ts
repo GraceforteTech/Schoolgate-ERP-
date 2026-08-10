@@ -1,9 +1,8 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { supabaseAdmin } from "@/integrations/supabase/client.server";
 
 export const completeOnboarding = createServerFn({ method: "POST" })
-  .inputValidator((data) => z.object({
+  .validator((data) => z.object({
     userId: z.string().uuid(),
     schoolName: z.string(),
     workspaceSlug: z.string(),
@@ -13,9 +12,11 @@ export const completeOnboarding = createServerFn({ method: "POST" })
     plan: z.string().default('trial')
   }).parse(data))
   .handler(async ({ data }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    
     // 1. Create Tenant
-    const { data: tenant, error: tenantError } = await supabaseAdmin
-      .from('tenants')
+    const { data: tenant, error: tenantError } = await (supabaseAdmin
+      .from('tenants' as any) as any)
       .insert({
         name: data.schoolName,
         slug: data.workspaceSlug,
@@ -29,8 +30,8 @@ export const completeOnboarding = createServerFn({ method: "POST" })
     if (tenantError) throw new Error(`Tenant creation failed: ${tenantError.message}`);
 
     // 2. Create Primary Campus
-    const { data: campus, error: campusError } = await supabaseAdmin
-      .from('campuses')
+    const { data: campus, error: campusError } = await (supabaseAdmin
+      .from('campuses' as any) as any)
       .insert({
         tenant_id: tenant.id,
         name: data.campusName,
@@ -42,8 +43,8 @@ export const completeOnboarding = createServerFn({ method: "POST" })
     if (campusError) throw new Error(`Campus creation failed: ${campusError.message}`);
 
     // 3. Create Membership (Owner)
-    const { error: membershipError } = await supabaseAdmin
-      .from('memberships')
+    const { error: membershipError } = await (supabaseAdmin
+      .from('memberships' as any) as any)
       .insert({
         tenant_id: tenant.id,
         user_id: data.userId,
@@ -55,8 +56,8 @@ export const completeOnboarding = createServerFn({ method: "POST" })
     if (membershipError) throw new Error(`Membership creation failed: ${membershipError.message}`);
 
     // 4. Assign School Owner Role
-    const { error: roleError } = await supabaseAdmin
-      .from('user_roles')
+    const { error: roleError } = await (supabaseAdmin
+      .from('user_roles' as any) as any)
       .insert({
         tenant_id: tenant.id,
         user_id: data.userId,
@@ -69,13 +70,15 @@ export const completeOnboarding = createServerFn({ method: "POST" })
   });
 
 export const checkUserTenants = createServerFn({ method: "GET" })
-  .inputValidator((data) => z.object({ userId: z.string().uuid() }).parse(data))
+  .validator((data) => z.object({ userId: z.string().uuid() }).parse(data))
   .handler(async ({ data }) => {
-    const { data: memberships, error } = await supabaseAdmin
-      .from('memberships')
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    
+    const { data: memberships, error } = await (supabaseAdmin
+      .from('memberships' as any) as any)
       .select('tenant_id')
       .eq('user_id', data.userId);
 
     if (error) throw new Error(error.message);
-    return { hasTenants: memberships.length > 0 };
+    return { hasTenants: (memberships?.length ?? 0) > 0 };
   });

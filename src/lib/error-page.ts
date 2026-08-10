@@ -20,10 +20,17 @@ export function renderErrorPage(): string {
     <div class="card">
       <h1>This page didn't load</h1>
       <p>Something went wrong on our end. You can try refreshing or head back home.</p>
+      <div id="error-details" style="display:none; text-align: left; background: #eee; padding: 1rem; border-radius: 4px; font-family: monospace; font-size: 0.8rem; overflow-x: auto; margin-bottom: 1rem;">
+        <pre id="error-stack"></pre>
+      </div>
       <div class="actions">
         <button class="primary" onclick="location.reload()">Try again</button>
         <a class="secondary" href="/">Go home</a>
       </div>
+      <script>
+        // Check if there's error info in window.__ERROR__ (we can set this in start.ts if we want, or just wait for logs)
+        console.log("Error page loaded. Check server console for full details.");
+      </script>
     </div>
   </body>
 </html>`;

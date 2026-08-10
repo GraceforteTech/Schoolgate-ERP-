@@ -7,10 +7,16 @@ const errorMiddleware = createMiddleware().server(async ({ next }) => {
   try {
     return await next();
   } catch (error) {
+    // Log error details for debugging blank screens/500s
+    console.error("TanStack Start Middleware Caught Error:", error);
+    if (error instanceof Error) {
+      console.error("Stack trace:", error.stack);
+    }
+    
     if (error != null && typeof error === "object" && "statusCode" in error) {
       throw error;
     }
-    console.error(error);
+    
     return new Response(renderErrorPage(), {
       status: 500,
       headers: { "content-type": "text/html; charset=utf-8" },

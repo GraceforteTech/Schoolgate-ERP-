@@ -1,12 +1,11 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { supabaseAdmin } from "@/integrations/supabase/client.server";
 
 // We use "as any" for table names because the Supabase types are not yet updated 
 // with the new tables, causing TS build errors. The logic is verified via E2E tests.
 
 export const generateReportPins = createServerFn({ method: "POST" })
-  .inputValidator((data) => z.object({
+  .validator((data) => z.object({
     tenantId: z.string().uuid(),
     students: z.array(z.string()),
     sessionId: z.string(),
@@ -16,6 +15,8 @@ export const generateReportPins = createServerFn({ method: "POST" })
     expiresAt: z.string().optional(),
   }).parse(data))
   .handler(async ({ data }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    
     const pins = data.students.map(studentId => ({
       tenant_id: data.tenantId,
       student_id: studentId,
@@ -38,11 +39,13 @@ export const generateReportPins = createServerFn({ method: "POST" })
   });
 
 export const redeemPin = createServerFn({ method: "POST" })
-  .inputValidator((data) => z.object({
+  .validator((data) => z.object({
     pinCode: z.string(),
     tenantId: z.string().uuid()
   }).parse(data))
   .handler(async ({ data }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    
     const { data: result, error } = await supabaseAdmin.rpc('redeem_report_pin' as any, {
       _pin_code: data.pinCode,
       _tenant_id: data.tenantId
@@ -53,11 +56,13 @@ export const redeemPin = createServerFn({ method: "POST" })
   });
 
 export const togglePinStatus = createServerFn({ method: "POST" })
-  .inputValidator((data) => z.object({
+  .validator((data) => z.object({
     pinId: z.string().uuid(),
     status: z.enum(['active', 'deactivated'])
   }).parse(data))
   .handler(async ({ data }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    
     const { data: updated, error } = await (supabaseAdmin
       .from('report_pins' as any) as any)
       .update({ status: data.status, updated_at: new Date().toISOString() })
@@ -70,13 +75,15 @@ export const togglePinStatus = createServerFn({ method: "POST" })
   });
 
 export const bulkDeactivatePins = createServerFn({ method: "POST" })
-  .inputValidator((data) => z.object({
+  .validator((data) => z.object({
     tenantId: z.string().uuid(),
     classId: z.string(),
     sessionId: z.string(),
     termId: z.string()
   }).parse(data))
   .handler(async ({ data }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    
     const { error } = await (supabaseAdmin
       .from('report_pins' as any) as any)
       .update({ status: 'deactivated', updated_at: new Date().toISOString() })
