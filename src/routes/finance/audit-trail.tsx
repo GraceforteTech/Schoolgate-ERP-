@@ -90,8 +90,7 @@ function AuditTrailPage() {
       .on(
         'postgres_changes',
         { event: 'INSERT', schema: 'public', table: 'audit_logs' },
-        (payload) => {
-          // Verify tenant isolation (simplified check as client only has tenantId from membership)
+        () => {
           setNewAuditToast(true);
         }
       )
@@ -274,14 +273,14 @@ function AuditTrailPage() {
                           <div className="relative">
                              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
                              <Input 
-                               placeholder="Search description, user..." 
-                               className="h-10 w-64 pl-10 rounded-xl border-slate-200 text-xs font-medium"
-                               defaultValue={filters.searchTerm || ""}
-                               onKeyDown={(e) => {
-                                 if (e.key === 'Enter') {
-                                   handleSearch(e.currentTarget.value);
-                                 }
-                               }}
+                                placeholder="Search description, user..." 
+                                className="h-10 w-64 pl-10 rounded-xl border-slate-200 text-xs font-medium"
+                                defaultValue={filters.searchTerm || ""}
+                                onKeyDown={(e) => {
+                                  if (e.key === 'Enter') {
+                                    handleSearch(e.currentTarget.value);
+                                  }
+                                }}
                              />
                           </div>
                           <Button variant="outline" className="h-10 rounded-xl border-slate-200 gap-2 text-xs font-bold px-4">
@@ -337,6 +336,7 @@ function AuditTrailPage() {
                       filterName={filterName}
                       setFilterName={setFilterName}
                     />
+                    
                     {logs.length === 0 && !isLoading ? (
                       <div className="p-16">
                         <EmptyState 
@@ -428,46 +428,44 @@ function AuditTrailPage() {
                       </div>
                     )}
 
-                         {(totalCount > (filters.pageSize || 50) || (filters.page || 1) > 1) && (
-                            <div className="p-4 border-t flex items-center justify-between">
-                               <div className="flex flex-col">
-                                 <p className="text-xs font-bold text-slate-400 italic">
-                                   Showing {logs.length} records
-                                 </p>
-                                 <p className="text-[10px] font-bold text-slate-300 uppercase tracking-widest mt-1">
-                                   Total: {totalCount} Records found
-                                 </p>
-                               </div>
-                               <div className="flex gap-2">
-                                  <Button 
-                                    variant="outline" 
-                                    size="sm" 
-                                    disabled={(filters.page || 1) <= 1}
-                                    onClick={() => navigate({ search: (prev: AuditFilters) => ({ ...prev, page: 1 }) })}
-                                    className="h-8 rounded-lg font-bold text-[10px] uppercase hidden sm:flex"
-                                  >First</Button>
-                                  <Button 
-                                    variant="outline" 
-                                    size="sm" 
-                                    disabled={(filters.page || 1) <= 1}
-                                    onClick={() => navigate({ search: (prev: AuditFilters) => ({ ...prev, page: (prev.page || 1) - 1 }) })}
-                                    className="h-8 rounded-lg font-bold text-[10px] uppercase"
-                                  >Prev</Button>
-                                  <div className="flex items-center px-4 bg-slate-50 rounded-lg border border-slate-100 h-8">
-                                    <span className="text-[10px] font-black text-slate-600 uppercase tracking-widest">
-                                      Page {filters.page || 1}
-                                    </span>
-                                  </div>
-                                  <Button 
-                                    variant="outline" 
-                                    size="sm"
-                                    disabled={logs.length < (filters.pageSize || 50)}
-                                    onClick={() => navigate({ search: (prev: AuditFilters) => ({ ...prev, page: (prev.page || 1) + 1 }) })}
-                                    className="h-8 rounded-lg font-bold text-[10px] uppercase"
-                                  >Next</Button>
-                               </div>
+                    {(totalCount > (filters.pageSize || 50) || (filters.page || 1) > 1) && (
+                      <div className="p-4 border-t flex items-center justify-between">
+                          <div className="flex flex-col">
+                            <p className="text-xs font-bold text-slate-400 italic">
+                              Showing {logs.length} records
+                            </p>
+                            <p className="text-[10px] font-bold text-slate-300 uppercase tracking-widest mt-1">
+                              Total: {totalCount} Records found
+                            </p>
+                          </div>
+                          <div className="flex gap-2">
+                            <Button 
+                              variant="outline" 
+                              size="sm" 
+                              disabled={(filters.page || 1) <= 1}
+                              onClick={() => navigate({ search: (prev: AuditFilters) => ({ ...prev, page: 1 }) })}
+                              className="h-8 rounded-lg font-bold text-[10px] uppercase hidden sm:flex"
+                            >First</Button>
+                            <Button 
+                              variant="outline" 
+                              size="sm" 
+                              disabled={(filters.page || 1) <= 1}
+                              onClick={() => navigate({ search: (prev: AuditFilters) => ({ ...prev, page: (prev.page || 1) - 1 }) })}
+                              className="h-8 rounded-lg font-bold text-[10px] uppercase"
+                            >Prev</Button>
+                            <div className="flex items-center px-4 bg-slate-50 rounded-lg border border-slate-100 h-8">
+                              <span className="text-[10px] font-black text-slate-600 uppercase tracking-widest">
+                                Page {filters.page || 1}
+                              </span>
                             </div>
-                         )}
+                            <Button 
+                              variant="outline" 
+                              size="sm"
+                              disabled={logs.length < (filters.pageSize || 50)}
+                              onClick={() => navigate({ search: (prev: AuditFilters) => ({ ...prev, page: (prev.page || 1) + 1 }) })}
+                              className="h-8 rounded-lg font-bold text-[10px] uppercase"
+                            >Next</Button>
+                          </div>
                       </div>
                     )}
                   </CardContent>
