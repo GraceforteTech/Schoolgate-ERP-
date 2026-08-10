@@ -291,8 +291,9 @@ function FeeTypesPage() {
                               count: selectedIds.length,
                               feeType: selectedIds.length === 1 ? feeType?.name : "Multiple Fee Types",
                               amount: selectedIds.length === 1 ? feeType?.amount : undefined,
-                              totalImpact: selectedIds.length === 1 ? (feeType?.amount || 0) * (feeType?.studentsAssigned || 0) : undefined
+                              totalImpact: selectedIds.length === 1 ? (feeType?.amount || 0) * (feeType?.studentsAssigned || 0) : 0
                             });
+
                           }}
                         >
                           <Users size={14} /> Bulk Assign
