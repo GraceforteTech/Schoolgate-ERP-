@@ -51,7 +51,8 @@ const mainNavItems = [
 
 const managementNavItems = [
   { title: "Students", url: "/students", icon: Users },
-  { title: "Parents", url: "/parents", icon: Users, disabled: true }, // Placeholder as requested
+  { title: "Student Portal", url: "/student", icon: GraduationCap },
+  { title: "Parent Portal", url: "/parent", icon: Users }, // Placeholder as requested
   { title: "Staff", url: "/finance/hr-payroll/employees", icon: ShieldCheck },
   { title: "Classes", url: "/academic/classes", icon: Users },
 ];
