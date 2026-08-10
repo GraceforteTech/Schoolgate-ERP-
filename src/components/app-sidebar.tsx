@@ -18,7 +18,10 @@ import {
   Library,
   Package,
   Home as HomeIcon,
+  LogOut,
 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 
 import {
@@ -90,6 +93,17 @@ export function AppSidebar() {
   });
 
   const isActive = (path: string) => currentPath === path;
+
+  const handleLogout = async () => {
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+      toast.success("Signed out successfully");
+      window.location.href = "/landing";
+    } catch (error: any) {
+      toast.error(error.message || "Failed to sign out");
+    }
+  };
 
   return (
     <Sidebar collapsible="icon">
@@ -187,6 +201,20 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+
+        <div className="mt-auto p-4 border-t border-slate-100">
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                onClick={handleLogout}
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-rose-600 hover:bg-rose-50 hover:text-rose-700 transition-colors w-full"
+              >
+                <LogOut className="h-4 w-4 shrink-0" />
+                {!collapsed && <span className="font-bold">Sign Out</span>}
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </div>
       </SidebarContent>
     </Sidebar>
   );

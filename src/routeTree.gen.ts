@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as FeeTypesRouteImport } from './routes/fee-types'
 import { Route as FeeTypesOverviewRouteImport } from './routes/fee-types-overview'
+import { Route as LandingRouteImport } from './routes/landing'
 import { Route as StudentsRouteImport } from './routes/students'
 import { Route as AcademicIndexRouteImport } from './routes/academic/index'
 import { Route as AcademicClassesRouteImport } from './routes/academic/classes'
@@ -20,6 +21,8 @@ import { Route as AcademicSyllabusRouteImport } from './routes/academic/syllabus
 import { Route as AcademicVirtualClassroomRouteImport } from './routes/academic/virtual-classroom'
 import { Route as AlumniIndexRouteImport } from './routes/alumni/index'
 import { Route as AttendanceIndexRouteImport } from './routes/attendance/index'
+import { Route as AuthCallbackRouteImport } from './routes/auth/callback'
+import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as CbtIndexRouteImport } from './routes/cbt/index'
 import { Route as EnterpriseIndexRouteImport } from './routes/enterprise/index'
 import { Route as FinanceAdjustmentManagementRouteImport } from './routes/finance/adjustment-management'
@@ -73,6 +76,11 @@ const FeeTypesOverviewRoute = FeeTypesOverviewRouteImport.update({
   path: '/fee-types-overview',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LandingRoute = LandingRouteImport.update({
+  id: '/landing',
+  path: '/landing',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StudentsRoute = StudentsRouteImport.update({
   id: '/students',
   path: '/students',
@@ -112,6 +120,16 @@ const AlumniIndexRoute = AlumniIndexRouteImport.update({
 const AttendanceIndexRoute = AttendanceIndexRouteImport.update({
   id: '/attendance/',
   path: '/attendance/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthCallbackRoute = AuthCallbackRouteImport.update({
+  id: '/auth/callback',
+  path: '/auth/callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthLoginRoute = AuthLoginRouteImport.update({
+  id: '/auth/login',
+  path: '/auth/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CbtIndexRoute = CbtIndexRouteImport.update({
@@ -317,11 +335,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/fee-types': typeof FeeTypesRoute
   '/fee-types-overview': typeof FeeTypesOverviewRoute
+  '/landing': typeof LandingRoute
   '/students': typeof StudentsRoute
   '/academic/classes': typeof AcademicClassesRoute
   '/academic/lesson-notes': typeof AcademicLessonNotesRoute
   '/academic/syllabus': typeof AcademicSyllabusRoute
   '/academic/virtual-classroom': typeof AcademicVirtualClassroomRoute
+  '/auth/callback': typeof AuthCallbackRoute
+  '/auth/login': typeof AuthLoginRoute
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
   '/finance/dashboard': typeof FinanceDashboardRoute
   '/library/analytics': typeof LibraryAnalyticsRoute
@@ -367,11 +388,14 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/fee-types': typeof FeeTypesRoute
   '/fee-types-overview': typeof FeeTypesOverviewRoute
+  '/landing': typeof LandingRoute
   '/students': typeof StudentsRoute
   '/academic/classes': typeof AcademicClassesRoute
   '/academic/lesson-notes': typeof AcademicLessonNotesRoute
   '/academic/syllabus': typeof AcademicSyllabusRoute
   '/academic/virtual-classroom': typeof AcademicVirtualClassroomRoute
+  '/auth/callback': typeof AuthCallbackRoute
+  '/auth/login': typeof AuthLoginRoute
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
   '/finance/dashboard': typeof FinanceDashboardRoute
   '/library/analytics': typeof LibraryAnalyticsRoute
@@ -418,11 +442,14 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/fee-types': typeof FeeTypesRoute
   '/fee-types-overview': typeof FeeTypesOverviewRoute
+  '/landing': typeof LandingRoute
   '/students': typeof StudentsRoute
   '/academic/classes': typeof AcademicClassesRoute
   '/academic/lesson-notes': typeof AcademicLessonNotesRoute
   '/academic/syllabus': typeof AcademicSyllabusRoute
   '/academic/virtual-classroom': typeof AcademicVirtualClassroomRoute
+  '/auth/callback': typeof AuthCallbackRoute
+  '/auth/login': typeof AuthLoginRoute
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
   '/finance/dashboard': typeof FinanceDashboardRoute
   '/library/analytics': typeof LibraryAnalyticsRoute
@@ -470,11 +497,14 @@ export interface FileRouteTypes {
     | '/'
     | '/fee-types'
     | '/fee-types-overview'
+    | '/landing'
     | '/students'
     | '/academic/classes'
     | '/academic/lesson-notes'
     | '/academic/syllabus'
     | '/academic/virtual-classroom'
+    | '/auth/callback'
+    | '/auth/login'
     | '/finance/adjustment-management'
     | '/finance/dashboard'
     | '/library/analytics'
@@ -520,11 +550,14 @@ export interface FileRouteTypes {
     | '/'
     | '/fee-types'
     | '/fee-types-overview'
+    | '/landing'
     | '/students'
     | '/academic/classes'
     | '/academic/lesson-notes'
     | '/academic/syllabus'
     | '/academic/virtual-classroom'
+    | '/auth/callback'
+    | '/auth/login'
     | '/finance/adjustment-management'
     | '/finance/dashboard'
     | '/library/analytics'
@@ -570,11 +603,14 @@ export interface FileRouteTypes {
     | '/'
     | '/fee-types'
     | '/fee-types-overview'
+    | '/landing'
     | '/students'
     | '/academic/classes'
     | '/academic/lesson-notes'
     | '/academic/syllabus'
     | '/academic/virtual-classroom'
+    | '/auth/callback'
+    | '/auth/login'
     | '/finance/adjustment-management'
     | '/finance/dashboard'
     | '/library/analytics'
@@ -621,11 +657,14 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   FeeTypesRoute: typeof FeeTypesRoute
   FeeTypesOverviewRoute: typeof FeeTypesOverviewRoute
+  LandingRoute: typeof LandingRoute
   StudentsRoute: typeof StudentsRoute
   AcademicClassesRoute: typeof AcademicClassesRoute
   AcademicLessonNotesRoute: typeof AcademicLessonNotesRoute
   AcademicSyllabusRoute: typeof AcademicSyllabusRoute
   AcademicVirtualClassroomRoute: typeof AcademicVirtualClassroomRoute
+  AuthCallbackRoute: typeof AuthCallbackRoute
+  AuthLoginRoute: typeof AuthLoginRoute
   FinanceAdjustmentManagementRoute: typeof FinanceAdjustmentManagementRoute
   FinanceDashboardRoute: typeof FinanceDashboardRoute
   LibraryAnalyticsRoute: typeof LibraryAnalyticsRoute
@@ -691,6 +730,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FeeTypesOverviewRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/landing': {
+      id: '/landing'
+      path: '/landing'
+      fullPath: '/landing'
+      preLoaderRoute: typeof LandingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/students': {
       id: '/students'
       path: '/students'
@@ -745,6 +791,20 @@ declare module '@tanstack/react-router' {
       path: '/attendance'
       fullPath: '/attendance/'
       preLoaderRoute: typeof AttendanceIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/callback': {
+      id: '/auth/callback'
+      path: '/auth/callback'
+      fullPath: '/auth/callback'
+      preLoaderRoute: typeof AuthCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/login': {
+      id: '/auth/login'
+      path: '/auth/login'
+      fullPath: '/auth/login'
+      preLoaderRoute: typeof AuthLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cbt/': {
@@ -1013,11 +1073,14 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   FeeTypesRoute: FeeTypesRoute,
   FeeTypesOverviewRoute: FeeTypesOverviewRoute,
+  LandingRoute: LandingRoute,
   StudentsRoute: StudentsRoute,
   AcademicClassesRoute: AcademicClassesRoute,
   AcademicLessonNotesRoute: AcademicLessonNotesRoute,
   AcademicSyllabusRoute: AcademicSyllabusRoute,
   AcademicVirtualClassroomRoute: AcademicVirtualClassroomRoute,
+  AuthCallbackRoute: AuthCallbackRoute,
+  AuthLoginRoute: AuthLoginRoute,
   FinanceAdjustmentManagementRoute: FinanceAdjustmentManagementRoute,
   FinanceDashboardRoute: FinanceDashboardRoute,
   LibraryAnalyticsRoute: LibraryAnalyticsRoute,
@@ -1063,13 +1126,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
