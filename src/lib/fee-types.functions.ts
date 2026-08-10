@@ -15,11 +15,17 @@ export const getFeeTypesRegistry = createServerFn({ method: "GET" })
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     
     // 1. Fetch Fee Types
-    const { data: feeTypes, error: feeTypesError } = await supabaseAdmin
+    let feeQuery = supabaseAdmin
       .from('fee_types')
       .select('*')
-      .eq('tenant_id', data.tenantId)
-      .order('created_at', { ascending: false });
+      .eq('tenant_id', data.tenantId);
+    
+    if (data.filters?.session) feeQuery = feeQuery.eq('academic_session', data.filters.session);
+    if (data.filters?.term) feeQuery = feeQuery.eq('term', data.filters.term);
+    if (data.filters?.search) feeQuery = feeQuery.ilike('name', `%${data.filters.search}%`);
+
+    const { data: feeTypes, error: feeTypesError } = await feeQuery.order('created_at', { ascending: false });
+
 
     if (feeTypesError) throw new Error(feeTypesError.message);
 
