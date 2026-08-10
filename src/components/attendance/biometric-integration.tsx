@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -5,19 +6,40 @@ import {
   Fingerprint, 
   RefreshCw, 
   Settings2, 
-  CheckCircle2, 
-  AlertCircle, 
+  Plus,
   Wifi, 
   WifiOff, 
   Database,
-  Link2
+  Link2,
+  Cpu,
+  Smartphone,
+  CreditCard
 } from "lucide-react";
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogDescription, 
+  DialogHeader, 
+  DialogTitle, 
+  DialogTrigger 
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { toast } from "sonner";
 
 export function BiometricIntegration() {
-  const devices = [
-    { id: "DEV-ZK-001", name: "Main Entrance (ZKTeco F22)", status: "connected", staffCount: 124, lastSync: "2 mins ago", ip: "192.168.1.105" },
-    { id: "DEV-ZK-002", name: "Admin Office (ZKTeco SilkID)", status: "disconnected", staffCount: 15, lastSync: "1 hour ago", ip: "192.168.1.106" },
-  ];
+  const [isRegistering, setIsRegistering] = useState(false);
+  const [devices, setDevices] = useState([
+    { id: "DEV-ZK-001", name: "Main Entrance (ZKTeco F22)", status: "connected", staffCount: 124, lastSync: "2 mins ago", ip: "192.168.1.105", type: "Fingerprint" },
+    { id: "DEV-ZK-002", name: "Admin Office (ZKTeco SilkID)", status: "disconnected", staffCount: 15, lastSync: "1 hour ago", ip: "192.168.1.106", type: "Facial Recognition" },
+  ]);
+
+  const handleRegister = (e: React.FormEvent) => {
+    e.preventDefault();
+    toast.success("Device registration request submitted. Waiting for bridge connection.");
+    setIsRegistering(false);
+  };
 
   return (
     <div className="space-y-6">
@@ -31,11 +53,65 @@ export function BiometricIntegration() {
                     <Fingerprint className="h-6 w-6 text-schoolgate-green" />
                     Biometric Device Management
                   </CardTitle>
-                  <CardDescription className="text-slate-400 mt-1">Connect and sync external thumbprint devices for automated attendance.</CardDescription>
+                  <CardDescription className="text-slate-400 mt-1">Connect and sync external attendance devices securely.</CardDescription>
                 </div>
-                <Button className="bg-schoolgate-green hover:bg-schoolgate-green/90 text-white rounded-lg">
-                  <RefreshCw className="h-4 w-4 mr-2" /> Sync All Devices
-                </Button>
+                <div className="flex gap-2">
+                  <Dialog open={isRegistering} onOpenChange={setIsRegistering}>
+                    <DialogTrigger asChild>
+                      <Button className="bg-schoolgate-green hover:bg-schoolgate-green/90 text-white rounded-lg">
+                        <Plus className="h-4 w-4 mr-2" /> Register Device
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="rounded-2xl">
+                      <DialogHeader>
+                        <DialogTitle>Register New Biometric Device</DialogTitle>
+                        <DialogDescription>Enter the device details to integrate it with Schoolgate ERP.</DialogDescription>
+                      </DialogHeader>
+                      <form onSubmit={handleRegister} className="space-y-4 py-4">
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="space-y-2">
+                            <Label>Device Name</Label>
+                            <Input placeholder="e.g. Main Gate ZK" required className="rounded-xl" />
+                          </div>
+                          <div className="space-y-2">
+                            <Label>Device Type</Label>
+                            <Select defaultValue="fingerprint">
+                              <SelectTrigger className="rounded-xl">
+                                <SelectValue placeholder="Select type" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="fingerprint">Fingerprint</SelectItem>
+                                <SelectItem value="facial">Facial Recognition</SelectItem>
+                                <SelectItem value="rfid">RFID / Card</SelectItem>
+                                <SelectItem value="mobile">Mobile NFC</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="space-y-2">
+                            <Label>Manufacturer</Label>
+                            <Input placeholder="e.g. ZKTeco" className="rounded-xl" />
+                          </div>
+                          <div className="space-y-2">
+                            <Label>Serial Number</Label>
+                            <Input placeholder="Enter SN" className="rounded-xl" />
+                          </div>
+                        </div>
+                        <div className="space-y-2">
+                          <Label>Device IP / Connection URL</Label>
+                          <Input placeholder="192.168.1.100 or https://bridge.school.com" className="rounded-xl" />
+                        </div>
+                        <Button type="submit" className="w-full bg-schoolgate-green hover:bg-schoolgate-green/90 text-white rounded-xl h-12 font-bold">
+                          Register Device
+                        </Button>
+                      </form>
+                    </DialogContent>
+                  </Dialog>
+                  <Button variant="outline" className="text-white border-white/20 hover:bg-white/10 rounded-lg">
+                    <RefreshCw className="h-4 w-4 mr-2" /> Sync All
+                  </Button>
+                </div>
               </div>
             </CardHeader>
             <CardContent className="p-0">
@@ -44,7 +120,7 @@ export function BiometricIntegration() {
                   <div key={device.id} className="p-6 flex items-center justify-between hover:bg-slate-50 transition-colors">
                     <div className="flex items-center gap-4">
                       <div className={`p-3 rounded-xl ${device.status === 'connected' ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>
-                        {device.status === 'connected' ? <Wifi className="h-6 w-6" /> : <WifiOff className="h-6 w-6" />}
+                        {device.type === 'Facial Recognition' ? <Cpu className="h-6 w-6" /> : <Fingerprint className="h-6 w-6" />}
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
@@ -104,29 +180,51 @@ export function BiometricIntegration() {
 
         <div className="space-y-6">
           <Card className="rounded-[14px] border-none shadow-sm bg-white p-6 border-l-4 border-l-schoolgate-green">
-            <h4 className="font-black text-slate-800 mb-2 uppercase text-xs tracking-widest">Integration Guide</h4>
-            <p className="text-xs text-slate-500 leading-relaxed font-medium">
-              To connect your thumbprint device, ensure it is on the same network as the ERP or has a static public IP. Support is available for ZKTeco, Hikvision, and Anviz SDKs.
+            <h4 className="font-black text-slate-800 mb-2 uppercase text-xs tracking-widest">Integration Bridge</h4>
+            <p className="text-xs text-slate-500 leading-relaxed font-medium mb-4">
+              Schoolgate Bridge connects your physical biometric hardware to the cloud ERP. Download the bridge service for your local server.
             </p>
-            <Button variant="outline" className="w-full mt-4 rounded-xl border-slate-200 font-bold text-xs h-10">
-              Download Bridge Tool
-            </Button>
+            <div className="space-y-2">
+              <Button className="w-full rounded-xl bg-slate-900 text-white font-bold text-xs h-10">
+                <Cpu className="h-4 w-4 mr-2" /> Bridge for Windows
+              </Button>
+              <Button variant="outline" className="w-full rounded-xl border-slate-200 font-bold text-xs h-10">
+                <Cpu className="h-4 w-4 mr-2" /> Bridge for Linux
+              </Button>
+            </div>
           </Card>
 
           <Card className="rounded-[14px] border-none shadow-sm bg-white p-6">
-            <h4 className="font-black text-slate-800 mb-4 uppercase text-xs tracking-widest">Device Health</h4>
+            <h4 className="font-black text-slate-800 mb-4 uppercase text-xs tracking-widest">Supported Hardware</h4>
+            <div className="grid grid-cols-2 gap-4">
+              {[
+                { name: "ZKTeco", icon: Fingerprint },
+                { name: "Anviz", icon: Cpu },
+                { name: "Hikvision", icon: Smartphone },
+                { name: "RFID", icon: CreditCard },
+              ].map((hw) => (
+                <div key={hw.name} className="flex items-center gap-2 p-3 rounded-xl bg-slate-50 border border-slate-100">
+                  <hw.icon className="h-4 w-4 text-slate-400" />
+                  <span className="text-[10px] font-bold text-slate-700">{hw.name}</span>
+                </div>
+              ))}
+            </div>
+          </Card>
+
+          <Card className="rounded-[14px] border-none shadow-sm bg-white p-6">
+            <h4 className="font-black text-slate-800 mb-4 uppercase text-xs tracking-widest">System Health</h4>
             <div className="space-y-4">
               <div className="flex justify-between items-center">
-                <span className="text-xs font-bold text-slate-500">Uptime</span>
-                <span className="text-xs font-black text-emerald-600">99.9%</span>
+                <span className="text-xs font-bold text-slate-500">Cloud Sync Uptime</span>
+                <span className="text-xs font-black text-emerald-600">99.98%</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-xs font-bold text-slate-500">Sync Failures (24h)</span>
+                <span className="text-xs font-bold text-slate-500">Sync Errors (24h)</span>
                 <span className="text-xs font-black text-rose-600">2</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-xs font-bold text-slate-500">Latency</span>
-                <span className="text-xs font-black text-slate-700">45ms</span>
+                <span className="text-xs font-bold text-slate-500">API Latency</span>
+                <span className="text-xs font-black text-slate-700">24ms</span>
               </div>
             </div>
           </Card>
