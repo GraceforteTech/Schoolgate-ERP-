@@ -16,6 +16,7 @@ import {
   Search,
   ChevronRight,
   Plus,
+  Banknote,
 } from "lucide-react";
 import { ComponentType } from "react";
 
