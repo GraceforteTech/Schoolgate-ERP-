@@ -26,18 +26,18 @@ import { exportToCSV } from "@/lib/csv-export";
 import { toast } from "sonner";
 
 type AuditFilters = {
-  userId?: string;
-  userRole?: string;
-  action?: string;
-  entityType?: string;
-  dateFrom?: string;
-  dateTo?: string;
-  searchTerm?: string;
-  academicSession?: string;
-  term?: string;
-  classId?: string;
-  studentId?: string;
-  page?: number;
+  userId?: string | undefined;
+  userRole?: string | undefined;
+  action?: string | undefined;
+  entityType?: string | undefined;
+  dateFrom?: string | undefined;
+  dateTo?: string | undefined;
+  searchTerm?: string | undefined;
+  academicSession?: string | undefined;
+  term?: string | undefined;
+  classId?: string | undefined;
+  studentId?: string | undefined;
+  page?: number | undefined;
 };
 
 export const Route = createFileRoute("/finance/audit-trail")({
