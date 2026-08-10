@@ -18,6 +18,7 @@ import { StudentDirectory } from "@/components/students/student-directory";
 import { Student360Profile } from "@/components/students/student-360-profile";
 import { StudentAnalytics } from "@/components/students/student-analytics";
 import { PlaceholderForm } from "@/components/ui/placeholder-form";
+import { CSVImportWorkflow } from "@/components/finance/csv-import-workflow";
 
 export const Route = createFileRoute("/students")({
   component: StudentInformationPage,
