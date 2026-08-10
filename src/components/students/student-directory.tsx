@@ -349,7 +349,7 @@ export function StudentDirectory({ forcedStatus }: { forcedStatus?: string }) {
                       <EmptyState 
                         title="No Students Found"
                         description={search ? `No student records matching "${search}" were found.` : "Start by enrolling your first student to populate this directory."}
-                        icon={Users}
+                        icon={<Users className="h-10 w-10" />}
                       />
                     </div>
                   </TableCell>
