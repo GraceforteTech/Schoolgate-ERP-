@@ -30,14 +30,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useState, useMemo } from "react";
+import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { useServerFn } from "@tanstack/react-start";
 import { useQuery } from "@tanstack/react-query";
 import { getFeeTypesRegistry } from "@/lib/fee-types.functions";
 import { supabase } from "@/integrations/supabase/client";
-// import { CreateFeeTypeDialog } from "@/components/finance/create-fee-type-dialog";
-
-
-import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
+import { CreateFeeTypeDialog } from "@/components/finance/create-fee-type-dialog";
 
 export const Route = createFileRoute("/fee-types")({
   head: () => ({
@@ -58,6 +56,21 @@ export const Route = createFileRoute("/fee-types")({
 function FeeTypesPage() {
   const [importDialogOpen, setImportDialogOpen] = useState(false);
   const [isNewFeeTypeOpen, setIsNewFeeTypeOpen] = useState(false);
+  const fetchRegistry = useServerFn(getFeeTypesRegistry);
+
+  const { data: registry, isLoading } = useQuery({
+    queryKey: ['fee-types-registry'],
+    queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return null;
+      const { data: membership } = await supabase.from('memberships').select('tenant_id').eq('user_id', user.id).single();
+      if (!membership) return null;
+      return fetchRegistry({ data: { tenantId: membership.tenant_id } });
+    }
+  });
+
+  const naira = (value: number) =>
+    `₦${value.toLocaleString("en-NG", { maximumFractionDigits: 0 })}`;
 
   return (
     <SidebarProvider>
@@ -71,6 +84,11 @@ function FeeTypesPage() {
         stats={{ total: 120, existing: 45, new: 75, conflicts: 12 }}
       />
 
+      <CreateFeeTypeDialog 
+        open={isNewFeeTypeOpen}
+        onOpenChange={setIsNewFeeTypeOpen}
+      />
+
       <div className="flex min-h-screen w-full bg-page-background">
         <AppSidebar />
         <SidebarInset className="flex flex-1 flex-col">
@@ -81,7 +99,7 @@ function FeeTypesPage() {
               {/* Page header */}
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex items-center gap-3">
-                  <Link to="/fee-types-overview">
+                  <Link to="/enterprise">
                     <Button variant="ghost" size="icon" className="h-9 w-9 rounded-full bg-white shadow-sm border border-slate-100">
                       <ArrowLeft className="h-4 w-4" />
                     </Button>
@@ -101,33 +119,39 @@ function FeeTypesPage() {
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
                 <SummaryCard
                   label="Total Fee Types"
-                  value="12"
+                  value={registry?.summary.totalFeeTypes.toString() || "0"}
                   icon={Layers}
+                  loading={isLoading}
                 />
                 <SummaryCard
                   label="Expected Revenue"
-                  value="$124,500"
+                  value={naira(registry?.summary.totalExpectedRevenue || 0)}
                   icon={DollarSign}
+                  loading={isLoading}
                 />
                 <SummaryCard
-                  label="Primary School Fee Types"
-                  value="5"
+                  label="Assigned Records"
+                  value={registry?.summary.totalAssignedFees.toString() || "0"}
                   icon={GraduationCap}
+                  loading={isLoading}
                 />
                 <SummaryCard
-                  label="Secondary School Fee Types"
-                  value="7"
-                  icon={School}
-                />
-                <SummaryCard
-                  label="Active Fee Types"
-                  value="10"
+                  label="Active"
+                  value={registry?.summary.activeFeeTypes.toString() || "0"}
                   icon={CheckCircle2}
+                  loading={isLoading}
                 />
                 <SummaryCard
-                  label="Archived Fee Types"
-                  value="2"
+                  label="Archived"
+                  value={registry?.summary.archivedFeeTypes.toString() || "0"}
                   icon={Archive}
+                  loading={isLoading}
+                />
+                <SummaryCard
+                  label="School Count"
+                  value="-"
+                  icon={School}
+                  loading={isLoading}
                 />
               </div>
 
@@ -143,7 +167,6 @@ function FeeTypesPage() {
                         options={[
                           { value: "2025-2026", label: "2025/2026 Session" },
                           { value: "2024-2025", label: "2024/2025 Session" },
-                          { value: "2023-2024", label: "2023/2024 Session" },
                         ]}
                       />
                       <FilterSelect
@@ -153,34 +176,6 @@ function FeeTypesPage() {
                           { value: "first", label: "First Term" },
                           { value: "second", label: "Second Term" },
                           { value: "third", label: "Third Term" },
-                        ]}
-                      />
-                      <FilterSelect
-                        placeholder="School"
-                        defaultValue="all"
-                        options={[
-                          { value: "all", label: "All Schools" },
-                          { value: "primary", label: "Primary School" },
-                          { value: "secondary", label: "Secondary School" },
-                        ]}
-                      />
-                      <FilterSelect
-                        placeholder="Class"
-                        defaultValue="all"
-                        options={[
-                          { value: "all", label: "All Classes" },
-                          { value: "jss1", label: "JSS 1" },
-                          { value: "jss2", label: "JSS 2" },
-                          { value: "ss1", label: "SS 1" },
-                        ]}
-                      />
-                      <FilterSelect
-                        placeholder="Status"
-                        defaultValue="active"
-                        options={[
-                          { value: "active", label: "Active" },
-                          { value: "archived", label: "Archived" },
-                          { value: "all", label: "All Statuses" },
                         ]}
                       />
                       <div className="relative w-full sm:w-56">
@@ -214,14 +209,6 @@ function FeeTypesPage() {
                         variant="outline"
                         className="h-9 shrink-0 gap-2 rounded-lg border-border text-sm font-medium"
                       >
-                        <FileSpreadsheet className="h-4 w-4" />
-                        Export Excel
-                      </Button>
-
-                      <Button
-                        variant="outline"
-                        className="h-9 shrink-0 gap-2 rounded-lg border-border text-sm font-medium"
-                      >
                         <FileText className="h-4 w-4" />
                         Export PDF
                       </Button>
@@ -242,25 +229,28 @@ function FeeTypesPage() {
                 <CardHeader className="border-b px-4 py-5 sm:px-6">
                   <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
                     <div className="min-w-0">
-                      <CardTitle className="text-base font-semibold">Fee Types List</CardTitle>
+                      <CardTitle className="text-base font-semibold">Fee Types Registry</CardTitle>
                       <p className="text-sm text-muted-foreground">
-                        Manage tuition, transport, library, and other fee categories.
+                        Manage all school fee categories, mandatory requirements, and class-wise allocations.
                       </p>
                     </div>
-
                   </div>
                 </CardHeader>
 
                 <CardContent className="p-4 sm:p-6">
-                  <FeeTypesTable />
+                  {isLoading ? (
+                    <div className="py-20 text-center text-muted-foreground">Loading registry data...</div>
+                  ) : (
+                    <FeeTypesTable data={registry?.feeTypes || []} />
+                  )}
 
                   <div className="mt-6 flex items-center justify-between border-t pt-4 text-sm text-muted-foreground">
-                    <span>Showing 1–8 of 12 fee types</span>
+                    <span>Showing {registry?.feeTypes.length || 0} fee types</span>
                     <div className="flex gap-2">
                       <Button variant="outline" size="sm" className="rounded-lg" disabled>
                         Previous
                       </Button>
-                      <Button variant="outline" size="sm" className="rounded-lg">
+                      <Button variant="outline" size="sm" className="rounded-lg" disabled>
                         Next
                       </Button>
                     </div>
@@ -271,14 +261,6 @@ function FeeTypesPage() {
           </main>
         </SidebarInset>
       </div>
-
-      <PlaceholderForm 
-        open={isNewFeeTypeOpen} 
-        onOpenChange={setIsNewFeeTypeOpen} 
-        title="Create New Fee Type"
-        description="Define a new fee category, amount, and allocation rules."
-        icon={Plus}
-      />
     </SidebarProvider>
   );
 }
@@ -287,10 +269,12 @@ function SummaryCard({
   label,
   value,
   icon: Icon,
+  loading = false,
 }: {
   label: string;
   value: string;
   icon: ComponentType<{ className?: string }>;
+  loading?: boolean;
 }) {
   return (
     <Card className="group rounded-[14px] border-0 bg-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md">
@@ -302,7 +286,7 @@ function SummaryCard({
         </div>
         <div className="space-y-0.5">
           <p className="text-2xl font-semibold tracking-tight text-foreground">
-            {value}
+            {loading ? "..." : value}
           </p>
           <p className="text-xs font-medium text-muted-foreground">{label}</p>
         </div>
