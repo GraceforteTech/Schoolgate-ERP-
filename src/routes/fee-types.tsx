@@ -149,10 +149,10 @@ function FeeTypesPage() {
                     </Button>
                   </Link>
                   <div className="min-w-0 space-y-1">
-                    <h1 className="truncate text-2xl font-semibold tracking-tight text-foreground">
+                    <h1 className="truncate text-3xl font-black tracking-tighter text-slate-900">
                       Fee Types Registry
                     </h1>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm font-medium text-slate-500 italic">
                       Complete register of school fee structures and allocations.
                     </p>
                   </div>
@@ -206,7 +206,7 @@ function FeeTypesPage() {
               </div>
 
               {/* Action bar */}
-              <Card className="rounded-[14px] border-0 bg-white shadow-sm">
+              <Card className="rounded-[24px] border-none bg-white shadow-sm border border-slate-50/50">
                 <CardContent className="p-4 sm:p-5">
                   <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                     {/* Filters */}
@@ -215,7 +215,7 @@ function FeeTypesPage() {
                         value={session} 
                         onValueChange={(val) => navigate({ search: { session: val, term, q } as any, replace: true })}
                       >
-                        <SelectTrigger className="h-9 w-full rounded-lg border-border bg-white px-3 text-sm sm:w-40">
+                        <SelectTrigger className="h-11 w-full rounded-2xl border-slate-100 bg-slate-50/50 px-4 text-sm font-bold text-slate-700 focus:ring-schoolgate-green sm:w-44">
                           <SelectValue placeholder="Session" />
                         </SelectTrigger>
                         <SelectContent className="rounded-lg border-border">
@@ -228,7 +228,7 @@ function FeeTypesPage() {
                         value={term} 
                         onValueChange={(val) => navigate({ search: { session, term: val, q } as any, replace: true })}
                       >
-                        <SelectTrigger className="h-9 w-full rounded-lg border-border bg-white px-3 text-sm sm:w-40">
+                        <SelectTrigger className="h-11 w-full rounded-2xl border-slate-100 bg-slate-50/50 px-4 text-sm font-bold text-slate-700 focus:ring-schoolgate-green sm:w-40">
                           <SelectValue placeholder="Term" />
                         </SelectTrigger>
                         <SelectContent className="rounded-lg border-border">
@@ -242,10 +242,10 @@ function FeeTypesPage() {
                         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                         <Input
                           type="search"
-                          placeholder="Search Fee Type"
+                          placeholder="Search Fee Type..."
                           value={q}
                           onChange={(e) => navigate({ search: { session, term, q: e.target.value } as any, replace: true })}
-                          className="h-9 rounded-lg border-border pl-9 pr-4 text-sm"
+                          className="h-11 rounded-2xl border-slate-100 bg-slate-50/50 pl-10 pr-4 text-sm font-medium focus-visible:ring-schoolgate-green"
                         />
                       </div>
 
@@ -258,18 +258,18 @@ function FeeTypesPage() {
                     <div className="flex flex-wrap items-center gap-2">
                       <Button 
                         onClick={() => setIsNewFeeTypeOpen(true)}
-                        className="h-9 shrink-0 gap-2 rounded-lg bg-schoolgate-green px-4 text-sm font-medium text-white hover:bg-schoolgate-green/90"
+                        className="h-11 shrink-0 gap-2 rounded-xl bg-schoolgate-green px-6 text-[10px] font-black uppercase tracking-widest text-white hover:bg-schoolgate-green/90 shadow-lg shadow-schoolgate-green/20"
                       >
                         <Plus className="h-4 w-4" />
                         New Fee Type
                       </Button>
                       <Button
                         variant="outline"
-                        className="h-9 shrink-0 gap-2 rounded-lg border-border text-sm font-medium"
+                        className="h-11 shrink-0 gap-2 rounded-xl border-slate-100 bg-white px-5 text-[10px] font-black uppercase tracking-widest text-slate-600 hover:bg-slate-50 shadow-sm"
                         onClick={() => setImportDialogOpen(true)}
                       >
                         <FileSpreadsheet className="h-4 w-4" />
-                        Import CSV
+                        Import
                       </Button>
                       <Button
                         variant="outline"
@@ -309,13 +309,13 @@ function FeeTypesPage() {
               </Card>
 
               {/* Main content card */}
-              <Card className="rounded-[14px] border-0 bg-white shadow-sm overflow-hidden">
-                <CardHeader className="border-b px-4 py-5 sm:px-6 bg-slate-50/30">
+              <Card className="rounded-[24px] border-none bg-white shadow-sm overflow-hidden border border-slate-50/50">
+                <CardHeader className="border-b border-slate-50 px-6 py-6 bg-slate-50/20">
                   <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
                     <div className="min-w-0">
-                      <CardTitle className="text-base font-semibold">Fee Types Registry</CardTitle>
-                      <p className="text-sm text-muted-foreground">
-                        Manage all school fee categories, mandatory requirements, and class-wise allocations.
+                      <CardTitle className="text-lg font-black tracking-tight text-slate-900 uppercase text-[12px] tracking-widest opacity-80 mb-1">Registry List</CardTitle>
+                      <p className="text-sm font-medium text-slate-500 italic">
+                        Manage all school fee categories and class-wise allocations.
                       </p>
                     </div>
                     {selectedIds.length > 0 && (
