@@ -150,7 +150,7 @@ export const assignFeeTypeToClasses = createServerFn({ method: "POST" })
     if (!students || students.length === 0) return { success: true, count: 0 };
 
     // 2. Prepare assignments (ignoring duplicates via ON CONFLICT if possible, but our UNIQUE constraint is on tenant_id, student_id, fee_type_id, academic_session, term)
-    const assignments = students.map(s => ({
+    const assignments = (students || []).map((s: any) => ({
       tenant_id: data.tenantId,
       student_id: s.id,
       fee_type_id: data.feeTypeId,
