@@ -76,11 +76,11 @@ function SettingsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F5F7FA] pb-12">
-      <div className="bg-white border-b border-slate-200 sticky top-0 z-30">
+    <div className="min-h-screen bg-page-background pb-12">
+      <div className="bg-card border-b border-border sticky top-0 z-30">
         <div className="px-6 py-6 max-w-[1600px] mx-auto flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">Account & System Settings</h1>
+            <h1 className="text-2xl font-extrabold text-foreground tracking-tight">Account & System Settings</h1>
             <p className="text-sm text-muted-foreground mt-1">Manage your profile, security, and school configuration.</p>
           </div>
         </div>
@@ -119,7 +119,7 @@ function SettingsPage() {
                       id="email" 
                       value={user?.email || ""} 
                       disabled
-                      className="rounded-lg bg-slate-50" 
+                      className="rounded-lg bg-muted" 
                     />
                     <p className="text-[10px] text-muted-foreground uppercase font-bold">Email changes must be requested through support.</p>
                   </div>
@@ -207,7 +207,7 @@ function SettingsTabTrigger({ value, icon: Icon, label }: { value: string; icon:
   return (
     <TabsTrigger 
       value={value} 
-      className="w-full justify-start gap-3 px-4 py-3 rounded-xl text-sm font-bold tracking-tight text-slate-600 data-[state=active]:bg-schoolgate-green data-[state=active]:text-white transition-all hover:bg-slate-100 data-[state=active]:hover:bg-schoolgate-green group"
+      className="w-full justify-start gap-3 px-4 py-3 rounded-xl text-sm font-bold tracking-tight text-muted-foreground data-[state=active]:bg-schoolgate-green data-[state=active]:text-white transition-all hover:bg-accent data-[state=active]:hover:bg-schoolgate-green group"
     >
       <Icon className="h-4 w-4 shrink-0" />
       <span>{label}</span>
