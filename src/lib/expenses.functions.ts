@@ -76,23 +76,23 @@ export const getSchoolFinancialSummary = createServerFn({ method: "GET" })
   });
 
 export const approveExpense = createServerFn({ method: "POST" })
-  .validator((data: any) => z.object({
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data: any) => z.object({
     expenseId: z.string().uuid(),
-    adminId: z.string().uuid(),
+    adminId: z.string().uuid().optional(),
     status: z.enum(['approved', 'rejected']),
     notes: z.string().optional()
   }).parse(data))
-  .handler(async ({ data }) => {
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    
-    const { error } = await (supabaseAdmin
+  .handler(async ({ data, context }) => {
+    // RLS restricts this update to admins/bursars of the expense's tenant
+    const { error } = await context.supabase
       .from('expenses')
       .update({
         status: data.status,
-        approved_by: data.adminId,
-        approved_at: new Date().toISOString()
+        approved_by: context.userId,
+        approved_at: new Date().toISOString(),
       })
-      .eq('id', data.expenseId));
+      .eq('id', data.expenseId);
 
     if (error) throw new Error(`Expense update failed: ${error.message}`);
     return { success: true };
