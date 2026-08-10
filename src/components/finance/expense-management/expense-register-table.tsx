@@ -2,14 +2,10 @@ import React from 'react';
 import { 
   MoreHorizontal, 
   Eye, 
-  Edit, 
   CheckCircle, 
   XCircle, 
-  Printer, 
-  FileText, 
   Paperclip,
-  Trash2,
-  Copy
+  Trash2
 } from "lucide-react";
 import {
   Table,
@@ -31,67 +27,45 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
-
-const expenses = [
-  {
-    id: "EXP-001",
-    date: "2024-05-20",
-    category: "Academic Supplies",
-    description: "Purchase of whiteboard markers and stationery",
-    department: "Academic",
-    vendor: "OfficeMax Supplies",
-    paymentMethod: "Bank Transfer",
-    amount: 150000,
-    approvedBy: "Principal (Review)",
-    status: "pending",
-    receipt: true,
-    recordedBy: "Admin Accountant",
-  },
-  {
-    id: "EXP-002",
-    date: "2024-05-19",
-    category: "Utilities",
-    description: "May Electricity Bill (AEDC)",
-    department: "Administration",
-    vendor: "AEDC",
-    paymentMethod: "Direct Debit",
-    amount: 450000,
-    approvedBy: "Proprietor",
-    status: "approved",
-    receipt: true,
-    recordedBy: "Bursar",
-  },
-  {
-    id: "EXP-003",
-    date: "2024-05-18",
-    category: "Salaries",
-    description: "Staff May Salaries (Security Dept)",
-    department: "Security",
-    vendor: "Multiple Staff",
-    paymentMethod: "Bank Transfer",
-    amount: 1200000,
-    approvedBy: "Proprietor",
-    status: "approved",
-    receipt: false,
-    recordedBy: "Bursar",
-  },
-  {
-    id: "EXP-004",
-    date: "2024-05-17",
-    category: "Maintenance",
-    description: "Generator Repair and Servicing",
-    department: "General Maintenance",
-    vendor: "Mikano Engineering",
-    paymentMethod: "Bank Transfer",
-    amount: 85000,
-    approvedBy: "Principal",
-    status: "rejected",
-    receipt: true,
-    recordedBy: "Admin Accountant",
-  },
-];
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { useServerFn } from "@tanstack/react-start";
+import { approveExpense } from "@/lib/expenses.functions";
+import { toast } from "sonner";
 
 export function ExpenseRegisterTable() {
+  const queryClient = useQueryClient();
+  const approveExpenseFn = useServerFn(approveExpense);
+
+  const { data: expenses, isLoading } = useQuery({
+    queryKey: ['expenses-register'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('expenses')
+        .select('*')
+        .order('created_at', { ascending: false });
+      if (error) throw error;
+      return data;
+    }
+  });
+
+  const updateStatusMutation = useMutation({
+    mutationFn: async ({ id, status }: { id: string, status: 'approved' | 'rejected' }) => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Not authenticated");
+      return approveExpenseFn({ data: { expenseId: id, adminId: user.id, status } });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['expenses-register'] });
+      queryClient.invalidateQueries({ queryKey: ['financial-summary-detailed'] });
+      queryClient.invalidateQueries({ queryKey: ['school-financial-summary'] });
+      toast.success("Expense status updated successfully");
+    },
+    onError: (error) => {
+      toast.error(`Update failed: ${error.message}`);
+    }
+  });
+
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'approved':
@@ -113,6 +87,8 @@ export function ExpenseRegisterTable() {
     }).format(amount).replace('NGN', '₦');
   };
 
+  if (isLoading) return <div className="h-64 bg-slate-50 animate-pulse rounded-[14px]" />;
+
   return (
     <div className="bg-white rounded-[14px] shadow-sm overflow-hidden border border-slate-100">
       <div className="overflow-x-auto">
@@ -126,16 +102,14 @@ export function ExpenseRegisterTable() {
               <TableHead className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Date</TableHead>
               <TableHead className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Category</TableHead>
               <TableHead className="text-[11px] font-bold text-slate-400 uppercase tracking-wider w-[250px]">Description</TableHead>
-              <TableHead className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Department</TableHead>
               <TableHead className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Vendor</TableHead>
               <TableHead className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Amount</TableHead>
               <TableHead className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Status</TableHead>
-              <TableHead className="text-[11px] font-bold text-slate-400 uppercase tracking-wider text-center">Receipt</TableHead>
               <TableHead className="text-[11px] font-bold text-slate-400 uppercase tracking-wider text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {expenses.map((expense, index) => (
+            {expenses?.map((expense, index) => (
               <TableRow key={expense.id} className={cn(
                 "hover:bg-slate-50/50 transition-colors border-slate-50",
                 index % 2 === 1 ? "bg-slate-50/30" : "bg-white"
@@ -143,37 +117,21 @@ export function ExpenseRegisterTable() {
                 <TableCell className="text-center">
                   <Checkbox className="rounded-md border-slate-300 data-[state=checked]:bg-schoolgate-green data-[state=checked]:border-schoolgate-green" />
                 </TableCell>
-                <TableCell className="font-bold text-slate-700 text-sm">{expense.id}</TableCell>
-                <TableCell className="text-slate-500 text-xs">{expense.date}</TableCell>
+                <TableCell className="font-bold text-slate-700 text-sm">{expense.id.slice(0, 8)}</TableCell>
+                <TableCell className="text-slate-500 text-xs">{new Date(expense.created_at).toLocaleDateString()}</TableCell>
                 <TableCell>
                   <span className="px-2 py-0.5 bg-slate-100 text-slate-600 rounded-md text-[10px] font-bold uppercase tracking-wider">
                     {expense.category}
                   </span>
                 </TableCell>
-                <TableCell className="text-slate-600 text-sm font-medium line-clamp-1 py-4">
+                <TableCell className="text-slate-600 text-sm font-medium py-4">
                   {expense.description}
                 </TableCell>
-                <TableCell className="text-slate-500 text-xs">{expense.department}</TableCell>
-                <TableCell className="text-slate-700 text-xs font-semibold">{expense.vendor}</TableCell>
+                <TableCell className="text-slate-700 text-xs font-semibold">{expense.vendor_payee || 'N/A'}</TableCell>
                 <TableCell className="font-bold text-slate-800 text-sm">
                   {formatCurrency(expense.amount)}
                 </TableCell>
                 <TableCell>{getStatusBadge(expense.status)}</TableCell>
-                <TableCell className="text-center">
-                  {expense.receipt ? (
-                    <div className="flex justify-center">
-                      <div className="p-1.5 bg-emerald-50 text-emerald-600 rounded-lg">
-                        <Paperclip size={14} />
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="flex justify-center">
-                      <div className="p-1.5 bg-slate-50 text-slate-300 rounded-lg">
-                        <Paperclip size={14} />
-                      </div>
-                    </div>
-                  )}
-                </TableCell>
                 <TableCell className="text-right">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -186,20 +144,24 @@ export function ExpenseRegisterTable() {
                       <DropdownMenuItem className="rounded-lg gap-2 text-sm font-medium focus:bg-schoolgate-green-light focus:text-schoolgate-green cursor-pointer">
                         <Eye size={16} /> View Details
                       </DropdownMenuItem>
-                      <DropdownMenuItem className="rounded-lg gap-2 text-sm font-medium focus:bg-schoolgate-green-light focus:text-schoolgate-green cursor-pointer">
-                        <Edit size={16} /> Edit Expense
-                      </DropdownMenuItem>
                       <DropdownMenuSeparator className="bg-slate-50" />
-                      <DropdownMenuItem className="rounded-lg gap-2 text-sm font-medium focus:bg-emerald-50 focus:text-emerald-600 cursor-pointer">
-                        <CheckCircle size={16} /> Approve
-                      </DropdownMenuItem>
-                      <DropdownMenuItem className="rounded-lg gap-2 text-sm font-medium focus:bg-rose-50 focus:text-rose-600 cursor-pointer">
-                        <XCircle size={16} /> Reject
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator className="bg-slate-50" />
-                      <DropdownMenuItem className="rounded-lg gap-2 text-sm font-medium focus:bg-slate-50 cursor-pointer">
-                        <Printer size={16} /> Print Voucher
-                      </DropdownMenuItem>
+                      {expense.status === 'pending' && (
+                        <>
+                          <DropdownMenuItem 
+                            onClick={() => updateStatusMutation.mutate({ id: expense.id, status: 'approved' })}
+                            className="rounded-lg gap-2 text-sm font-medium focus:bg-emerald-50 focus:text-emerald-600 cursor-pointer"
+                          >
+                            <CheckCircle size={16} /> Approve
+                          </DropdownMenuItem>
+                          <DropdownMenuItem 
+                            onClick={() => updateStatusMutation.mutate({ id: expense.id, status: 'rejected' })}
+                            className="rounded-lg gap-2 text-sm font-medium focus:bg-rose-50 focus:text-rose-600 cursor-pointer"
+                          >
+                            <XCircle size={16} /> Reject
+                          </DropdownMenuItem>
+                          <DropdownMenuSeparator className="bg-slate-50" />
+                        </>
+                      )}
                       <DropdownMenuItem className="rounded-lg gap-2 text-sm font-medium focus:bg-slate-50 cursor-pointer text-rose-500 focus:text-rose-600">
                         <Trash2 size={16} /> Delete
                       </DropdownMenuItem>
@@ -208,15 +170,13 @@ export function ExpenseRegisterTable() {
                 </TableCell>
               </TableRow>
             ))}
+            {(!expenses || expenses.length === 0) && (
+              <TableRow>
+                <TableCell colSpan={9} className="text-center py-8 text-slate-400 italic">No expenses recorded yet.</TableCell>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
-      </div>
-      <div className="p-4 bg-slate-50/50 border-t border-slate-100 flex items-center justify-between">
-        <p className="text-xs text-slate-400 font-medium tracking-tight">Showing 4 of 128 expenses</p>
-        <div className="flex gap-2">
-          <Button variant="outline" size="sm" className="h-8 rounded-lg text-xs font-bold border-slate-200">Previous</Button>
-          <Button variant="outline" size="sm" className="h-8 rounded-lg text-xs font-bold border-slate-200">Next</Button>
-        </div>
       </div>
     </div>
   );
