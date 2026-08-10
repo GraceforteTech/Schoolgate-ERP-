@@ -91,13 +91,16 @@ function FeeTypesOverviewPage() {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold tracking-tight text-slate-900">Fee Types Overview</h1>
-            <p className="text-sm text-muted-foreground mt-1">
+            <h1 className="text-3xl font-black tracking-tight text-slate-900">Fee Types Overview</h1>
+            <p className="text-sm text-slate-500 font-medium mt-1">
               Preview all fee categories with quick actions and live statistics.
             </p>
           </div>
-          <div className="flex items-center gap-2">
-            <Button className="h-9 gap-2 bg-schoolgate-green hover:bg-schoolgate-green/90 text-white rounded-lg">
+          <div className="flex items-center gap-3">
+            <Button 
+              className="h-11 gap-2 bg-schoolgate-green hover:bg-schoolgate-green/90 text-white rounded-xl font-black uppercase text-[10px] tracking-widest px-6 shadow-lg shadow-schoolgate-green/20"
+              onClick={() => setIsNewFeeTypeOpen(true)}
+            >
               <Plus className="h-4 w-4" /> New Fee Type
             </Button>
           </div>
@@ -110,15 +113,15 @@ function FeeTypesOverviewPage() {
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input 
                 placeholder="Search categories, fee names or classes..." 
-                className="h-10 pl-10 rounded-xl border-slate-200"
+                className="h-11 pl-10 rounded-2xl border-slate-100 bg-slate-50/50 focus-visible:ring-schoolgate-green"
               />
             </div>
-            <div className="flex items-center gap-2 w-full md:w-auto">
-              <Button variant="outline" className="h-10 gap-2 rounded-xl border-slate-200">
+            <div className="flex items-center gap-3 w-full md:w-auto">
+              <Button variant="outline" className="h-11 gap-2 rounded-2xl border-slate-100 font-bold text-slate-600">
                 <Filter className="h-4 w-4" /> Filters
               </Button>
               <Link to="/fee-types" search={{ session: '2025-2026', term: 'first', q: '' }}>
-                <Button variant="ghost" className="h-10 gap-2 rounded-xl text-schoolgate-green">
+                <Button variant="ghost" className="h-11 gap-2 rounded-2xl text-schoolgate-green font-black uppercase text-[10px] tracking-widest hover:bg-schoolgate-green-light">
                   View Detailed Table <ChevronRight className="h-4 w-4" />
                 </Button>
               </Link>
@@ -129,8 +132,8 @@ function FeeTypesOverviewPage() {
         {/* Category Grid */}
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {feeCategories.map((category) => (
-            <Card key={category.id} className="group rounded-[14px] border-0 shadow-sm hover:shadow-md transition-all duration-300">
-              <CardHeader className="pb-2 flex flex-row items-center justify-between space-y-0">
+            <Card key={category.id} className="group rounded-[24px] border-none shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden bg-white">
+              <CardHeader className="pb-2 flex flex-row items-center justify-between space-y-0 p-6">
                 <div className={cn(
                   "h-10 w-10 rounded-xl flex items-center justify-center",
                   category.color === "blue" ? "bg-blue-50 text-blue-600" :
