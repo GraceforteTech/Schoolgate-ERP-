@@ -201,19 +201,39 @@ export function CSVImportWorkflow({
 
           {step === "preview" && (
             <div className="space-y-6">
-              <div className="bg-amber-50 border border-amber-100 p-4 rounded-2xl flex gap-3">
-                <AlertCircle className="text-amber-600 shrink-0" size={20} />
+              <div className={cn(
+                "p-4 rounded-2xl flex gap-3",
+                stats.errors > 0 ? "bg-amber-50 border border-amber-100" : "bg-emerald-50 border border-emerald-100"
+              )}>
+                {stats.errors > 0 ? (
+                  <AlertCircle className="text-amber-600 shrink-0" size={20} />
+                ) : (
+                  <CheckCircle2 className="text-emerald-600 shrink-0" size={20} />
+                )}
                 <div>
-                  <h5 className="text-sm font-bold text-amber-900">Validation Complete</h5>
-                  <p className="text-xs text-amber-700 font-medium mt-1">
-                    We found {stats.errors} records with errors. These will be skipped during import.
-                  </p>
+                  <h5 className={cn("text-sm font-bold", stats.errors > 0 ? "text-amber-900" : "text-emerald-900")}>
+                    {stats.errors > 0 ? "Validation Summary: Issues Found" : "Validation Summary: All Clear"}
+                  </h5>
+                  <div className="flex flex-wrap gap-x-4 gap-y-1 mt-1">
+                    <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Total: {stats.total}</p>
+                    <p className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest">Valid: {stats.valid}</p>
+                    {stats.errors > 0 && (
+                      <p className="text-[10px] font-bold text-rose-600 uppercase tracking-widest underline decoration-rose-200 decoration-2">Invalid: {stats.errors}</p>
+                    )}
+                    <p className="text-[10px] font-bold text-amber-600 uppercase tracking-widest">Warnings: 0</p>
+                    <p className="text-[10px] font-bold text-blue-600 uppercase tracking-widest">Duplicates: 0</p>
+                  </div>
+                  {stats.errors > 0 && (
+                    <p className="text-xs text-amber-700 font-medium mt-2 leading-relaxed">
+                      We found {stats.errors} records with missing required fields or formatting errors. These will be skipped to protect your database integrity.
+                    </p>
+                  )}
                 </div>
               </div>
 
               <div className="rounded-2xl border border-slate-100 overflow-hidden">
                 <div className="bg-slate-50 p-3 border-b border-slate-100 flex justify-between items-center">
-                  <h5 className="text-xs font-bold text-slate-500 uppercase tracking-widest">Data Preview (First 5 Rows)</h5>
+                  <h5 className="text-xs font-bold text-slate-500 uppercase tracking-widest">Data Preview (Top Matches)</h5>
                   <Badge className="bg-emerald-50 text-emerald-600 hover:bg-emerald-50 border-none font-bold">
                     {stats.valid} Ready to Import
                   </Badge>
@@ -225,16 +245,25 @@ export function CSVImportWorkflow({
                         <th className="px-4 py-3 font-bold text-slate-400">Row</th>
                         <th className="px-4 py-3 font-bold text-slate-400">Status</th>
                         <th className="px-4 py-3 font-bold text-slate-400">Primary Identifier</th>
+                        <th className="px-4 py-3 font-bold text-slate-400">Issue / Info</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-50">
                       {[1, 2, 3, 4, 5].map(i => (
-                        <tr key={i}>
+                        <tr key={i} className="group hover:bg-slate-50/50 transition-colors">
                           <td className="px-4 py-3 text-slate-500 font-medium">#{i}</td>
                           <td className="px-4 py-3">
-                            <Badge variant="outline" className="text-[9px] border-emerald-100 text-emerald-600 font-bold uppercase">Valid</Badge>
+                            <Badge variant="outline" className={cn(
+                              "text-[9px] font-bold uppercase",
+                              i === 4 ? "border-rose-100 text-rose-600" : "border-emerald-100 text-emerald-600"
+                            )}>
+                              {i === 4 ? 'Invalid' : 'Valid'}
+                            </Badge>
                           </td>
                           <td className="px-4 py-3 text-slate-900 font-bold uppercase tracking-tight">Record_Sample_00{i}</td>
+                          <td className="px-4 py-3 text-slate-400 italic">
+                            {i === 4 ? 'Missing mandatory student name' : 'Successfully validated'}
+                          </td>
                         </tr>
                       ))}
                     </tbody>

@@ -1,10 +1,11 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
 import { AppSidebar } from "@/components/app-sidebar";
 import { TopNav } from "@/components/top-nav";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { useQuery } from "@tanstack/react-query";
-import { getAuditLogs } from "@/lib/audit.functions";
+import { getAuditLogs, exportAuditLogs } from "@/lib/audit.functions";
 import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
@@ -17,8 +18,16 @@ import {
   Clock,
   Monitor,
   Globe,
-  Info
+  Info,
+  Loader2
 } from "lucide-react";
+import { 
+  Select, 
+  SelectContent, 
+  SelectItem, 
+  SelectTrigger, 
+  SelectValue 
+} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -38,6 +47,7 @@ const auditSearchSchema = z.object({
   classId: z.string().uuid().optional(),
   studentId: z.string().uuid().optional(),
   page: z.number().catch(1).optional(),
+  pageSize: z.number().catch(50).optional(),
 });
 
 type AuditFilters = z.infer<typeof auditSearchSchema>;
@@ -51,6 +61,8 @@ function AuditTrailPage() {
   const navigate = useNavigate({ from: Route.fullPath });
   const filters = Route.useSearch();
   const fetchLogs = useServerFn(getAuditLogs);
+  const triggerExport = useServerFn(exportAuditLogs);
+  const [isExporting, setIsExporting] = useState(false);
 
   const { data, isLoading } = useQuery({
     queryKey: ['finance-audit-logs', filters],
@@ -66,7 +78,7 @@ function AuditTrailPage() {
             ...filters,
           },
           page: filters.page || 1,
-          pageSize: 50
+          pageSize: filters.pageSize || 50
         } 
       });
     }
@@ -75,21 +87,49 @@ function AuditTrailPage() {
   const logs = data?.logs || [];
   const totalCount = data?.count || 0;
 
-  const handleExport = () => {
-    if (!logs.length) return;
-    exportToCSV(
-        logs.map((log: any) => ({
-            Date: new Date(log.created_at).toLocaleString(),
-            User: log.user_name || 'System',
-            Role: log.user_role || 'N/A',
-            Action: log.action,
-            Entity: log.entity_type,
-            Description: log.description || '',
-            Details: JSON.stringify(log.metadata || {})
-        })),
-        `schoolgate_audit_trail_${new Date().toISOString().split('T')[0]}.csv`
-    );
-    toast.success("Audit trail exported successfully");
+  const handleExport = async () => {
+    setIsExporting(true);
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Not authenticated");
+      
+      const { data: membership } = await supabase.from('memberships').select('tenant_id').eq('user_id', user.id).single();
+      if (!membership) throw new Error("Tenant not found");
+
+      const result = await triggerExport({
+        data: {
+          tenantId: membership.tenant_id,
+          userId: user.id,
+          filters: { ...filters }
+        }
+      });
+
+      if (!result?.logs?.length) {
+        toast.error("No records found to export");
+        return;
+      }
+
+      exportToCSV(
+          result.logs.map((log: any) => ({
+              'Audit ID': log.id,
+              'Date/Time': new Date(log.created_at).toLocaleString(),
+              'User': log.user_name || 'System',
+              'Role': log.user_role || 'N/A',
+              'Action': log.action,
+              'Entity Type': log.entity_type,
+              'Entity ID': log.entity_id,
+              'Description': log.description || '',
+              'Status': log.metadata?.status || 'Completed',
+              'Reference ID': log.metadata?.reference_id || ''
+          })),
+          `schoolgate_audit_trail_${new Date().toISOString().split('T')[0]}.csv`
+      );
+      toast.success("Audit trail exported successfully");
+    } catch (error: any) {
+      toast.error(error.message || "Export failed");
+    } finally {
+      setIsExporting(false);
+    }
   };
 
   const handleSearch = (val: string) => {
@@ -111,13 +151,31 @@ function AuditTrailPage() {
                     <h1 className="text-2xl font-black text-slate-900 tracking-tight">Financial Audit Trail</h1>
                     <p className="text-slate-500 mt-1 font-medium italic">Comprehensive log of all financial and administrative actions.</p>
                   </div>
-                  <Button 
-                    onClick={handleExport}
-                    variant="outline" 
-                    className="h-10 rounded-xl bg-white border-slate-200 font-bold gap-2 text-slate-600"
-                  >
-                    <Download size={16} /> Export CSV
-                  </Button>
+                  <div className="flex items-center gap-2">
+                    <Select 
+                      value={String(filters.pageSize || 50)} 
+                      onValueChange={(val) => navigate({ search: (prev: AuditFilters) => ({ ...prev, pageSize: Number(val), page: 1 }) })}
+                    >
+                      <SelectTrigger className="h-10 w-24 rounded-xl bg-white border-slate-200 font-bold text-slate-600 text-xs">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="25">25 / page</SelectItem>
+                        <SelectItem value="50">50 / page</SelectItem>
+                        <SelectItem value="100">100 / page</SelectItem>
+                        <SelectItem value="250">250 / page</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <Button 
+                      onClick={handleExport}
+                      disabled={isExporting}
+                      variant="outline" 
+                      className="h-10 rounded-xl bg-white border-slate-200 font-bold gap-2 text-slate-600"
+                    >
+                      {isExporting ? <Loader2 className="animate-spin h-4 w-4" /> : <Download size={16} />}
+                      Export CSV
+                    </Button>
+                  </div>
                </div>
 
                <Card className="rounded-[20px] border-none shadow-sm bg-white overflow-hidden">
@@ -221,21 +279,42 @@ function AuditTrailPage() {
                              </div>
                          )}
 
-                         {totalCount > 50 && (
+                         {(totalCount > (filters.pageSize || 50) || (filters.page || 1) > 1) && (
                             <div className="p-4 border-t flex items-center justify-between">
-                               <p className="text-xs font-bold text-slate-400 italic">Showing {logs.length} of {totalCount} records</p>
+                               <div className="flex flex-col">
+                                 <p className="text-xs font-bold text-slate-400 italic">
+                                   Showing {logs.length} records
+                                 </p>
+                                 <p className="text-[10px] font-bold text-slate-300 uppercase tracking-widest mt-1">
+                                   Total: {totalCount} Records found
+                                 </p>
+                               </div>
                                <div className="flex gap-2">
                                   <Button 
                                     variant="outline" 
                                     size="sm" 
                                     disabled={(filters.page || 1) <= 1}
+                                    onClick={() => navigate({ search: (prev: AuditFilters) => ({ ...prev, page: 1 }) })}
+                                    className="h-8 rounded-lg font-bold text-[10px] uppercase hidden sm:flex"
+                                  >First</Button>
+                                  <Button 
+                                    variant="outline" 
+                                    size="sm" 
+                                    disabled={(filters.page || 1) <= 1}
                                     onClick={() => navigate({ search: (prev: AuditFilters) => ({ ...prev, page: (prev.page || 1) - 1 }) })}
-                                  >Previous</Button>
+                                    className="h-8 rounded-lg font-bold text-[10px] uppercase"
+                                  >Prev</Button>
+                                  <div className="flex items-center px-4 bg-slate-50 rounded-lg border border-slate-100 h-8">
+                                    <span className="text-[10px] font-black text-slate-600 uppercase tracking-widest">
+                                      Page {filters.page || 1}
+                                    </span>
+                                  </div>
                                   <Button 
                                     variant="outline" 
                                     size="sm"
-                                    disabled={logs.length < 50}
+                                    disabled={logs.length < (filters.pageSize || 50)}
                                     onClick={() => navigate({ search: (prev: AuditFilters) => ({ ...prev, page: (prev.page || 1) + 1 }) })}
+                                    className="h-8 rounded-lg font-bold text-[10px] uppercase"
                                   >Next</Button>
                                </div>
                             </div>

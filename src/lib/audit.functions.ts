@@ -89,6 +89,68 @@ export const getAuditLogs = createServerFn({ method: "GET" })
     return { logs: logs || [], count: count || 0 };
   });
 
+export const exportAuditLogs = createServerFn({ method: "POST" })
+  .validator((data: any) => z.object({
+    tenantId: z.string().uuid(),
+    userId: z.string().uuid(),
+    userName: z.string().optional(),
+    userRole: z.string().optional(),
+    filters: z.object({
+        userId: z.string().uuid().optional(),
+        userRole: z.string().optional(),
+        action: z.string().optional(),
+        entityType: z.string().optional(),
+        dateFrom: z.string().optional(),
+        dateTo: z.string().optional(),
+        searchTerm: z.string().optional()
+    }).optional()
+  }).parse(data))
+  .handler(async ({ data }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    
+    let query = supabaseAdmin
+      .from('audit_logs')
+      .select('*')
+      .eq('tenant_id', data.tenantId)
+      .order('created_at', { ascending: false })
+      .limit(1000); // Guard rail for export
+
+    if (data.filters?.userId) query = query.eq('user_id', data.filters.userId);
+    if (data.filters?.userRole) query = query.eq('user_role', data.filters.userRole);
+    if (data.filters?.action) query = query.ilike('action', `%${data.filters.action}%`);
+    if (data.filters?.entityType) query = query.eq('entity_type', data.filters.entityType);
+    if (data.filters?.dateFrom) query = query.gte('created_at', data.filters.dateFrom);
+    if (data.filters?.dateTo) query = query.lte('created_at', data.filters.dateTo);
+    
+    if (data.filters?.searchTerm) {
+      query = query.or(`description.ilike.%${data.filters.searchTerm}%,action.ilike.%${data.filters.searchTerm}%,user_name.ilike.%${data.filters.searchTerm}%`);
+    }
+
+    const { data: logs, error } = await query;
+    if (error) throw new Error(error.message);
+
+    // Record the export event
+    await logAuditAction({
+      data: {
+        tenantId: data.tenantId,
+        userId: data.userId,
+        userName: data.userName,
+        userRole: data.userRole as any,
+        action: 'AUDIT_CSV_EXPORT',
+        entityType: 'audit_logs',
+        entityId: new Date().toISOString(),
+        description: `Exported ${logs?.length || 0} audit records to CSV.`,
+        metadata: {
+          filters: data.filters,
+          recordCount: logs?.length || 0,
+          exportType: 'CSV'
+        }
+      }
+    });
+
+    return { logs: logs || [] };
+  });
+
 export const importCSVData = createServerFn({ method: "POST" })
   .validator((data: any) => z.object({
     tenantId: z.string().uuid(),
