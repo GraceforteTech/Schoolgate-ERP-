@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as FeeTypesRouteImport } from './routes/fee-types'
 import { Route as FeeTypesOverviewRouteImport } from './routes/fee-types-overview'
 import { Route as LandingRouteImport } from './routes/landing'
+import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as ReportPinTestRouteImport } from './routes/report-pin-test'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as StudentsRouteImport } from './routes/students'
@@ -25,6 +26,7 @@ import { Route as AlumniIndexRouteImport } from './routes/alumni/index'
 import { Route as AttendanceIndexRouteImport } from './routes/attendance/index'
 import { Route as AuthCallbackRouteImport } from './routes/auth/callback'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
+import { Route as AuthSignupRouteImport } from './routes/auth/signup'
 import { Route as CbtIndexRouteImport } from './routes/cbt/index'
 import { Route as EnterpriseIndexRouteImport } from './routes/enterprise/index'
 import { Route as FinanceAdjustmentManagementRouteImport } from './routes/finance/adjustment-management'
@@ -82,6 +84,11 @@ const FeeTypesOverviewRoute = FeeTypesOverviewRouteImport.update({
 const LandingRoute = LandingRouteImport.update({
   id: '/landing',
   path: '/landing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ReportPinTestRoute = ReportPinTestRouteImport.update({
@@ -143,6 +150,11 @@ const AuthCallbackRoute = AuthCallbackRouteImport.update({
 const AuthLoginRoute = AuthLoginRouteImport.update({
   id: '/auth/login',
   path: '/auth/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthSignupRoute = AuthSignupRouteImport.update({
+  id: '/auth/signup',
+  path: '/auth/signup',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CbtIndexRoute = CbtIndexRouteImport.update({
@@ -354,6 +366,7 @@ export interface FileRoutesByFullPath {
   '/fee-types': typeof FeeTypesRoute
   '/fee-types-overview': typeof FeeTypesOverviewRoute
   '/landing': typeof LandingRoute
+  '/onboarding': typeof OnboardingRoute
   '/report-pin-test': typeof ReportPinTestRoute
   '/settings': typeof SettingsRoute
   '/students': typeof StudentsRoute
@@ -363,6 +376,7 @@ export interface FileRoutesByFullPath {
   '/academic/virtual-classroom': typeof AcademicVirtualClassroomRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/auth/login': typeof AuthLoginRoute
+  '/auth/signup': typeof AuthSignupRoute
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
   '/finance/dashboard': typeof FinanceDashboardRoute
   '/library/analytics': typeof LibraryAnalyticsRoute
@@ -410,6 +424,7 @@ export interface FileRoutesByTo {
   '/fee-types': typeof FeeTypesRoute
   '/fee-types-overview': typeof FeeTypesOverviewRoute
   '/landing': typeof LandingRoute
+  '/onboarding': typeof OnboardingRoute
   '/report-pin-test': typeof ReportPinTestRoute
   '/settings': typeof SettingsRoute
   '/students': typeof StudentsRoute
@@ -419,6 +434,7 @@ export interface FileRoutesByTo {
   '/academic/virtual-classroom': typeof AcademicVirtualClassroomRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/auth/login': typeof AuthLoginRoute
+  '/auth/signup': typeof AuthSignupRoute
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
   '/finance/dashboard': typeof FinanceDashboardRoute
   '/library/analytics': typeof LibraryAnalyticsRoute
@@ -467,6 +483,7 @@ export interface FileRoutesById {
   '/fee-types': typeof FeeTypesRoute
   '/fee-types-overview': typeof FeeTypesOverviewRoute
   '/landing': typeof LandingRoute
+  '/onboarding': typeof OnboardingRoute
   '/report-pin-test': typeof ReportPinTestRoute
   '/settings': typeof SettingsRoute
   '/students': typeof StudentsRoute
@@ -476,6 +493,7 @@ export interface FileRoutesById {
   '/academic/virtual-classroom': typeof AcademicVirtualClassroomRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/auth/login': typeof AuthLoginRoute
+  '/auth/signup': typeof AuthSignupRoute
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
   '/finance/dashboard': typeof FinanceDashboardRoute
   '/library/analytics': typeof LibraryAnalyticsRoute
@@ -525,6 +543,7 @@ export interface FileRouteTypes {
     | '/fee-types'
     | '/fee-types-overview'
     | '/landing'
+    | '/onboarding'
     | '/report-pin-test'
     | '/settings'
     | '/students'
@@ -534,6 +553,7 @@ export interface FileRouteTypes {
     | '/academic/virtual-classroom'
     | '/auth/callback'
     | '/auth/login'
+    | '/auth/signup'
     | '/finance/adjustment-management'
     | '/finance/dashboard'
     | '/library/analytics'
@@ -581,6 +601,7 @@ export interface FileRouteTypes {
     | '/fee-types'
     | '/fee-types-overview'
     | '/landing'
+    | '/onboarding'
     | '/report-pin-test'
     | '/settings'
     | '/students'
@@ -590,6 +611,7 @@ export interface FileRouteTypes {
     | '/academic/virtual-classroom'
     | '/auth/callback'
     | '/auth/login'
+    | '/auth/signup'
     | '/finance/adjustment-management'
     | '/finance/dashboard'
     | '/library/analytics'
@@ -637,6 +659,7 @@ export interface FileRouteTypes {
     | '/fee-types'
     | '/fee-types-overview'
     | '/landing'
+    | '/onboarding'
     | '/report-pin-test'
     | '/settings'
     | '/students'
@@ -646,6 +669,7 @@ export interface FileRouteTypes {
     | '/academic/virtual-classroom'
     | '/auth/callback'
     | '/auth/login'
+    | '/auth/signup'
     | '/finance/adjustment-management'
     | '/finance/dashboard'
     | '/library/analytics'
@@ -694,6 +718,7 @@ export interface RootRouteChildren {
   FeeTypesRoute: typeof FeeTypesRoute
   FeeTypesOverviewRoute: typeof FeeTypesOverviewRoute
   LandingRoute: typeof LandingRoute
+  OnboardingRoute: typeof OnboardingRoute
   ReportPinTestRoute: typeof ReportPinTestRoute
   SettingsRoute: typeof SettingsRoute
   StudentsRoute: typeof StudentsRoute
@@ -703,6 +728,7 @@ export interface RootRouteChildren {
   AcademicVirtualClassroomRoute: typeof AcademicVirtualClassroomRoute
   AuthCallbackRoute: typeof AuthCallbackRoute
   AuthLoginRoute: typeof AuthLoginRoute
+  AuthSignupRoute: typeof AuthSignupRoute
   FinanceAdjustmentManagementRoute: typeof FinanceAdjustmentManagementRoute
   FinanceDashboardRoute: typeof FinanceDashboardRoute
   LibraryAnalyticsRoute: typeof LibraryAnalyticsRoute
@@ -774,6 +800,13 @@ declare module '@tanstack/react-router' {
       path: '/landing'
       fullPath: '/landing'
       preLoaderRoute: typeof LandingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/report-pin-test': {
@@ -858,6 +891,13 @@ declare module '@tanstack/react-router' {
       path: '/auth/login'
       fullPath: '/auth/login'
       preLoaderRoute: typeof AuthLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/signup': {
+      id: '/auth/signup'
+      path: '/auth/signup'
+      fullPath: '/auth/signup'
+      preLoaderRoute: typeof AuthSignupRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cbt/': {
@@ -1134,6 +1174,7 @@ const rootRouteChildren: RootRouteChildren = {
   FeeTypesRoute: FeeTypesRoute,
   FeeTypesOverviewRoute: FeeTypesOverviewRoute,
   LandingRoute: LandingRoute,
+  OnboardingRoute: OnboardingRoute,
   ReportPinTestRoute: ReportPinTestRoute,
   SettingsRoute: SettingsRoute,
   StudentsRoute: StudentsRoute,
@@ -1143,6 +1184,7 @@ const rootRouteChildren: RootRouteChildren = {
   AcademicVirtualClassroomRoute: AcademicVirtualClassroomRoute,
   AuthCallbackRoute: AuthCallbackRoute,
   AuthLoginRoute: AuthLoginRoute,
+  AuthSignupRoute: AuthSignupRoute,
   FinanceAdjustmentManagementRoute: FinanceAdjustmentManagementRoute,
   FinanceDashboardRoute: FinanceDashboardRoute,
   LibraryAnalyticsRoute: LibraryAnalyticsRoute,
