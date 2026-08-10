@@ -216,6 +216,38 @@ function AuditTrailPage() {
                   </div>
                </div>
 
+               {/* KPI Summary Grid */}
+               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <SummaryCard
+                  title="Total Events"
+                  value={totalCount}
+                  icon={<Database size={20} />}
+                  isLoading={isLoading}
+                  description="Database activity logs"
+                />
+                <SummaryCard
+                  title="Critical Events"
+                  value={logs.filter((l: any) => l.action.toLowerCase().includes('delete') || l.action.toLowerCase().includes('archive')).length}
+                  icon={<ShieldCheck size={20} />}
+                  isLoading={isLoading}
+                  description="High-sensitivity actions"
+                />
+                <SummaryCard
+                  title="Last 24 Hours"
+                  value={logs.filter((l: any) => new Date(l.created_at) > new Date(Date.now() - 86400000)).length}
+                  icon={<Clock size={20} />}
+                  isLoading={isLoading}
+                  description="Recent platform changes"
+                />
+                <SummaryCard
+                  title="Active Users"
+                  value={new Set(logs.map((l: any) => l.user_id)).size}
+                  icon={<LayoutGrid size={20} />}
+                  isLoading={isLoading}
+                  description="Contributors in this period"
+                />
+              </div>
+
                {newAuditToast && (
                  <div className="bg-schoolgate-green/10 border border-schoolgate-green/20 p-4 rounded-2xl flex items-center justify-between animate-in fade-in slide-in-from-top-4">
                    <div className="flex items-center gap-3">
@@ -305,74 +337,96 @@ function AuditTrailPage() {
                       filterName={filterName}
                       setFilterName={setFilterName}
                     />
-                    {isLoading ? (
-                      <div className="p-20 text-center text-slate-400 font-bold animate-pulse">Loading secure audit trail...</div>
+                    {logs.length === 0 && !isLoading ? (
+                      <div className="p-16">
+                        <EmptyState 
+                          icon={<Inbox size={48} />}
+                          title="No audit activity found"
+                          description={Object.values(filters).some(v => !!v) 
+                            ? "We couldn't find any records matching your current filter criteria."
+                            : "This audit trail is currently empty. Start interacting with the platform to see logs here."}
+                          action={Object.values(filters).some(v => !!v) ? {
+                            label: "Clear Filters",
+                            onClick: () => navigate({ search: {} }),
+                            icon: <RefreshCw size={14} />
+                          } : undefined}
+                        />
+                      </div>
                     ) : (
                       <div className="overflow-x-auto">
                          <table className="w-full text-left border-collapse">
                             <thead>
                                <tr className="bg-slate-50 text-[10px] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100">
-                                  <th className="px-6 py-4">Actor</th>
-                                  <th className="px-6 py-4">Action & Entity</th>
-                                  <th className="px-6 py-4">Description</th>
-                                  <th className="px-6 py-4">Environment</th>
-                                  <th className="px-6 py-4 text-right">Details</th>
+                                  <th className="px-8 py-5">Actor</th>
+                                  <th className="px-8 py-5">Action & Entity</th>
+                                  <th className="px-8 py-5">Description</th>
+                                  <th className="px-8 py-5">Environment</th>
+                                  <th className="px-8 py-5 text-right">Details</th>
                                </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-50">
-                               {logs.map((log: any) => (
-                                  <tr key={log.id} className="hover:bg-slate-50/50 transition-colors group">
-                                     <td className="px-6 py-5">
-                                        <div className="flex items-center gap-3">
-                                           <div className="h-9 w-9 rounded-full bg-schoolgate-green-light text-schoolgate-green flex items-center justify-center">
-                                              <UserCircle size={20} />
-                                           </div>
-                                           <div>
-                                              <p className="text-sm font-bold text-slate-900">{log.user_name || 'System'}</p>
-                                              <p className="text-[10px] font-bold text-schoolgate-green uppercase tracking-tight">{log.user_role || 'Automated'}</p>
-                                           </div>
-                                        </div>
-                                     </td>
-                                     <td className="px-6 py-5">
-                                        <div>
-                                           <Badge variant="outline" className="mb-1.5 rounded-md border-slate-200 text-slate-600 font-bold text-[9px] uppercase tracking-wider">
-                                              {log.action}
-                                           </Badge>
-                                           <p className="text-sm font-bold text-slate-700">{log.entity_type}: {log.entity_id}</p>
-                                           <p className="text-[10px] text-slate-400 flex items-center gap-1 mt-1">
-                                              <Clock size={10} /> {new Date(log.created_at).toLocaleString()}
-                                           </p>
-                                        </div>
-                                     </td>
-                                     <td className="px-6 py-5 max-w-[300px]">
-                                        <p className="text-xs text-slate-600 font-medium leading-relaxed">
-                                            {log.description}
-                                        </p>
-                                     </td>
-                                     <td className="px-6 py-5">
-                                        <div className="space-y-1.5">
-                                           <div className="flex items-center gap-2 text-[10px] font-bold text-slate-500">
-                                              <Monitor size={12} className="text-slate-400" /> Web Interface
-                                           </div>
-                                           <div className="flex items-center gap-2 text-[10px] font-bold text-slate-500">
-                                              <Globe size={12} className="text-slate-400" /> ID: {log.id.slice(0, 8)}
-                                           </div>
-                                        </div>
-                                     </td>
-                                     <td className="px-6 py-5 text-right">
-                                        <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-400 hover:text-schoolgate-green rounded-lg">
-                                           <Info size={18} />
-                                        </Button>
-                                     </td>
-                                  </tr>
-                               ))}
+                               {isLoading ? (
+                                  Array(5).fill(0).map((_, i) => (
+                                    <tr key={i} className="animate-pulse">
+                                      <td className="px-8 py-6"><div className="h-10 w-40 bg-slate-50 rounded-xl"></div></td>
+                                      <td className="px-8 py-6"><div className="h-10 w-32 bg-slate-50 rounded-xl"></div></td>
+                                      <td className="px-8 py-6"><div className="h-10 w-48 bg-slate-50 rounded-xl"></div></td>
+                                      <td className="px-8 py-6"><div className="h-10 w-24 bg-slate-50 rounded-xl"></div></td>
+                                      <td className="px-8 py-6"><div className="h-8 w-8 bg-slate-50 rounded-lg ml-auto"></div></td>
+                                    </tr>
+                                  ))
+                               ) : (
+                                 logs.map((log: any) => (
+                                    <tr key={log.id} className="hover:bg-slate-50 transition-colors group">
+                                       <td className="px-8 py-6">
+                                          <div className="flex items-center gap-3">
+                                             <div className="h-10 w-10 rounded-2xl bg-emerald-50 text-schoolgate-green flex items-center justify-center font-black text-xs">
+                                                {log.user_name ? log.user_name.charAt(0) : <UserCircle size={20} />}
+                                             </div>
+                                             <div>
+                                                <p className="text-sm font-black text-slate-900 tracking-tight">{log.user_name || 'System'}</p>
+                                                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{log.user_role || 'Automated'}</p>
+                                             </div>
+                                          </div>
+                                       </td>
+                                       <td className="px-8 py-6">
+                                          <div>
+                                             <Badge variant="outline" className="mb-2 rounded-lg border-slate-200 bg-white text-slate-600 font-bold text-[9px] uppercase tracking-widest px-2 h-5">
+                                                {log.action}
+                                             </Badge>
+                                             <p className="text-sm font-black text-slate-700 tracking-tight">{log.entity_type}</p>
+                                             <p className="text-[10px] font-bold text-slate-400 flex items-center gap-1 mt-1">
+                                                <Clock size={10} className="text-slate-300" /> {new Date(log.created_at).toLocaleString()}
+                                             </p>
+                                          </div>
+                                       </td>
+                                       <td className="px-8 py-6 max-w-[300px]">
+                                          <p className="text-xs text-slate-500 font-medium leading-relaxed italic">
+                                              "{log.description}"
+                                          </p>
+                                       </td>
+                                       <td className="px-8 py-6">
+                                          <div className="space-y-1.5">
+                                             <div className="flex items-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                                                <Monitor size={12} className="text-slate-300" /> WEB PORTAL
+                                             </div>
+                                             <div className="flex items-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                                                <Globe size={12} className="text-slate-300" /> ID: {log.id.slice(0, 8)}
+                                             </div>
+                                          </div>
+                                       </td>
+                                       <td className="px-8 py-6 text-right">
+                                          <Button variant="ghost" size="icon" className="h-9 w-9 text-slate-400 hover:text-schoolgate-green hover:bg-emerald-50 rounded-xl transition-colors">
+                                             <Info size={18} />
+                                          </Button>
+                                       </td>
+                                    </tr>
+                                  ))
+                               )}
                             </tbody>
                          </table>
-                         {!logs.length && (
-                             <div className="p-16 text-center text-slate-400 italic font-medium">
-                                No audit records match your current filters.
-                             </div>
-                         )}
+                      </div>
+                    )}
 
                          {(totalCount > (filters.pageSize || 50) || (filters.page || 1) > 1) && (
                             <div className="p-4 border-t flex items-center justify-between">
