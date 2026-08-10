@@ -18,8 +18,9 @@ import { ExecutiveKpiCards } from "@/components/students/executive-kpi-cards";
 import { StudentDirectory } from "@/components/students/student-directory";
 import { Student360Profile } from "@/components/students/student-360-profile";
 import { StudentAnalytics } from "@/components/students/student-analytics";
-import { PlaceholderForm } from "@/components/ui/placeholder-form";
+import { EnrollStudentDialog } from "@/components/students/enroll-student-dialog";
 import { CSVImportWorkflow } from "@/components/finance/csv-import-workflow";
+
 
 export const Route = createFileRoute("/students")({
   component: StudentInformationPage,
@@ -167,12 +168,10 @@ function StudentInformationPage() {
         </TabsContent>
       </Tabs>
 
-      <PlaceholderForm 
+      <EnrollStudentDialog 
         open={isEnrollFormOpen}
         onOpenChange={setIsEnrollFormOpen}
-        title="Enrol New Student"
-        description="Add a new student to the school register."
-        icon={UserPlus}
+        tenantId="1c2069b2-3e2b-4d56-a36c-2f2222222222" // In a real app, this would be from context
       />
 
       <CSVImportWorkflow 
