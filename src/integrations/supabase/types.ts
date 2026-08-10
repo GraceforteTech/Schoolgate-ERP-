@@ -334,6 +334,60 @@ export type Database = {
           },
         ]
       }
+      students: {
+        Row: {
+          admission_number: string
+          campus_id: string | null
+          class_id: string | null
+          created_at: string | null
+          full_name: string
+          id: string
+          parent_id: string | null
+          status: string | null
+          tenant_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          admission_number: string
+          campus_id?: string | null
+          class_id?: string | null
+          created_at?: string | null
+          full_name: string
+          id?: string
+          parent_id?: string | null
+          status?: string | null
+          tenant_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          admission_number?: string
+          campus_id?: string | null
+          class_id?: string | null
+          created_at?: string | null
+          full_name?: string
+          id?: string
+          parent_id?: string | null
+          status?: string | null
+          tenant_id?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "students_campus_id_fkey"
+            columns: ["campus_id"]
+            isOneToOne: false
+            referencedRelation: "campuses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "students_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       tenants: {
         Row: {
           created_at: string

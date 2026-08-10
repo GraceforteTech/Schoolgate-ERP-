@@ -66,7 +66,7 @@ import { Route as FinanceOutstandingFeesIndexRouteImport } from './routes/financ
 import { Route as FinancePayrollManagementIndexRouteImport } from './routes/finance/payroll-management/index'
 import { Route as FinanceResultsIndexRouteImport } from './routes/finance/results/index'
 import { Route as FinanceWealthLoanIndexRouteImport } from './routes/finance/wealth-loan/index'
-import { Route as ParentChildRouteImport } from './routes/parent/child.'
+import { Route as ParentChildChildIdRouteImport } from './routes/parent/child.$childId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -367,9 +367,9 @@ const FinanceWealthLoanIndexRoute = FinanceWealthLoanIndexRouteImport.update({
   path: '/finance/wealth-loan/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ParentChildRoute = ParentChildRouteImport.update({
-  id: '/parent/child/',
-  path: '/parent/child/',
+const ParentChildChildIdRoute = ParentChildChildIdRouteImport.update({
+  id: '/parent/child/$childId',
+  path: '/parent/child/$childId',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -413,7 +413,6 @@ export interface FileRoutesByFullPath {
   '/teachers/': typeof TeachersIndexRoute
   '/timetable/': typeof TimetableIndexRoute
   '/transport/': typeof TransportIndexRoute
-  '/parent/child/': typeof ParentChildRoute
   '/finance/admissions/applicant-profile': typeof FinanceAdmissionsApplicantProfileRoute
   '/finance/admissions/decisions': typeof FinanceAdmissionsDecisionsRoute
   '/finance/admissions/enrolment': typeof FinanceAdmissionsEnrolmentRoute
@@ -423,6 +422,7 @@ export interface FileRoutesByFullPath {
   '/finance/hr-payroll/processing': typeof FinanceHrPayrollProcessingRoute
   '/finance/hr-payroll/salary-structure': typeof FinanceHrPayrollSalaryStructureRoute
   '/finance/hr-payroll/salary-table': typeof FinanceHrPayrollSalaryTableRoute
+  '/parent/child/$childId': typeof ParentChildChildIdRoute
   '/finance/admissions/': typeof FinanceAdmissionsIndexRoute
   '/finance/expense-management/': typeof FinanceExpenseManagementIndexRoute
   '/finance/fee-posting/': typeof FinanceFeePostingIndexRoute
@@ -473,7 +473,6 @@ export interface FileRoutesByTo {
   '/teachers': typeof TeachersIndexRoute
   '/timetable': typeof TimetableIndexRoute
   '/transport': typeof TransportIndexRoute
-  '/parent/child': typeof ParentChildRoute
   '/finance/admissions/applicant-profile': typeof FinanceAdmissionsApplicantProfileRoute
   '/finance/admissions/decisions': typeof FinanceAdmissionsDecisionsRoute
   '/finance/admissions/enrolment': typeof FinanceAdmissionsEnrolmentRoute
@@ -483,6 +482,7 @@ export interface FileRoutesByTo {
   '/finance/hr-payroll/processing': typeof FinanceHrPayrollProcessingRoute
   '/finance/hr-payroll/salary-structure': typeof FinanceHrPayrollSalaryStructureRoute
   '/finance/hr-payroll/salary-table': typeof FinanceHrPayrollSalaryTableRoute
+  '/parent/child/$childId': typeof ParentChildChildIdRoute
   '/finance/admissions': typeof FinanceAdmissionsIndexRoute
   '/finance/expense-management': typeof FinanceExpenseManagementIndexRoute
   '/finance/fee-posting': typeof FinanceFeePostingIndexRoute
@@ -534,7 +534,6 @@ export interface FileRoutesById {
   '/teachers/': typeof TeachersIndexRoute
   '/timetable/': typeof TimetableIndexRoute
   '/transport/': typeof TransportIndexRoute
-  '/parent/child/': typeof ParentChildRoute
   '/finance/admissions/applicant-profile': typeof FinanceAdmissionsApplicantProfileRoute
   '/finance/admissions/decisions': typeof FinanceAdmissionsDecisionsRoute
   '/finance/admissions/enrolment': typeof FinanceAdmissionsEnrolmentRoute
@@ -544,6 +543,7 @@ export interface FileRoutesById {
   '/finance/hr-payroll/processing': typeof FinanceHrPayrollProcessingRoute
   '/finance/hr-payroll/salary-structure': typeof FinanceHrPayrollSalaryStructureRoute
   '/finance/hr-payroll/salary-table': typeof FinanceHrPayrollSalaryTableRoute
+  '/parent/child/$childId': typeof ParentChildChildIdRoute
   '/finance/admissions/': typeof FinanceAdmissionsIndexRoute
   '/finance/expense-management/': typeof FinanceExpenseManagementIndexRoute
   '/finance/fee-posting/': typeof FinanceFeePostingIndexRoute
@@ -596,7 +596,6 @@ export interface FileRouteTypes {
     | '/teachers/'
     | '/timetable/'
     | '/transport/'
-    | '/parent/child/'
     | '/finance/admissions/applicant-profile'
     | '/finance/admissions/decisions'
     | '/finance/admissions/enrolment'
@@ -606,6 +605,7 @@ export interface FileRouteTypes {
     | '/finance/hr-payroll/processing'
     | '/finance/hr-payroll/salary-structure'
     | '/finance/hr-payroll/salary-table'
+    | '/parent/child/$childId'
     | '/finance/admissions/'
     | '/finance/expense-management/'
     | '/finance/fee-posting/'
@@ -656,7 +656,6 @@ export interface FileRouteTypes {
     | '/teachers'
     | '/timetable'
     | '/transport'
-    | '/parent/child'
     | '/finance/admissions/applicant-profile'
     | '/finance/admissions/decisions'
     | '/finance/admissions/enrolment'
@@ -666,6 +665,7 @@ export interface FileRouteTypes {
     | '/finance/hr-payroll/processing'
     | '/finance/hr-payroll/salary-structure'
     | '/finance/hr-payroll/salary-table'
+    | '/parent/child/$childId'
     | '/finance/admissions'
     | '/finance/expense-management'
     | '/finance/fee-posting'
@@ -716,7 +716,6 @@ export interface FileRouteTypes {
     | '/teachers/'
     | '/timetable/'
     | '/transport/'
-    | '/parent/child/'
     | '/finance/admissions/applicant-profile'
     | '/finance/admissions/decisions'
     | '/finance/admissions/enrolment'
@@ -726,6 +725,7 @@ export interface FileRouteTypes {
     | '/finance/hr-payroll/processing'
     | '/finance/hr-payroll/salary-structure'
     | '/finance/hr-payroll/salary-table'
+    | '/parent/child/$childId'
     | '/finance/admissions/'
     | '/finance/expense-management/'
     | '/finance/fee-posting/'
@@ -777,7 +777,6 @@ export interface RootRouteChildren {
   TeachersIndexRoute: typeof TeachersIndexRoute
   TimetableIndexRoute: typeof TimetableIndexRoute
   TransportIndexRoute: typeof TransportIndexRoute
-  ParentChildRoute: typeof ParentChildRoute
   FinanceAdmissionsApplicantProfileRoute: typeof FinanceAdmissionsApplicantProfileRoute
   FinanceAdmissionsDecisionsRoute: typeof FinanceAdmissionsDecisionsRoute
   FinanceAdmissionsEnrolmentRoute: typeof FinanceAdmissionsEnrolmentRoute
@@ -787,6 +786,7 @@ export interface RootRouteChildren {
   FinanceHrPayrollProcessingRoute: typeof FinanceHrPayrollProcessingRoute
   FinanceHrPayrollSalaryStructureRoute: typeof FinanceHrPayrollSalaryStructureRoute
   FinanceHrPayrollSalaryTableRoute: typeof FinanceHrPayrollSalaryTableRoute
+  ParentChildChildIdRoute: typeof ParentChildChildIdRoute
   FinanceAdmissionsIndexRoute: typeof FinanceAdmissionsIndexRoute
   FinanceExpenseManagementIndexRoute: typeof FinanceExpenseManagementIndexRoute
   FinanceFeePostingIndexRoute: typeof FinanceFeePostingIndexRoute
@@ -1199,11 +1199,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FinanceWealthLoanIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/parent/child/': {
-      id: '/parent/child/'
-      path: '/parent/child'
-      fullPath: '/parent/child/'
-      preLoaderRoute: typeof ParentChildRouteImport
+    '/parent/child/$childId': {
+      id: '/parent/child/$childId'
+      path: '/parent/child/$childId'
+      fullPath: '/parent/child/$childId'
+      preLoaderRoute: typeof ParentChildChildIdRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -1249,7 +1249,6 @@ const rootRouteChildren: RootRouteChildren = {
   TeachersIndexRoute: TeachersIndexRoute,
   TimetableIndexRoute: TimetableIndexRoute,
   TransportIndexRoute: TransportIndexRoute,
-  ParentChildRoute: ParentChildRoute,
   FinanceAdmissionsApplicantProfileRoute:
     FinanceAdmissionsApplicantProfileRoute,
   FinanceAdmissionsDecisionsRoute: FinanceAdmissionsDecisionsRoute,
@@ -1260,6 +1259,7 @@ const rootRouteChildren: RootRouteChildren = {
   FinanceHrPayrollProcessingRoute: FinanceHrPayrollProcessingRoute,
   FinanceHrPayrollSalaryStructureRoute: FinanceHrPayrollSalaryStructureRoute,
   FinanceHrPayrollSalaryTableRoute: FinanceHrPayrollSalaryTableRoute,
+  ParentChildChildIdRoute: ParentChildChildIdRoute,
   FinanceAdmissionsIndexRoute: FinanceAdmissionsIndexRoute,
   FinanceExpenseManagementIndexRoute: FinanceExpenseManagementIndexRoute,
   FinanceFeePostingIndexRoute: FinanceFeePostingIndexRoute,

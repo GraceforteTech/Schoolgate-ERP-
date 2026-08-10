@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { CreditCard, History, Wallet, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-export const Route = createFileRoute("/parent/child/")({
+export const Route = createFileRoute("/parent/child/$childId")({
   component: ChildDetailsPage,
 });
 
