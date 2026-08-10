@@ -64,7 +64,7 @@ export const bulkAssignFees = createServerFn({ method: "POST" })
 
     if (!students || students.length === 0) throw new Error("No valid students found.");
 
-    const assignments = students.map(s => ({
+    const assignments = students.map((s: any) => ({
       tenant_id: data.tenantId,
       student_id: s.id,
       fee_type_id: data.feeTypeId,
