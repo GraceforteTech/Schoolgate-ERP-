@@ -36,6 +36,7 @@ import { Route as LibraryBorrowReturnRouteImport } from './routes/library/borrow
 import { Route as LibraryCatalogueRouteImport } from './routes/library/catalogue'
 import { Route as LibraryDigitalRouteImport } from './routes/library/digital'
 import { Route as LibraryProprietorRouteImport } from './routes/library/proprietor'
+import { Route as ReportAccessIndexRouteImport } from './routes/report-access/index'
 import { Route as StaffDashboardRouteImport } from './routes/staff/dashboard'
 import { Route as TeachersIndexRouteImport } from './routes/teachers/index'
 import { Route as TimetableIndexRouteImport } from './routes/timetable/index'
@@ -197,6 +198,11 @@ const LibraryDigitalRoute = LibraryDigitalRouteImport.update({
 const LibraryProprietorRoute = LibraryProprietorRouteImport.update({
   id: '/library/proprietor',
   path: '/library/proprietor',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReportAccessIndexRoute = ReportAccessIndexRouteImport.update({
+  id: '/report-access/',
+  path: '/report-access/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const StaffDashboardRoute = StaffDashboardRouteImport.update({
@@ -369,6 +375,7 @@ export interface FileRoutesByFullPath {
   '/hostel/': typeof HostelIndexRoute
   '/inventory/': typeof InventoryIndexRoute
   '/library/': typeof LibraryIndexRoute
+  '/report-access/': typeof ReportAccessIndexRoute
   '/teachers/': typeof TeachersIndexRoute
   '/timetable/': typeof TimetableIndexRoute
   '/transport/': typeof TransportIndexRoute
@@ -423,6 +430,7 @@ export interface FileRoutesByTo {
   '/hostel': typeof HostelIndexRoute
   '/inventory': typeof InventoryIndexRoute
   '/library': typeof LibraryIndexRoute
+  '/report-access': typeof ReportAccessIndexRoute
   '/teachers': typeof TeachersIndexRoute
   '/timetable': typeof TimetableIndexRoute
   '/transport': typeof TransportIndexRoute
@@ -478,6 +486,7 @@ export interface FileRoutesById {
   '/hostel/': typeof HostelIndexRoute
   '/inventory/': typeof InventoryIndexRoute
   '/library/': typeof LibraryIndexRoute
+  '/report-access/': typeof ReportAccessIndexRoute
   '/teachers/': typeof TeachersIndexRoute
   '/timetable/': typeof TimetableIndexRoute
   '/transport/': typeof TransportIndexRoute
@@ -534,6 +543,7 @@ export interface FileRouteTypes {
     | '/hostel/'
     | '/inventory/'
     | '/library/'
+    | '/report-access/'
     | '/teachers/'
     | '/timetable/'
     | '/transport/'
@@ -588,6 +598,7 @@ export interface FileRouteTypes {
     | '/hostel'
     | '/inventory'
     | '/library'
+    | '/report-access'
     | '/teachers'
     | '/timetable'
     | '/transport'
@@ -642,6 +653,7 @@ export interface FileRouteTypes {
     | '/hostel/'
     | '/inventory/'
     | '/library/'
+    | '/report-access/'
     | '/teachers/'
     | '/timetable/'
     | '/transport/'
@@ -697,6 +709,7 @@ export interface RootRouteChildren {
   HostelIndexRoute: typeof HostelIndexRoute
   InventoryIndexRoute: typeof InventoryIndexRoute
   LibraryIndexRoute: typeof LibraryIndexRoute
+  ReportAccessIndexRoute: typeof ReportAccessIndexRoute
   TeachersIndexRoute: typeof TeachersIndexRoute
   TimetableIndexRoute: typeof TimetableIndexRoute
   TransportIndexRoute: typeof TransportIndexRoute
@@ -911,6 +924,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LibraryProprietorRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/report-access/': {
+      id: '/report-access/'
+      path: '/report-access'
+      fullPath: '/report-access/'
+      preLoaderRoute: typeof ReportAccessIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/staff/dashboard': {
       id: '/staff/dashboard'
       path: '/staff/dashboard'
@@ -1121,6 +1141,7 @@ const rootRouteChildren: RootRouteChildren = {
   HostelIndexRoute: HostelIndexRoute,
   InventoryIndexRoute: InventoryIndexRoute,
   LibraryIndexRoute: LibraryIndexRoute,
+  ReportAccessIndexRoute: ReportAccessIndexRoute,
   TeachersIndexRoute: TeachersIndexRoute,
   TimetableIndexRoute: TimetableIndexRoute,
   TransportIndexRoute: TransportIndexRoute,

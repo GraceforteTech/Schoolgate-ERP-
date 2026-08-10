@@ -9,9 +9,10 @@ import { ResultAnalytics } from "@/components/finance/results/result-analytics";
 import { TranscriptManagement } from "@/components/finance/results/transcript-management";
 import { AcademicDashboard } from "@/components/finance/results/academic-dashboard";
 import { ExecutiveAcademicDashboard } from "@/components/finance/results/executive-examination-dashboard";
+import { PinManagementSystem } from "@/components/finance/results/pin-management/pin-table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { Download, LayoutDashboard, FileText, Settings, ClipboardList, CheckCircle2, BarChart3, GraduationCap } from "lucide-react";
+import { Download, LayoutDashboard, FileText, Settings, ClipboardList, CheckCircle2, BarChart3, GraduationCap, ShieldCheck } from "lucide-react";
 
 export const Route = createFileRoute("/finance/results/")({
   component: ResultManagementPage,
@@ -96,6 +97,13 @@ function ResultManagementPage() {
               <BarChart3 className="w-4 h-4" />
               Analytics
             </TabsTrigger>
+            <TabsTrigger 
+              value="pins" 
+              className="px-6 rounded-lg text-xs font-bold uppercase tracking-wider data-[state=active]:bg-schoolgate-green data-[state=active]:text-white h-full gap-2"
+            >
+              <ShieldCheck className="w-4 h-4" />
+              PIN Management
+            </TabsTrigger>
           </TabsList>
         </div>
 
@@ -125,6 +133,10 @@ function ResultManagementPage() {
 
         <TabsContent value="analytics" className="animate-in fade-in slide-in-from-bottom-4 duration-500">
           <ResultAnalytics />
+        </TabsContent>
+
+        <TabsContent value="pins" className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <PinManagementSystem />
         </TabsContent>
       </Tabs>
     </div>
