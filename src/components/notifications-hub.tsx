@@ -171,11 +171,11 @@ export function NotificationsHub() {
                           {notification.title}
                         </h5>
                         <span className="text-[9px] font-bold text-slate-400 uppercase tracking-tight flex items-center gap-1">
-                          <Clock size={8} /> {new Date(notification.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                          <Clock size={8} /> {notification.created_at ? new Date(notification.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Just now'}
                         </span>
                       </div>
                       <p className="text-xs text-slate-500 font-medium leading-relaxed line-clamp-2">
-                        {notification.content}
+                        {notification.message}
                       </p>
                       <div className="flex items-center gap-2 mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
                          <span className="text-[10px] font-bold text-schoolgate-green uppercase tracking-widest flex items-center gap-1">
