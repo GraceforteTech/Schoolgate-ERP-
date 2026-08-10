@@ -1,9 +1,9 @@
-import { Bell, Search, Home, ExternalLink } from "lucide-react";
+import { Search, Home, ExternalLink } from "lucide-react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link } from "@tanstack/react-router";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { NotificationsHub } from "@/components/notifications-hub";
 
 export function TopNav() {
   return (
@@ -45,10 +45,7 @@ export function TopNav() {
 
         <div className="flex items-center gap-2">
           <ThemeToggle />
-          <Button variant="ghost" size="icon" className="relative h-9 w-9 text-muted-foreground">
-            <Bell className="h-5 w-5" />
-            <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-schoolgate-green" />
-          </Button>
+          <NotificationsHub />
           <div className="h-8 w-8 shrink-0 overflow-hidden rounded-full bg-schoolgate-green-light">
             <div className="grid h-full w-full place-items-center text-xs font-semibold text-schoolgate-green">
               AD
