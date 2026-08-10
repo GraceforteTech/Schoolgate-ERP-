@@ -245,6 +245,7 @@ export type Database = {
           created_at: string | null
           fee_type_id: string | null
           id: string
+          status: string | null
           student_id: string
           tenant_id: string
           term: string
@@ -258,6 +259,7 @@ export type Database = {
           created_at?: string | null
           fee_type_id?: string | null
           id?: string
+          status?: string | null
           student_id: string
           tenant_id: string
           term: string
@@ -271,6 +273,7 @@ export type Database = {
           created_at?: string | null
           fee_type_id?: string | null
           id?: string
+          status?: string | null
           student_id?: string
           tenant_id?: string
           term?: string
@@ -346,6 +349,8 @@ export type Database = {
           status: string | null
           tenant_id: string
           updated_at: string | null
+          virtual_account_bank: string | null
+          virtual_account_number: string | null
         }
         Insert: {
           admission_number: string
@@ -358,6 +363,8 @@ export type Database = {
           status?: string | null
           tenant_id: string
           updated_at?: string | null
+          virtual_account_bank?: string | null
+          virtual_account_number?: string | null
         }
         Update: {
           admission_number?: string
@@ -370,6 +377,8 @@ export type Database = {
           status?: string | null
           tenant_id?: string
           updated_at?: string | null
+          virtual_account_bank?: string | null
+          virtual_account_number?: string | null
         }
         Relationships: [
           {
