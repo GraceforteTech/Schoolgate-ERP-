@@ -38,15 +38,15 @@ export function FinancialVisibilityReport() {
   });
 
   const financialMetrics = [
-    { label: "Gross Revenue", value: `₦${summary?.totalRevenue.toLocaleString() || '0'}`, change: "+12%", type: "income" },
-    { label: "Operating Expenses", value: `₦${summary?.totalExpenses.toLocaleString() || '0'}`, change: "-4%", type: "expense" },
+    { label: "Gross Revenue", value: `₦${(summary?.totalRevenue || 0).toLocaleString()}`, change: "+12%", type: "income" },
+    { label: "Operating Expenses", value: `₦${(summary?.totalExpenses || 0).toLocaleString()}`, change: "-4%", type: "expense" },
     { label: "Net Margin", value: `₦${((summary?.totalRevenue || 0) - (summary?.totalExpenses || 0)).toLocaleString()}`, change: "+15%", type: "profit" },
     { label: "Efficiency Score", value: "92%", change: "+2%", type: "profit" },
   ];
 
   const categories = summary?.expenseBreakdown || [];
   const PLData = [
-    { category: "Tuition Revenue", current: `₦${summary?.totalRevenue.toLocaleString() || '0'}`, previous: "₦0", variance: "+100%" },
+    { category: "Tuition Revenue", current: `₦${(summary?.totalRevenue || 0).toLocaleString()}`, previous: "₦0", variance: "+100%" },
     ...categories.map((e: any) => ({
       category: e.category,
       current: `(₦${e.amount.toLocaleString()})`,
@@ -55,7 +55,8 @@ export function FinancialVisibilityReport() {
     }))
   ];
 
-export function FinancialVisibilityReport() {
+  if (isLoading) return <div className="h-[400px] bg-slate-50 animate-pulse rounded-[14px]" />;
+
   return (
     <Card className="border-none shadow-sm rounded-[14px] overflow-hidden bg-white">
       <CardHeader className="border-b border-slate-50 pb-6">
@@ -72,7 +73,6 @@ export function FinancialVisibilityReport() {
       </CardHeader>
       
       <CardContent className="pt-8">
-        {/* KPI Row */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
           {financialMetrics.map((metric, i) => (
             <div key={i} className="p-5 rounded-2xl bg-slate-50/50 border border-slate-100 hover:border-schoolgate-green/20 hover:shadow-md transition-all">
@@ -100,7 +100,6 @@ export function FinancialVisibilityReport() {
           ))}
         </div>
 
-        {/* P&L View */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
             <div className="flex items-center justify-between mb-6">
@@ -142,9 +141,11 @@ export function FinancialVisibilityReport() {
                   ))}
                   <TableRow className="bg-slate-50/50 border-none">
                     <TableCell className="font-black text-slate-900">Total Net Operating Income</TableCell>
-                    <TableCell className="text-right font-black text-emerald-600">₦14,350,000</TableCell>
-                    <TableCell className="text-right font-bold text-slate-400">₦11,850,000</TableCell>
-                    <TableCell className="text-right font-black text-emerald-600 text-xs">+21.1%</TableCell>
+                    <TableCell className="text-right font-black text-emerald-600">
+                      ₦{((summary?.totalRevenue || 0) - (summary?.totalExpenses || 0)).toLocaleString()}
+                    </TableCell>
+                    <TableCell className="text-right font-bold text-slate-400">₦0</TableCell>
+                    <TableCell className="text-right font-black text-emerald-600 text-xs">+100%</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
@@ -160,10 +161,10 @@ export function FinancialVisibilityReport() {
               <div className="space-y-2">
                 <div className="flex justify-between text-xs font-bold uppercase tracking-wider text-indigo-600">
                   <span>Payroll Burden</span>
-                  <span>40.7%</span>
+                  <span>0%</span>
                 </div>
                 <div className="h-2 w-full bg-indigo-100 rounded-full overflow-hidden">
-                  <div className="h-full bg-indigo-500 rounded-full" style={{ width: '40.7%' }} />
+                  <div className="h-full bg-indigo-500 rounded-full" style={{ width: '0%' }} />
                 </div>
                 <p className="text-[10px] text-slate-400 font-medium">Optimal range: 35-45%</p>
               </div>
@@ -171,23 +172,12 @@ export function FinancialVisibilityReport() {
               <div className="space-y-2">
                 <div className="flex justify-between text-xs font-bold uppercase tracking-wider text-emerald-600">
                   <span>Profit Margin</span>
-                  <span>31.7%</span>
+                  <span>{Math.round(((summary?.totalRevenue || 0) - (summary?.totalExpenses || 0)) / (summary?.totalRevenue || 1) * 100)}%</span>
                 </div>
                 <div className="h-2 w-full bg-emerald-100 rounded-full overflow-hidden">
-                  <div className="h-full bg-emerald-500 rounded-full" style={{ width: '31.7%' }} />
+                  <div className="h-full bg-emerald-500 rounded-full" style={{ width: `${Math.round(((summary?.totalRevenue || 0) - (summary?.totalExpenses || 0)) / (summary?.totalRevenue || 1) * 100)}%` }} />
                 </div>
                 <p className="text-[10px] text-slate-400 font-medium">Industry Benchmark: 25%</p>
-              </div>
-
-              <div className="space-y-2">
-                <div className="flex justify-between text-xs font-bold uppercase tracking-wider text-amber-600">
-                  <span>Operating Cost</span>
-                  <span>27.6%</span>
-                </div>
-                <div className="h-2 w-full bg-amber-100 rounded-full overflow-hidden">
-                  <div className="h-full bg-amber-500 rounded-full" style={{ width: '27.6%' }} />
-                </div>
-                <p className="text-[10px] text-slate-400 font-medium">Driven by maintenance/fuel</p>
               </div>
             </div>
 
@@ -200,7 +190,7 @@ export function FinancialVisibilityReport() {
               </div>
               <p className="text-xs text-slate-400 leading-relaxed font-medium">
                 Instituion is currently <span className="text-emerald-400 font-bold">Highly Liquid</span>. 
-                Collection efficiency is at its 3-year peak. Recommend allocating 10% of profit to the Schoolgate Wealth Scheme.
+                Collection efficiency is strong. Recommend allocating profit to the Schoolgate Wealth Scheme.
               </p>
             </div>
           </div>

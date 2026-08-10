@@ -39,7 +39,6 @@ export function RecentActivities() {
 
   if (isLoading) return <div className="h-48 bg-slate-50 animate-pulse rounded-2xl" />;
 
-export function RecentActivities() {
   return (
     <Card className="border-none shadow-sm rounded-[14px] overflow-hidden">
       <CardHeader className="flex flex-row items-center justify-between pb-4">
@@ -61,8 +60,8 @@ export function RecentActivities() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {transactions?.map((t: any, i: number) => (
-              <TableRow key={t.id} className="hover:bg-schoolgate-green-light/20">
+            {transactions?.map((t: any) => (
+              <TableRow key={t.id} className="hover:bg-schoolgate-green-light/20 transition-colors">
                 <TableCell className="font-medium text-slate-500 text-xs">
                   {new Date(t.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </TableCell>
@@ -73,7 +72,7 @@ export function RecentActivities() {
                 <TableCell>{t.method}</TableCell>
                 <TableCell>
                   <Badge variant="outline" className={cn(
-                    "border-0 px-2 py-0.5 rounded-full",
+                    "border-0 px-2 py-0.5 rounded-full font-bold text-[10px] uppercase",
                     t.status === "approved" ? "bg-emerald-50 text-emerald-600" : 
                     t.status === "pending" ? "bg-amber-50 text-amber-600" : 
                     "bg-rose-50 text-rose-600"
@@ -97,10 +96,14 @@ export function RecentActivities() {
                 </TableCell>
               </TableRow>
             ))}
+            {(!transactions || transactions.length === 0) && (
+              <TableRow>
+                <TableCell colSpan={8} className="text-center py-8 text-slate-400 italic">No recent activities found.</TableCell>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
       </CardContent>
     </Card>
   );
 }
-
