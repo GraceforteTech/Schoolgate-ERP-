@@ -127,9 +127,19 @@ export const approveTransaction = createServerFn({ method: "POST" })
             .maybeSingle());
 
         if (currentFee) {
+            const newAmountPaid = Number(currentFee.amount_paid) + Number(transaction.amount);
+            const totalAmount = Number(currentFee.total_amount);
+            let status = 'partially_paid';
+            if (newAmountPaid >= totalAmount) {
+                status = 'paid';
+            }
+            
             await (supabaseAdmin
                 .from('student_fees')
-                .update({ amount_paid: Number(currentFee.amount_paid) + Number(transaction.amount) })
+                .update({ 
+                    amount_paid: newAmountPaid,
+                    status: status
+                })
                 .eq('id', currentFee.id));
         }
     }
