@@ -39,6 +39,7 @@ import { Route as LibraryBorrowReturnRouteImport } from './routes/library/borrow
 import { Route as LibraryCatalogueRouteImport } from './routes/library/catalogue'
 import { Route as LibraryDigitalRouteImport } from './routes/library/digital'
 import { Route as LibraryProprietorRouteImport } from './routes/library/proprietor'
+import { Route as ParentIndexRouteImport } from './routes/parent/index'
 import { Route as ReportAccessIndexRouteImport } from './routes/report-access/index'
 import { Route as StaffDashboardRouteImport } from './routes/staff/dashboard'
 import { Route as TeachersIndexRouteImport } from './routes/teachers/index'
@@ -65,6 +66,7 @@ import { Route as FinanceOutstandingFeesIndexRouteImport } from './routes/financ
 import { Route as FinancePayrollManagementIndexRouteImport } from './routes/finance/payroll-management/index'
 import { Route as FinanceResultsIndexRouteImport } from './routes/finance/results/index'
 import { Route as FinanceWealthLoanIndexRouteImport } from './routes/finance/wealth-loan/index'
+import { Route as ParentChildRouteImport } from './routes/parent/child.'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -218,6 +220,11 @@ const LibraryProprietorRoute = LibraryProprietorRouteImport.update({
   path: '/library/proprietor',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ParentIndexRoute = ParentIndexRouteImport.update({
+  id: '/parent/',
+  path: '/parent/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ReportAccessIndexRoute = ReportAccessIndexRouteImport.update({
   id: '/report-access/',
   path: '/report-access/',
@@ -360,6 +367,11 @@ const FinanceWealthLoanIndexRoute = FinanceWealthLoanIndexRouteImport.update({
   path: '/finance/wealth-loan/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ParentChildRoute = ParentChildRouteImport.update({
+  id: '/parent/child/',
+  path: '/parent/child/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -396,10 +408,12 @@ export interface FileRoutesByFullPath {
   '/hostel/': typeof HostelIndexRoute
   '/inventory/': typeof InventoryIndexRoute
   '/library/': typeof LibraryIndexRoute
+  '/parent/': typeof ParentIndexRoute
   '/report-access/': typeof ReportAccessIndexRoute
   '/teachers/': typeof TeachersIndexRoute
   '/timetable/': typeof TimetableIndexRoute
   '/transport/': typeof TransportIndexRoute
+  '/parent/child/': typeof ParentChildRoute
   '/finance/admissions/applicant-profile': typeof FinanceAdmissionsApplicantProfileRoute
   '/finance/admissions/decisions': typeof FinanceAdmissionsDecisionsRoute
   '/finance/admissions/enrolment': typeof FinanceAdmissionsEnrolmentRoute
@@ -454,10 +468,12 @@ export interface FileRoutesByTo {
   '/hostel': typeof HostelIndexRoute
   '/inventory': typeof InventoryIndexRoute
   '/library': typeof LibraryIndexRoute
+  '/parent': typeof ParentIndexRoute
   '/report-access': typeof ReportAccessIndexRoute
   '/teachers': typeof TeachersIndexRoute
   '/timetable': typeof TimetableIndexRoute
   '/transport': typeof TransportIndexRoute
+  '/parent/child': typeof ParentChildRoute
   '/finance/admissions/applicant-profile': typeof FinanceAdmissionsApplicantProfileRoute
   '/finance/admissions/decisions': typeof FinanceAdmissionsDecisionsRoute
   '/finance/admissions/enrolment': typeof FinanceAdmissionsEnrolmentRoute
@@ -513,10 +529,12 @@ export interface FileRoutesById {
   '/hostel/': typeof HostelIndexRoute
   '/inventory/': typeof InventoryIndexRoute
   '/library/': typeof LibraryIndexRoute
+  '/parent/': typeof ParentIndexRoute
   '/report-access/': typeof ReportAccessIndexRoute
   '/teachers/': typeof TeachersIndexRoute
   '/timetable/': typeof TimetableIndexRoute
   '/transport/': typeof TransportIndexRoute
+  '/parent/child/': typeof ParentChildRoute
   '/finance/admissions/applicant-profile': typeof FinanceAdmissionsApplicantProfileRoute
   '/finance/admissions/decisions': typeof FinanceAdmissionsDecisionsRoute
   '/finance/admissions/enrolment': typeof FinanceAdmissionsEnrolmentRoute
@@ -573,10 +591,12 @@ export interface FileRouteTypes {
     | '/hostel/'
     | '/inventory/'
     | '/library/'
+    | '/parent/'
     | '/report-access/'
     | '/teachers/'
     | '/timetable/'
     | '/transport/'
+    | '/parent/child/'
     | '/finance/admissions/applicant-profile'
     | '/finance/admissions/decisions'
     | '/finance/admissions/enrolment'
@@ -631,10 +651,12 @@ export interface FileRouteTypes {
     | '/hostel'
     | '/inventory'
     | '/library'
+    | '/parent'
     | '/report-access'
     | '/teachers'
     | '/timetable'
     | '/transport'
+    | '/parent/child'
     | '/finance/admissions/applicant-profile'
     | '/finance/admissions/decisions'
     | '/finance/admissions/enrolment'
@@ -689,10 +711,12 @@ export interface FileRouteTypes {
     | '/hostel/'
     | '/inventory/'
     | '/library/'
+    | '/parent/'
     | '/report-access/'
     | '/teachers/'
     | '/timetable/'
     | '/transport/'
+    | '/parent/child/'
     | '/finance/admissions/applicant-profile'
     | '/finance/admissions/decisions'
     | '/finance/admissions/enrolment'
@@ -748,10 +772,12 @@ export interface RootRouteChildren {
   HostelIndexRoute: typeof HostelIndexRoute
   InventoryIndexRoute: typeof InventoryIndexRoute
   LibraryIndexRoute: typeof LibraryIndexRoute
+  ParentIndexRoute: typeof ParentIndexRoute
   ReportAccessIndexRoute: typeof ReportAccessIndexRoute
   TeachersIndexRoute: typeof TeachersIndexRoute
   TimetableIndexRoute: typeof TimetableIndexRoute
   TransportIndexRoute: typeof TransportIndexRoute
+  ParentChildRoute: typeof ParentChildRoute
   FinanceAdmissionsApplicantProfileRoute: typeof FinanceAdmissionsApplicantProfileRoute
   FinanceAdmissionsDecisionsRoute: typeof FinanceAdmissionsDecisionsRoute
   FinanceAdmissionsEnrolmentRoute: typeof FinanceAdmissionsEnrolmentRoute
@@ -984,6 +1010,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LibraryProprietorRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/parent/': {
+      id: '/parent/'
+      path: '/parent'
+      fullPath: '/parent/'
+      preLoaderRoute: typeof ParentIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/report-access/': {
       id: '/report-access/'
       path: '/report-access'
@@ -1166,6 +1199,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FinanceWealthLoanIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/parent/child/': {
+      id: '/parent/child/'
+      path: '/parent/child'
+      fullPath: '/parent/child/'
+      preLoaderRoute: typeof ParentChildRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -1204,10 +1244,12 @@ const rootRouteChildren: RootRouteChildren = {
   HostelIndexRoute: HostelIndexRoute,
   InventoryIndexRoute: InventoryIndexRoute,
   LibraryIndexRoute: LibraryIndexRoute,
+  ParentIndexRoute: ParentIndexRoute,
   ReportAccessIndexRoute: ReportAccessIndexRoute,
   TeachersIndexRoute: TeachersIndexRoute,
   TimetableIndexRoute: TimetableIndexRoute,
   TransportIndexRoute: TransportIndexRoute,
+  ParentChildRoute: ParentChildRoute,
   FinanceAdmissionsApplicantProfileRoute:
     FinanceAdmissionsApplicantProfileRoute,
   FinanceAdmissionsDecisionsRoute: FinanceAdmissionsDecisionsRoute,
@@ -1231,3 +1273,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
