@@ -178,7 +178,7 @@ export const getTenantClasses = createServerFn({ method: "GET" })
   .validator((data: { tenantId: string }) => z.object({
     tenantId: z.string().uuid()
   }).parse(data))
-  .handler(async ({ data }) => {
+  .handler(async ({ data }): Promise<string[]> => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     
     const { data: classes, error } = await supabaseAdmin
