@@ -164,39 +164,42 @@ function FeeTypesOverviewPage() {
                   </DropdownMenuContent>
                 </DropdownMenu>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-6 p-6 pt-0 relative z-10">
                 <div>
-                  <h3 className="font-bold text-slate-900">{category.name}</h3>
-                  <p className="text-xs text-muted-foreground line-clamp-1">{category.description}</p>
+                  <h3 className="text-lg font-black text-slate-900 tracking-tight">{category.name}</h3>
+                  <p className="text-xs text-slate-500 font-medium italic line-clamp-1">{category.description}</p>
                 </div>
                 
-                <div className="grid grid-cols-2 gap-2">
-                  <div className="bg-slate-50 p-2 rounded-lg">
-                    <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider">Fee Types</p>
-                    <p className="text-lg font-bold text-slate-800">{category.count}</p>
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="bg-slate-50 p-3 rounded-2xl border border-slate-100">
+                    <p className="text-[9px] text-slate-400 uppercase font-black tracking-widest mb-1">Fee Types</p>
+                    <p className="text-xl font-black text-slate-800 tracking-tighter">{category.count}</p>
                   </div>
-                  <div className="bg-slate-50 p-2 rounded-lg">
-                    <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider">Revenue</p>
-                    <p className="text-lg font-bold text-schoolgate-green">{category.totalValue}</p>
+                  <div className="bg-slate-50 p-3 rounded-2xl border border-slate-100">
+                    <p className="text-[9px] text-slate-400 uppercase font-black tracking-widest mb-1">Revenue</p>
+                    <p className="text-xl font-black text-schoolgate-green tracking-tighter">{category.totalValue}</p>
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between pt-2 border-t border-slate-100">
-                  <div className="flex items-center gap-1">
-                    <Users className="h-3 w-3 text-muted-foreground" />
-                    <span className="text-xs text-muted-foreground">{category.active} Active Structures</span>
+                <div className="flex items-center justify-between pt-4 border-t border-slate-50">
+                  <div className="flex items-center gap-1.5">
+                    <Users className="h-3.5 w-3.5 text-slate-400" />
+                    <span className="text-[11px] font-bold text-slate-500">{category.active} Active Structures</span>
                   </div>
                   <Badge variant="outline" className={cn(
-                    "text-[10px] rounded-full px-2 py-0 border-0",
+                    "text-[10px] font-black rounded-full px-2.5 py-0.5 border-none",
                     category.growth.startsWith('+') ? "bg-emerald-50 text-emerald-600" : "bg-rose-50 text-rose-600"
                   )}>
                     {category.growth}
                   </Badge>
                 </div>
 
-                <Button className="w-full h-9 rounded-lg border-slate-200 group-hover:bg-schoolgate-green group-hover:text-white group-hover:border-schoolgate-green transition-colors" variant="outline">
+                <Button className="w-full h-11 rounded-xl border-slate-100 font-black uppercase text-[10px] tracking-widest transition-all duration-300 group-hover:bg-schoolgate-green group-hover:text-white group-hover:border-schoolgate-green group-hover:shadow-lg group-hover:shadow-schoolgate-green/20" variant="outline">
                   Manage Fees
                 </Button>
+                
+                {/* Decorative background element */}
+                <div className="absolute -right-6 -bottom-6 h-32 w-32 bg-slate-50 rounded-full scale-0 group-hover:scale-100 transition-transform duration-700 -z-0 opacity-40" />
               </CardContent>
             </Card>
           ))}
