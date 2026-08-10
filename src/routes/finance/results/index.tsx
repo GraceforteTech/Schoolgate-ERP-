@@ -27,8 +27,10 @@ const resultsSearchSchema = z.object({
   tab: z.string().optional(),
 });
 
+type ResultsSearch = z.infer<typeof resultsSearchSchema>;
+
 export const Route = createFileRoute("/finance/results/")({
-  validateSearch: (search) => resultsSearchSchema.parse(search),
+  validateSearch: (search: Record<string, unknown>): ResultsSearch => resultsSearchSchema.parse(search),
   component: ResultsDashboardPage,
 });
 
@@ -39,8 +41,8 @@ function ResultsDashboardPage() {
   const handleBack = () => {
     navigate({
       to: Route.fullPath,
-      search: (prev) => ({ ...prev, studentId: undefined }) as any,
-    });
+      search: (prev: any) => ({ ...prev, studentId: undefined }),
+    } as any);
   };
 
   if (studentId) {
@@ -74,7 +76,9 @@ function ResultsDashboardPage() {
 
       <Tabs 
         defaultValue={tab} 
-        onValueChange={(v) => navigate({ search: (prev) => ({ ...prev, tab: v }) as any })}
+        onValueChange={(v) => navigate({ 
+          search: (prev: any) => ({ ...prev, tab: v }) 
+        } as any)}
         className="space-y-8"
       >
         <TabsList className="bg-white border border-slate-100 rounded-xl p-1 shadow-sm h-12 inline-flex">
