@@ -34,7 +34,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { useQuery } from "@tanstack/react-query";
 import { getFeeTypesRegistry } from "@/lib/fee-types.functions";
 import { supabase } from "@/integrations/supabase/client";
-import { CreateFeeTypeDialog } from "@/components/finance/create-fee-type-dialog";
+// import { CreateFeeTypeDialog } from "@/components/finance/create-fee-type-dialog";
 
 
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
