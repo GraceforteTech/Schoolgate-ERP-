@@ -1,5 +1,5 @@
 import type { ComponentType } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import {
   Archive,
   ArrowLeft,
