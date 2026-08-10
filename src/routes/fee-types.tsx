@@ -164,36 +164,42 @@ function FeeTypesPage() {
                   value={registry?.summary.totalFeeTypes.toString() || "0"}
                   icon={Layers}
                   loading={isLoading}
+                  color="blue"
                 />
                 <SummaryCard
                   label="Expected Revenue"
                   value={naira(registry?.summary.totalExpectedRevenue || 0)}
                   icon={DollarSign}
                   loading={isLoading}
+                  color="emerald"
                 />
                 <SummaryCard
                   label="Assigned Records"
                   value={registry?.summary.totalAssignedFees.toString() || "0"}
                   icon={GraduationCap}
                   loading={isLoading}
+                  color="indigo"
                 />
                 <SummaryCard
                   label="Active"
                   value={registry?.summary.activeFeeTypes.toString() || "0"}
                   icon={CheckCircle2}
                   loading={isLoading}
+                  color="emerald"
                 />
                 <SummaryCard
                   label="Archived"
                   value={registry?.summary.archivedFeeTypes.toString() || "0"}
                   icon={Archive}
                   loading={isLoading}
+                  color="rose"
                 />
                 <SummaryCard
                   label="School Count"
                   value="-"
                   icon={School}
                   loading={isLoading}
+                  color="amber"
                 />
               </div>
 
@@ -418,25 +424,36 @@ function SummaryCard({
   value,
   icon: Icon,
   loading = false,
+  color = "emerald",
 }: {
   label: string;
   value: string;
   icon: ComponentType<{ className?: string }>;
   loading?: boolean;
+  color?: string;
 }) {
+  const colorMap: any = {
+    emerald: 'bg-emerald-50 text-emerald-600',
+    rose: 'bg-rose-50 text-rose-600',
+    amber: 'bg-amber-50 text-amber-600',
+    blue: 'bg-blue-50 text-blue-600',
+    indigo: 'bg-indigo-50 text-indigo-600',
+    purple: 'bg-purple-50 text-purple-600',
+  }
+
   return (
-    <Card className="group rounded-[14px] border-0 bg-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md">
-      <CardContent className="flex flex-col gap-4 p-5">
+    <Card className="group rounded-[14px] border-none shadow-sm bg-white p-5 hover:shadow-md transition-all cursor-pointer hover:-translate-y-1">
+      <CardContent className="flex flex-col gap-4 p-0">
         <div className="flex items-center justify-between">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-schoolgate-green-light text-schoolgate-green">
+          <div className={cn("h-10 w-10 flex items-center justify-center rounded-xl", colorMap[color] || colorMap.emerald)}>
             <Icon className="h-5 w-5" />
           </div>
         </div>
-        <div className="space-y-0.5">
-          <p className="text-2xl font-semibold tracking-tight text-foreground">
+        <div className="space-y-1">
+          <p className="text-2xl font-black text-slate-900 tracking-tight">
             {loading ? "..." : value}
           </p>
-          <p className="text-xs font-medium text-muted-foreground">{label}</p>
+          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">{label}</p>
         </div>
       </CardContent>
     </Card>
