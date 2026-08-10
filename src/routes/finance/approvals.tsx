@@ -40,11 +40,14 @@ function ApprovalsPage() {
       queryClient.invalidateQueries({ queryKey: ['pending-transactions'] });
       toast.success("Transaction approved and student balance updated.");
     },
+    onError: (e: any) => toast.error(e.message)
+  });
+
   const rejectMutation = useMutation({
     mutationFn: async (transactionId: string) => {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) throw new Error("Unauthorized");
-      return reject({ data: { transactionId, adminId: session.user.id } });
+      return reject({ data: { transactionId, adminId: session.user.id, reason: 'Bursar/Owner Rejection' } });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['pending-transactions'] });

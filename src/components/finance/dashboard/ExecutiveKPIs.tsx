@@ -3,13 +3,19 @@ import { useQuery } from "@tanstack/react-query";
 import { getSchoolFinancialSummary } from "@/lib/expenses.functions";
 import { Card } from "@/components/ui/card";
 import { TrendingUp, TrendingDown, DollarSign, Wallet } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 export function ExecutiveKPIs() {
   const fetchSummary = useServerFn(getSchoolFinancialSummary);
   
   const { data: summary, isLoading } = useQuery({
     queryKey: ['school-financial-summary'],
-    queryFn: () => fetchSummary({ data: { tenantId: 'current' as any } }) // 'current' handled by helper in real scenario
+    queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      const { data: profile } = await supabase.from('memberships').select('tenant_id').eq('user_id', user?.id).single();
+      if (!profile) throw new Error("Tenant not found");
+      return fetchSummary({ data: { tenantId: profile.tenant_id } });
+    }
   });
 
   const kpis = [
