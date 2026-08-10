@@ -116,7 +116,7 @@ export const createFeeType = createServerFn({ method: "POST" })
         .in('class_id', data.applicableClasses);
 
       if (!studentsError && students && students.length > 0) {
-        const assignments = students.map(s => ({
+        const assignments = students.map((s: any) => ({
           tenant_id: data.tenantId,
           student_id: s.id,
           fee_type_id: feeType.id,
