@@ -42,7 +42,8 @@ import {
   History,
   AlertCircle,
   Cake,
-  Gift
+  Gift,
+  RefreshCw
 } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -68,6 +69,11 @@ import {
 } from 'recharts'
 import { useState, useEffect } from 'react'
 import { PlaceholderForm } from '@/components/ui/placeholder-form'
+import { useQuery } from '@tanstack/react-query'
+import { supabase } from '@/integrations/supabase/client'
+import { useServerFn } from '@tanstack/react-start'
+import { getExecutiveDashboardStats } from '@/lib/onboarding.functions'
+import { toast } from 'sonner'
 
 export const Route = createFileRoute('/enterprise/')({
   component: EnterpriseCommandCenter,
@@ -142,10 +148,39 @@ const TEXTBOOK_ANALYTICS_DATA = [
 function EnterpriseCommandCenter() {
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [formConfig, setFormConfig] = useState({ title: '', description: '', icon: Users })
+  const fetchStats = useServerFn(getExecutiveDashboardStats)
+
+  const { data: stats, isLoading, refetch } = useQuery({
+    queryKey: ['executive-dashboard-stats'],
+    queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) throw new Error("Not authenticated")
+      const { data: profile } = await supabase.from('memberships').select('tenant_id').eq('user_id', user.id).single()
+      if (!profile) throw new Error("Tenant not found")
+      return fetchStats({ data: { tenantId: profile.tenant_id } })
+    }
+  })
 
   const openForm = (title: string, description: string, icon: any) => {
     setFormConfig({ title, description, icon })
     setIsFormOpen(true)
+  }
+
+  const formatCurrency = (amount: number) => {
+    if (amount >= 1000000) return `₦${(amount / 1000000).toFixed(1)}M`
+    if (amount >= 1000) return `₦${(amount / 1000).toFixed(1)}K`
+    return `₦${amount.toLocaleString()}`
+  }
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-page-background p-8 flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <RefreshCw className="animate-spin text-schoolgate-green" size={48} />
+          <p className="text-muted-foreground font-black animate-pulse">Loading Executive Command Center...</p>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -157,12 +192,20 @@ function EnterpriseCommandCenter() {
             <h1 className="text-3xl font-black text-foreground tracking-tight">Executive Command Center</h1>
             <Badge className="bg-schoolgate-green/10 text-schoolgate-green border-none px-3 py-1 font-black">Live Performance</Badge>
           </div>
-          <p className="text-muted-foreground font-medium">Real-time overview of every critical activity in your school.</p>
+          <div className="flex items-center gap-4">
+            <p className="text-muted-foreground font-medium">Real-time overview of every critical activity in your school.</p>
+            {stats?.lastRefresh && (
+              <Badge variant="outline" className="text-[10px] font-bold border-border text-muted-foreground gap-1">
+                <Clock size={10} />
+                Refreshed: {new Date(stats.lastRefresh).toLocaleTimeString()}
+              </Badge>
+            )}
+          </div>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 xl:gap-8 items-center">
           <HeaderMetadata icon={Calendar} label="Date" value={new Date().toLocaleDateString()} />
-          <HeaderMetadata icon={Clock} label="Time" value="09:00 AM" />
+          <HeaderMetadata icon={Clock} label="Time" value={new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} />
           <HeaderMetadata icon={ShieldCheck} label="Session" value="2023/2024" />
           <HeaderMetadata icon={Target} label="Term" value="Second Term" />
           <HeaderMetadata icon={Cloud} label="Weather" value="28°C Sunny" />
@@ -185,19 +228,19 @@ function EnterpriseCommandCenter() {
             <ShieldAlert className="text-rose-600" size={20} />
             <CardTitle className="text-sm font-black text-rose-900 uppercase tracking-wider">Executive Alert Center</CardTitle>
           </div>
-          <Badge className="bg-rose-600 text-white border-none font-black">12 Urgent Actions</Badge>
+          <Badge className="bg-rose-600 text-white border-none font-black">{((stats?.pendingPayments || 0) + (stats?.pendingExpenses || 0) + (stats?.unpaidStudents || 0)) || 12} Urgent Actions</Badge>
         </CardHeader>
         <CardContent className="p-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
             <AlertItem label="Dr. Sarah Adebayo (Staff) birthday today!" isCelebration />
-            <AlertItem label="35 Students with outstanding fees" />
+            <AlertItem label={`${stats?.unpaidStudents || 35} Students with outstanding fees`} />
             <AlertItem label="6 Teachers yet to submit lesson notes" />
             <AlertItem label="SS2 Mathematics scores incomplete" />
             <AlertItem label="Bus #3 Due For Maintenance" />
             <AlertItem label="Inventory: HB Pencils Running Low" />
             <AlertItem label="Missing Cognitive Assessment - JSS1" />
             <AlertItem label="Expiring Staff Documents (3)" />
-            <AlertItem label="2 Pending Expense Approvals (>₦50k)" />
+            <AlertItem label={`${stats?.pendingExpenses || 2} Pending Expense Approvals`} />
           </div>
         </CardContent>
       </Card>
@@ -210,27 +253,27 @@ function EnterpriseCommandCenter() {
           <section className="space-y-6">
             <SectionHeader title="Financial Performance" icon={Wallet} color="text-emerald-600" />
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <KPICard title="Today's Revenue" value="₦4.2M" change="+12%" icon={TrendingUp} color="emerald" />
-              <KPICard title="Today's Expenses" value="₦1.2M" change="+5%" icon={TrendingUp} color="rose" />
-              <KPICard title="Today's Net Income" value="₦3.0M" change="+18%" icon={Zap} color="emerald" />
-              <KPICard title="Collection Rate" value="71.1%" change="+2.4%" icon={Target} color="blue" />
-              <KPICard title="Outstanding Fees" value="₦13.1M" change="-5%" icon={AlertCircle} color="amber" />
-              <KPICard title="Expected Revenue" value="₦45.2M" change="+8%" icon={TrendingUp} color="blue" />
-              <KPICard title="This Month Revenue" value="₦28.4M" change="+10%" icon={TrendingUp} color="emerald" />
-              <KPICard title="Payroll Due" value="₦8.2M" change="Next week" icon={Clock} color="indigo" />
+              <KPICard title="Today's Revenue" value={formatCurrency(stats?.todayRevenue || 0)} change="+12%" icon={TrendingUp} color="emerald" />
+              <KPICard title="Today's Expenses" value={formatCurrency(stats?.todayExpenses || 0)} change="+5%" icon={TrendingUp} color="rose" />
+              <KPICard title="Today's Net Income" value={formatCurrency((stats?.todayRevenue || 0) - (stats?.todayExpenses || 0))} change="+18%" icon={Zap} color="emerald" />
+              <KPICard title="Collection Rate" value={`${(stats?.collectionRate || 0).toFixed(1)}%`} change="+2.4%" icon={Target} color="blue" />
+              <KPICard title="Outstanding Fees" value={formatCurrency(stats?.outstandingFees || 0)} change="-5%" icon={AlertCircle} color="amber" />
+              <KPICard title="Expected Revenue" value={formatCurrency(stats?.totalFeesBilled || 0)} change="+8%" icon={TrendingUp} color="blue" />
+              <KPICard title="Total Expenses" value={formatCurrency(stats?.totalExpenses || 0)} change="+10%" icon={TrendingUp} color="rose" />
+              <KPICard title="Net Position" value={formatCurrency(stats?.netPosition || 0)} change="Overall" icon={Wallet} color="indigo" />
             </div>
           </section>
 
           <section className="space-y-6">
             <SectionHeader title="Academic & Student Lifecycle" icon={GraduationCap} color="text-blue-600" />
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <KPICard title="Total Students" value="1,240" change="+42" icon={Users} color="blue" />
-              <KPICard title="Student Attendance" value="94.2%" change="Today" icon={UserCheck} color="emerald" />
-              <KPICard title="Staff Attendance" value="98.5%" change="Today" icon={UserCheck} color="emerald" />
-              <KPICard title="Lesson Notes" value="78/85" change="Submitted" icon={FileText} color="amber" />
-              <KPICard title="New Admissions" value="12" change="This week" icon={Plus} color="indigo" />
-              <KPICard title="Result Completion" value="82%" change="Term 2" icon={CheckCircle2} color="emerald" />
-              <KPICard title="Books Borrowed" value="45" change="Today" icon={Library} color="blue" />
+              <KPICard title="Total Students" value={stats?.totalStudents.toLocaleString() || "0"} change="+42" icon={Users} color="blue" />
+              <KPICard title="Total Classes" value={stats?.totalClasses.toLocaleString() || "0"} change="Active" icon={School} color="blue" />
+              <KPICard title="Total Staff" value={stats?.totalStaff.toLocaleString() || "0"} change="Active" icon={Users} color="blue" />
+              <KPICard title="Paid Students" value={stats?.paidStudents.toLocaleString() || "0"} change="Fully Paid" icon={CheckCircle2} color="emerald" />
+              <KPICard title="Unpaid Students" value={stats?.unpaidStudents.toLocaleString() || "0"} change="Outstanding" icon={UserX} color="rose" />
+              <KPICard title="Partially Paid" value={stats?.partiallyPaidStudents.toLocaleString() || "0"} change="Balance Due" icon={Clock} color="amber" />
+              <KPICard title="Approved Payments" value={stats?.approvedPayments.toLocaleString() || "0"} change="Total processed" icon={CheckSquare} color="indigo" />
               <KPICard title="Low Stock Items" value="12" change="Alert" icon={Package} color="rose" />
             </div>
           </section>
@@ -243,7 +286,7 @@ function EnterpriseCommandCenter() {
               <KPICard title="Transport Revenue" value="₦1.2M" change="This month" icon={TrendingUp} color="emerald" />
               <KPICard title="Salary Paid" value="₦7.8M" change="Last month" icon={Wallet} color="blue" />
               <KPICard title="Visitors Today" value="28" change="+4" icon={Users} color="indigo" />
-              <KPICard title="Pending Approvals" value="4" change="High Priority" icon={CheckSquare} color="rose" />
+              <KPICard title="Pending Approvals" value={stats?.pendingPayments.toString() || "0"} change="High Priority" icon={CheckSquare} color="rose" />
               <KPICard title="Upcoming Birthdays" value="8" change="Staff & Students" icon={Cake} color="purple" />
               <KPICard title="Overdue Books" value="15" change="Alert" icon={AlertCircle} color="rose" />
             </div>
