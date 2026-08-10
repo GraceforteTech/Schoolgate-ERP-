@@ -101,15 +101,7 @@ function FinanceDashboard() {
               </div>
               <h2 className="text-xl font-black text-slate-800 tracking-tight">Executive Overview</h2>
             </div>
-            {isLoading ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                {[1, 2, 3, 4].map((i) => (
-                  <Skeleton key={i} className="h-32 rounded-2xl bg-white shadow-sm border-none" />
-                ))}
-              </div>
-            ) : (
-              <ExecutiveKPIs />
-            )}
+            <ExecutiveKPIs />
           </section>
 
           {/* Analytics & Today's Performance */}
