@@ -313,11 +313,11 @@ function EnterpriseCommandCenter() {
                   <thead>
                     <tr className="bg-muted border-b border-border">
                       <th className="px-6 py-4 text-[10px] font-black text-muted-foreground uppercase tracking-widest">Class & Subject</th>
-                      <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Delivered</th>
-                      <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Sold</th>
-                      <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Unsold</th>
-                      <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Worth</th>
-                      <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Profit</th>
+                      <th className="px-6 py-4 text-[10px] font-black text-muted-foreground uppercase tracking-widest text-center">Delivered</th>
+                      <th className="px-6 py-4 text-[10px] font-black text-muted-foreground uppercase tracking-widest text-center">Sold</th>
+                      <th className="px-6 py-4 text-[10px] font-black text-muted-foreground uppercase tracking-widest text-center">Unsold</th>
+                      <th className="px-6 py-4 text-[10px] font-black text-muted-foreground uppercase tracking-widest text-right">Worth</th>
+                      <th className="px-6 py-4 text-[10px] font-black text-muted-foreground uppercase tracking-widest text-right">Profit</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-border">
