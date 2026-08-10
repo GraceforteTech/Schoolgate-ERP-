@@ -86,15 +86,21 @@ function FeeTypesPage() {
 
 
   const { data: registry, isLoading } = useQuery({
-    queryKey: ['fee-types-registry'],
+    queryKey: ['fee-types-registry', session, term, q],
     queryFn: async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return null;
       const { data: membership } = await supabase.from('memberships').select('tenant_id').eq('user_id', user.id).single();
       if (!membership) return null;
-      return fetchRegistry({ data: { tenantId: membership.tenant_id } });
+      return fetchRegistry({ 
+        data: { 
+          tenantId: membership.tenant_id,
+          filters: { session, term, search: q }
+        } 
+      });
     }
   });
+
 
   const naira = (value: number) =>
     `₦${value.toLocaleString("en-NG", { maximumFractionDigits: 0 })}`;
