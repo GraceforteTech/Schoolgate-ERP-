@@ -203,6 +203,21 @@ export const getExecutiveDashboardStats = createServerFn({ method: "GET" })
       });
     }
 
+    // Enrollment trend (students by year)
+    const { data: enrollmentData } = await supabaseAdmin
+      .from('students')
+      .select('created_at')
+      .eq('tenant_id', data.tenantId);
+    
+    const enrollmentCounts: Record<string, number> = {};
+    enrollmentData?.forEach((s: any) => {
+      const year = new Date(s.created_at).getFullYear().toString();
+      enrollmentCounts[year] = (enrollmentCounts[year] || 0) + 1;
+    });
+    const enrollmentTrend = Object.entries(enrollmentCounts)
+      .map(([name, students]) => ({ name, students }))
+      .sort((a, b) => a.name.localeCompare(b.name));
+
     return {
       totalStudents: totalStudents || 0,
       activeStudents: activeStudents || 0,
@@ -225,6 +240,7 @@ export const getExecutiveDashboardStats = createServerFn({ method: "GET" })
       netPosition: approvedCollections - approvedExpenses,
       classRevenueBreakdown: Object.entries(classTotals).map(([name, value]) => ({ name, value })),
       dailyTrend,
+      enrollmentTrend,
       lastRefresh: new Date().toISOString()
     };
   });
