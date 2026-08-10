@@ -14,6 +14,129 @@ export type Database = {
   }
   public: {
     Tables: {
+      academic_results: {
+        Row: {
+          academic_session: string
+          ca_score: number | null
+          class_id: string
+          created_at: string | null
+          exam_score: number | null
+          grade: string | null
+          id: string
+          status: Database["public"]["Enums"]["result_status"] | null
+          student_id: string
+          subject_id: string
+          teacher_comment: string | null
+          teacher_id: string | null
+          tenant_id: string
+          term: string
+          total_score: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          academic_session: string
+          ca_score?: number | null
+          class_id: string
+          created_at?: string | null
+          exam_score?: number | null
+          grade?: string | null
+          id?: string
+          status?: Database["public"]["Enums"]["result_status"] | null
+          student_id: string
+          subject_id: string
+          teacher_comment?: string | null
+          teacher_id?: string | null
+          tenant_id: string
+          term: string
+          total_score?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          academic_session?: string
+          ca_score?: number | null
+          class_id?: string
+          created_at?: string | null
+          exam_score?: number | null
+          grade?: string | null
+          id?: string
+          status?: Database["public"]["Enums"]["result_status"] | null
+          student_id?: string
+          subject_id?: string
+          teacher_comment?: string | null
+          teacher_id?: string | null
+          tenant_id?: string
+          term?: string
+          total_score?: number | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "academic_results_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "academic_results_subject_id_fkey"
+            columns: ["subject_id"]
+            isOneToOne: false
+            referencedRelation: "subjects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "academic_results_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      academic_results_audit: {
+        Row: {
+          changed_by: string
+          comment: string | null
+          created_at: string | null
+          id: string
+          new_scores: Json | null
+          new_status: Database["public"]["Enums"]["result_status"] | null
+          old_scores: Json | null
+          old_status: Database["public"]["Enums"]["result_status"] | null
+          result_id: string
+        }
+        Insert: {
+          changed_by: string
+          comment?: string | null
+          created_at?: string | null
+          id?: string
+          new_scores?: Json | null
+          new_status?: Database["public"]["Enums"]["result_status"] | null
+          old_scores?: Json | null
+          old_status?: Database["public"]["Enums"]["result_status"] | null
+          result_id: string
+        }
+        Update: {
+          changed_by?: string
+          comment?: string | null
+          created_at?: string | null
+          id?: string
+          new_scores?: Json | null
+          new_status?: Database["public"]["Enums"]["result_status"] | null
+          old_scores?: Json | null
+          old_status?: Database["public"]["Enums"]["result_status"] | null
+          result_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "academic_results_audit_result_id_fkey"
+            columns: ["result_id"]
+            isOneToOne: false
+            referencedRelation: "academic_results"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       audit_logs: {
         Row: {
           action: string
@@ -237,6 +360,82 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "fee_types_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      grading_rules: {
+        Row: {
+          created_at: string | null
+          grade: string
+          grade_point: number | null
+          id: string
+          is_pass: boolean | null
+          max_score: number
+          min_score: number
+          remark: string | null
+          scheme_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          grade: string
+          grade_point?: number | null
+          id?: string
+          is_pass?: boolean | null
+          max_score: number
+          min_score: number
+          remark?: string | null
+          scheme_id: string
+        }
+        Update: {
+          created_at?: string | null
+          grade?: string
+          grade_point?: number | null
+          id?: string
+          is_pass?: boolean | null
+          max_score?: number
+          min_score?: number
+          remark?: string | null
+          scheme_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "grading_rules_scheme_id_fkey"
+            columns: ["scheme_id"]
+            isOneToOne: false
+            referencedRelation: "grading_schemes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      grading_schemes: {
+        Row: {
+          created_at: string | null
+          id: string
+          is_default: boolean | null
+          name: string
+          tenant_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          is_default?: boolean | null
+          name: string
+          tenant_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          is_default?: boolean | null
+          name?: string
+          tenant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "grading_schemes_tenant_id_fkey"
             columns: ["tenant_id"]
             isOneToOne: false
             referencedRelation: "tenants"
@@ -492,6 +691,47 @@ export type Database = {
           },
         ]
       }
+      subjects: {
+        Row: {
+          category: string | null
+          code: string | null
+          created_at: string | null
+          id: string
+          is_active: boolean | null
+          name: string
+          tenant_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          category?: string | null
+          code?: string | null
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          name: string
+          tenant_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          category?: string | null
+          code?: string | null
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          name?: string
+          tenant_id?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subjects_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       tenants: {
         Row: {
           created_at: string
@@ -694,6 +934,12 @@ export type Database = {
         | "student"
       expense_status: "pending" | "approved" | "rejected"
       payment_method: "card" | "bank_transfer" | "cash" | "cheque" | "wallet"
+      result_status:
+        | "draft"
+        | "submitted"
+        | "reviewed"
+        | "approved"
+        | "returned"
       tenant_status: "trial" | "active" | "suspended" | "cancelled"
       transaction_status:
         | "pending"
@@ -847,6 +1093,7 @@ export const Constants = {
       ],
       expense_status: ["pending", "approved", "rejected"],
       payment_method: ["card", "bank_transfer", "cash", "cheque", "wallet"],
+      result_status: ["draft", "submitted", "reviewed", "approved", "returned"],
       tenant_status: ["trial", "active", "suspended", "cancelled"],
       transaction_status: [
         "pending",

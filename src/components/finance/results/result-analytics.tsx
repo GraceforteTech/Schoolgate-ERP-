@@ -3,32 +3,28 @@ import { Button } from "@/components/ui/button";
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, BarChart, Bar, Cell, PieChart, Pie } from 'recharts';
 import { Badge } from "@/components/ui/badge";
 import { TrendingUp, Users, BookOpen, Star, AlertTriangle, ArrowUpRight } from "lucide-react";
-
-const performanceData = [
-  { name: 'Term 1 2022', score: 65 },
-  { name: 'Term 2 2022', score: 68 },
-  { name: 'Term 3 2022', score: 72 },
-  { name: 'Term 1 2023', score: 70 },
-  { name: 'Term 2 2023', score: 75 },
-  { name: 'Term 3 2023', score: 82 },
-];
-
-const distributionData = [
-  { name: 'Distinction (A1)', value: 15, color: '#0B6E3C' },
-  { name: 'Credit (B2-C6)', value: 55, color: '#3B82F6' },
-  { name: 'Pass (D7-E8)', value: 22, color: '#EAB308' },
-  { name: 'Fail (F9)', value: 8, color: '#EF4444' },
-];
-
-const subjectPerformance = [
-  { subject: 'Mathematics', score: 88 },
-  { subject: 'English', score: 82 },
-  { subject: 'Physics', score: 76 },
-  { subject: 'Chemistry', score: 74 },
-  { subject: 'Biology', score: 85 },
-];
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
+import { getAcademicPerformanceAnalytics } from "@/lib/academic.functions";
+import { useSearch } from "@tanstack/react-router";
+import { useTenant } from "@/hooks/use-tenant";
 
 export function ResultAnalytics() {
+  const search: any = useSearch({ from: '/finance/results/' });
+  const { tenantId } = useTenant();
+  const getAnalytics = useServerFn(getAcademicPerformanceAnalytics);
+  
+  const { data: analytics } = useSuspenseQuery({
+    queryKey: ['academicPerformanceAnalytics', tenantId, search.session, search.term],
+    queryFn: () => getAnalytics({ 
+      data: {
+        tenantId, 
+        session: search.session, 
+        term: search.term 
+      }
+    })
+  });
+
   return (
     <div className="space-y-8">
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
@@ -39,12 +35,12 @@ export function ResultAnalytics() {
               <TrendingUp className="w-4 h-4 text-schoolgate-green" />
               Academic Performance Trend
             </CardTitle>
-            <Badge className="bg-emerald-100 text-emerald-700 border-none px-3 py-1 font-bold">+12% Growth</Badge>
+            <Badge className="bg-emerald-100 text-emerald-700 border-none px-3 py-1 font-bold">Live Data</Badge>
           </CardHeader>
           <CardContent className="p-8">
             <div className="h-[300px] w-full">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={performanceData}>
+                <AreaChart data={analytics.performanceTrend.length > 0 ? analytics.performanceTrend : [{name: 'No Data', score: 0}]}>
                   <defs>
                     <linearGradient id="colorScore" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="5%" stopColor="#0B6E3C" stopOpacity={0.1}/>
@@ -92,7 +88,7 @@ export function ResultAnalytics() {
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
-                    data={distributionData}
+                    data={analytics.gradeDistribution}
                     cx="50%"
                     cy="50%"
                     innerRadius={60}
@@ -100,7 +96,7 @@ export function ResultAnalytics() {
                     paddingAngle={5}
                     dataKey="value"
                   >
-                    {distributionData.map((entry, index) => (
+                    {analytics.gradeDistribution.map((entry: any, index: number) => (
                       <Cell key={`cell-${index}`} fill={entry.color} />
                     ))}
                   </Pie>
@@ -109,7 +105,7 @@ export function ResultAnalytics() {
               </ResponsiveContainer>
             </div>
             <div className="space-y-3 mt-4">
-              {distributionData.map((entry, i) => (
+              {analytics.gradeDistribution.map((entry: any, i: number) => (
                 <div key={i} className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 rounded-full" style={{ backgroundColor: entry.color }} />
@@ -132,7 +128,7 @@ export function ResultAnalytics() {
           <CardContent className="p-8">
             <div className="h-[300px] w-full">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={subjectPerformance} layout="vertical">
+                <BarChart data={analytics.subjectLeaderboard} layout="vertical">
                   <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#F1F5F9" />
                   <XAxis type="number" hide />
                   <YAxis 
@@ -148,7 +144,7 @@ export function ResultAnalytics() {
                     contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
                   />
                   <Bar dataKey="score" radius={[0, 8, 8, 0]} barSize={20}>
-                    {subjectPerformance.map((entry, index) => (
+                    {analytics.subjectLeaderboard.map((entry: any, index: number) => (
                       <Cell key={`cell-${index}`} fill={entry.score >= 80 ? '#0B6E3C' : '#94A3B8'} />
                     ))}
                   </Bar>
@@ -167,10 +163,10 @@ export function ResultAnalytics() {
                   <Star className="w-4 h-4 text-emerald-200" />
                   <span className="text-[10px] font-black uppercase tracking-widest text-emerald-100">Top Subject</span>
                 </div>
-                <h4 className="text-xl font-black mb-1">Mathematics</h4>
-                <p className="text-[10px] font-bold text-emerald-100 uppercase">88% Average Score</p>
+                <h4 className="text-xl font-black mb-1">{analytics.subjectLeaderboard[0]?.subject || 'N/A'}</h4>
+                <p className="text-[10px] font-bold text-emerald-100 uppercase">{analytics.subjectLeaderboard[0]?.score || 0}% Average Score</p>
                 <div className="mt-4 flex items-center gap-1 text-[10px] font-black bg-white/10 w-fit px-2 py-1 rounded-lg">
-                  <ArrowUpRight size={10} /> +5% VS LAST TERM
+                  <ArrowUpRight size={10} /> PERFORMANCE LEADER
                 </div>
               </CardContent>
             </Card>
@@ -178,10 +174,10 @@ export function ResultAnalytics() {
               <CardContent className="p-6">
                 <div className="flex items-center gap-2 mb-4">
                   <AlertTriangle className="w-4 h-4 text-rose-200" />
-                  <span className="text-[10px] font-black uppercase tracking-widest text-rose-100">Weak Subject</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-rose-100">Weakest Subject</span>
                 </div>
-                <h4 className="text-xl font-black mb-1">Chemistry</h4>
-                <p className="text-[10px] font-bold text-rose-100 uppercase">74% Average Score</p>
+                <h4 className="text-xl font-black mb-1">{analytics.subjectLeaderboard[analytics.subjectLeaderboard.length - 1]?.subject || 'N/A'}</h4>
+                <p className="text-[10px] font-bold text-rose-100 uppercase">{analytics.subjectLeaderboard[analytics.subjectLeaderboard.length - 1]?.score || 0}% Average Score</p>
                 <div className="mt-4 flex items-center gap-1 text-[10px] font-black bg-white/10 w-fit px-2 py-1 rounded-lg">
                   <AlertTriangle size={10} /> REQUIRES INTERVENTION
                 </div>
@@ -216,28 +212,6 @@ export function ResultAnalytics() {
           </Card>
         </div>
       </div>
-
-      <Card className="rounded-[14px] border-none shadow-sm bg-white overflow-hidden">
-        <CardHeader className="bg-slate-50/50 border-b border-slate-100 py-4 px-6">
-          <CardTitle className="text-sm font-black text-slate-800 uppercase tracking-wider">Detailed Drill-down Reports</CardTitle>
-        </CardHeader>
-        <CardContent className="p-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Button variant="outline" className="h-16 rounded-xl flex flex-col items-start px-6 border-slate-100 hover:border-schoolgate-green hover:bg-emerald-50 transition-all group">
-              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest group-hover:text-schoolgate-green">Teacher Performance</span>
-              <span className="text-sm font-bold text-slate-700">Detailed Analytics Report</span>
-            </Button>
-            <Button variant="outline" className="h-16 rounded-xl flex flex-col items-start px-6 border-slate-100 hover:border-schoolgate-green hover:bg-emerald-50 transition-all group">
-              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest group-hover:text-schoolgate-green">Class Comparative</span>
-              <span className="text-sm font-bold text-slate-700">Multi-Term Growth Analysis</span>
-            </Button>
-            <Button variant="outline" className="h-16 rounded-xl flex flex-col items-start px-6 border-slate-100 hover:border-schoolgate-green hover:bg-emerald-50 transition-all group">
-              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest group-hover:text-schoolgate-green">Primary vs Secondary</span>
-              <span className="text-sm font-bold text-slate-700">Performance Benchmark</span>
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 }
