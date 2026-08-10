@@ -96,6 +96,13 @@ function ResultManagementPage() {
               <BarChart3 className="w-4 h-4" />
               Analytics
             </TabsTrigger>
+            <TabsTrigger 
+              value="pins" 
+              className="px-6 rounded-lg text-xs font-bold uppercase tracking-wider data-[state=active]:bg-schoolgate-green data-[state=active]:text-white h-full gap-2"
+            >
+              <ShieldCheck className="w-4 h-4" />
+              PIN Management
+            </TabsTrigger>
           </TabsList>
         </div>
 
