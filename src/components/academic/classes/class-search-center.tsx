@@ -8,8 +8,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Search, Filter, Plus, FileSpreadsheet, Printer } from "lucide-react";
+import { useState } from "react";
+import { PlaceholderForm } from "@/components/ui/placeholder-form";
 
 export function ClassSearchCenter() {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
       <div className="flex flex-1 flex-wrap items-center gap-3">
@@ -59,11 +63,22 @@ export function ClassSearchCenter() {
         <Button variant="outline" size="icon" className="h-11 w-11 rounded-xl border-slate-100 text-slate-500">
           <FileSpreadsheet size={18} />
         </Button>
-        <Button className="h-11 px-6 rounded-xl bg-schoolgate-green text-white hover:bg-schoolgate-green/90 font-bold gap-2 shadow-lg shadow-schoolgate-green/20">
+        <Button 
+          onClick={() => setIsOpen(true)}
+          className="h-11 px-6 rounded-xl bg-schoolgate-green text-white hover:bg-schoolgate-green/90 font-bold gap-2 shadow-lg shadow-schoolgate-green/20"
+        >
           <Plus size={18} />
           Create New Class
         </Button>
       </div>
+
+      <PlaceholderForm 
+        open={isOpen} 
+        onOpenChange={setIsOpen} 
+        title="Create New Class"
+        description="Add a new academic group to your school registry."
+        icon={Plus}
+      />
     </div>
   );
 }
