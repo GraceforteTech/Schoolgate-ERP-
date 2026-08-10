@@ -599,7 +599,7 @@ function SectionHeader({ title, icon: Icon, color }: any) {
   )
 }
 
-function KPICard({ title, value, change, trend, icon: Icon, color }: any) {
+function KPICard({ title, value, change, trend, icon: Icon, color, onClick }: any) {
   const colorMap: any = {
     emerald: 'bg-emerald-50 text-emerald-600',
     rose: 'bg-rose-50 text-rose-600',
@@ -610,7 +610,10 @@ function KPICard({ title, value, change, trend, icon: Icon, color }: any) {
   }
 
   return (
-    <Card className="rounded-[14px] border-none shadow-sm bg-white p-5 hover:shadow-md transition-all cursor-pointer group hover:-translate-y-1">
+    <Card 
+      className="rounded-[14px] border-none shadow-sm bg-white p-5 hover:shadow-md transition-all cursor-pointer group hover:-translate-y-1"
+      onClick={onClick}
+    >
       <div className="flex items-center justify-between mb-4">
         <div className={cn("h-10 w-10 rounded-xl flex items-center justify-center transition-transform group-hover:scale-110 shadow-sm", colorMap[color])}>
           <Icon size={20} />
@@ -632,6 +635,7 @@ function KPICard({ title, value, change, trend, icon: Icon, color }: any) {
     </Card>
   )
 }
+
 
 function AlertItem({ label, isCelebration }: { label: string, isCelebration?: boolean }) {
   return (
