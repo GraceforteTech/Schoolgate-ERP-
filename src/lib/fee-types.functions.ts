@@ -17,8 +17,9 @@ export const getFeeTypesRegistry = createServerFn({ method: "GET" })
     // 1. Fetch Fee Types
     let feeQuery = supabaseAdmin
       .from('fee_types')
-      .select('*')
+      .select('*, created_by_profile:profiles!fee_types_created_by_fkey(full_name)')
       .eq('tenant_id', data.tenantId);
+
     
     if (data.filters?.session) feeQuery = feeQuery.eq('academic_session', data.filters.session);
     if (data.filters?.term) feeQuery = feeQuery.eq('term', data.filters.term);
