@@ -131,7 +131,7 @@ export function ExpenseRegisterTable() {
                 <TableCell className="font-bold text-slate-800 text-sm">
                   {formatCurrency(Number(expense.amount || 0))}
                 </TableCell>
-                <TableCell>{getStatusBadge(expense.status)}</TableCell>
+                <TableCell>{getStatusBadge(expense.status || 'pending')}</TableCell>
                 <TableCell className="text-right">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
