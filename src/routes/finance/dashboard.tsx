@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { createFileRoute } from '@tanstack/react-router';
 import { ExecutiveKPIs } from '@/components/finance/dashboard/ExecutiveKPIs';
 import { TodayCollections } from '@/components/finance/dashboard/TodayCollections';
@@ -8,6 +8,11 @@ import { QuickActions } from '@/components/finance/dashboard/QuickActions';
 import { ExecutiveInsights } from '@/components/finance/dashboard/ExecutiveInsights';
 import { FinancialVisibilityReport } from '@/components/finance/dashboard/FinancialVisibilityReport';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useQuery } from "@tanstack/react-query";
+import { getExecutiveDashboardStats } from "@/lib/onboarding.functions";
+import { useServerFn } from "@tanstack/react-start";
+import { supabase } from "@/integrations/supabase/client";
 
 import { 
   LayoutDashboard, 
@@ -25,6 +30,19 @@ export const Route = createFileRoute('/finance/dashboard')({
 });
 
 function FinanceDashboard() {
+  const fetchStats = useServerFn(getExecutiveDashboardStats);
+  
+  const { data: stats, isLoading } = useQuery({
+    queryKey: ['executive-dashboard-stats'],
+    queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return null;
+      const { data: membership } = await supabase.from('memberships').select('tenant_id').eq('user_id', user.id).single();
+      if (!membership) return null;
+      return fetchStats({ data: { tenantId: membership.tenant_id } });
+    }
+  });
+
   return (
     <div className="flex flex-col gap-6 p-6 md:p-8 bg-[#F5F7FA] min-h-screen">
       {/* Page Header */}

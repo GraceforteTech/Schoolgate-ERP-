@@ -1,13 +1,15 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AppSidebar } from "@/components/app-sidebar";
 import { TopNav } from "@/components/top-nav";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getAuditLogs, exportAuditLogs } from "@/lib/audit.functions";
+import { getSavedAuditFilters, saveAuditFilter, deleteAuditFilter } from "@/lib/audit-filters.functions";
 import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
+import { AuditFiltersDialog } from "@/components/notifications-hub";
 import { z } from "zod";
 import { 
   Search, 
@@ -19,7 +21,13 @@ import {
   Monitor,
   Globe,
   Info,
-  Loader2
+  Loader2,
+  ClipboardList,
+  Database,
+  ShieldCheck,
+  LayoutGrid,
+  RefreshCw,
+  Inbox
 } from "lucide-react";
 import { 
   Select, 
@@ -33,6 +41,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { exportToCSV } from "@/lib/csv-export";
 import { toast } from "sonner";
+import { SummaryCard } from "@/components/ui/summary-card";
+import { EmptyState } from "@/components/ui/empty-state";
 
 const auditSearchSchema = z.object({
   userId: z.string().uuid().optional(),
@@ -60,9 +70,36 @@ export const Route = createFileRoute("/finance/audit-trail")({
 function AuditTrailPage() {
   const navigate = useNavigate({ from: Route.fullPath });
   const filters = Route.useSearch();
+  const queryClient = useQueryClient();
+  
   const fetchLogs = useServerFn(getAuditLogs);
   const triggerExport = useServerFn(exportAuditLogs);
+  const saveFilterFn = useServerFn(saveAuditFilter);
+  const deleteFilterFn = useServerFn(deleteAuditFilter);
+  const fetchSavedFilters = useServerFn(getSavedAuditFilters);
+
   const [isExporting, setIsExporting] = useState(false);
+  const [showSaveDialog, setShowSaveDialog] = useState(false);
+  const [filterName, setFilterName] = useState("");
+  const [newAuditToast, setNewAuditToast] = useState(false);
+
+  // Realtime subscription
+  useEffect(() => {
+    const channel = supabase
+      .channel('audit-logs-realtime')
+      .on(
+        'postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'audit_logs' },
+        () => {
+          setNewAuditToast(true);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
 
   const { data, isLoading } = useQuery({
     queryKey: ['finance-audit-logs', filters],
@@ -178,147 +215,257 @@ function AuditTrailPage() {
                   </div>
                </div>
 
+               {/* KPI Summary Grid */}
+               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <SummaryCard
+                  title="Total Events"
+                  value={totalCount}
+                  icon={<Database size={20} />}
+                  isLoading={isLoading}
+                  description="Database activity logs"
+                />
+                <SummaryCard
+                  title="Critical Events"
+                  value={logs.filter((l: any) => l.action.toLowerCase().includes('delete') || l.action.toLowerCase().includes('archive')).length}
+                  icon={<ShieldCheck size={20} />}
+                  isLoading={isLoading}
+                  description="High-sensitivity actions"
+                />
+                <SummaryCard
+                  title="Last 24 Hours"
+                  value={logs.filter((l: any) => new Date(l.created_at) > new Date(Date.now() - 86400000)).length}
+                  icon={<Clock size={20} />}
+                  isLoading={isLoading}
+                  description="Recent platform changes"
+                />
+                <SummaryCard
+                  title="Active Users"
+                  value={new Set(logs.map((l: any) => l.user_id)).size}
+                  icon={<LayoutGrid size={20} />}
+                  isLoading={isLoading}
+                  description="Contributors in this period"
+                />
+              </div>
+
+               {newAuditToast && (
+                 <div className="bg-schoolgate-green/10 border border-schoolgate-green/20 p-4 rounded-2xl flex items-center justify-between animate-in fade-in slide-in-from-top-4">
+                   <div className="flex items-center gap-3">
+                     <Clock className="text-schoolgate-green" size={18} />
+                     <p className="text-sm font-bold text-schoolgate-green">New audit activity detected</p>
+                   </div>
+                   <Button 
+                    size="sm" 
+                    className="bg-schoolgate-green hover:bg-schoolgate-green/90 text-white font-bold h-8 rounded-lg"
+                    onClick={() => {
+                      queryClient.invalidateQueries({ queryKey: ['finance-audit-logs'] });
+                      setNewAuditToast(false);
+                    }}
+                   >
+                     Show new activity
+                   </Button>
+                 </div>
+               )}
+
                <Card className="rounded-[20px] border-none shadow-sm bg-white overflow-hidden">
                   <CardHeader className="p-4 bg-slate-50/50 border-b">
-                     <div className="flex flex-wrap items-center gap-3">
-                        <div className="relative">
-                           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
-                           <Input 
-                             placeholder="Search description, user..." 
-                             className="h-10 w-64 pl-10 rounded-xl border-slate-200 text-xs font-medium"
-                             defaultValue={filters.searchTerm || ""}
-                             onKeyDown={(e) => {
-                               if (e.key === 'Enter') {
-                                 handleSearch(e.currentTarget.value);
-                               }
-                             }}
-                           />
+                     <div className="flex flex-wrap items-center justify-between gap-3">
+                        <div className="flex flex-wrap items-center gap-3">
+                          <div className="relative">
+                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
+                             <Input 
+                                placeholder="Search description, user..." 
+                                className="h-10 w-64 pl-10 rounded-xl border-slate-200 text-xs font-medium"
+                                defaultValue={filters.searchTerm || ""}
+                                onKeyDown={(e) => {
+                                  if (e.key === 'Enter') {
+                                    handleSearch(e.currentTarget.value);
+                                  }
+                                }}
+                             />
+                          </div>
+                          <Button variant="outline" className="h-10 rounded-xl border-slate-200 gap-2 text-xs font-bold px-4">
+                             <Filter size={14} /> Filters
+                          </Button>
+                          <Button variant="outline" className="h-10 rounded-xl border-slate-200 gap-2 text-xs font-bold px-4">
+                             <Calendar size={14} /> Date Range
+                          </Button>
+                          <Button 
+                            variant="ghost" 
+                            className="h-10 rounded-xl text-xs font-bold px-4 text-slate-400"
+                            onClick={() => navigate({ search: {} })}
+                          >
+                            Reset
+                          </Button>
                         </div>
-                        <Button variant="outline" className="h-10 rounded-xl border-slate-200 gap-2 text-xs font-bold px-4">
-                           <Filter size={14} /> Filters
-                        </Button>
-                        <Button variant="outline" className="h-10 rounded-xl border-slate-200 gap-2 text-xs font-bold px-4">
-                           <Calendar size={14} /> Date Range
-                        </Button>
+                        
                         <Button 
-                          variant="ghost" 
-                          className="h-10 rounded-xl text-xs font-bold px-4 text-slate-400"
-                          onClick={() => navigate({ search: {} })}
+                          onClick={() => setShowSaveDialog(true)}
+                          variant="outline" 
+                          className="h-10 rounded-xl border-schoolgate-green/20 bg-schoolgate-green/5 text-schoolgate-green gap-2 text-xs font-bold px-4 hover:bg-schoolgate-green/10"
                         >
-                          Reset
+                          <ClipboardList size={14} /> Save Filter
                         </Button>
                      </div>
                   </CardHeader>
                   <CardContent className="p-0">
-                    {isLoading ? (
-                      <div className="p-20 text-center text-slate-400 font-bold animate-pulse">Loading secure audit trail...</div>
+                    <AuditFiltersDialog 
+                      open={showSaveDialog}
+                      onOpenChange={setShowSaveDialog}
+                      onSave={async () => {
+                        try {
+                          const { data: { user } } = await supabase.auth.getUser();
+                          if (!user) throw new Error("Not authenticated");
+                          const { data: membership } = await supabase.from('memberships').select('tenant_id').eq('user_id', user.id).single();
+                          if (!membership) throw new Error("Tenant not found");
+
+                          await saveFilterFn({
+                            data: {
+                              tenantId: membership.tenant_id,
+                              userId: user.id,
+                              name: filterName,
+                              filterDefinition: filters
+                            }
+                          });
+                          toast.success("Filter saved successfully");
+                          setShowSaveDialog(false);
+                          setFilterName("");
+                        } catch (err: any) {
+                          toast.error(err.message);
+                        }
+                      }}
+                      filterName={filterName}
+                      setFilterName={setFilterName}
+                    />
+                    
+                    {logs.length === 0 && !isLoading ? (
+                      <div className="p-16">
+                        <EmptyState 
+                          icon={<Inbox size={48} />}
+                          title="No audit activity found"
+                          description={Object.values(filters).some(v => !!v) 
+                            ? "We couldn't find any records matching your current filter criteria."
+                            : "This audit trail is currently empty. Start interacting with the platform to see logs here."}
+                          action={Object.values(filters).some(v => !!v) ? {
+                            label: "Clear Filters",
+                            onClick: () => navigate({ search: {} }),
+                            icon: <RefreshCw size={14} />
+                          } : undefined}
+                        />
+                      </div>
                     ) : (
                       <div className="overflow-x-auto">
                          <table className="w-full text-left border-collapse">
                             <thead>
                                <tr className="bg-slate-50 text-[10px] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100">
-                                  <th className="px-6 py-4">Actor</th>
-                                  <th className="px-6 py-4">Action & Entity</th>
-                                  <th className="px-6 py-4">Description</th>
-                                  <th className="px-6 py-4">Environment</th>
-                                  <th className="px-6 py-4 text-right">Details</th>
+                                  <th className="px-8 py-5">Actor</th>
+                                  <th className="px-8 py-5">Action & Entity</th>
+                                  <th className="px-8 py-5">Description</th>
+                                  <th className="px-8 py-5">Environment</th>
+                                  <th className="px-8 py-5 text-right">Details</th>
                                </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-50">
-                               {logs.map((log: any) => (
-                                  <tr key={log.id} className="hover:bg-slate-50/50 transition-colors group">
-                                     <td className="px-6 py-5">
-                                        <div className="flex items-center gap-3">
-                                           <div className="h-9 w-9 rounded-full bg-schoolgate-green-light text-schoolgate-green flex items-center justify-center">
-                                              <UserCircle size={20} />
-                                           </div>
-                                           <div>
-                                              <p className="text-sm font-bold text-slate-900">{log.user_name || 'System'}</p>
-                                              <p className="text-[10px] font-bold text-schoolgate-green uppercase tracking-tight">{log.user_role || 'Automated'}</p>
-                                           </div>
-                                        </div>
-                                     </td>
-                                     <td className="px-6 py-5">
-                                        <div>
-                                           <Badge variant="outline" className="mb-1.5 rounded-md border-slate-200 text-slate-600 font-bold text-[9px] uppercase tracking-wider">
-                                              {log.action}
-                                           </Badge>
-                                           <p className="text-sm font-bold text-slate-700">{log.entity_type}: {log.entity_id}</p>
-                                           <p className="text-[10px] text-slate-400 flex items-center gap-1 mt-1">
-                                              <Clock size={10} /> {new Date(log.created_at).toLocaleString()}
-                                           </p>
-                                        </div>
-                                     </td>
-                                     <td className="px-6 py-5 max-w-[300px]">
-                                        <p className="text-xs text-slate-600 font-medium leading-relaxed">
-                                            {log.description}
-                                        </p>
-                                     </td>
-                                     <td className="px-6 py-5">
-                                        <div className="space-y-1.5">
-                                           <div className="flex items-center gap-2 text-[10px] font-bold text-slate-500">
-                                              <Monitor size={12} className="text-slate-400" /> Web Interface
-                                           </div>
-                                           <div className="flex items-center gap-2 text-[10px] font-bold text-slate-500">
-                                              <Globe size={12} className="text-slate-400" /> ID: {log.id.slice(0, 8)}
-                                           </div>
-                                        </div>
-                                     </td>
-                                     <td className="px-6 py-5 text-right">
-                                        <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-400 hover:text-schoolgate-green rounded-lg">
-                                           <Info size={18} />
-                                        </Button>
-                                     </td>
-                                  </tr>
-                               ))}
+                               {isLoading ? (
+                                  Array(5).fill(0).map((_, i) => (
+                                    <tr key={i} className="animate-pulse">
+                                      <td className="px-8 py-6"><div className="h-10 w-40 bg-slate-50 rounded-xl"></div></td>
+                                      <td className="px-8 py-6"><div className="h-10 w-32 bg-slate-50 rounded-xl"></div></td>
+                                      <td className="px-8 py-6"><div className="h-10 w-48 bg-slate-50 rounded-xl"></div></td>
+                                      <td className="px-8 py-6"><div className="h-10 w-24 bg-slate-50 rounded-xl"></div></td>
+                                      <td className="px-8 py-6"><div className="h-8 w-8 bg-slate-50 rounded-lg ml-auto"></div></td>
+                                    </tr>
+                                  ))
+                               ) : (
+                                 logs.map((log: any) => (
+                                    <tr key={log.id} className="hover:bg-slate-50 transition-colors group">
+                                       <td className="px-8 py-6">
+                                          <div className="flex items-center gap-3">
+                                             <div className="h-10 w-10 rounded-2xl bg-emerald-50 text-schoolgate-green flex items-center justify-center font-black text-xs">
+                                                {log.user_name ? log.user_name.charAt(0) : <UserCircle size={20} />}
+                                             </div>
+                                             <div>
+                                                <p className="text-sm font-black text-slate-900 tracking-tight">{log.user_name || 'System'}</p>
+                                                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{log.user_role || 'Automated'}</p>
+                                             </div>
+                                          </div>
+                                       </td>
+                                       <td className="px-8 py-6">
+                                          <div>
+                                             <Badge variant="outline" className="mb-2 rounded-lg border-slate-200 bg-white text-slate-600 font-bold text-[9px] uppercase tracking-widest px-2 h-5">
+                                                {log.action}
+                                             </Badge>
+                                             <p className="text-sm font-black text-slate-700 tracking-tight">{log.entity_type}</p>
+                                             <p className="text-[10px] font-bold text-slate-400 flex items-center gap-1 mt-1">
+                                                <Clock size={10} className="text-slate-300" /> {new Date(log.created_at).toLocaleString()}
+                                             </p>
+                                          </div>
+                                       </td>
+                                       <td className="px-8 py-6 max-w-[300px]">
+                                          <p className="text-xs text-slate-500 font-medium leading-relaxed italic">
+                                              "{log.description}"
+                                          </p>
+                                       </td>
+                                       <td className="px-8 py-6">
+                                          <div className="space-y-1.5">
+                                             <div className="flex items-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                                                <Monitor size={12} className="text-slate-300" /> WEB PORTAL
+                                             </div>
+                                             <div className="flex items-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                                                <Globe size={12} className="text-slate-300" /> ID: {log.id.slice(0, 8)}
+                                             </div>
+                                          </div>
+                                       </td>
+                                       <td className="px-8 py-6 text-right">
+                                          <Button variant="ghost" size="icon" className="h-9 w-9 text-slate-400 hover:text-schoolgate-green hover:bg-emerald-50 rounded-xl transition-colors">
+                                             <Info size={18} />
+                                          </Button>
+                                       </td>
+                                    </tr>
+                                  ))
+                               )}
                             </tbody>
                          </table>
-                         {!logs.length && (
-                             <div className="p-16 text-center text-slate-400 italic font-medium">
-                                No audit records match your current filters.
-                             </div>
-                         )}
+                      </div>
+                    )}
 
-                         {(totalCount > (filters.pageSize || 50) || (filters.page || 1) > 1) && (
-                            <div className="p-4 border-t flex items-center justify-between">
-                               <div className="flex flex-col">
-                                 <p className="text-xs font-bold text-slate-400 italic">
-                                   Showing {logs.length} records
-                                 </p>
-                                 <p className="text-[10px] font-bold text-slate-300 uppercase tracking-widest mt-1">
-                                   Total: {totalCount} Records found
-                                 </p>
-                               </div>
-                               <div className="flex gap-2">
-                                  <Button 
-                                    variant="outline" 
-                                    size="sm" 
-                                    disabled={(filters.page || 1) <= 1}
-                                    onClick={() => navigate({ search: (prev: AuditFilters) => ({ ...prev, page: 1 }) })}
-                                    className="h-8 rounded-lg font-bold text-[10px] uppercase hidden sm:flex"
-                                  >First</Button>
-                                  <Button 
-                                    variant="outline" 
-                                    size="sm" 
-                                    disabled={(filters.page || 1) <= 1}
-                                    onClick={() => navigate({ search: (prev: AuditFilters) => ({ ...prev, page: (prev.page || 1) - 1 }) })}
-                                    className="h-8 rounded-lg font-bold text-[10px] uppercase"
-                                  >Prev</Button>
-                                  <div className="flex items-center px-4 bg-slate-50 rounded-lg border border-slate-100 h-8">
-                                    <span className="text-[10px] font-black text-slate-600 uppercase tracking-widest">
-                                      Page {filters.page || 1}
-                                    </span>
-                                  </div>
-                                  <Button 
-                                    variant="outline" 
-                                    size="sm"
-                                    disabled={logs.length < (filters.pageSize || 50)}
-                                    onClick={() => navigate({ search: (prev: AuditFilters) => ({ ...prev, page: (prev.page || 1) + 1 }) })}
-                                    className="h-8 rounded-lg font-bold text-[10px] uppercase"
-                                  >Next</Button>
-                               </div>
+                    {(totalCount > (filters.pageSize || 50) || (filters.page || 1) > 1) && (
+                      <div className="p-4 border-t flex items-center justify-between">
+                          <div className="flex flex-col">
+                            <p className="text-xs font-bold text-slate-400 italic">
+                              Showing {logs.length} records
+                            </p>
+                            <p className="text-[10px] font-bold text-slate-300 uppercase tracking-widest mt-1">
+                              Total: {totalCount} Records found
+                            </p>
+                          </div>
+                          <div className="flex gap-2">
+                            <Button 
+                              variant="outline" 
+                              size="sm" 
+                              disabled={(filters.page || 1) <= 1}
+                              onClick={() => navigate({ search: (prev: AuditFilters) => ({ ...prev, page: 1 }) })}
+                              className="h-8 rounded-lg font-bold text-[10px] uppercase hidden sm:flex"
+                            >First</Button>
+                            <Button 
+                              variant="outline" 
+                              size="sm" 
+                              disabled={(filters.page || 1) <= 1}
+                              onClick={() => navigate({ search: (prev: AuditFilters) => ({ ...prev, page: (prev.page || 1) - 1 }) })}
+                              className="h-8 rounded-lg font-bold text-[10px] uppercase"
+                            >Prev</Button>
+                            <div className="flex items-center px-4 bg-slate-50 rounded-lg border border-slate-100 h-8">
+                              <span className="text-[10px] font-black text-slate-600 uppercase tracking-widest">
+                                Page {filters.page || 1}
+                              </span>
                             </div>
-                         )}
+                            <Button 
+                              variant="outline" 
+                              size="sm"
+                              disabled={logs.length < (filters.pageSize || 50)}
+                              onClick={() => navigate({ search: (prev: AuditFilters) => ({ ...prev, page: (prev.page || 1) + 1 }) })}
+                              className="h-8 rounded-lg font-bold text-[10px] uppercase"
+                            >Next</Button>
+                          </div>
                       </div>
                     )}
                   </CardContent>
