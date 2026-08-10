@@ -41,14 +41,23 @@ export const getStudentResultDrillDown = createServerFn({ method: "GET" })
 
     if (resultsError) throw new Error(resultsError.message);
 
-    // 3. Get Grading Scheme
-    const { data: gradingScheme } = await supabaseAdmin
-      .from('grading_rules')
-      .select('*')
+    // 3. Get Grading Schemes for the tenant
+    const { data: schemes } = await supabaseAdmin
+      .from('grading_schemes')
+      .select('id')
       .eq('tenant_id', data.tenantId);
 
+    let gradingRules: any[] = [];
+    if (schemes && schemes.length > 0) {
+      const { data: rules } = await supabaseAdmin
+        .from('grading_rules')
+        .select('*')
+        .in('scheme_id', schemes.map(s => s.id));
+      gradingRules = rules || [];
+    }
+
     const getGrade = (score: number) => {
-      if (!gradingScheme || gradingScheme.length === 0) {
+      if (!gradingRules || gradingRules.length === 0) {
         if (score >= 75) return 'A1';
         if (score >= 70) return 'B2';
         if (score >= 65) return 'B3';
@@ -59,7 +68,7 @@ export const getStudentResultDrillDown = createServerFn({ method: "GET" })
         if (score >= 40) return 'E8';
         return 'F9';
       }
-      const rule = gradingScheme.find((g: any) => score >= g.min_score && score <= g.max_score);
+      const rule = gradingRules.find((g: any) => score >= g.min_score && score <= g.max_score);
       return rule ? rule.grade : 'F9';
     };
 
@@ -231,11 +240,33 @@ export const updateGradingScheme = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     
-    // For simplicity, we'll replace the whole scheme for the tenant
-    // In a real multi-level system, we might have class-specific schemes
+    // 1. Get or create the default scheme for this tenant
+    let { data: scheme } = await supabaseAdmin
+      .from('grading_schemes')
+      .select('id')
+      .eq('tenant_id', data.tenantId)
+      .eq('is_default', true)
+      .single();
+
+    if (!scheme) {
+      const { data: newScheme, error: createError } = await supabaseAdmin
+        .from('grading_schemes')
+        .insert({
+          tenant_id: data.tenantId,
+          name: 'Default Scheme',
+          is_default: true
+        })
+        .select('id')
+        .single();
+      
+      if (createError) throw new Error(createError.message);
+      scheme = newScheme;
+    }
+
+    // 2. Upsert rules for this scheme
     const upsertData = data.rules.map(r => ({
       id: r.id,
-      tenant_id: data.tenantId,
+      scheme_id: scheme!.id,
       grade: r.grade,
       min_score: r.min_score,
       max_score: r.max_score,
