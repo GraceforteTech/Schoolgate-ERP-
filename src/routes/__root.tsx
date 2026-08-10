@@ -120,6 +120,25 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const router = useRouter();
+  const pathname = router.state.location.pathname;
+
+  // Determine if we are in a public route
+  const isPublicRoute = 
+    pathname === "/" || 
+    pathname.startsWith("/auth/") || 
+    pathname === "/landing";
+
+  if (isPublicRoute) {
+    return (
+      <QueryClientProvider client={queryClient}>
+        <div className="min-h-screen w-full bg-background">
+          <Outlet />
+        </div>
+        <Toaster position="top-right" richColors closeButton />
+      </QueryClientProvider>
+    );
+  }
 
   return (
     <QueryClientProvider client={queryClient}>
