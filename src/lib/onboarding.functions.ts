@@ -92,20 +92,25 @@ export const getExecutiveDashboardStats = createServerFn({ method: "GET" })
     
     // 1. Student Stats
     const { count: totalStudents } = await supabaseAdmin
-      .from('profiles')
+      .from('students')
+      .select('*', { count: 'exact', head: true })
+      .eq('tenant_id', data.tenantId);
+
+    const { count: activeStudents } = await supabaseAdmin
+      .from('students')
       .select('*', { count: 'exact', head: true })
       .eq('tenant_id', data.tenantId)
-      .eq('role', 'student');
+      .eq('status', 'active');
 
-    // 2. Class Stats (Campuses used as proxy for now)
+    // 2. Class Stats (Campuses used as proxy for now until classes table exists)
     const { count: totalClasses } = await supabaseAdmin
       .from('campuses')
       .select('*', { count: 'exact', head: true })
       .eq('tenant_id', data.tenantId);
 
-    // 3. Staff Stats
+    // 3. Staff Stats (Count of user_roles with staff-like roles in this tenant)
     const { count: totalStaff } = await supabaseAdmin
-      .from('profiles')
+      .from('user_roles')
       .select('*', { count: 'exact', head: true })
       .eq('tenant_id', data.tenantId)
       .in('role', ['teacher', 'admin', 'bursar']);
@@ -200,6 +205,7 @@ export const getExecutiveDashboardStats = createServerFn({ method: "GET" })
 
     return {
       totalStudents: totalStudents || 0,
+      activeStudents: activeStudents || 0,
       totalClasses: totalClasses || 0,
       totalStaff: totalStaff || 0,
       todayRevenue,
