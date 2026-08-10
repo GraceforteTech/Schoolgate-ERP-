@@ -171,6 +171,7 @@ export const getExecutiveDashboardStats = createServerFn({ method: "GET" })
       outstandingFees,
       pendingPayments: pendingPaymentsCount,
       approvedPayments: approvedPaymentsCount,
+      pendingExpenses: pendingExpensesCount,
       paidStudents: paidStudentsCount,
       partiallyPaidStudents: partiallyPaidStudentsCount,
       unpaidStudents: unpaidStudentsCount,
