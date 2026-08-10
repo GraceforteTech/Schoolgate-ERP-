@@ -6,28 +6,34 @@ import {
   Percent, 
   Clock, 
   TrendingUp,
-  School,
-  GraduationCap,
-  CalendarDays
+  CheckCircle2,
+  AlertCircle
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useServerFn } from "@tanstack/react-start";
+import { useQuery } from "@tanstack/react-query";
+import { getFeeSummaryStats } from "@/lib/fee-summary.functions";
+import { supabase } from "@/integrations/supabase/client";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface KPICardProps {
   title: string;
-  value: string;
+  value: string | number;
   subtitle?: string;
   icon: React.ElementType;
   trend?: string;
   trendType?: 'positive' | 'negative' | 'neutral';
   onClick?: () => void;
   className?: string;
+  loading?: boolean;
 }
 
-const KPICard = ({ title, value, subtitle, icon: Icon, trend, trendType = 'neutral', onClick, className }: KPICardProps) => (
+const KPICard = ({ title, value, subtitle, icon: Icon, trend, trendType = 'neutral', onClick, className, loading }: KPICardProps) => (
   <Card 
     onClick={onClick}
     className={cn(
-      "p-5 flex flex-col gap-3 cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:shadow-lg border-none bg-white rounded-[14px]",
+      "p-5 flex flex-col gap-3 transition-all duration-200 border-none bg-white rounded-[14px] shadow-sm",
+      onClick && "cursor-pointer hover:-translate-y-1 hover:shadow-lg",
       className
     )}
   >
@@ -35,44 +41,70 @@ const KPICard = ({ title, value, subtitle, icon: Icon, trend, trendType = 'neutr
       <div className="p-2.5 rounded-xl bg-schoolgate-green-light/50 text-schoolgate-green">
         <Icon size={20} />
       </div>
-      {trend && (
+      {trend && !loading && (
         <span className={cn(
-          "text-xs font-medium px-2 py-1 rounded-full",
-          trendType === 'positive' ? "bg-green-100 text-green-700" : 
-          trendType === 'negative' ? "bg-red-100 text-red-700" : 
-          "bg-gray-100 text-gray-700"
+          "text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-tight",
+          trendType === 'positive' ? "bg-emerald-50 text-emerald-600" : 
+          trendType === 'negative' ? "bg-rose-50 text-rose-600" : 
+          "bg-slate-50 text-slate-600"
         )}>
           {trend}
         </span>
       )}
     </div>
     <div>
-      <p className="text-2xl font-bold text-slate-900">{value}</p>
-      <p className="text-sm font-medium text-slate-500 mt-0.5">{title}</p>
-      {subtitle && <p className="text-[10px] text-slate-400 mt-1 uppercase tracking-wider font-semibold">{subtitle}</p>}
+      {loading ? (
+        <Skeleton className="h-8 w-24 mb-1" />
+      ) : (
+        <p className="text-2xl font-black text-slate-900 tracking-tight">{value}</p>
+      )}
+      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">{title}</p>
+      {subtitle && <p className="text-[10px] text-slate-400 mt-1 font-medium">{subtitle}</p>}
     </div>
   </Card>
 );
 
-export function ExecutiveKPICards() {
-  const kpis: KPICardProps[] = [
-    { title: "Total Outstanding", value: "₦145.2M", subtitle: "All Schools", icon: DollarSign, trend: "+5.2%", trendType: 'negative' },
-    { title: "Primary Outstanding", value: "₦62.8M", subtitle: "Primary Section", icon: School, trend: "-2.1%", trendType: 'positive' },
-    { title: "Secondary Outstanding", value: "₦82.4M", subtitle: "Secondary Section", icon: GraduationCap, trend: "+8.4%", trendType: 'negative' },
-    { title: "Total Students Owing", value: "1,240", subtitle: "42% of Population", icon: Users, trend: "+12", trendType: 'negative' },
-    { title: "Primary Students Owing", value: "542", subtitle: "Junior School", icon: Users, trend: "-4", trendType: 'positive' },
-    { title: "Secondary Students Owing", value: "698", subtitle: "Senior School", icon: Users, trend: "+16", trendType: 'negative' },
-    { title: "Collection Rate", value: "58.4%", subtitle: "Current Session", icon: Percent, trend: "+2.5%", trendType: 'positive' },
-    { title: "Avg. Outstanding", value: "₦117k", subtitle: "Per Student", icon: TrendingUp, trend: "+₦12k", trendType: 'negative' },
-    { title: "Longest Debt", value: "482 Days", subtitle: "Archive Record", icon: Clock, trend: "Overdue", trendType: 'negative' },
-    { title: "Today's Recovery", value: "₦4.8M", subtitle: "Active Recovery", icon: CalendarDays, trend: "Target: ₦10M", trendType: 'neutral' },
+export function ExecutiveKPICards({ filters }: { filters?: any }) {
+  const fetchStats = useServerFn(getFeeSummaryStats);
+
+  const { data: stats, isLoading } = useQuery({
+    queryKey: ['fee-summary-stats', filters],
+    queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return null;
+      const { data: membership } = await supabase.from('memberships').select('tenant_id').eq('user_id', user.id).single();
+      if (!membership) return null;
+      
+      return fetchStats({ 
+        data: { 
+          tenantId: membership.tenant_id,
+          academicSession: filters?.session,
+          term: filters?.term,
+          classId: filters?.classId
+        } 
+      });
+    }
+  });
+
+  const formatNaira = (val: number) => `₦${(val || 0).toLocaleString()}`;
+
+  const kpis = [
+    { title: "Total Billed", value: formatNaira(stats?.totalFeesBilled || 0), icon: DollarSign, trend: "Revenue Source" },
+    { title: "Total Collected", value: formatNaira(stats?.totalCollected || 0), icon: CheckCircle2, trend: "Actual Income", trendType: 'positive' as const },
+    { title: "Total Outstanding", value: formatNaira(stats?.totalOutstanding || 0), icon: AlertCircle, trend: "Awaiting", trendType: 'negative' as const },
+    { title: "Payment Rate", value: `${(stats?.paymentRate || 0).toFixed(1)}%`, icon: Percent, trend: "Efficiency" },
+    { title: "Pending Approvals", value: formatNaira(stats?.pendingPaymentsValue || 0), icon: Clock, trend: "In Pipeline" },
+    { title: "Paid Students", value: stats?.paidStudents || 0, icon: Users, subtitle: "Full payment", trend: "Success" },
+    { title: "Partially Paid", value: stats?.partiallyPaidStudents || 0, icon: Users, subtitle: "Balance remaining", trend: "Follow-up" },
+    { title: "Unpaid Students", value: stats?.unpaidStudents || 0, icon: Users, subtitle: "No payment yet", trend: "Critical", trendType: 'negative' as const },
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-8 gap-4">
       {kpis.map((kpi, index) => (
-        <KPICard key={index} {...kpi} />
+        <KPICard key={index} {...kpi} loading={isLoading} />
       ))}
     </div>
   );
 }
+
