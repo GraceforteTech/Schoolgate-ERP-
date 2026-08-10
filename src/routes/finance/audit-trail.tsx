@@ -269,6 +269,34 @@ function AuditTrailPage() {
                      </div>
                   </CardHeader>
                   <CardContent className="p-0">
+                    <AuditFiltersDialog 
+                      open={showSaveDialog}
+                      onOpenChange={setShowSaveDialog}
+                      onSave={async () => {
+                        try {
+                          const { data: { user } } = await supabase.auth.getUser();
+                          if (!user) throw new Error("Not authenticated");
+                          const { data: membership } = await supabase.from('memberships').select('tenant_id').eq('user_id', user.id).single();
+                          if (!membership) throw new Error("Tenant not found");
+
+                          await saveFilterFn({
+                            data: {
+                              tenantId: membership.tenant_id,
+                              userId: user.id,
+                              name: filterName,
+                              filterDefinition: filters
+                            }
+                          });
+                          toast.success("Filter saved successfully");
+                          setShowSaveDialog(false);
+                          setFilterName("");
+                        } catch (err: any) {
+                          toast.error(err.message);
+                        }
+                      }}
+                      filterName={filterName}
+                      setFilterName={setFilterName}
+                    />
                     {isLoading ? (
                       <div className="p-20 text-center text-slate-400 font-bold animate-pulse">Loading secure audit trail...</div>
                     ) : (

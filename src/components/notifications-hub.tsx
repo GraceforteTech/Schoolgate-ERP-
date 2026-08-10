@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { 
   Bell, 
   Check, 
@@ -8,7 +8,12 @@ import {
   Settings,
   X,
   ChevronRight,
-  ExternalLink
+  ExternalLink,
+  Archive,
+  RotateCcw,
+  CheckCircle2,
+  MoreVertical,
+  Trash2
 } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import {
@@ -24,10 +29,30 @@ import { cn } from "@/lib/utils";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 export function NotificationsHub() {
   const [open, setOpen] = useState(false);
   const queryClient = useQueryClient();
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [confirmAction, setConfirmAction] = useState<{ type: string; ids: string[] } | null>(null);
+  const [viewArchived, setViewArchived] = useState(false);
 
   const { data: notifications = [], isLoading } = useQuery({
     queryKey: ['notifications'],
@@ -38,8 +63,24 @@ export function NotificationsHub() {
       const { data, error } = await supabase
         .from('notifications')
         .select('*')
+        .is('archived_at', viewArchived ? null : null) // Logic handled by RLS/Query
         .order('created_at', { ascending: false })
-        .limit(20);
+        .limit(50);
+      
+      if (viewArchived) {
+        // Just a placeholder filter for now until schema is robust
+      }
+      
+      let query = supabase.from('notifications').select('*');
+      if (viewArchived) {
+        query = query.not('archived_at', 'is', null);
+      } else {
+        query = query.is('archived_at', null);
+      }
+      
+      const { data, error } = await query
+        .order('created_at', { ascending: false })
+        .limit(50);
       
       if (error) throw error;
       return data;
@@ -49,35 +90,60 @@ export function NotificationsHub() {
 
   const unreadCount = notifications.filter(n => !n.read_at).length;
 
-  const markAsRead = useMutation({
-    mutationFn: async (id: string) => {
+  const bulkUpdate = useMutation({
+    mutationFn: async ({ ids, updates }: { ids: string[]; updates: any }) => {
       const { error } = await supabase
         .from('notifications')
-        .update({ read_at: new Date().toISOString() })
-        .eq('id', id);
+        .update(updates)
+        .in('id', ids);
       if (error) throw error;
+      return ids.length;
     },
-    onSuccess: () => {
+    onSuccess: (count) => {
       queryClient.invalidateQueries({ queryKey: ['notifications'] });
+      setSelectedIds([]);
+      toast.success(`Successfully updated ${count} notifications`);
+    },
+    onError: (err: any) => {
+      toast.error(`Failed to update notifications: ${err.message}`);
     }
   });
 
-  const markAllAsRead = useMutation({
-    mutationFn: async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
-      
-      const { error } = await supabase
-        .from('notifications')
-        .update({ read_at: new Date().toISOString() })
-        .is('read_at', null);
-      if (error) throw error;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['notifications'] });
-      toast.success("All notifications marked as read");
+  const handleBulkAction = (type: string) => {
+    if (selectedIds.length === 0) return;
+    
+    if (type === 'archive' || type === 'delete') {
+      setConfirmAction({ type, ids: [...selectedIds] });
+    } else {
+      executeBulkAction(type, selectedIds);
     }
-  });
+  };
+
+  const executeBulkAction = (type: string, ids: string[]) => {
+    let updates = {};
+    switch (type) {
+      case 'read': updates = { read_at: new Date().toISOString() }; break;
+      case 'unread': updates = { read_at: null }; break;
+      case 'archive': updates = { archived_at: new Date().toISOString() }; break;
+      case 'restore': updates = { archived_at: null }; break;
+    }
+    bulkUpdate.mutate({ ids, updates });
+    setConfirmAction(null);
+  };
+
+  const toggleSelect = (id: string) => {
+    setSelectedIds(prev => 
+      prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
+    );
+  };
+
+  const toggleSelectAll = () => {
+    if (selectedIds.length === notifications.length) {
+      setSelectedIds([]);
+    } else {
+      setSelectedIds(notifications.map(n => n.id));
+    }
+  };
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -100,30 +166,83 @@ export function NotificationsHub() {
         <SheetHeader className="p-6 bg-slate-50 border-b border-slate-100">
           <div className="flex items-center justify-between">
             <div>
-              <SheetTitle className="text-xl font-black text-slate-900 tracking-tight">Activity Notifications</SheetTitle>
-              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">Real-time alerts & updates</p>
+              <SheetTitle className="text-xl font-black text-slate-900 tracking-tight">
+                {viewArchived ? "Archived Activity" : "Activity Notifications"}
+              </SheetTitle>
+              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">
+                {viewArchived ? "View past logs" : "Real-time alerts & updates"}
+              </p>
             </div>
-            <Link 
-              to="/settings" 
-              className="h-8 w-8 rounded-lg text-slate-400 hover:text-slate-600 flex items-center justify-center hover:bg-slate-100"
-              onClick={() => setOpen(false)}
-            >
-              <Settings size={18} />
-            </Link>
+            <div className="flex items-center gap-2">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className={cn("h-8 w-8 rounded-lg", viewArchived ? "text-schoolgate-green bg-emerald-50" : "text-slate-400")}
+                onClick={() => setViewArchived(!viewArchived)}
+                title={viewArchived ? "View Active" : "View Archive"}
+              >
+                <Archive size={18} />
+              </Button>
+              <Link 
+                to="/settings" 
+                className="h-8 w-8 rounded-lg text-slate-400 hover:text-slate-600 flex items-center justify-center hover:bg-slate-100"
+                onClick={() => setOpen(false)}
+              >
+                <Settings size={18} />
+              </Link>
+            </div>
           </div>
-          {unreadCount > 0 && (
-            <div className="flex items-center justify-between pt-4">
-              <Badge className="bg-schoolgate-green text-white border-none font-bold text-[10px] px-3">
-                {unreadCount} NEW MESSAGES
-              </Badge>
+
+          <div className="flex items-center justify-between pt-4">
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
+                <Checkbox 
+                  checked={notifications.length > 0 && selectedIds.length === notifications.length}
+                  onCheckedChange={toggleSelectAll}
+                  className="rounded-md border-slate-300 data-[state=checked]:bg-schoolgate-green data-[state=checked]:border-schoolgate-green"
+                />
+                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                  {selectedIds.length > 0 ? `${selectedIds.length} SELECTED` : 'SELECT ALL'}
+                </span>
+              </div>
+            </div>
+
+            {selectedIds.length > 0 ? (
+              <div className="flex items-center gap-1">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="h-7 px-2 text-[10px] font-black text-schoolgate-green uppercase tracking-widest"
+                  onClick={() => handleBulkAction('read')}
+                >
+                  Read
+                </Button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="sm" className="h-7 w-7 p-0 rounded-lg text-slate-400">
+                      <MoreVertical size={14} />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="rounded-xl border-slate-100 shadow-xl">
+                    <DropdownMenuItem onClick={() => handleBulkAction('unread')} className="text-xs font-bold gap-2">
+                      <RotateCcw size={14} /> Mark as Unread
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleBulkAction(viewArchived ? 'restore' : 'archive')} className="text-xs font-bold gap-2">
+                      {viewArchived ? <RotateCcw size={14} /> : <Archive size={14} />}
+                      {viewArchived ? 'Restore' : 'Archive'}
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            ) : !viewArchived && unreadCount > 0 && (
               <button 
-                onClick={() => markAllAsRead.mutate()}
+                onClick={() => executeBulkAction('read', notifications.filter(n => !n.read_at).map(n => n.id))}
                 className="text-[10px] font-black text-schoolgate-green uppercase tracking-widest hover:underline"
               >
                 Mark all as read
               </button>
-            </div>
-          )}
+            )}
+          </div>
         </SheetHeader>
 
         <div className="flex-1 overflow-y-auto">
@@ -148,12 +267,20 @@ export function NotificationsHub() {
                 <div 
                   key={notification.id}
                   className={cn(
-                    "p-6 transition-all cursor-pointer hover:bg-slate-50 group relative",
-                    !notification.read_at && "bg-emerald-50/30"
+                    "p-6 transition-all cursor-pointer hover:bg-slate-50 group relative flex gap-4",
+                    !notification.read_at && !viewArchived && "bg-emerald-50/30",
+                    selectedIds.includes(notification.id) && "bg-schoolgate-green/5"
                   )}
-                  onClick={() => !notification.read_at && markAsRead.mutate(notification.id)}
+                  onClick={() => toggleSelect(notification.id)}
                 >
-                  {!notification.read_at && (
+                  <div className="pt-1" onClick={e => e.stopPropagation()}>
+                    <Checkbox 
+                      checked={selectedIds.includes(notification.id)}
+                      onCheckedChange={() => toggleSelect(notification.id)}
+                      className="rounded-md border-slate-300 data-[state=checked]:bg-schoolgate-green data-[state=checked]:border-schoolgate-green"
+                    />
+                  </div>
+                  {!notification.read_at && !viewArchived && (
                     <div className="absolute left-0 top-0 bottom-0 w-1 bg-schoolgate-green"></div>
                   )}
                   <div className="flex gap-4">
@@ -213,6 +340,50 @@ export function NotificationsHub() {
         </div>
       </SheetContent>
     </Sheet>
+  );
+}
+
+function AuditFiltersDialog({ 
+  open, 
+  onOpenChange, 
+  onSave, 
+  filterName, 
+  setFilterName 
+}: { 
+  open: boolean; 
+  onOpenChange: (val: boolean) => void;
+  onSave: () => void;
+  filterName: string;
+  setFilterName: (val: string) => void;
+}) {
+  return (
+    <AlertDialog open={open} onOpenChange={onOpenChange}>
+      <AlertDialogContent className="rounded-[24px] border-none shadow-2xl p-8">
+        <AlertDialogHeader>
+          <AlertDialogTitle className="text-xl font-black text-slate-900 tracking-tight">Save Search Filter</AlertDialogTitle>
+          <AlertDialogDescription className="text-slate-500 font-medium pt-2 leading-relaxed">
+            Give this filter configuration a name so you can reuse it later.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <div className="py-6">
+          <Input 
+            placeholder="e.g. Finance Errors, Admin Changes" 
+            value={filterName}
+            onChange={(e) => setFilterName(e.target.value)}
+            className="h-12 rounded-xl border-slate-200 font-bold focus-visible:ring-schoolgate-green"
+          />
+        </div>
+        <AlertDialogFooter className="gap-2">
+          <AlertDialogCancel className="h-12 rounded-xl border-none bg-slate-100 font-black uppercase text-[10px] tracking-widest text-slate-500 hover:bg-slate-200">Cancel</AlertDialogCancel>
+          <AlertDialogAction 
+            onClick={onSave}
+            className="h-12 rounded-xl bg-schoolgate-green font-black uppercase text-[10px] tracking-widest hover:bg-schoolgate-green/90"
+          >
+            Save Filter
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 }
 
