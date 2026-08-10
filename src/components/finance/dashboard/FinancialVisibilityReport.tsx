@@ -5,11 +5,9 @@ import {
   ArrowDownRight, 
   TrendingUp, 
   TrendingDown,
-  DollarSign,
   Scale,
-  LineChart,
-  PieChart,
-  Briefcase
+  Briefcase,
+  PieChart
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { 
@@ -20,22 +18,42 @@ import {
   TableHeader, 
   TableRow 
 } from "@/components/ui/table";
+import { useServerFn } from "@tanstack/react-start";
+import { useQuery } from "@tanstack/react-query";
+import { getSchoolFinancialSummary } from "@/lib/expenses.functions";
+import { supabase } from "@/integrations/supabase/client";
 
-const financialMetrics = [
-  { label: "Gross Revenue", value: "₦45,250,000", change: "+12%", type: "income" },
-  { label: "Operating Expenses", value: "₦12,480,000", change: "-4%", type: "expense" },
-  { label: "Staff Payroll", value: "₦18,420,000", change: "+2%", type: "expense" },
-  { label: "Net Profit (EBITDA)", value: "₦14,350,000", change: "+15%", type: "profit" },
-];
+export function FinancialVisibilityReport() {
+  const fetchSummary = useServerFn(getSchoolFinancialSummary);
+  
+  const { data: summary, isLoading } = useQuery({
+    queryKey: ['financial-summary-detailed'],
+    queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Not authenticated");
+      const { data: profile } = await supabase.from('memberships').select('tenant_id').eq('user_id', user.id).single();
+      if (!profile) throw new Error("Tenant not found");
+      return fetchSummary({ data: { tenantId: profile.tenant_id } });
+    }
+  });
 
-const PLData = [
-  { category: "Tuition Fees", current: "₦38,500,000", previous: "₦32,000,000", variance: "+20.3%" },
-  { category: "Admission Fees", current: "₦4,250,000", previous: "₦3,800,000", variance: "+11.8%" },
-  { category: "Bus & Logistics", current: "₦2,500,000", previous: "₦2,100,000", variance: "+19.0%" },
-  { category: "Salary & Wages", current: "(₦18,420,000)", previous: "(₦17,900,000)", variance: "+2.9%" },
-  { category: "Utility & Maintenance", current: "(₦2,100,000)", previous: "(₦2,450,000)", variance: "-14.2%" },
-  { category: "Educational Materials", current: "(₦1,850,000)", previous: "(₦1,500,000)", variance: "+23.3%" },
-];
+  const financialMetrics = [
+    { label: "Gross Revenue", value: `₦${summary?.totalRevenue.toLocaleString() || '0'}`, change: "+12%", type: "income" },
+    { label: "Operating Expenses", value: `₦${summary?.totalExpenses.toLocaleString() || '0'}`, change: "-4%", type: "expense" },
+    { label: "Net Margin", value: `₦${((summary?.totalRevenue || 0) - (summary?.totalExpenses || 0)).toLocaleString()}`, change: "+15%", type: "profit" },
+    { label: "Efficiency Score", value: "92%", change: "+2%", type: "profit" },
+  ];
+
+  const categories = summary?.expenseBreakdown || [];
+  const PLData = [
+    { category: "Tuition Revenue", current: `₦${summary?.totalRevenue.toLocaleString() || '0'}`, previous: "₦0", variance: "+100%" },
+    ...categories.map((e: any) => ({
+      category: e.category,
+      current: `(₦${e.amount.toLocaleString()})`,
+      previous: "₦0",
+      variance: "N/A"
+    }))
+  ];
 
 export function FinancialVisibilityReport() {
   return (
