@@ -183,19 +183,19 @@ export const approveTransaction = createServerFn({ method: "POST" })
   });
 
 export const rejectTransaction = createServerFn({ method: "POST" })
-  .validator((data) => z.object({
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data) => z.object({
     transactionId: z.string().uuid(),
-    adminId: z.string().uuid(),
-    reason: z.string().optional()
+    adminId: z.string().uuid().optional(),
+    reason: z.string().trim().max(500).optional()
   }).parse(data))
-  .handler(async ({ data }) => {
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    
-    const { error } = await (supabaseAdmin
+  .handler(async ({ data, context }) => {
+    // RLS limits rejection to bursars/admins of the transaction's tenant
+    const { error } = await (context.supabase
       .from('transactions')
       .update({
         status: 'rejected',
-        rejected_by: data.adminId,
+        rejected_by: context.userId,
         rejected_at: new Date().toISOString(),
         description: data.reason ? `REJECTED: ${data.reason}` : 'REJECTED'
       })
