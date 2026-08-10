@@ -46,9 +46,14 @@ function PayrollProcessingCentre() {
     <div className="min-h-screen bg-[#F5F7FA] pb-12">
       <div className="bg-white border-b border-slate-200 sticky top-0 z-30">
         <div className="px-6 py-6 max-w-[1600px] mx-auto flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">Payroll Processing Centre</h1>
-            <p className="text-sm text-muted-foreground mt-1">Generate, review and approve payroll before salary payment.</p>
+          <div className="flex items-center gap-4">
+            <div className="h-12 w-12 rounded-2xl bg-schoolgate-green-light flex items-center justify-center text-schoolgate-green">
+              <Play size={24} />
+            </div>
+            <div>
+              <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">Payroll Processing Engine</h1>
+              <p className="text-sm text-muted-foreground mt-1">Generate, review and approve payroll before salary payment.</p>
+            </div>
           </div>
           <div className="flex items-center gap-2">
              <Button variant="outline" className="h-10 gap-2 border-slate-200 rounded-lg">
