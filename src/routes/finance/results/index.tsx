@@ -11,7 +11,7 @@ import { AcademicDashboard } from "@/components/finance/results/academic-dashboa
 import { ExecutiveAcademicDashboard } from "@/components/finance/results/executive-examination-dashboard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { Download, LayoutDashboard, FileText, Settings, ClipboardList, CheckCircle2, BarChart3, GraduationCap } from "lucide-react";
+import { Download, LayoutDashboard, FileText, Settings, ClipboardList, CheckCircle2, BarChart3, GraduationCap, ShieldCheck } from "lucide-react";
 
 export const Route = createFileRoute("/finance/results/")({
   component: ResultManagementPage,
