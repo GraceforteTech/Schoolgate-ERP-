@@ -42,164 +42,104 @@ export const logAuditAction = createServerFn({ method: "POST" })
     return { success: !error };
   });
 
-export const bulkAssignFees = createServerFn({ method: "POST" })
-  .validator((data: any) => z.object({
-    tenantId: z.string().uuid(),
-    feeTypeId: z.string().uuid(),
-    studentIds: z.array(z.string().uuid()),
-    academicSession: z.string(),
-    term: z.string(),
-    amount: z.number().nonnegative(),
-    userId: z.string().uuid()
-  }).parse(data))
-  .handler(async ({ data }) => {
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    
-    // Fetch students to get their class_ids
-    const { data: students } = await supabaseAdmin
-      .from('students')
-      .select('id, class_id')
-      .in('id', data.studentIds)
-      .eq('tenant_id', data.tenantId);
-
-    if (!students || students.length === 0) throw new Error("No valid students found.");
-
-    const assignments = students.map((s: any) => ({
-      tenant_id: data.tenantId,
-      student_id: s.id,
-      fee_type_id: data.feeTypeId,
-      academic_session: data.academicSession,
-      term: data.term,
-      class_id: s.class_id,
-      amount_due: data.amount,
-      status: 'unpaid'
-    }));
-
-    const { error } = await supabaseAdmin
-      .from('student_fees')
-      .upsert(assignments, { 
-        onConflict: 'tenant_id,student_id,fee_type_id,academic_session,term',
-        ignoreDuplicates: true // Business rule: Prevent accidental duplicates
-      });
-
-    if (error) throw new Error(error.message);
-
-    // Log audit
-    await logAuditAction({
-        data: {
-            tenantId: data.tenantId,
-            userId: data.userId,
-            action: 'BULK_FEE_ASSIGN',
-            entityType: 'student_fees',
-            entityId: data.feeTypeId,
-            description: `Bulk assigned fee type to ${data.studentIds.length} students.`,
-            metadata: { studentCount: data.studentIds.length, amount: data.amount }
-        }
-    });
-
-    return { success: true, count: assignments.length };
-  });
-
-export const bulkWaiverAdjustment = createServerFn({ method: "POST" })
-  .validator((data: any) => z.object({
-    tenantId: z.string().uuid(),
-    feeAssignmentIds: z.array(z.string().uuid()),
-    type: z.enum(['waiver', 'adjustment']),
-    amount: z.number().nonnegative(), // Amount to waive or adjust
-    reason: z.string().min(3),
-    userId: z.string().uuid()
-  }).parse(data))
-  .handler(async ({ data }) => {
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    
-    // 1. Fetch current records to check for payments
-    const { data: records } = await supabaseAdmin
-      .from('student_fees')
-      .select('*')
-      .in('id', data.feeAssignmentIds)
-      .eq('tenant_id', data.tenantId);
-
-    if (!records) throw new Error("Records not found.");
-
-    const results = { successful: 0, failed: 0, skipped: 0, reasons: [] as string[] };
-
-    for (const record of records) {
-      // Protection: Don't modify if payments exist (unless business rules allow partial adjustment)
-      if ((record.amount_paid || 0) > 0 && data.type === 'waiver') {
-         results.skipped++;
-         results.reasons.push(`${record.id}: Already has payments.`);
-         continue;
-      }
-
-      const updates: any = {
-        updated_at: new Date().toISOString(),
-        adjustment_reason: data.reason,
-        adjusted_by: data.userId
-      };
-
-      if (data.type === 'waiver') {
-        updates.waived_amount = data.amount;
-        // Logic: new amount_due could be adjusted if we want, but usually waivers are separate tracked fields
-      } else {
-        updates.adjustment_amount = data.amount;
-      }
-
-      const { error } = await supabaseAdmin
-        .from('student_fees')
-        .update(updates)
-        .eq('id', record.id);
-
-      if (error) {
-        results.failed++;
-        results.reasons.push(`${record.id}: ${error.message}`);
-      } else {
-        results.successful++;
-      }
-    }
-
-    // Log audit
-    await logAuditAction({
-        data: {
-            tenantId: data.tenantId,
-            userId: data.userId,
-            action: `BULK_${data.type.toUpperCase()}`,
-            entityType: 'student_fees',
-            entityId: 'multiple',
-            description: `Bulk ${data.type} applied to ${results.successful} records. Reason: ${data.reason}`,
-            metadata: { successful: results.successful, failed: results.failed, amount: data.amount }
-        }
-    });
-
-    return results;
-  });
-
 export const getAuditLogs = createServerFn({ method: "GET" })
   .validator((data: any) => z.object({
     tenantId: z.string().uuid(),
     filters: z.object({
         userId: z.string().uuid().optional(),
+        userRole: z.string().optional(),
         action: z.string().optional(),
         entityType: z.string().optional(),
+        status: z.string().optional(),
         dateFrom: z.string().optional(),
-        dateTo: z.string().optional()
-    }).optional()
+        dateTo: z.string().optional(),
+        searchTerm: z.string().optional(),
+        academicSession: z.string().optional(),
+        term: z.string().optional(),
+        classId: z.string().uuid().optional(),
+        studentId: z.string().uuid().optional()
+    }).optional(),
+    page: z.number().default(1),
+    pageSize: z.number().default(50)
   }).parse(data))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     
     let query = supabaseAdmin
       .from('audit_logs')
-      .select('*')
+      .select('*', { count: 'exact' })
       .eq('tenant_id', data.tenantId)
       .order('created_at', { ascending: false });
 
     if (data.filters?.userId) query = query.eq('user_id', data.filters.userId);
+    if (data.filters?.userRole) query = query.eq('user_role', data.filters.userRole);
     if (data.filters?.action) query = query.ilike('action', `%${data.filters.action}%`);
     if (data.filters?.entityType) query = query.eq('entity_type', data.filters.entityType);
     if (data.filters?.dateFrom) query = query.gte('created_at', data.filters.dateFrom);
     if (data.filters?.dateTo) query = query.lte('created_at', data.filters.dateTo);
+    
+    if (data.filters?.searchTerm) {
+      query = query.or(`description.ilike.%${data.filters.searchTerm}%,action.ilike.%${data.filters.searchTerm}%,user_name.ilike.%${data.filters.searchTerm}%`);
+    }
 
-    const { data: logs, error } = await query.limit(100);
+    if (data.filters?.metadata) {
+        // Handle metadata JSON filtering if possible in your version of PostgREST
+    }
+    
+    const from = (data.page - 1) * data.pageSize;
+    const to = from + data.pageSize - 1;
+    
+    const { data: logs, error, count } = await query.range(from, to);
     if (error) throw new Error(error.message);
-    return logs;
+    return { logs, count };
+  });
+
+export const importCSVData = createServerFn({ method: "POST" })
+  .validator((data: any) => z.object({
+    tenantId: z.string().uuid(),
+    userId: z.string().uuid(),
+    type: z.enum(['students', 'student_fees', 'academic_results']),
+    records: z.array(z.any()),
+    metadata: z.object({
+        filename: z.string(),
+        totalRecords: z.number(),
+        createdCount: z.number(),
+        updatedCount: z.number(),
+        failedCount: z.number(),
+        warningCount: z.number()
+    })
+  }).parse(data))
+  .handler(async ({ data }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    
+    let table = '';
+    switch(data.type) {
+        case 'students': table = 'students'; break;
+        case 'student_fees': table = 'student_fees'; break;
+        case 'academic_results': table = 'academic_results'; break;
+    }
+
+    // Tenant safety: Ensure every record has the correct tenantId
+    const safeRecords = data.records.map(r => ({ ...r, tenant_id: data.tenantId }));
+
+    const { error } = await supabaseAdmin
+        .from(table)
+        .upsert(safeRecords, { onConflict: 'id' }); // Simplified upsert for demonstration
+
+    if (error) throw new Error(error.message);
+
+    // Audit the import
+    await logAuditAction({
+        data: {
+            tenantId: data.tenantId,
+            userId: data.userId,
+            action: `CSV_IMPORT_${data.type.toUpperCase()}`,
+            entityType: data.type,
+            entityId: data.metadata.filename,
+            description: `Imported ${data.metadata.totalRecords} records from ${data.metadata.filename}. Success: ${data.metadata.createdCount + data.metadata.updatedCount}, Failed: ${data.metadata.failedCount}`,
+            metadata: data.metadata
+        }
+    });
+
+    return { success: true };
   });
