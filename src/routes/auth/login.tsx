@@ -63,7 +63,7 @@ function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#F5F7FA] p-4">
+    <div className="min-h-screen flex items-center justify-center bg-page-background p-4">
       <Card className="w-full max-w-md rounded-[14px] border-none shadow-lg">
         <CardHeader className="text-center pb-8">
           <div className="mx-auto w-12 h-12 bg-schoolgate-green rounded-xl flex items-center justify-center text-white mb-4 shadow-lg shadow-schoolgate-green/20">
@@ -127,7 +127,7 @@ function LoginPage() {
               <span className="w-full border-t border-slate-200"></span>
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-white px-2 text-slate-400 font-bold">Or continue with</span>
+              <span className="bg-card px-2 text-slate-400 font-bold">Or continue with</span>
             </div>
           </div>
 

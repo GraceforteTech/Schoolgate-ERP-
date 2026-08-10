@@ -149,7 +149,7 @@ function EnterpriseCommandCenter() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F5F7FA] p-4 lg:p-8 space-y-8 pb-20">
+    <div className="min-h-screen bg-page-background p-4 lg:p-8 space-y-8 pb-20">
       {/* 1. Page Header */}
       <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-6 bg-white p-6 rounded-[14px] shadow-sm border border-slate-100">
         <div>

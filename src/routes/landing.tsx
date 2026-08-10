@@ -20,9 +20,9 @@ export const Route = createFileRoute("/landing")({
 
 function LandingPage() {
   return (
-    <div className="flex flex-col min-h-screen bg-white text-slate-900">
+    <div className="flex flex-col min-h-screen bg-background text-foreground">
       {/* Navigation */}
-      <header className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
+      <header className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="container mx-auto px-4 h-20 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="w-10 h-10 bg-schoolgate-green rounded-xl flex items-center justify-center text-white">
@@ -62,7 +62,7 @@ function LandingPage() {
                 <span>Modern SaaS Platform for Schools</span>
               </div>
               
-              <h1 className="text-5xl lg:text-7xl font-black tracking-tight text-slate-900 leading-[1.1]">
+              <h1 className="text-5xl lg:text-7xl font-black tracking-tight text-foreground leading-[1.1]">
                 Empower Your School with <span className="text-schoolgate-green">Intelligence</span>
               </h1>
               
@@ -90,11 +90,11 @@ function LandingPage() {
         </section>
 
         {/* Features Grid */}
-        <section id="features" className="py-24 bg-slate-50">
+        <section id="features" className="py-24 bg-page-background">
           <div className="container mx-auto px-4">
             <div className="text-center max-w-3xl mx-auto mb-20 space-y-4">
               <h2 className="text-sm font-black text-schoolgate-green uppercase tracking-[0.2em]">Platform Pillars</h2>
-              <p className="text-4xl font-black text-slate-900 tracking-tight">Everything you need to run your institution at scale.</p>
+              <p className="text-4xl font-black text-foreground tracking-tight">Everything you need to run your institution at scale.</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -209,7 +209,7 @@ function LandingPage() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-slate-100 py-12">
+      <footer className="bg-card border-t border-border py-12">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 mb-12">
             <div className="col-span-2 space-y-4">
@@ -255,11 +255,11 @@ function FeatureCard({ icon: Icon, title, description, color }: { icon: any, tit
   };
 
   return (
-    <div className="bg-white p-8 rounded-3xl border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+    <div className="bg-card p-8 rounded-3xl border border-border hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
       <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 transition-transform group-hover:scale-110 ${colorMap[color]}`}>
         <Icon size={28} />
       </div>
-      <h3 className="text-xl font-black text-slate-900 mb-4 tracking-tight">{title}</h3>
+      <h3 className="text-xl font-black text-foreground mb-4 tracking-tight">{title}</h3>
       <p className="text-slate-500 leading-relaxed font-medium">{description}</p>
     </div>
   );
