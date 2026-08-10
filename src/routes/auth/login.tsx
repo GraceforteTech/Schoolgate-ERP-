@@ -69,8 +69,8 @@ function LoginPage() {
           <div className="mx-auto w-12 h-12 bg-schoolgate-green rounded-xl flex items-center justify-center text-white mb-4 shadow-lg shadow-schoolgate-green/20">
             <School size={28} />
           </div>
-          <CardTitle className="text-2xl font-black text-slate-900 tracking-tight">Schoolgate ERP</CardTitle>
-          <CardDescription className="font-bold text-slate-500 uppercase text-[10px] tracking-widest">Enterprise Multi-Tenant Portal</CardDescription>
+          <CardTitle className="text-2xl font-black text-foreground tracking-tight">Schoolgate ERP</CardTitle>
+          <CardDescription className="font-bold text-muted-foreground uppercase text-[10px] tracking-widest">Enterprise Multi-Tenant Portal</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="mb-6 p-3 bg-blue-50 border border-blue-100 rounded-lg flex gap-3 text-xs text-blue-700">
@@ -127,7 +127,7 @@ function LoginPage() {
               <span className="w-full border-t border-slate-200"></span>
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-card px-2 text-slate-400 font-bold">Or continue with</span>
+              <span className="bg-card px-2 text-muted-foreground font-bold">Or continue with</span>
             </div>
           </div>
 
@@ -141,9 +141,9 @@ function LoginPage() {
             Google
           </Button>
         </CardContent>
-        <CardFooter className="flex flex-col gap-4 border-t border-slate-50 pt-6">
+        <CardFooter className="flex flex-col gap-4 border-t border-border pt-6">
           <div className="text-center space-y-2">
-            <p className="text-sm text-slate-600 font-bold">New school?</p>
+            <p className="text-sm text-muted-foreground font-bold">New school?</p>
             <Link to="/auth/signup">
               <Button variant="link" className="text-schoolgate-green font-black p-0 h-auto">
                 Create your Schoolgate account to get started

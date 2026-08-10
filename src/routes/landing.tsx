@@ -32,14 +32,14 @@ function LandingPage() {
           </div>
           
           <nav className="hidden md:flex items-center gap-8">
-            <a href="#features" className="text-sm font-bold text-slate-600 hover:text-schoolgate-green transition-colors">Features</a>
-            <a href="#solutions" className="text-sm font-bold text-slate-600 hover:text-schoolgate-green transition-colors">Solutions</a>
+            <a href="#features" className="text-sm font-bold text-muted-foreground hover:text-schoolgate-green transition-colors">Features</a>
+            <a href="#solutions" className="text-sm font-bold text-muted-foreground hover:text-schoolgate-green transition-colors">Solutions</a>
             <a href="#pricing" className="text-sm font-bold text-slate-600 hover:text-schoolgate-green transition-colors">Pricing</a>
           </nav>
 
           <div className="flex items-center gap-4">
             <Link to="/auth/login">
-              <Button variant="ghost" className="font-bold text-slate-600">Login</Button>
+              <Button variant="ghost" className="font-bold text-muted-foreground">Login</Button>
             </Link>
             <Button className="bg-schoolgate-green hover:bg-schoolgate-green/90 text-white font-bold rounded-lg px-6">
               Get Started
@@ -66,7 +66,7 @@ function LandingPage() {
                 Empower Your School with <span className="text-schoolgate-green">Intelligence</span>
               </h1>
               
-              <p className="text-xl text-slate-600 font-medium max-w-2xl mx-auto leading-relaxed">
+              <p className="text-xl text-muted-foreground font-medium max-w-2xl mx-auto leading-relaxed">
                 The ultimate enterprise-grade management system designed for modern educational institutions. Manage finance, academics, and operations in one unified multi-tenant platform.
               </p>
               
@@ -219,7 +219,7 @@ function LandingPage() {
                 </div>
                 <span className="text-lg font-black tracking-tight">Schoolgate ERP</span>
               </div>
-              <p className="text-slate-500 text-sm max-w-xs leading-relaxed">
+              <p className="text-muted-foreground text-sm max-w-xs leading-relaxed">
                 Empowering educational excellence through modern technology and data-driven management.
               </p>
             </div>
@@ -230,7 +230,7 @@ function LandingPage() {
             <FooterLinkGroup title="Company" links={["About Us", "Contact", "Privacy", "Terms"]} />
           </div>
           
-          <div className="pt-8 border-t border-slate-50 flex flex-col md:flex-row justify-between items-center gap-4 text-slate-400 text-sm font-bold">
+          <div className="pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4 text-muted-foreground text-sm font-bold">
             <p>© 2026 Schoolgate ERP. All rights reserved.</p>
             <div className="flex items-center gap-6">
               <a href="#" className="hover:text-schoolgate-green">Twitter</a>
@@ -260,7 +260,7 @@ function FeatureCard({ icon: Icon, title, description, color }: { icon: any, tit
         <Icon size={28} />
       </div>
       <h3 className="text-xl font-black text-foreground mb-4 tracking-tight">{title}</h3>
-      <p className="text-slate-500 leading-relaxed font-medium">{description}</p>
+      <p className="text-muted-foreground leading-relaxed font-medium">{description}</p>
     </div>
   );
 }
@@ -268,11 +268,11 @@ function FeatureCard({ icon: Icon, title, description, color }: { icon: any, tit
 function FooterLinkGroup({ title, links }: { title: string, links: string[] }) {
   return (
     <div className="space-y-4">
-      <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{title}</h4>
+      <h4 className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{title}</h4>
       <ul className="space-y-3">
         {links.map((link, idx) => (
           <li key={idx}>
-            <a href="#" className="text-sm font-bold text-slate-600 hover:text-schoolgate-green transition-colors">{link}</a>
+            <a href="#" className="text-sm font-bold text-muted-foreground hover:text-schoolgate-green transition-colors">{link}</a>
           </li>
         ))}
       </ul>

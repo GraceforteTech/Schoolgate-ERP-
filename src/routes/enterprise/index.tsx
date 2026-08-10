@@ -151,13 +151,13 @@ function EnterpriseCommandCenter() {
   return (
     <div className="min-h-screen bg-page-background p-4 lg:p-8 space-y-8 pb-20">
       {/* 1. Page Header */}
-      <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-6 bg-white p-6 rounded-[14px] shadow-sm border border-slate-100">
+      <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-6 bg-card p-6 rounded-[14px] shadow-sm border border-border">
         <div>
           <div className="flex items-center gap-3 mb-1">
-            <h1 className="text-3xl font-black text-slate-900 tracking-tight">Executive Command Center</h1>
+            <h1 className="text-3xl font-black text-foreground tracking-tight">Executive Command Center</h1>
             <Badge className="bg-schoolgate-green/10 text-schoolgate-green border-none px-3 py-1 font-black">Live Performance</Badge>
           </div>
-          <p className="text-slate-500 font-medium">Real-time overview of every critical activity in your school.</p>
+          <p className="text-muted-foreground font-medium">Real-time overview of every critical activity in your school.</p>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 xl:gap-8 items-center">
@@ -166,13 +166,13 @@ function EnterpriseCommandCenter() {
           <HeaderMetadata icon={ShieldCheck} label="Session" value="2023/2024" />
           <HeaderMetadata icon={Target} label="Term" value="Second Term" />
           <HeaderMetadata icon={Cloud} label="Weather" value="28°C Sunny" />
-          <div className="flex items-center gap-3 pl-4 border-l border-slate-100">
+          <div className="flex items-center gap-3 pl-4 border-l border-border">
             <div className="w-10 h-10 rounded-full bg-schoolgate-green-light flex items-center justify-center text-schoolgate-green">
               <Users size={20} />
             </div>
             <div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">Welcome back,</p>
-              <p className="text-sm font-black text-slate-900 leading-none">Proprietor</p>
+              <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest leading-none mb-1">Welcome back,</p>
+              <p className="text-sm font-black text-foreground leading-none">Proprietor</p>
             </div>
           </div>
         </div>
@@ -253,13 +253,13 @@ function EnterpriseCommandCenter() {
           <section className="space-y-6">
             <SectionHeader title="Executive Analytics & Trends" icon={Activity} color="text-schoolgate-green" />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Card className="rounded-[14px] border-none shadow-sm bg-white p-6">
+              <Card className="rounded-[14px] border-none shadow-sm bg-card p-6">
                 <CardHeader className="p-0 mb-6 flex flex-row items-center justify-between">
                   <div>
-                    <CardTitle className="text-sm font-black text-slate-800 uppercase tracking-wider">Revenue vs Expenses</CardTitle>
+                    <CardTitle className="text-sm font-black text-foreground uppercase tracking-wider">Revenue vs Expenses</CardTitle>
                     <p className="text-xs text-slate-400 font-bold">Daily performance this week</p>
                   </div>
-                  <Badge variant="outline" className="font-bold border-slate-100">Daily</Badge>
+                  <Badge variant="outline" className="font-bold border-border text-muted-foreground">Daily</Badge>
                 </CardHeader>
                 <div className="h-[300px]">
                   <ResponsiveContainer width="100%" height="100%">
@@ -281,13 +281,13 @@ function EnterpriseCommandCenter() {
                 </div>
               </Card>
 
-              <Card className="rounded-[14px] border-none shadow-sm bg-white p-6">
+              <Card className="rounded-[14px] border-none shadow-sm bg-card p-6">
                 <CardHeader className="p-0 mb-6 flex flex-row items-center justify-between">
                   <div>
-                    <CardTitle className="text-sm font-black text-slate-800 uppercase tracking-wider">Student Enrollment Trend</CardTitle>
+                    <CardTitle className="text-sm font-black text-foreground uppercase tracking-wider">Student Enrollment Trend</CardTitle>
                     <p className="text-xs text-slate-400 font-bold">Historical growth per session</p>
                   </div>
-                  <Badge variant="outline" className="font-bold border-slate-100">Sessionly</Badge>
+                  <Badge variant="outline" className="font-bold border-border text-muted-foreground">Sessionly</Badge>
                 </CardHeader>
                 <div className="h-[300px]">
                   <ResponsiveContainer width="100%" height="100%">
@@ -307,12 +307,12 @@ function EnterpriseCommandCenter() {
           {/* 4.5 Textbook & Store Analytics */}
           <section className="space-y-6">
             <SectionHeader title="Textbook & Store Analytics" icon={BookOpen} color="text-indigo-600" />
-            <Card className="rounded-[14px] border-none shadow-sm bg-white overflow-hidden">
+            <Card className="rounded-[14px] border-none shadow-sm bg-card overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
                   <thead>
-                    <tr className="bg-slate-50 border-b border-slate-100">
-                      <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Class & Subject</th>
+                    <tr className="bg-muted border-b border-border">
+                      <th className="px-6 py-4 text-[10px] font-black text-muted-foreground uppercase tracking-widest">Class & Subject</th>
                       <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Delivered</th>
                       <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Sold</th>
                       <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Unsold</th>
@@ -320,28 +320,28 @@ function EnterpriseCommandCenter() {
                       <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Profit</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-50">
+                  <tbody className="divide-y divide-border">
                     {TEXTBOOK_ANALYTICS_DATA.map((item, idx) => (
-                      <tr key={idx} className="hover:bg-slate-50/50 transition-colors group">
+                      <tr key={idx} className="hover:bg-muted/50 transition-colors group">
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-3">
                             <div className="h-8 w-8 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 group-hover:scale-110 transition-transform">
                               <BookOpen size={16} />
                             </div>
                             <div>
-                              <p className="text-sm font-black text-slate-900 leading-tight">{item.subject}</p>
-                              <p className="text-[10px] font-bold text-slate-400 uppercase">{item.class}</p>
+                              <p className="text-sm font-black text-foreground leading-tight">{item.subject}</p>
+                              <p className="text-[10px] font-bold text-muted-foreground uppercase">{item.class}</p>
                             </div>
                           </div>
                         </td>
                         <td className="px-6 py-4 text-center">
-                          <Badge variant="outline" className="bg-slate-50 border-slate-100 font-bold text-slate-600">{item.delivered} copies</Badge>
+                          <Badge variant="outline" className="bg-muted border-border font-bold text-muted-foreground">{item.delivered} copies</Badge>
                         </td>
                         <td className="px-6 py-4 text-center font-bold text-emerald-600">{item.sold}</td>
                         <td className="px-6 py-4 text-center">
-                          <span className={cn("text-sm font-bold", item.unsold > 5 ? "text-slate-400" : "text-amber-500")}>{item.unsold}</span>
+                          <span className={cn("text-sm font-bold", item.unsold > 5 ? "text-muted-foreground" : "text-amber-500")}>{item.unsold}</span>
                         </td>
-                        <td className="px-6 py-4 text-right font-black text-slate-900">₦{item.worth.toLocaleString()}</td>
+                        <td className="px-6 py-4 text-right font-black text-foreground">₦{item.worth.toLocaleString()}</td>
                         <td className="px-6 py-4 text-right font-black text-schoolgate-green">₦{item.profit.toLocaleString()}</td>
                       </tr>
                     ))}
