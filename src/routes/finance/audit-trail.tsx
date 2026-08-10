@@ -229,13 +229,13 @@ function AuditTrailPage() {
                                     variant="outline" 
                                     size="sm" 
                                     disabled={(filters.page || 1) <= 1}
-                                    onClick={() => navigate({ search: (prev) => ({ ...prev, page: (prev.page || 1) - 1 }) })}
+                                    onClick={() => navigate({ search: (prev: AuditFilters) => ({ ...prev, page: (prev.page || 1) - 1 }) })}
                                   >Previous</Button>
                                   <Button 
                                     variant="outline" 
                                     size="sm"
                                     disabled={logs.length < 50}
-                                    onClick={() => navigate({ search: (prev) => ({ ...prev, page: (prev.page || 1) + 1 }) })}
+                                    onClick={() => navigate({ search: (prev: AuditFilters) => ({ ...prev, page: (prev.page || 1) + 1 }) })}
                                   >Next</Button>
                                </div>
                             </div>
