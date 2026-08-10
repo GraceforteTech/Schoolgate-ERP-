@@ -28,43 +28,105 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { useMutation } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
+import { supabase } from "@/integrations/supabase/client";
+import { searchStudentsForPosting, saveManualFeePosting } from "@/lib/fee-posting.functions";
 
 export function ManualFeePosting() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedStudent, setSelectedStudent] = useState<any>(null);
-  const [fees, setFees] = useState(40000);
-  const [bf, setBf] = useState(8500);
+  const [fees, setFees] = useState(0);
+  const [bf, setBf] = useState(0);
   const [discount, setDiscount] = useState(0);
   const [reason, setReason] = useState("");
   const [notes, setNotes] = useState("");
   const [totalPayable, setTotalPayable] = useState(0);
+  const searchFn = useServerFn(searchStudentsForPosting);
+  const saveFn = useServerFn(saveManualFeePosting);
+
+  const getTenantId = async () => {
+    const { data: auth } = await supabase.auth.getUser();
+    if (!auth.user) throw new Error("You must be signed in");
+    const { data: membership } = await supabase
+      .from("memberships")
+      .select("tenant_id")
+      .eq("user_id", auth.user.id)
+      .eq("is_active", true)
+      .order("is_default", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+    if (!membership) throw new Error("No school found for your account");
+    return membership.tenant_id as string;
+  };
 
   useEffect(() => {
     setTotalPayable(fees + bf - discount);
   }, [fees, bf, discount]);
 
+  const searchMutation = useMutation({
+    mutationFn: async () => {
+      const tenantId = await getTenantId();
+      return searchFn({ data: { tenantId, search: searchQuery.trim() } });
+    },
+    onSuccess: (students) => {
+      const student = students?.[0];
+      if (!student) {
+        setSelectedStudent(null);
+        toast.error("No student matched that search");
+        return;
+      }
+      setSelectedStudent({
+        id: student.id,
+        name: student.full_name,
+        admNo: student.admission_number,
+        parent: student.parent_id ? "Linked guardian" : "Not linked",
+        class: student.class_id ?? "Unassigned",
+        session: "2024/2025",
+        term: "1st Term",
+        currentClassFee: "₦0",
+      });
+      setFees(0);
+      setBf(0);
+      setDiscount(0);
+      setReason("");
+      setNotes("");
+      toast.success(`Loaded ${student.full_name}`);
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
+
+  const saveMutation = useMutation({
+    mutationFn: async () => {
+      const tenantId = await getTenantId();
+      return saveFn({
+        data: {
+          tenantId,
+          studentId: selectedStudent.id,
+          academicSession: selectedStudent.session,
+          term: selectedStudent.term,
+          classId: selectedStudent.class ?? "Unassigned",
+          fees,
+          broughtForward: bf,
+          discount,
+          reason: reason || undefined,
+          notes: notes || undefined,
+        },
+      });
+    },
+    onSuccess: () => toast.success("Student fee record updated successfully"),
+    onError: (e: Error) => toast.error(e.message),
+  });
+
   const handleSearch = () => {
-    // Mock student search result
-    setSelectedStudent({
-      name: "Adebayo Tunde",
-      admNo: "SCH/2024/001",
-      parent: "Mr. Adebayo",
-      class: "JSS 1A",
-      session: "2024/2025",
-      term: "1st Term",
-      currentClassFee: "₦40,000",
-      passport: null
-    });
-    setFees(40000);
-    setBf(8500);
-    setDiscount(5000);
-    setReason("Scholarship");
-    setNotes("Academic excellence award for 2024.");
+    if (!searchQuery.trim()) {
+      toast.error("Enter a name or admission number");
+      return;
+    }
+    searchMutation.mutate();
   };
 
-  const handleSave = () => {
-    toast.success("Student fee record updated successfully");
-  };
+  const handleSave = () => saveMutation.mutate();
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
