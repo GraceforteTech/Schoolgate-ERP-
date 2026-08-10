@@ -106,6 +106,35 @@ export const createFeeType = createServerFn({ method: "POST" })
       .single();
 
     if (error) throw new Error(error.message);
+
+    // 4. Automate distribution if classes are selected
+    if (data.applicableClasses && data.applicableClasses.length > 0) {
+      const { data: students, error: studentsError } = await supabaseAdmin
+        .from('students')
+        .select('id, class_id')
+        .eq('tenant_id', data.tenantId)
+        .in('class_id', data.applicableClasses);
+
+      if (!studentsError && students && students.length > 0) {
+        const assignments = students.map(s => ({
+          tenant_id: data.tenantId,
+          student_id: s.id,
+          fee_type_id: feeType.id,
+          academic_session: data.session,
+          term: data.term,
+          class_id: s.class_id,
+          amount_due: data.amount,
+          status: 'unpaid'
+        }));
+
+        await supabaseAdmin
+          .from('student_fees')
+          .upsert(assignments, { 
+            onConflict: 'tenant_id,student_id,fee_type_id,academic_session,term'
+          });
+      }
+    }
+
     return feeType;
   });
 
