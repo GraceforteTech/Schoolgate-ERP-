@@ -94,7 +94,7 @@ function AuditTrailPage() {
 
   const handleSearch = (val: string) => {
     navigate({
-      search: (prev) => ({ ...prev, searchTerm: val || undefined, page: 1 }),
+      search: (prev: AuditFilters) => ({ ...prev, searchTerm: val || undefined, page: 1 }),
     });
   };
 
