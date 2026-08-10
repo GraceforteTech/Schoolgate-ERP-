@@ -94,6 +94,17 @@ export function AppSidebar() {
 
   const isActive = (path: string) => currentPath === path;
 
+  const handleLogout = async () => {
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+      toast.success("Signed out successfully");
+      window.location.href = "/landing";
+    } catch (error: any) {
+      toast.error(error.message || "Failed to sign out");
+    }
+  };
+
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
