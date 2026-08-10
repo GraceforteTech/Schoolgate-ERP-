@@ -22,7 +22,12 @@ import {
   Globe,
   Info,
   Loader2,
-  ClipboardList
+  ClipboardList,
+  Database,
+  ShieldCheck,
+  LayoutGrid,
+  RefreshCw,
+  Inbox
 } from "lucide-react";
 import { 
   Select, 
@@ -36,6 +41,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { exportToCSV } from "@/lib/csv-export";
 import { toast } from "sonner";
+import { SummaryCard } from "@/components/ui/summary-card";
+import { EmptyState } from "@/components/ui/empty-state";
 
 const auditSearchSchema = z.object({
   userId: z.string().uuid().optional(),
