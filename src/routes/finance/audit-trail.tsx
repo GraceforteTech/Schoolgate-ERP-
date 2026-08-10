@@ -22,12 +22,26 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { cn } from "@/lib/utils";
 import { exportToCSV } from "@/lib/csv-export";
 import { toast } from "sonner";
 
+type AuditFilters = {
+  userId?: string;
+  userRole?: string;
+  action?: string;
+  entityType?: string;
+  dateFrom?: string;
+  dateTo?: string;
+  searchTerm?: string;
+  academicSession?: string;
+  term?: string;
+  classId?: string;
+  studentId?: string;
+  page?: number;
+};
+
 export const Route = createFileRoute("/finance/audit-trail")({
-  validateSearch: (search: Record<string, unknown>) => ({
+  validateSearch: (search: Record<string, unknown>): AuditFilters => ({
     userId: z.string().uuid().optional().parse(search["userId"]),
     userRole: z.string().optional().parse(search["userRole"]),
     action: z.string().optional().parse(search["action"]),
