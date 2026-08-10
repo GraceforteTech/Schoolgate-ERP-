@@ -253,15 +253,16 @@ function EnterpriseCommandCenter() {
           <section className="space-y-6">
             <SectionHeader title="Financial Performance" icon={Wallet} color="text-emerald-600" />
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <KPICard title="Today's Revenue" value={formatCurrency(stats?.todayRevenue || 0)} change="+12%" icon={TrendingUp} color="emerald" />
-              <KPICard title="Today's Expenses" value={formatCurrency(stats?.todayExpenses || 0)} change="+5%" icon={TrendingUp} color="rose" />
+              <KPICard title="Today's Revenue" value={formatCurrency(stats?.todayRevenue || 0)} change="+12%" icon={TrendingUp} color="emerald" onClick={() => navigate({ to: '/enterprise/drill-down', search: { type: 'total_collected' } })} />
+              <KPICard title="Today's Expenses" value={formatCurrency(stats?.todayExpenses || 0)} change="+5%" icon={TrendingUp} color="rose" onClick={() => navigate({ to: '/enterprise/drill-down', search: { type: 'total_expenses' } })} />
               <KPICard title="Today's Net Income" value={formatCurrency((stats?.todayRevenue || 0) - (stats?.todayExpenses || 0))} change="+18%" icon={Zap} color="emerald" />
               <KPICard title="Collection Rate" value={`${(stats?.collectionRate || 0).toFixed(1)}%`} change="+2.4%" icon={Target} color="blue" />
-              <KPICard title="Outstanding Fees" value={formatCurrency(stats?.outstandingFees || 0)} change="-5%" icon={AlertCircle} color="amber" />
-              <KPICard title="Expected Revenue" value={formatCurrency(stats?.totalFeesBilled || 0)} change="+8%" icon={TrendingUp} color="blue" />
-              <KPICard title="Total Expenses" value={formatCurrency(stats?.totalExpenses || 0)} change="+10%" icon={TrendingUp} color="rose" />
+              <KPICard title="Outstanding Fees" value={formatCurrency(stats?.outstandingFees || 0)} change="-5%" icon={AlertCircle} color="amber" onClick={() => navigate({ to: '/enterprise/drill-down', search: { type: 'outstanding_fees' } })} />
+              <KPICard title="Expected Revenue" value={formatCurrency(stats?.totalFeesBilled || 0)} change="+8%" icon={TrendingUp} color="blue" onClick={() => navigate({ to: '/enterprise/drill-down', search: { type: 'total_fees_billed' } })} />
+              <KPICard title="Total Expenses" value={formatCurrency(stats?.totalExpenses || 0)} change="+10%" icon={TrendingUp} color="rose" onClick={() => navigate({ to: '/enterprise/drill-down', search: { type: 'total_expenses' } })} />
               <KPICard title="Net Position" value={formatCurrency(stats?.netPosition || 0)} change="Overall" icon={Wallet} color="indigo" />
             </div>
+
           </section>
 
           <section className="space-y-6">
