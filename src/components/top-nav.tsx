@@ -1,7 +1,8 @@
-import { Bell, Search } from "lucide-react";
+import { Bell, Search, Home } from "lucide-react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Link } from "@tanstack/react-router";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 export function TopNav() {
@@ -9,6 +10,14 @@ export function TopNav() {
     <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-background px-4 shadow-sm md:px-6">
       <div className="flex items-center gap-3">
         <SidebarTrigger className="-ml-1 h-8 w-8" />
+        <div className="hidden h-6 w-px bg-border sm:block" />
+        <Link 
+          to="/enterprise" 
+          className="flex items-center gap-2 rounded-md px-2 py-1 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+          title="Home"
+        >
+          <Home className="h-4 w-4" />
+        </Link>
         <div className="hidden h-6 w-px bg-border sm:block" />
         <nav className="hidden items-center gap-1 text-xs font-bold uppercase tracking-widest text-muted-foreground sm:flex">
           <span className="hover:text-schoolgate-green cursor-pointer transition-colors">Enterprise</span>
