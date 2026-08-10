@@ -89,8 +89,6 @@ export const getExecutiveDashboardStats = createServerFn({ method: "GET" })
   }).parse(data))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    // Security: Verify user belongs to this tenant and has executive role
-    // In a real app, use .middleware([requireSupabaseAuth]) and check context
     
     // 1. Student Stats
     const { count: totalStudents } = await supabaseAdmin
@@ -121,17 +119,17 @@ export const getExecutiveDashboardStats = createServerFn({ method: "GET" })
     const startOfToday = new Date();
     startOfToday.setHours(0,0,0,0);
 
-    const todayTransactions = transactions?.filter(t => new Date(t.created_at) >= startOfToday) || [];
+    const todayTransactions = transactions?.filter((t: any) => new Date(t.created_at) >= startOfToday) || [];
 
     const todayRevenue = todayTransactions
-      .filter(t => t.status === 'approved' && t.type === 'fee_payment')
-      .reduce((sum, t) => sum + Number(t.amount), 0);
+      .filter((t: any) => t.status === 'approved' && t.type === 'fee_payment')
+      .reduce((sum: number, t: any) => sum + Number(t.amount), 0);
 
-    const approvedCollections = transactions?.filter(t => t.status === 'approved' && t.type === 'fee_payment')
-      .reduce((sum, t) => sum + Number(t.amount), 0) || 0;
+    const approvedCollections = transactions?.filter((t: any) => t.status === 'approved' && t.type === 'fee_payment')
+      .reduce((sum: number, t: any) => sum + Number(t.amount), 0) || 0;
     
-    const pendingPaymentsCount = transactions?.filter(t => t.status === 'pending').length || 0;
-    const approvedPaymentsCount = transactions?.filter(t => t.status === 'approved').length || 0;
+    const pendingPaymentsCount = transactions?.filter((t: any) => t.status === 'pending').length || 0;
+    const approvedPaymentsCount = transactions?.filter((t: any) => t.status === 'approved').length || 0;
 
     // 5. Fee Stats
     const { data: fees } = await supabaseAdmin
@@ -139,12 +137,12 @@ export const getExecutiveDashboardStats = createServerFn({ method: "GET" })
       .select('amount_due, amount_paid, status')
       .eq('tenant_id', data.tenantId);
 
-    const totalFeesBilled = fees?.reduce((sum, f) => sum + Number(f.amount_due), 0) || 0;
-    const outstandingFees = fees?.reduce((sum, f) => sum + (Number(f.amount_due) - Number(f.amount_paid)), 0) || 0;
+    const totalFeesBilled = fees?.reduce((sum: number, f: any) => sum + Number(f.amount_due), 0) || 0;
+    const outstandingFees = fees?.reduce((sum: number, f: any) => sum + (Number(f.amount_due) - Number(f.amount_paid)), 0) || 0;
     
-    const paidStudentsCount = fees?.filter(f => f.status === 'paid').length || 0;
-    const partiallyPaidStudentsCount = fees?.filter(f => f.status === 'partially_paid').length || 0;
-    const unpaidStudentsCount = fees?.filter(f => f.status === 'unpaid').length || 0;
+    const paidStudentsCount = fees?.filter((f: any) => f.status === 'paid').length || 0;
+    const partiallyPaidStudentsCount = fees?.filter((f: any) => f.status === 'partially_paid').length || 0;
+    const unpaidStudentsCount = fees?.filter((f: any) => f.status === 'unpaid').length || 0;
 
     // 6. Expense Stats
     const { data: expenses } = await supabaseAdmin
@@ -152,12 +150,12 @@ export const getExecutiveDashboardStats = createServerFn({ method: "GET" })
       .select('amount, status, created_at')
       .eq('tenant_id', data.tenantId);
 
-    const todayExpenses = expenses?.filter(e => new Date(e.created_at) >= startOfToday && e.status === 'approved')
-      .reduce((sum, e) => sum + Number(e.amount), 0) || 0;
+    const todayExpenses = expenses?.filter((e: any) => new Date(e.created_at) >= startOfToday && e.status === 'approved')
+      .reduce((sum: number, e: any) => sum + Number(e.amount), 0) || 0;
 
-    const totalExpenses = expenses?.reduce((sum, e) => sum + Number(e.amount), 0) || 0;
-    const approvedExpenses = expenses?.filter(e => e.status === 'approved')
-      .reduce((sum, e) => sum + Number(e.amount), 0) || 0;
+    const totalExpenses = expenses?.reduce((sum: number, e: any) => sum + Number(e.amount), 0) || 0;
+    const approvedExpenses = expenses?.filter((e: any) => e.status === 'approved')
+      .reduce((sum: number, e: any) => sum + Number(e.amount), 0) || 0;
 
     const collectionRate = totalFeesBilled > 0 ? (approvedCollections / totalFeesBilled) * 100 : 0;
 
