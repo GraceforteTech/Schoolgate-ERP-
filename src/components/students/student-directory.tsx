@@ -18,8 +18,11 @@ import {
   CheckCircle2,
   XCircle,
   AlertCircle,
-  ShieldCheck
+  ShieldCheck,
+  Loader2,
+  Users
 } from "lucide-react";
+
 import {
   Table,
   TableBody,
@@ -49,6 +52,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
 import { Separator } from "@/components/ui/separator";
+import { useQuery } from "@tanstack/react-query";
+import { getStudents } from "@/lib/students.functions";
+import { useServerFn } from "@tanstack/react-start";
+import { EmptyState } from "@/components/ui/empty-state";
+
 
 const mockStudents = [
   {
@@ -103,12 +111,25 @@ const mockStudents = [
 
 export function StudentDirectory({ forcedStatus }: { forcedStatus?: string }) {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [search, setSearch] = useState("");
+  const fetchStudents = useServerFn(getStudents);
+
+  const { data: students = [], isLoading } = useQuery({
+    queryKey: ["students", { search, status: forcedStatus }],
+    queryFn: () => {
+      const payload: any = { tenantId: "1c2069b2-3e2b-4d56-a36c-2f2222222222" };
+      if (search) payload.search = search;
+      if (forcedStatus) payload.status = forcedStatus;
+      return fetchStudents({ data: payload });
+    }
+
+  });
 
   const toggleAll = () => {
-    if (selectedIds.length === mockStudents.length) {
+    if (selectedIds.length === students.length) {
       setSelectedIds([]);
     } else {
-      setSelectedIds(mockStudents.map(s => s.id));
+      setSelectedIds(students.map((s: any) => s.id));
     }
   };
 
@@ -124,6 +145,7 @@ export function StudentDirectory({ forcedStatus }: { forcedStatus?: string }) {
     toast.success(`${action} applied to ${selectedIds.length} students`);
     setSelectedIds([]);
   };
+
 
   return (
     <div className="space-y-4">
@@ -220,8 +242,14 @@ export function StudentDirectory({ forcedStatus }: { forcedStatus?: string }) {
       <div className="flex flex-wrap items-center gap-3">
         <div className="relative flex-1 min-w-[200px]">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <Input placeholder="Search Student or Admission No..." className="pl-9 h-10 rounded-lg" />
+          <Input 
+            placeholder="Search Student or Admission No..." 
+            className="pl-9 h-10 rounded-lg" 
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
         </div>
+
         
         {!forcedStatus && (
           <Select defaultValue="2024/2025">
@@ -288,7 +316,7 @@ export function StudentDirectory({ forcedStatus }: { forcedStatus?: string }) {
               <TableRow>
                 <TableHead className="w-12 text-center">
                   <Checkbox 
-                    checked={selectedIds.length === mockStudents.length && mockStudents.length > 0}
+                    checked={selectedIds.length === students.length && students.length > 0}
                     onCheckedChange={toggleAll}
                     className="border-slate-300 data-[state=checked]:bg-schoolgate-green data-[state=checked]:border-schoolgate-green"
                   />
@@ -306,9 +334,28 @@ export function StudentDirectory({ forcedStatus }: { forcedStatus?: string }) {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {mockStudents
-                .filter(s => !forcedStatus || s.status === forcedStatus)
-                .map((student, i) => (
+              {isLoading ? (
+                <TableRow>
+                  <TableCell colSpan={11} className="h-32 text-center">
+                    <Loader2 className="h-8 w-8 animate-spin mx-auto text-schoolgate-green mb-2" />
+                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Loading Student Records...</p>
+                  </TableCell>
+                </TableRow>
+              ) : students.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={11} className="p-0">
+                    <div className="py-20">
+                      <EmptyState 
+                        title="No Students Found"
+                        description={search ? `No student records matching "${search}" were found.` : "Start by enrolling your first student to populate this directory."}
+                        icon={<Users className="h-10 w-10" />}
+                      />
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ) : (
+                students.map((student: any, i: number) => (
+
                 <TableRow 
                   key={student.id} 
                   className={`${i % 2 === 1 ? "bg-slate-50/50" : ""} ${selectedIds.includes(student.id) ? "bg-schoolgate-green/5 hover:bg-schoolgate-green/5" : "hover:bg-slate-50"}`}
@@ -322,24 +369,26 @@ export function StudentDirectory({ forcedStatus }: { forcedStatus?: string }) {
                   </TableCell>
                   <TableCell>
                     <Avatar className="h-8 w-8 border border-slate-200">
-                      <AvatarImage src={student.photo} alt={student.name} />
-                      <AvatarFallback>{student.name.charAt(0)}</AvatarFallback>
+                      <AvatarImage src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${student.full_name}`} alt={student.full_name} />
+                      <AvatarFallback>{student.full_name.charAt(0)}</AvatarFallback>
+
                     </Avatar>
                   </TableCell>
-                  <TableCell className="font-medium text-slate-900">{student.id}</TableCell>
-                  <TableCell className="font-semibold text-slate-800">{student.name}</TableCell>
-                  <TableCell className="text-slate-600">{student.school}</TableCell>
+                  <TableCell className="font-medium text-slate-900">{student.admission_number}</TableCell>
+                  <TableCell className="font-semibold text-slate-800">{student.full_name}</TableCell>
+                  <TableCell className="text-slate-600">{student.campuses?.name || "Main Campus"}</TableCell>
                   <TableCell className="text-slate-600">
-                    {student.class} ({student.arm})
+                    {student.class_id}
                   </TableCell>
-                  <TableCell className="text-slate-600">{student.gender}</TableCell>
-                  <TableCell className="text-slate-600">{student.parent}</TableCell>
-                  <TableCell className="text-slate-600 text-xs">{student.phone}</TableCell>
+                  <TableCell className="text-slate-600 capitalize">{student.gender || "N/A"}</TableCell>
+                  <TableCell className="text-slate-600">Parent Name</TableCell>
+                  <TableCell className="text-slate-600 text-xs">080XXXXXXXX</TableCell>
+
                   <TableCell className="text-center">
                     <Badge variant="outline" className={
-                      student.status === "Active" 
+                      student.status.toLowerCase() === "active" 
                         ? "bg-emerald-50 text-emerald-700 border-emerald-100" 
-                        : student.status === "Graduated"
+                        : student.status.toLowerCase() === "graduated"
                         ? "bg-amber-50 text-amber-700 border-amber-100"
                         : "bg-orange-50 text-orange-700 border-orange-100"
                     }>
@@ -384,7 +433,8 @@ export function StudentDirectory({ forcedStatus }: { forcedStatus?: string }) {
                     </DropdownMenu>
                   </TableCell>
                 </TableRow>
-              ))}
+                ))
+              )}
             </TableBody>
           </Table>
         </div>
