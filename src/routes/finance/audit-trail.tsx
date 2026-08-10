@@ -28,18 +28,18 @@ import { toast } from "sonner";
 
 export const Route = createFileRoute("/finance/audit-trail")({
   validateSearch: (search: Record<string, unknown>) => ({
-    userId: z.string().uuid().optional().parse(search.userId),
-    userRole: z.string().optional().parse(search.userRole),
-    action: z.string().optional().parse(search.action),
-    entityType: z.string().optional().parse(search.entityType),
-    dateFrom: z.string().optional().parse(search.dateFrom),
-    dateTo: z.string().optional().parse(search.dateTo),
-    searchTerm: z.string().optional().parse(search.searchTerm),
-    academicSession: z.string().optional().parse(search.academicSession),
-    term: z.string().optional().parse(search.term),
-    classId: z.string().uuid().optional().parse(search.classId),
-    studentId: z.string().uuid().optional().parse(search.studentId),
-    page: z.number().optional().catch(1).parse(search.page),
+    userId: z.string().uuid().optional().parse(search["userId"]),
+    userRole: z.string().optional().parse(search["userRole"]),
+    action: z.string().optional().parse(search["action"]),
+    entityType: z.string().optional().parse(search["entityType"]),
+    dateFrom: z.string().optional().parse(search["dateFrom"]),
+    dateTo: z.string().optional().parse(search["dateTo"]),
+    searchTerm: z.string().optional().parse(search["searchTerm"]),
+    academicSession: z.string().optional().parse(search["academicSession"]),
+    term: z.string().optional().parse(search["term"]),
+    classId: z.string().uuid().optional().parse(search["classId"]),
+    studentId: z.string().uuid().optional().parse(search["studentId"]),
+    page: z.number().optional().catch(1).parse(search["page"]),
   }),
   component: AuditTrailPage,
 });
@@ -119,7 +119,7 @@ function AuditTrailPage() {
                            <Input 
                              placeholder="Search description, user..." 
                              className="h-10 w-64 pl-10 rounded-xl border-slate-200 text-xs font-medium"
-                             defaultValue={filters.searchTerm}
+                             defaultValue={filters.searchTerm || ""}
                              onKeyDown={(e) => {
                                if (e.key === 'Enter') {
                                  navigate({ search: (prev: any) => ({ ...prev, searchTerm: e.currentTarget.value, page: 1 }) });
@@ -136,7 +136,7 @@ function AuditTrailPage() {
                         <Button 
                           variant="ghost" 
                           className="h-10 rounded-xl text-xs font-bold px-4 text-slate-400"
-                          onClick={() => navigate({ search: {} })}
+                          onClick={() => navigate({ search: {} as any })}
                         >
                           Reset
                         </Button>
