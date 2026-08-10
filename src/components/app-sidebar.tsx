@@ -116,7 +116,7 @@ export function AppSidebar() {
 
   const isActive = (path: string) => {
     if (path === '/enterprise') return currentPath === '/enterprise';
-    return currentPath.startsWith(path);
+    return currentPath === path || currentPath.startsWith(path + '/');
   };
 
   const handleLogout = async () => {
