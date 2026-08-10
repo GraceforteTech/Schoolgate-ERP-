@@ -1,6 +1,7 @@
-import { createFileRoute, Navigate } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { useState, useEffect } from "react";
+import { checkUserTenants } from "@/lib/onboarding.functions";
 
 export const Route = createFileRoute("/auth/callback")({
   component: AuthCallback,
@@ -10,9 +11,14 @@ function AuthCallback() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    supabase.auth.onAuthStateChange((event, session) => {
-      if (event === "SIGNED_IN") {
-        window.location.href = "/enterprise";
+    supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === "SIGNED_IN" && session?.user) {
+        const { hasTenants } = await checkUserTenants({ data: { userId: session.user.id } });
+        if (!hasTenants) {
+          window.location.href = "/onboarding";
+        } else {
+          window.location.href = "/enterprise";
+        }
       }
     });
 

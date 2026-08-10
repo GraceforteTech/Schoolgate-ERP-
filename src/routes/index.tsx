@@ -1,29 +1,38 @@
 import { createFileRoute, Navigate } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { useState, useEffect } from "react";
+import { checkUserTenants } from "@/lib/onboarding.functions";
 
 export const Route = createFileRoute("/")({
   component: IndexPage,
 });
 
 function IndexPage() {
-  const [session, setSession] = useState<any>(null);
+  const [destination, setDestination] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
+    const checkStatus = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (!session) {
+        setDestination("/landing");
+      } else {
+        try {
+          const { hasTenants } = await checkUserTenants({ data: { userId: session.user.id } });
+          setDestination(hasTenants ? "/enterprise" : "/onboarding");
+        } catch (err) {
+          console.error("Auth check failed:", err);
+          setDestination("/onboarding");
+        }
+      }
       setLoading(false);
-    });
+    };
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-    });
-
-    return () => subscription.unsubscribe();
+    checkStatus();
   }, []);
 
-  if (loading) {
+  if (loading || !destination) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <div className="h-8 w-8 animate-spin rounded-full border-4 border-schoolgate-green border-t-transparent mx-auto"></div>
@@ -31,10 +40,5 @@ function IndexPage() {
     );
   }
 
-  if (session) {
-    return <Navigate to="/enterprise" replace />;
-  }
-
-  return <Navigate to="/landing" replace />;
+  return <Navigate to={destination as any} replace />;
 }
-
