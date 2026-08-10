@@ -6,11 +6,12 @@ import {
   Shield, 
   Bell, 
   CreditCard, 
-  Languages, 
-  Lock,
   ChevronRight,
   Database,
-  Cloud
+  Cloud,
+  Lock,
+  Mail,
+  UserCircle
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -18,19 +19,71 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { supabase } from "@/integrations/supabase/client";
+import { useState, useEffect } from "react";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/settings")({
   component: SettingsPage,
 });
 
 function SettingsPage() {
+  const [user, setUser] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
+  const [fullName, setFullName] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      setUser(user);
+      setFullName(user?.user_metadata?.full_name || "");
+    });
+  }, []);
+
+  const handleUpdateProfile = async () => {
+    setLoading(true);
+    try {
+      const { error } = await supabase.auth.updateUser({
+        data: { full_name: fullName }
+      });
+      if (error) throw error;
+      toast.success("Profile updated successfully");
+    } catch (error: any) {
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleChangePassword = async () => {
+    if (password !== confirmPassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
+    setLoading(true);
+    try {
+      const { error } = await supabase.auth.updateUser({
+        password: password
+      });
+      if (error) throw error;
+      toast.success("Password updated successfully");
+      setPassword("");
+      setConfirmPassword("");
+    } catch (error: any) {
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#F5F7FA] pb-12">
       <div className="bg-white border-b border-slate-200 sticky top-0 z-30">
         <div className="px-6 py-6 max-w-[1600px] mx-auto flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">System Settings</h1>
-            <p className="text-sm text-muted-foreground mt-1">Manage school profile, users, security and global configurations.</p>
+            <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">Account & System Settings</h1>
+            <p className="text-sm text-muted-foreground mt-1">Manage your profile, security, and school configuration.</p>
           </div>
         </div>
       </div>
@@ -38,16 +91,103 @@ function SettingsPage() {
       <div className="px-6 mt-6 max-w-[1600px] mx-auto">
         <Tabs defaultValue="profile" className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <TabsList className="flex flex-col h-auto bg-transparent border-none p-0 space-y-1">
-            <SettingsTabTrigger value="profile" icon={Building2} label="School Profile" />
-            <SettingsTabTrigger value="users" icon={User} label="User Management" />
-            <SettingsTabTrigger value="security" icon={Shield} label="Security & Roles" />
+            <SettingsTabTrigger value="profile" icon={UserCircle} label="My Profile" />
+            <SettingsTabTrigger value="school" icon={Building2} label="School Profile" />
+            <SettingsTabTrigger value="security" icon={Shield} label="Security & Password" />
             <SettingsTabTrigger value="billing" icon={CreditCard} label="Subscription" />
-            <SettingsTabTrigger value="notifications" icon={Bell} label="Notifications" />
             <SettingsTabTrigger value="system" icon={Database} label="System & Backup" />
           </TabsList>
 
           <div className="md:col-span-3">
             <TabsContent value="profile" className="m-0 space-y-6">
+              <Card className="border-none shadow-sm rounded-[14px]">
+                <CardHeader>
+                  <CardTitle className="text-lg font-bold">Personal Information</CardTitle>
+                  <CardDescription>Update your personal details and how others see you.</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="full-name">Full Name</Label>
+                    <Input 
+                      id="full-name" 
+                      value={fullName} 
+                      onChange={(e) => setFullName(e.target.value)}
+                      className="rounded-lg" 
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email Address</Label>
+                    <Input 
+                      id="email" 
+                      value={user?.email || ""} 
+                      disabled
+                      className="rounded-lg bg-slate-50" 
+                    />
+                    <p className="text-[10px] text-muted-foreground uppercase font-bold">Email changes must be requested through support.</p>
+                  </div>
+                  <Button 
+                    onClick={handleUpdateProfile}
+                    disabled={loading}
+                    className="bg-schoolgate-green hover:bg-schoolgate-green/90 rounded-lg font-bold"
+                  >
+                    Save Changes
+                  </Button>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="security" className="m-0 space-y-6">
+              <Card className="border-none shadow-sm rounded-[14px]">
+                <CardHeader>
+                  <CardTitle className="text-lg font-bold flex items-center gap-2">
+                    <Lock size={18} className="text-schoolgate-green" />
+                    Change Password
+                  </CardTitle>
+                  <CardDescription>Ensure your account is using a long, random password to stay secure.</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="new-password">New Password</Label>
+                    <Input 
+                      id="new-password" 
+                      type="password" 
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      className="rounded-lg" 
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="confirm-password">Confirm New Password</Label>
+                    <Input 
+                      id="confirm-password" 
+                      type="password" 
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      className="rounded-lg" 
+                    />
+                  </div>
+                  <Button 
+                    onClick={handleChangePassword}
+                    disabled={loading}
+                    className="bg-schoolgate-green hover:bg-schoolgate-green/90 rounded-lg font-bold"
+                  >
+                    Update Password
+                  </Button>
+                </CardContent>
+              </Card>
+
+              <Card className="border-none shadow-sm rounded-[14px]">
+                <CardHeader>
+                  <CardTitle className="text-lg font-bold">Active Sessions</CardTitle>
+                  <CardDescription>Manage and log out of your active sessions on other browsers and devices.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                   <p className="text-sm text-slate-600">You are currently logged in to this device.</p>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="school" className="m-0 space-y-6">
               <Card className="border-none shadow-sm rounded-[14px]">
                 <CardHeader>
                   <CardTitle className="text-lg font-bold">General Information</CardTitle>
@@ -63,84 +203,8 @@ function SettingsPage() {
                       <Label htmlFor="school-email">Contact Email</Label>
                       <Input id="school-email" defaultValue="admin@schoolgate.edu" className="rounded-lg" />
                     </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="school-phone">Phone Number</Label>
-                      <Input id="school-phone" defaultValue="+234 800 000 0000" className="rounded-lg" />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="school-website">Website URL</Label>
-                      <Input id="school-website" defaultValue="https://schoolgate.edu" className="rounded-lg" />
-                    </div>
                   </div>
-                  <Button className="bg-schoolgate-green hover:bg-schoolgate-green/90 rounded-lg">Save Changes</Button>
-                </CardContent>
-              </Card>
-
-              <Card className="border-none shadow-sm rounded-[14px]">
-                <CardHeader>
-                  <CardTitle className="text-lg font-bold">Platform Branding</CardTitle>
-                  <CardDescription>Customize the look and feel for your tenant.</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <div className="flex items-center justify-between p-4 bg-slate-50 rounded-xl">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-schoolgate-green flex items-center justify-center text-white font-bold">S</div>
-                      <div>
-                        <p className="text-sm font-bold">School Logo</p>
-                        <p className="text-[10px] text-muted-foreground uppercase">Recommended: 200x200px PNG</p>
-                      </div>
-                    </div>
-                    <Button variant="outline" className="rounded-lg text-xs font-bold">Change Logo</Button>
-                  </div>
-
-                  <div className="space-y-4">
-                    <Label>Primary Brand Color</Label>
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-[#0B6E3C] border-2 border-white shadow-sm ring-1 ring-slate-200" />
-                      <Input defaultValue="#0B6E3C" className="w-32 rounded-lg" />
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="security" className="m-0 space-y-6">
-              <Card className="border-none shadow-sm rounded-[14px]">
-                <CardHeader>
-                  <CardTitle className="text-lg font-bold">Multi-Factor Authentication</CardTitle>
-                  <CardDescription>Add an extra layer of security to school accounts.</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm font-bold">Require MFA for Staff</p>
-                      <p className="text-xs text-muted-foreground">Mandate 2FA for all administrative roles.</p>
-                    </div>
-                    <Switch />
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm font-bold">Session Timeout</p>
-                      <p className="text-xs text-muted-foreground">Automatically log out inactive users.</p>
-                    </div>
-                    <div className="w-24">
-                      <Input type="number" defaultValue="30" className="rounded-lg" />
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="border-none shadow-sm rounded-[14px]">
-                <CardHeader>
-                  <CardTitle className="text-lg font-bold">Tenant Isolation Key</CardTitle>
-                  <CardDescription>System generated unique identifier for your school portal.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex items-center gap-3 bg-slate-900 text-white p-4 rounded-xl">
-                    <Cloud className="text-schoolgate-green" size={20} />
-                    <code className="text-xs font-bold">TID-SCH-9021-XLR8</code>
-                    <Button variant="ghost" size="sm" className="ml-auto text-xs text-slate-400 hover:text-white">Copy ID</Button>
-                  </div>
+                  <Button className="bg-schoolgate-green hover:bg-schoolgate-green/90 rounded-lg font-bold">Save Changes</Button>
                 </CardContent>
               </Card>
             </TabsContent>
