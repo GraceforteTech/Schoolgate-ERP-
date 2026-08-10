@@ -155,14 +155,14 @@ export function AppSidebar() {
             <SidebarMenu>
               {managementNavItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={isActive(item.url)} disabled={item.disabled}>
+                  <SidebarMenuButton asChild isActive={isActive(item.url)} disabled={(item as any).disabled}>
                     <Link
                       to={item.url}
                       className={cn(
                         "flex items-center gap-3 rounded-lg px-3 py-2 transition-colors",
                         isActive(item.url)
                           ? "bg-schoolgate-green-light text-schoolgate-green"
-                          : item.disabled ? "opacity-50 cursor-not-allowed" : "text-muted-foreground hover:bg-accent hover:text-foreground",
+                          : (item as any).disabled ? "opacity-50 cursor-not-allowed" : "text-muted-foreground hover:bg-accent hover:text-foreground",
                       )}
                     >
                       <item.icon className="h-4 w-4 shrink-0" />
