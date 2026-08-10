@@ -7,7 +7,8 @@ import {
   Activity, 
   LayoutDashboard,
   UserPlus,
-  ArrowRight
+  ArrowRight,
+  Upload
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -26,6 +27,7 @@ export const Route = createFileRoute("/students")({
 
 function StudentInformationPage() {
   const [isEnrollFormOpen, setIsEnrollFormOpen] = useState(false);
+  const [isImportOpen, setIsImportOpen] = useState(false);
   return (
     <div className="min-h-screen bg-[#F5F7FA] p-4 lg:p-8 space-y-8 pb-20">
       {/* Header Section */}
@@ -41,7 +43,14 @@ function StudentInformationPage() {
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
+          <Button 
+            variant="outline"
+            className="h-10 rounded-xl bg-white border-slate-200 font-bold gap-2 text-slate-600 hidden md:flex"
+            onClick={() => setIsImportOpen(true)}
+          >
+            <Upload className="h-4 w-4" /> Bulk Import
+          </Button>
           <Card className="flex items-center gap-3 py-2 px-4 border-slate-200 rounded-xl shadow-sm bg-white">
             <div className="flex flex-col items-end">
               <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider leading-none">Global Capacity</p>
@@ -164,6 +173,12 @@ function StudentInformationPage() {
         title="Enrol New Student"
         description="Add a new student to the school register."
         icon={UserPlus}
+      />
+
+      <CSVImportWorkflow 
+        open={isImportOpen}
+        onOpenChange={setIsImportOpen}
+        entityType="students"
       />
     </div>
   );
