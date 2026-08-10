@@ -39,7 +39,7 @@ function ResultsDashboardPage() {
   const handleBack = () => {
     navigate({
       to: Route.fullPath,
-      search: (prev: any) => ({ ...prev, studentId: undefined }),
+      search: (prev) => ({ ...prev, studentId: undefined }) as any,
     });
   };
 
@@ -74,7 +74,7 @@ function ResultsDashboardPage() {
 
       <Tabs 
         defaultValue={tab} 
-        onValueChange={(v) => navigate({ search: (prev: any) => ({ ...prev, tab: v }) })}
+        onValueChange={(v) => navigate({ search: (prev) => ({ ...prev, tab: v }) as any })}
         className="space-y-8"
       >
         <TabsList className="bg-white border border-slate-100 rounded-xl p-1 shadow-sm h-12 inline-flex">
