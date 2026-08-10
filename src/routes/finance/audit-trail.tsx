@@ -25,41 +25,30 @@ import { Badge } from "@/components/ui/badge";
 import { exportToCSV } from "@/lib/csv-export";
 import { toast } from "sonner";
 
-type AuditFilters = {
-  userId?: string | undefined;
-  userRole?: string | undefined;
-  action?: string | undefined;
-  entityType?: string | undefined;
-  dateFrom?: string | undefined;
-  dateTo?: string | undefined;
-  searchTerm?: string | undefined;
-  academicSession?: string | undefined;
-  term?: string | undefined;
-  classId?: string | undefined;
-  studentId?: string | undefined;
-  page?: number | undefined;
-};
+const auditSearchSchema = z.object({
+  userId: z.string().uuid().optional(),
+  userRole: z.string().optional(),
+  action: z.string().optional(),
+  entityType: z.string().optional(),
+  dateFrom: z.string().optional(),
+  dateTo: z.string().optional(),
+  searchTerm: z.string().optional(),
+  academicSession: z.string().optional(),
+  term: z.string().optional(),
+  classId: z.string().uuid().optional(),
+  studentId: z.string().uuid().optional(),
+  page: z.number().catch(1).optional(),
+});
+
+type AuditFilters = z.infer<typeof auditSearchSchema>;
 
 export const Route = createFileRoute("/finance/audit-trail")({
-  validateSearch: (search: Record<string, unknown>): AuditFilters => ({
-    userId: z.string().uuid().optional().parse(search["userId"]),
-    userRole: z.string().optional().parse(search["userRole"]),
-    action: z.string().optional().parse(search["action"]),
-    entityType: z.string().optional().parse(search["entityType"]),
-    dateFrom: z.string().optional().parse(search["dateFrom"]),
-    dateTo: z.string().optional().parse(search["dateTo"]),
-    searchTerm: z.string().optional().parse(search["searchTerm"]),
-    academicSession: z.string().optional().parse(search["academicSession"]),
-    term: z.string().optional().parse(search["term"]),
-    classId: z.string().uuid().optional().parse(search["classId"]),
-    studentId: z.string().uuid().optional().parse(search["studentId"]),
-    page: z.number().optional().catch(1).parse(search["page"]),
-  }),
+  validateSearch: (search) => auditSearchSchema.parse(search),
   component: AuditTrailPage,
 });
 
 function AuditTrailPage() {
-  const navigate = useNavigate();
+  const navigate = useNavigate({ from: Route.fullPath });
   const filters = Route.useSearch();
   const fetchLogs = useServerFn(getAuditLogs);
 
@@ -103,6 +92,12 @@ function AuditTrailPage() {
     toast.success("Audit trail exported successfully");
   };
 
+  const handleSearch = (val: string) => {
+    navigate({
+      search: (prev) => ({ ...prev, searchTerm: val || undefined, page: 1 }),
+    });
+  };
+
   return (
     <SidebarProvider>
       <div className="flex min-h-screen w-full bg-[#F5F7FA]">
@@ -136,7 +131,7 @@ function AuditTrailPage() {
                              defaultValue={filters.searchTerm || ""}
                              onKeyDown={(e) => {
                                if (e.key === 'Enter') {
-                                 navigate({ search: (prev: any) => ({ ...prev, searchTerm: e.currentTarget.value, page: 1 }) });
+                                 handleSearch(e.currentTarget.value);
                                }
                              }}
                            />
@@ -150,7 +145,7 @@ function AuditTrailPage() {
                         <Button 
                           variant="ghost" 
                           className="h-10 rounded-xl text-xs font-bold px-4 text-slate-400"
-                          onClick={() => navigate({ search: {} as any })}
+                          onClick={() => navigate({ search: {} })}
                         >
                           Reset
                         </Button>
@@ -233,14 +228,14 @@ function AuditTrailPage() {
                                   <Button 
                                     variant="outline" 
                                     size="sm" 
-                                    disabled={filters.page === 1}
-                                    onClick={() => navigate({ search: (prev: any) => ({ ...prev, page: (prev.page || 1) - 1 }) })}
+                                    disabled={(filters.page || 1) <= 1}
+                                    onClick={() => navigate({ search: (prev) => ({ ...prev, page: (prev.page || 1) - 1 }) })}
                                   >Previous</Button>
                                   <Button 
                                     variant="outline" 
                                     size="sm"
                                     disabled={logs.length < 50}
-                                    onClick={() => navigate({ search: (prev: any) => ({ ...prev, page: (prev.page || 1) + 1 }) })}
+                                    onClick={() => navigate({ search: (prev) => ({ ...prev, page: (prev.page || 1) + 1 }) })}
                                   >Next</Button>
                                </div>
                             </div>
