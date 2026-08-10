@@ -55,6 +55,112 @@ export type Database = {
           },
         ]
       }
+      expenses: {
+        Row: {
+          amount: number
+          approved_at: string | null
+          approved_by: string | null
+          attachment_url: string | null
+          category: string
+          created_at: string | null
+          created_by: string | null
+          date: string | null
+          description: string | null
+          id: string
+          method: Database["public"]["Enums"]["payment_method"] | null
+          reference: string | null
+          status: Database["public"]["Enums"]["expense_status"] | null
+          tenant_id: string
+          updated_at: string | null
+          vendor_payee: string | null
+        }
+        Insert: {
+          amount: number
+          approved_at?: string | null
+          approved_by?: string | null
+          attachment_url?: string | null
+          category: string
+          created_at?: string | null
+          created_by?: string | null
+          date?: string | null
+          description?: string | null
+          id?: string
+          method?: Database["public"]["Enums"]["payment_method"] | null
+          reference?: string | null
+          status?: Database["public"]["Enums"]["expense_status"] | null
+          tenant_id: string
+          updated_at?: string | null
+          vendor_payee?: string | null
+        }
+        Update: {
+          amount?: number
+          approved_at?: string | null
+          approved_by?: string | null
+          attachment_url?: string | null
+          category?: string
+          created_at?: string | null
+          created_by?: string | null
+          date?: string | null
+          description?: string | null
+          id?: string
+          method?: Database["public"]["Enums"]["payment_method"] | null
+          reference?: string | null
+          status?: Database["public"]["Enums"]["expense_status"] | null
+          tenant_id?: string
+          updated_at?: string | null
+          vendor_payee?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "expenses_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      fee_types: {
+        Row: {
+          category: string | null
+          created_at: string | null
+          description: string | null
+          id: string
+          is_active: boolean | null
+          name: string
+          tenant_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          name: string
+          tenant_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          category?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          name?: string
+          tenant_id?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fee_types_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       memberships: {
         Row: {
           campus_id: string | null
@@ -130,6 +236,104 @@ export type Database = {
         }
         Relationships: []
       }
+      student_fees: {
+        Row: {
+          academic_session: string
+          amount_due: number
+          amount_paid: number | null
+          class_id: string
+          created_at: string | null
+          fee_type_id: string | null
+          id: string
+          student_id: string
+          tenant_id: string
+          term: string
+          updated_at: string | null
+        }
+        Insert: {
+          academic_session: string
+          amount_due: number
+          amount_paid?: number | null
+          class_id: string
+          created_at?: string | null
+          fee_type_id?: string | null
+          id?: string
+          student_id: string
+          tenant_id: string
+          term: string
+          updated_at?: string | null
+        }
+        Update: {
+          academic_session?: string
+          amount_due?: number
+          amount_paid?: number | null
+          class_id?: string
+          created_at?: string | null
+          fee_type_id?: string | null
+          id?: string
+          student_id?: string
+          tenant_id?: string
+          term?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "student_fees_fee_type_id_fkey"
+            columns: ["fee_type_id"]
+            isOneToOne: false
+            referencedRelation: "fee_types"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "student_fees_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      student_wallets: {
+        Row: {
+          balance: number | null
+          created_at: string | null
+          id: string
+          parent_id: string | null
+          pending_balance: number | null
+          student_id: string
+          tenant_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          balance?: number | null
+          created_at?: string | null
+          id?: string
+          parent_id?: string | null
+          pending_balance?: number | null
+          student_id: string
+          tenant_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          balance?: number | null
+          created_at?: string | null
+          id?: string
+          parent_id?: string | null
+          pending_balance?: number | null
+          student_id?: string
+          tenant_id?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "student_wallets_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       tenants: {
         Row: {
           created_at: string
@@ -165,6 +369,90 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      transactions: {
+        Row: {
+          academic_session: string | null
+          amount: number
+          approved_at: string | null
+          approved_by: string | null
+          created_at: string | null
+          created_by: string | null
+          description: string | null
+          id: string
+          metadata: Json | null
+          method: Database["public"]["Enums"]["payment_method"]
+          reference: string | null
+          rejected_at: string | null
+          rejected_by: string | null
+          status: Database["public"]["Enums"]["transaction_status"] | null
+          student_id: string
+          tenant_id: string
+          term: string | null
+          type: Database["public"]["Enums"]["transaction_type"]
+          updated_at: string | null
+          wallet_id: string | null
+        }
+        Insert: {
+          academic_session?: string | null
+          amount: number
+          approved_at?: string | null
+          approved_by?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          metadata?: Json | null
+          method: Database["public"]["Enums"]["payment_method"]
+          reference?: string | null
+          rejected_at?: string | null
+          rejected_by?: string | null
+          status?: Database["public"]["Enums"]["transaction_status"] | null
+          student_id: string
+          tenant_id: string
+          term?: string | null
+          type: Database["public"]["Enums"]["transaction_type"]
+          updated_at?: string | null
+          wallet_id?: string | null
+        }
+        Update: {
+          academic_session?: string | null
+          amount?: number
+          approved_at?: string | null
+          approved_by?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          metadata?: Json | null
+          method?: Database["public"]["Enums"]["payment_method"]
+          reference?: string | null
+          rejected_at?: string | null
+          rejected_by?: string | null
+          status?: Database["public"]["Enums"]["transaction_status"] | null
+          student_id?: string
+          tenant_id?: string
+          term?: string | null
+          type?: Database["public"]["Enums"]["transaction_type"]
+          updated_at?: string | null
+          wallet_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transactions_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "transactions_wallet_id_fkey"
+            columns: ["wallet_id"]
+            isOneToOne: false
+            referencedRelation: "student_wallets"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_roles: {
         Row: {
@@ -232,7 +520,21 @@ export type Database = {
         | "staff"
         | "parent"
         | "student"
+      expense_status: "pending" | "approved" | "rejected"
+      payment_method: "card" | "bank_transfer" | "cash" | "cheque" | "wallet"
       tenant_status: "trial" | "active" | "suspended" | "cancelled"
+      transaction_status:
+        | "pending"
+        | "approved"
+        | "rejected"
+        | "failed"
+        | "refunded"
+      transaction_type:
+        | "credit"
+        | "debit"
+        | "fee_payment"
+        | "adjustment"
+        | "refund"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -371,7 +673,23 @@ export const Constants = {
         "parent",
         "student",
       ],
+      expense_status: ["pending", "approved", "rejected"],
+      payment_method: ["card", "bank_transfer", "cash", "cheque", "wallet"],
       tenant_status: ["trial", "active", "suspended", "cancelled"],
+      transaction_status: [
+        "pending",
+        "approved",
+        "rejected",
+        "failed",
+        "refunded",
+      ],
+      transaction_type: [
+        "credit",
+        "debit",
+        "fee_payment",
+        "adjustment",
+        "refund",
+      ],
     },
   },
 } as const
