@@ -118,7 +118,7 @@ export function ExpenseRegisterTable() {
                   <Checkbox className="rounded-md border-slate-300 data-[state=checked]:bg-schoolgate-green data-[state=checked]:border-schoolgate-green" />
                 </TableCell>
                 <TableCell className="font-bold text-slate-700 text-sm">{expense.id.slice(0, 8)}</TableCell>
-                <TableCell className="text-slate-500 text-xs">{new Date(expense.created_at).toLocaleDateString()}</TableCell>
+                <TableCell className="text-slate-500 text-xs">{expense.created_at ? new Date(expense.created_at).toLocaleDateString() : 'N/A'}</TableCell>
                 <TableCell>
                   <span className="px-2 py-0.5 bg-slate-100 text-slate-600 rounded-md text-[10px] font-bold uppercase tracking-wider">
                     {expense.category}
@@ -129,7 +129,7 @@ export function ExpenseRegisterTable() {
                 </TableCell>
                 <TableCell className="text-slate-700 text-xs font-semibold">{expense.vendor_payee || 'N/A'}</TableCell>
                 <TableCell className="font-bold text-slate-800 text-sm">
-                  {formatCurrency(expense.amount)}
+                  {formatCurrency(Number(expense.amount || 0))}
                 </TableCell>
                 <TableCell>{getStatusBadge(expense.status)}</TableCell>
                 <TableCell className="text-right">
