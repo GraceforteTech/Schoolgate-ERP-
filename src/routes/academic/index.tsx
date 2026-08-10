@@ -18,10 +18,15 @@ export const Route = createFileRoute("/academic/")({
 function AcademicManagementPage() {
   return (
     <div className="min-h-screen bg-[#F5F7FA] p-4 md:p-8">
-      <div className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-black text-slate-900 tracking-tight">Academic Management</h1>
-          <p className="text-slate-500 mt-1 font-medium italic">Manage the school's academic structure and learning activities from one central dashboard.</p>
+      <div className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div className="flex items-center gap-4">
+          <div className="h-12 w-12 rounded-2xl bg-schoolgate-green-light flex items-center justify-center text-schoolgate-green">
+            <Calendar size={24} />
+          </div>
+          <div>
+            <h1 className="text-3xl font-black text-slate-900 tracking-tight">Academic Management</h1>
+            <p className="text-slate-500 mt-1 font-medium italic">Manage academic sessions, terms, syllabus and overall school calendar.</p>
+          </div>
         </div>
         <div className="flex items-center gap-3">
           <Button variant="outline" className="h-11 rounded-xl bg-white border-none shadow-sm font-bold gap-2 text-slate-600">
