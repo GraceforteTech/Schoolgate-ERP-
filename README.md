@@ -1,14 +1,46 @@
-# Welcome to your Lovable project
+# Fee Type Creator
+
+Create a modern School ERP "Fee Types" page layout only.
+
+Do not create forms or tables yet.
+
+Design a responsive page with:
+
+- Left sidebar (already exists)
+
+- Top navigation bar
+
+- Page title: Fee Types
+
+- Subtitle: Create and manage school fee structures.
+
+- White content container
+
+- Light grey background (#F5F7FA)
+
+- Schoolgate Green (#0B6E3C)
+
+- Rounded cards (14px)
+
+- Modern enterprise styling similar to Stripe, Zoho and Odoo.
+
+Leave placeholders for:
+
+- Summary Cards
+
+- Filter Bar
+
+- Fee Types Table
 
 This project was built with [Lovable](https://lovable.dev).
 
 ## Build with Lovable
 
-Open your project in the [Lovable editor](https://lovable.dev) and keep building.
+Continue developing this project in the [Lovable editor](https://lovable.dev/projects/63ea287e-d9c5-4484-bb94-1161b77b4fb0).
 
 - **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: connect the project to GitHub and every change made in Lovable is committed straight to your repository.
-- **Full ownership**: this code is yours. Push to your repository and your changes sync back into Lovable, ready for your next prompt.
+- **Stay in sync**: every change made in Lovable is committed straight to this repository.
+- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
 
 ## Development
 
@@ -20,10 +52,3 @@ cd <repository-name>
 npm i
 npm run dev
 ```
-
-## Built with
-
-- TanStack Start
-- TypeScript
-- React
-- Tailwind CSS
