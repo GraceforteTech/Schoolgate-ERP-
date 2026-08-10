@@ -199,7 +199,9 @@ export function PinManagementSystem() {
                       <div className="text-xs font-black text-slate-900">{item.uses}</div>
                       <div className="w-20 h-1.5 bg-slate-100 rounded-full overflow-hidden">
                         {(() => {
-                          const [current, max] = item.uses.split(' / ').map(Number);
+                          const parts = item.uses.split(' / ').map(Number);
+                          const current = parts[0] || 0;
+                          const max = parts[1] || 1;
                           const percentage = (current / max) * 100;
                           return (
                             <div 
