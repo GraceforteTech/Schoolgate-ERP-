@@ -52,7 +52,7 @@ export const getStudentResultDrillDown = createServerFn({ method: "GET" })
       const { data: rules } = await supabaseAdmin
         .from('grading_rules')
         .select('*')
-        .in('scheme_id', schemes.map(s => s.id));
+        .in('scheme_id', schemes.map((s: any) => s.id));
       gradingRules = rules || [];
     }
 
