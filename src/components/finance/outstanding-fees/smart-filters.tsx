@@ -27,7 +27,7 @@ export function SmartFilters({ onFilterChange }: { onFilterChange?: (filters: an
         {/* Session & Term */}
         <div className="space-y-1.5">
           <label className="text-[11px] font-bold text-slate-400 uppercase ml-1">Session</label>
-          <Select defaultValue="2023/2024">
+          <Select defaultValue="2023/2024" onValueChange={(val) => onFilterChange?.({ session: val })}>
             <SelectTrigger className="h-10 bg-slate-50 border-slate-100 rounded-xl focus:ring-schoolgate-green">
               <SelectValue placeholder="Select Session" />
             </SelectTrigger>
