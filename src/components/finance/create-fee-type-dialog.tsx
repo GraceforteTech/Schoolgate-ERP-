@@ -43,8 +43,8 @@ const formSchema = z.object({
   session: z.string().min(1, "Academic session is required"),
   term: z.string().min(1, "Term is required"),
   applicableClasses: z.array(z.string()),
-  isMandatory: z.boolean().default(true),
-  isRecurring: z.boolean().default(true),
+  isMandatory: z.boolean(),
+  isRecurring: z.boolean(),
 });
 
 interface CreateFeeTypeDialogProps {
