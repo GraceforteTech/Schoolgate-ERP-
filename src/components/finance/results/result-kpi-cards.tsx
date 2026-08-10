@@ -7,10 +7,14 @@ import {
   BarChart, 
   TrendingUp, 
   Star, 
-  ArrowUpRight, 
-  AlertCircle 
+  ArrowUpRight
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
+import { getAcademicResultsDashboardStats } from "@/lib/academic.functions";
+import { useSearch } from "@tanstack/react-router";
+import { useTenant } from "@/hooks/use-tenant";
 
 interface KPICardProps {
   title: string;
@@ -56,21 +60,34 @@ function KPICard({ title, value, subtitle, icon: Icon, trend, trendUp, color, on
 }
 
 export function ResultKPIs() {
+  const search: any = useSearch({ from: '/finance/results/' });
+  const { tenantId } = useTenant();
+  const getStats = useServerFn(getAcademicResultsDashboardStats);
+  
+  const { data: stats } = useSuspenseQuery({
+    queryKey: ['academicResultsStats', tenantId, search.session, search.term],
+    queryFn: () => getStats({ 
+      data: {
+        tenantId, 
+        session: search.session, 
+        term: search.term 
+      }
+    })
+  });
+
   const kpis = [
-    { title: "Subjects Offered", value: 42, subtitle: "Across all sections", icon: BookOpen, color: "bg-blue-600 text-blue-600" },
-    { title: "Results Pending", value: 128, subtitle: "Needs processing", icon: Clock, color: "bg-amber-600 text-amber-600", trend: "12%", trendUp: false },
-    { title: "Results Approved", value: "85%", subtitle: "Ready for publishing", icon: CheckCircle2, color: "bg-emerald-600 text-emerald-600" },
-    { title: "Results Published", value: 12, subtitle: "Live on portal", icon: Globe, color: "bg-schoolgate-green text-schoolgate-green" },
-    { title: "Students Assessed", value: "1,240", subtitle: "98% completion", icon: Users, color: "bg-indigo-600 text-indigo-600" },
-    { title: "Average Score", value: "68.4", subtitle: "Total school mean", icon: BarChart, color: "bg-violet-600 text-violet-600", trend: "4.2%", trendUp: true },
-    { title: "Pass Rate", value: "92%", subtitle: "Excluding absences", icon: TrendingUp, color: "bg-teal-600 text-teal-600", trend: "2.1%", trendUp: true },
-    { title: "Distinction Rate", value: "24%", subtitle: "A1 & B2 holders", icon: Star, color: "bg-yellow-500 text-yellow-500" },
-    { title: "Promotion Rate", value: "88%", subtitle: "Projected for next year", icon: ArrowUpRight, color: "bg-cyan-600 text-cyan-600" },
-    { title: "Failed Subjects", value: 8, subtitle: "High priority review", icon: AlertCircle, color: "bg-rose-600 text-rose-600" },
+    { title: "Subjects Offered", value: stats.totalSubjects, subtitle: "Across all sections", icon: BookOpen, color: "bg-blue-600 text-blue-600" },
+    { title: "Results Pending", value: stats.resultsPending, subtitle: "Needs processing", icon: Clock, color: "bg-amber-600 text-amber-600" },
+    { title: "Results Approved", value: stats.resultsApproved, subtitle: "Authorized records", icon: CheckCircle2, color: "bg-emerald-600 text-emerald-600" },
+    { title: "Results Published", value: stats.resultsPublished, subtitle: "Live on portal", icon: Globe, color: "bg-schoolgate-green text-schoolgate-green" },
+    { title: "Students Assessed", value: stats.totalStudents, subtitle: "Current enrollment", icon: Users, color: "bg-indigo-600 text-indigo-600" },
+    { title: "Average Score", value: stats.averageScore, subtitle: "Total school mean", icon: BarChart, color: "bg-violet-600 text-violet-600" },
+    { title: "Pass Rate", value: `${stats.passRate}%`, subtitle: "Excluding absences", icon: TrendingUp, color: "bg-teal-600 text-teal-600" },
+    { title: "Distinction Rate", value: `${stats.distinctionRate}%`, subtitle: "Top performance", icon: Star, color: "bg-yellow-500 text-yellow-500" },
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
       {kpis.map((kpi, index) => (
         <KPICard key={index} {...kpi} />
       ))}
