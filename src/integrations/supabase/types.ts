@@ -570,6 +570,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      approve_expense: {
+        Args: { _admin_id: string; _expense_id: string }
+        Returns: undefined
+      }
       can_admin_tenant: {
         Args: { _tenant_id: string; _user_id: string }
         Returns: boolean
