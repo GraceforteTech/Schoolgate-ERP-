@@ -45,7 +45,10 @@ export const processPayment = createServerFn({ method: "POST" })
     method: z.enum(['card', 'bank_transfer', 'cash', 'cheque', 'wallet']),
     description: z.string().optional(),
     reference: z.string().optional(),
-    type: z.enum(['credit', 'fee_payment']).default('credit')
+    academic_session: z.string().optional(),
+    term: z.string().optional(),
+    type: z.enum(['credit', 'fee_payment']).default('credit'),
+    createdBy: z.string().uuid()
   }).parse(data))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
@@ -75,6 +78,9 @@ export const processPayment = createServerFn({ method: "POST" })
         status: 'pending',
         description: data.description,
         reference: data.reference,
+        academic_session: data.academic_session,
+        term: data.term,
+        created_by: data.createdBy,
         created_at: new Date().toISOString()
       })
       .select()
