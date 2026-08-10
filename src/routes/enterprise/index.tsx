@@ -147,8 +147,10 @@ const TEXTBOOK_ANALYTICS_DATA = [
 ]
 
 function EnterpriseCommandCenter() {
+  const navigate = useNavigate()
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [formConfig, setFormConfig] = useState({ title: '', description: '', icon: Users })
+
   const fetchStats = useServerFn(getExecutiveDashboardStats)
 
   const { data: stats, isLoading, refetch } = useQuery({
