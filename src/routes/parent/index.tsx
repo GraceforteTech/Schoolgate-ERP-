@@ -60,7 +60,7 @@ function ParentDashboard() {
                 </div>
               </div>
               <Button asChild className="w-full bg-slate-900 hover:bg-slate-800 rounded-xl py-6 gap-2 font-bold shadow-lg">
-                <Link to={`/parent/child/${child.id}`}>
+                <Link to="/parent/child/$childId" params={{ childId: child.id }}>
                   View Details <ChevronRight size={18} />
                 </Link>
               </Button>
