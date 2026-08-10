@@ -240,6 +240,7 @@ function FeeTypesPage() {
                           className="h-9 rounded-lg border-border pl-9 pr-4 text-sm"
                         />
                       </div>
+
                     </div>
 
 
