@@ -2,9 +2,15 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
 export const getFeeTypesRegistry = createServerFn({ method: "GET" })
-  .validator((data: { tenantId: string }) => z.object({
-    tenantId: z.string().uuid()
+  .validator((data: any) => z.object({
+    tenantId: z.string().uuid(),
+    filters: z.object({
+      session: z.string().optional(),
+      term: z.string().optional(),
+      search: z.string().optional()
+    }).optional()
   }).parse(data))
+
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     
