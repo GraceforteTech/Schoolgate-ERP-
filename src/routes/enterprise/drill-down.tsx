@@ -12,6 +12,9 @@ import {
   TableHeader, 
   TableRow 
 } from '@/components/ui/table';
+import { cn } from '@/lib/utils';
+import { Toaster } from "@/components/ui/sonner";
+import { reportLovableError } from "@/lib/lovable-error-reporting";
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { 
@@ -28,6 +31,18 @@ import {
   TrendingUp,
   CreditCard
 } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
+import { 
+  Select, 
+  SelectContent, 
+  SelectItem, 
+  SelectTrigger, 
+  SelectValue 
+} from '@/components/ui/select';
+import { exportToCSV } from '@/lib/csv-export';
+import { toast } from 'sonner';
+
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { 
