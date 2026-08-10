@@ -180,9 +180,9 @@ export function NotificationsHub() {
                         {notification.message}
                       </p>
                       <div className="flex items-center gap-2 mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                         {notification.metadata?.link ? (
+                         {(notification.metadata as any)?.link ? (
                            <Link 
-                            to={notification.metadata.link}
+                            to={(notification.metadata as any).link}
                             className="text-[10px] font-bold text-schoolgate-green uppercase tracking-widest flex items-center gap-1 hover:underline"
                             onClick={(e) => {
                               e.stopPropagation();
