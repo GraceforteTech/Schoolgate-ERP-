@@ -89,8 +89,6 @@ export const getExecutiveDashboardStats = createServerFn({ method: "GET" })
   }).parse(data))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { getContext } = await import("@tanstack/react-start/server");
-    
     // Security: Verify user belongs to this tenant and has executive role
     // In a real app, use .middleware([requireSupabaseAuth]) and check context
     
