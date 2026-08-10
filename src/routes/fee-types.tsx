@@ -38,6 +38,7 @@ import {
 } from "@/components/ui/select";
 import { useState, useMemo } from "react";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
+import { cn } from "@/lib/utils";
 import { useServerFn } from "@tanstack/react-start";
 import { useQuery } from "@tanstack/react-query";
 import { getFeeTypesRegistry } from "@/lib/fee-types.functions";
