@@ -61,6 +61,7 @@
   --color-sidebar-ring: var(--sidebar-ring);
   --color-schoolgate-green: var(--schoolgate-green);
   --color-schoolgate-green-light: var(--schoolgate-green-light);
+  --color-schoolgate-green-dark: var(--schoolgate-green-dark);
   --color-page-background: var(--page-background);
 }
 
@@ -100,6 +101,7 @@
   --sidebar-ring: oklch(0.704 0.04 256.788);
   --schoolgate-green: #0B6E3C;
   --schoolgate-green-light: #E8F5EE;
+  --schoolgate-green-dark: #074a28;
   --page-background: #F5F7FA;
 }
 
@@ -136,9 +138,10 @@
   --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.551 0.027 264.364);
-  --schoolgate-green: #0B6E3C;
-  --schoolgate-green-light: #E8F5EE;
-  --page-background: #F5F7FA;
+  --schoolgate-green: #10B981;
+  --schoolgate-green-light: oklch(0.25 0.05 160 / 20%);
+  --schoolgate-green-dark: #34D399;
+  --page-background: oklch(0.129 0.042 264.695);
 }
 
 @layer base {

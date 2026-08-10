@@ -12,6 +12,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { TopNav } from "@/components/top-nav";
+import { ThemeProvider } from "@/components/theme-provider";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -132,28 +133,32 @@ function RootComponent() {
   if (isPublicRoute) {
     return (
       <QueryClientProvider client={queryClient}>
-        <div className="min-h-screen w-full bg-background">
-          <Outlet />
-        </div>
-        <Toaster position="top-right" richColors closeButton />
+        <ThemeProvider defaultTheme="system" storageKey="schoolgate-ui-theme">
+          <div className="min-h-screen w-full bg-background text-foreground">
+            <Outlet />
+          </div>
+          <Toaster position="top-right" richColors closeButton />
+        </ThemeProvider>
       </QueryClientProvider>
     );
   }
 
   return (
     <QueryClientProvider client={queryClient}>
-      <SidebarProvider>
-        <div className="flex min-h-screen w-full bg-background">
-          <AppSidebar />
-          <div className="flex flex-1 flex-col">
-            <TopNav />
-            <main className="flex-1">
-              <Outlet />
-            </main>
+      <ThemeProvider defaultTheme="system" storageKey="schoolgate-ui-theme">
+        <SidebarProvider>
+          <div className="flex min-h-screen w-full bg-background text-foreground">
+            <AppSidebar />
+            <div className="flex flex-1 flex-col">
+              <TopNav />
+              <main className="flex-1">
+                <Outlet />
+              </main>
+            </div>
           </div>
-        </div>
-      </SidebarProvider>
-      <Toaster position="top-right" richColors closeButton />
+        </SidebarProvider>
+        <Toaster position="top-right" richColors closeButton />
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }
