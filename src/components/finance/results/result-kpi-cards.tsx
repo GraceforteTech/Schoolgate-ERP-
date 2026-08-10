@@ -28,16 +28,17 @@ interface KPICardProps {
 }
 
 function KPICard({ title, value, subtitle, icon: Icon, trend, trendUp, color, onClick }: KPICardProps) {
+  const [bgColor, textColor] = color.split(' ');
   return (
     <div 
       onClick={onClick}
       className="group relative overflow-hidden bg-white p-6 rounded-[14px] shadow-sm border border-slate-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer"
     >
-      <div className={cn("absolute top-0 right-0 w-24 h-24 -mr-8 -mt-8 rounded-full opacity-5 transition-transform group-hover:scale-150", color)} />
+      <div className={cn("absolute top-0 right-0 w-24 h-24 -mr-8 -mt-8 rounded-full opacity-5 transition-transform group-hover:scale-150", bgColor)} />
       
       <div className="flex items-start justify-between mb-4">
-        <div className={cn("p-3 rounded-xl transition-colors", color.split(' ')[0].replace('bg-', 'bg-') + "/10")}>
-          <Icon className={cn("w-6 h-6", color.split(' ')[1])} />
+        <div className={cn("p-3 rounded-xl transition-colors", bgColor + "/10")}>
+          <Icon className={cn("w-6 h-6", textColor)} />
         </div>
         {trend && (
           <div className={cn(
