@@ -1,13 +1,23 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { Plus, Copy, Eye, Save, Send } from "lucide-react";
+import { Plus, Copy, Eye, Save, Send, Trash2, Loader2 } from "lucide-react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useTenant } from "@/hooks/use-tenant";
+import { supabase } from "@/integrations/supabase/client";
+import { updateGradingScheme } from "@/lib/results.functions";
+import { useServerFn } from "@tanstack/react-start";
+import { toast } from "sonner";
 
 export function ResultConfig() {
-  const [assessments, setAssessments] = useState([
+  const { tenantId } = useTenant();
+  const queryClient = useQueryClient();
+  const updateScheme = useServerFn(updateGradingScheme);
+
+  const [assessments] = useState([
     { name: "CA 1", score: 10 },
     { name: "CA 2", score: 10 },
     { name: "CA 3", score: 10 },
@@ -16,17 +26,70 @@ export function ResultConfig() {
     { name: "Exam", score: 50 },
   ]);
 
-  const [grades, setGrades] = useState([
-    { grade: "A1", min: 80, max: 100, remark: "Distinction" },
-    { grade: "B2", min: 70, max: 79, remark: "Very Good" },
-    { grade: "B3", min: 65, max: 69, remark: "Good" },
-    { grade: "C4", min: 60, max: 64, remark: "Credit" },
-    { grade: "C5", min: 55, max: 59, remark: "Credit" },
-    { grade: "C6", min: 50, max: 54, remark: "Credit" },
-    { grade: "D7", min: 45, max: 49, remark: "Pass" },
-    { grade: "E8", min: 40, max: 44, remark: "Pass" },
-    { grade: "F9", min: 0, max: 39, remark: "Fail" },
-  ]);
+  const { data: gradingRules, isLoading: loadingRules } = useQuery({
+    queryKey: ['grading-rules', tenantId],
+    queryFn: async () => {
+      // 1. Get schemes for tenant
+      const { data: schemes } = await supabase.from('grading_schemes').select('id').eq('tenant_id', tenantId!);
+      if (!schemes || schemes.length === 0) return [];
+      
+      // 2. Get rules for those schemes
+      const { data, error } = await supabase.from('grading_rules').select('*').in('scheme_id', schemes.map(s => s.id));
+      if (error) throw error;
+      return data || [];
+    },
+    enabled: !!tenantId
+  });
+
+  const [localGrades, setLocalGrades] = useState<any[]>([]);
+
+  // Initialize local state when data loads
+  useEffect(() => {
+    if (gradingRules && gradingRules.length > 0) {
+      setLocalGrades(gradingRules);
+    } else if (!loadingRules && localGrades.length === 0) {
+      setLocalGrades([
+        { grade: "A1", min_score: 80, max_score: 100, remark: "Distinction" },
+        { grade: "B2", min_score: 70, max_score: 79, remark: "Very Good" },
+        { grade: "B3", min_score: 65, max_score: 69, remark: "Good" },
+        { grade: "C4", min_score: 60, max_score: 64, remark: "Credit" },
+        { grade: "C5", min_score: 55, max_score: 59, remark: "Credit" },
+        { grade: "C6", min_score: 50, max_score: 54, remark: "Credit" },
+        { grade: "D7", min_score: 45, max_score: 49, remark: "Pass" },
+        { grade: "E8", min_score: 40, max_score: 44, remark: "Pass" },
+        { grade: "F9", min_score: 0, max_score: 39, remark: "Fail" },
+      ]);
+    }
+  }, [gradingRules, loadingRules]);
+
+  const mutation = useMutation({
+    mutationFn: (rules: any[]) => updateScheme({ data: { tenantId: tenantId!, rules } }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['grading-rules'] });
+      toast.success("Grading scheme updated successfully");
+    },
+    onError: (err: any) => {
+      toast.error(err.message || "Failed to update grading scheme");
+    }
+  });
+
+  const handleAddGrade = () => {
+    setLocalGrades([...localGrades, { grade: "", min_score: 0, max_score: 0, remark: "" }]);
+  };
+
+  const handleUpdateGrade = (index: number, field: string, value: any) => {
+    const updated = [...localGrades];
+    updated[index] = { ...updated[index], [field]: value };
+    setLocalGrades(updated);
+  };
+
+  const handleRemoveGrade = (index: number) => {
+    setLocalGrades(localGrades.filter((_, i) => i !== index));
+  };
+
+  const handleSave = () => {
+    mutation.mutate(localGrades);
+  };
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -70,63 +133,77 @@ export function ResultConfig() {
         </CardHeader>
         <CardContent className="p-6">
           <div className="space-y-4">
-            <div className="grid grid-cols-10 gap-2 text-xs font-bold text-slate-400 uppercase px-2">
+            <div className="grid grid-cols-11 gap-2 text-xs font-bold text-slate-400 uppercase px-2">
               <div className="col-span-2">Grade</div>
               <div className="col-span-2">Min</div>
               <div className="col-span-2">Max</div>
               <div className="col-span-4">Remark</div>
+              <div className="col-span-1"></div>
             </div>
-            {grades.map((item, i) => (
-              <div key={i} className="grid grid-cols-10 gap-2">
+            {localGrades.map((item, i) => (
+              <div key={i} className="grid grid-cols-11 gap-2 items-center">
                 <div className="col-span-2">
-                  <Input defaultValue={item.grade} className="h-10 rounded-lg border-slate-200 font-bold" />
+                  <Input 
+                    value={item.grade} 
+                    onChange={(e) => handleUpdateGrade(i, 'grade', e.target.value)}
+                    className="h-10 rounded-lg border-slate-200 font-bold" 
+                  />
                 </div>
                 <div className="col-span-2">
-                  <Input type="number" defaultValue={item.min} className="h-10 rounded-lg border-slate-200" />
+                  <Input 
+                    type="number" 
+                    value={item.min_score} 
+                    onChange={(e) => handleUpdateGrade(i, 'min_score', Number(e.target.value))}
+                    className="h-10 rounded-lg border-slate-200" 
+                  />
                 </div>
                 <div className="col-span-2">
-                  <Input type="number" defaultValue={item.max} className="h-10 rounded-lg border-slate-200" />
+                  <Input 
+                    type="number" 
+                    value={item.max_score} 
+                    onChange={(e) => handleUpdateGrade(i, 'max_score', Number(e.target.value))}
+                    className="h-10 rounded-lg border-slate-200" 
+                  />
                 </div>
                 <div className="col-span-4">
-                  <Input defaultValue={item.remark} className="h-10 rounded-lg border-slate-200" />
+                  <Input 
+                    value={item.remark} 
+                    onChange={(e) => handleUpdateGrade(i, 'remark', e.target.value)}
+                    className="h-10 rounded-lg border-slate-200" 
+                  />
+                </div>
+                <div className="col-span-1">
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    onClick={() => handleRemoveGrade(i)}
+                    className="h-10 w-10 text-rose-500 hover:text-rose-600 hover:bg-rose-50"
+                  >
+                    <Trash2 size={16} />
+                  </Button>
                 </div>
               </div>
             ))}
+            <Button 
+              variant="outline" 
+              onClick={handleAddGrade}
+              className="w-full h-11 border-dashed border-2 rounded-xl text-slate-500 hover:text-schoolgate-green hover:border-schoolgate-green gap-2"
+            >
+              <Plus size={16} /> Add Grade Rule
+            </Button>
           </div>
 
           <div className="mt-8 space-y-6">
             <Separator className="bg-slate-100" />
-            <div>
-              <h3 className="text-sm font-bold text-slate-800 mb-4">Promotion Policy</h3>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label className="text-xs font-bold text-slate-400 uppercase">Minimum Pass Mark</Label>
-                  <Input type="number" defaultValue={40} className="h-10 rounded-lg border-slate-200" />
-                </div>
-                <div className="space-y-2">
-                  <Label className="text-xs font-bold text-slate-400 uppercase">Class Average Target</Label>
-                  <Input type="number" defaultValue={55} className="h-10 rounded-lg border-slate-200" />
-                </div>
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <h3 className="text-sm font-bold text-slate-800">Remark Rules</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">
-                  <Label className="text-[10px] font-black text-slate-400 uppercase tracking-wider">Pass Remark</Label>
-                  <Input defaultValue="Good performance. Keep it up." className="h-9 mt-1 rounded-lg border-slate-200 text-sm" />
-                </div>
-                <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">
-                  <Label className="text-[10px] font-black text-slate-400 uppercase tracking-wider">Fail Remark</Label>
-                  <Input defaultValue="Requires more effort and focus." className="h-9 mt-1 rounded-lg border-slate-200 text-sm" />
-                </div>
-              </div>
-            </div>
-
+            
             <div className="flex flex-wrap gap-3">
-              <Button className="bg-schoolgate-green hover:bg-schoolgate-green/90 h-11 rounded-xl px-6 gap-2 shadow-lg shadow-schoolgate-green/20">
-                <Save size={18} /> Save Configuration
+              <Button 
+                onClick={handleSave}
+                disabled={mutation.isPending}
+                className="bg-schoolgate-green hover:bg-schoolgate-green/90 h-11 rounded-xl px-6 gap-2 shadow-lg shadow-schoolgate-green/20"
+              >
+                {mutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save size={18} />}
+                {mutation.isPending ? "Saving..." : "Save Configuration"}
               </Button>
               <Button variant="outline" className="h-11 rounded-xl gap-2 border-slate-200">
                 <Eye size={18} /> Preview

@@ -117,7 +117,7 @@ function FeeTypesOverviewPage() {
               <Button variant="outline" className="h-10 gap-2 rounded-xl border-slate-200">
                 <Filter className="h-4 w-4" /> Filters
               </Button>
-              <Link to="/fee-types">
+              <Link to="/fee-types" search={{ session: '2025-2026', term: 'first', q: '' }}>
                 <Button variant="ghost" className="h-10 gap-2 rounded-xl text-schoolgate-green">
                   View Detailed Table <ChevronRight className="h-4 w-4" />
                 </Button>
