@@ -55,7 +55,7 @@ export const Route = createFileRoute("/fee-types")({
     session: z.string().optional().catch("2025-2026").parse(search['session']),
     term: z.string().optional().catch("first").parse(search['term']),
     q: z.string().optional().catch("").parse(search['q']),
-  }),
+  } as const),
 
 
   head: () => ({
