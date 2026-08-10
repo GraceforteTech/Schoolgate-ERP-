@@ -291,10 +291,11 @@ function EnterpriseCommandCenter() {
               <KPICard title="Transport Revenue" value="₦1.2M" change="This month" icon={TrendingUp} color="emerald" />
               <KPICard title="Salary Paid" value="₦7.8M" change="Last month" icon={Wallet} color="blue" />
               <KPICard title="Visitors Today" value="28" change="+4" icon={Users} color="indigo" />
-              <KPICard title="Pending Approvals" value={stats?.pendingPayments.toString() || "0"} change="High Priority" icon={CheckSquare} color="rose" />
+              <KPICard title="Pending Approvals" value={stats?.pendingPayments.toString() || "0"} change="High Priority" icon={CheckSquare} color="rose" onClick={() => navigate({ to: '/enterprise/drill-down', search: { type: 'pending_payments' } })} />
               <KPICard title="Upcoming Birthdays" value="8" change="Staff & Students" icon={Cake} color="purple" />
               <KPICard title="Overdue Books" value="15" change="Alert" icon={AlertCircle} color="rose" />
             </div>
+
           </section>
 
           {/* 4. Executive Analytics */}
