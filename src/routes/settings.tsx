@@ -6,9 +6,11 @@ import {
   ChevronRight,
   Database,
   Lock,
-  UserCircle
+  UserCircle,
+  BellRing
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -92,6 +94,7 @@ function SettingsPage() {
             <SettingsTabTrigger value="profile" icon={UserCircle} label="My Profile" />
             <SettingsTabTrigger value="school" icon={Building2} label="School Profile" />
             <SettingsTabTrigger value="security" icon={Shield} label="Security & Password" />
+            <SettingsTabTrigger value="notifications" icon={BellRing} label="Notifications" />
             <SettingsTabTrigger value="billing" icon={CreditCard} label="Subscription" />
             <SettingsTabTrigger value="system" icon={Database} label="System & Backup" />
           </TabsList>
@@ -196,8 +199,63 @@ function SettingsPage() {
                 </CardContent>
               </Card>
             </TabsContent>
+            <TabsContent value="notifications" className="m-0 space-y-6">
+              <Card className="border-none shadow-sm rounded-[14px]">
+                <CardHeader>
+                  <CardTitle className="text-lg font-bold flex items-center gap-2">
+                    <BellRing size={18} className="text-schoolgate-green" />
+                    Notification Preferences
+                  </CardTitle>
+                  <CardDescription>Manage how you want to be notified about school activities.</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-8">
+                  <NotificationChannel 
+                    title="In-App Notifications" 
+                    description="Real-time alerts within the Schoolgate ERP platform."
+                    channels={['Alerts', 'Messages', 'System Updates']}
+                  />
+                  <NotificationChannel 
+                    title="Email Notifications" 
+                    description="Important summaries and formal communications sent to your inbox."
+                    channels={['Financial Reports', 'Student Performance', 'Attendance Alerts']}
+                  />
+                  <NotificationChannel 
+                    title="Push Notifications" 
+                    description="Immediate alerts on your mobile device (Requires mobile app)."
+                    channels={['Emergency Alerts', 'Direct Messages']}
+                  />
+                  <NotificationChannel 
+                    title="SMS Notifications" 
+                    description="Urgent text messages for critical school updates."
+                    channels={['Fee Reminders', 'School Closures']}
+                  />
+                  <Button className="bg-schoolgate-green hover:bg-schoolgate-green/90 rounded-lg font-bold w-full md:w-auto">
+                    Save Preferences
+                  </Button>
+                </CardContent>
+              </Card>
+            </TabsContent>
           </div>
         </Tabs>
+      </div>
+    </div>
+  );
+}
+
+function NotificationChannel({ title, description, channels }: { title: string; description: string; channels: string[] }) {
+  return (
+    <div className="space-y-4">
+      <div className="flex flex-col gap-1">
+        <h4 className="text-sm font-bold text-slate-900 uppercase tracking-wider">{title}</h4>
+        <p className="text-xs text-slate-500">{description}</p>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {channels.map(channel => (
+          <div key={channel} className="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-100">
+            <span className="text-xs font-bold text-slate-700">{channel}</span>
+            <Switch defaultChecked />
+          </div>
+        ))}
       </div>
     </div>
   );
