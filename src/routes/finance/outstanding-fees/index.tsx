@@ -8,7 +8,7 @@ import { ReminderCentre } from '@/components/finance/outstanding-fees/reminder-c
 import { StudentQuickView } from '@/components/finance/outstanding-fees/student-quick-view';
 import { ProprietorDashboard } from '@/components/finance/outstanding-fees/proprietor-dashboard';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BarChart3, Users as UsersIcon, Bell, LayoutDashboard, ShieldCheck } from "lucide-react";
+import { BarChart3, Users as UsersIcon, Bell, LayoutDashboard, ShieldCheck, CreditCard } from "lucide-react";
 
 export const Route = createFileRoute('/finance/outstanding-fees/')({
   component: OutstandingFeesPage,
@@ -31,9 +31,14 @@ function OutstandingFeesPage() {
     <div className="flex flex-col gap-6 p-6 md:p-8 bg-slate-50 min-h-screen">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-900">Outstanding Fees</h1>
-          <p className="text-slate-500 mt-1">Track, analyse and recover outstanding school fees efficiently.</p>
+        <div className="flex items-center gap-4">
+          <div className="h-12 w-12 rounded-2xl bg-schoolgate-green-light flex items-center justify-center text-schoolgate-green">
+            <CreditCard size={24} />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold text-slate-900">Outstanding Balances</h1>
+            <p className="text-slate-500 mt-1 font-medium italic">Track, analyse and recover outstanding school fees efficiently.</p>
+          </div>
         </div>
         <Tabs value={activeTab} onValueChange={setActiveTab} className="bg-white p-1 rounded-xl shadow-sm border border-slate-100">
           <TabsList className="bg-transparent border-none">

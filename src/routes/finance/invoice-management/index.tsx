@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   FileText,
   DollarSign,
@@ -22,6 +22,7 @@ import {
   History,
   TrendingUp,
   Filter,
+  ArrowLeft
 } from "lucide-react";
 import { ComponentType, useState } from "react";
 import { AppSidebar } from "@/components/app-sidebar";
@@ -68,13 +69,18 @@ function InvoiceManagementPage() {
           <main className="flex-1 p-4 md:p-6">
             <div className="mx-auto max-w-[1600px] space-y-6">
               {/* Page Header */}
-              <div className="flex flex-col gap-1">
-                <h1 className="text-2xl font-semibold tracking-tight text-foreground">
-                  Invoice Management
-                </h1>
-                <p className="text-sm text-muted-foreground">
-                  Generate, monitor and manage student fee invoices efficiently.
-                </p>
+              <div className="flex flex-col md:flex-row md:items-center gap-4">
+                <div className="h-12 w-12 rounded-2xl bg-schoolgate-green-light flex items-center justify-center text-schoolgate-green">
+                  <FileText size={24} />
+                </div>
+                <div>
+                  <h1 className="text-2xl font-semibold tracking-tight text-foreground">
+                    Invoice Management
+                  </h1>
+                  <p className="text-sm text-muted-foreground">
+                    Generate, monitor and manage student fee invoices efficiently.
+                  </p>
+                </div>
               </div>
 
               {/* Module 2: Executive Invoice KPI Cards */}
