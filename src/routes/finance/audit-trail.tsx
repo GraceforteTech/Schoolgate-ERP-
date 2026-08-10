@@ -279,21 +279,42 @@ function AuditTrailPage() {
                              </div>
                          )}
 
-                         {totalCount > 50 && (
+                         {(totalCount > (filters.pageSize || 50) || (filters.page || 1) > 1) && (
                             <div className="p-4 border-t flex items-center justify-between">
-                               <p className="text-xs font-bold text-slate-400 italic">Showing {logs.length} of {totalCount} records</p>
+                               <div className="flex flex-col">
+                                 <p className="text-xs font-bold text-slate-400 italic">
+                                   Showing {logs.length} records
+                                 </p>
+                                 <p className="text-[10px] font-bold text-slate-300 uppercase tracking-widest mt-1">
+                                   Total: {totalCount} Records found
+                                 </p>
+                               </div>
                                <div className="flex gap-2">
                                   <Button 
                                     variant="outline" 
                                     size="sm" 
                                     disabled={(filters.page || 1) <= 1}
+                                    onClick={() => navigate({ search: (prev: AuditFilters) => ({ ...prev, page: 1 }) })}
+                                    className="h-8 rounded-lg font-bold text-[10px] uppercase hidden sm:flex"
+                                  >First</Button>
+                                  <Button 
+                                    variant="outline" 
+                                    size="sm" 
+                                    disabled={(filters.page || 1) <= 1}
                                     onClick={() => navigate({ search: (prev: AuditFilters) => ({ ...prev, page: (prev.page || 1) - 1 }) })}
-                                  >Previous</Button>
+                                    className="h-8 rounded-lg font-bold text-[10px] uppercase"
+                                  >Prev</Button>
+                                  <div className="flex items-center px-4 bg-slate-50 rounded-lg border border-slate-100 h-8">
+                                    <span className="text-[10px] font-black text-slate-600 uppercase tracking-widest">
+                                      Page {filters.page || 1}
+                                    </span>
+                                  </div>
                                   <Button 
                                     variant="outline" 
                                     size="sm"
-                                    disabled={logs.length < 50}
+                                    disabled={logs.length < (filters.pageSize || 50)}
                                     onClick={() => navigate({ search: (prev: AuditFilters) => ({ ...prev, page: (prev.page || 1) + 1 }) })}
+                                    className="h-8 rounded-lg font-bold text-[10px] uppercase"
                                   >Next</Button>
                                </div>
                             </div>
