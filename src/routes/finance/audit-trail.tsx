@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { AppSidebar } from "@/components/app-sidebar";
 import { TopNav } from "@/components/top-nav";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
@@ -7,15 +7,14 @@ import { useQuery } from "@tanstack/react-query";
 import { getAuditLogs } from "@/lib/audit.functions";
 import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
+import { z } from "zod";
 import { 
-  History, 
   Search, 
   Filter, 
   Calendar, 
   Download,
   UserCircle,
   Clock,
-  ArrowRight,
   Monitor,
   Globe,
   Info
@@ -23,7 +22,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { exportToCSV } from "@/lib/csv-export";
 import { toast } from "sonner";
@@ -47,6 +45,7 @@ export const Route = createFileRoute("/finance/audit-trail")({
 });
 
 function AuditTrailPage() {
+  const navigate = useNavigate();
   const filters = Route.useSearch();
   const fetchLogs = useServerFn(getAuditLogs);
 
@@ -63,7 +62,8 @@ function AuditTrailPage() {
           filters: {
             ...filters,
           },
-          page: filters.page || 1
+          page: filters.page || 1,
+          pageSize: 50
         } 
       });
     }
@@ -73,9 +73,9 @@ function AuditTrailPage() {
   const totalCount = data?.count || 0;
 
   const handleExport = () => {
-    if (!filteredLogs) return;
+    if (!logs.length) return;
     exportToCSV(
-        filteredLogs.map((log: any) => ({
+        logs.map((log: any) => ({
             Date: new Date(log.created_at).toLocaleString(),
             User: log.user_name || 'System',
             Role: log.user_role || 'N/A',
@@ -117,17 +117,28 @@ function AuditTrailPage() {
                         <div className="relative">
                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
                            <Input 
-                             placeholder="Filter by user, action, or description..." 
+                             placeholder="Search description, user..." 
                              className="h-10 w-64 pl-10 rounded-xl border-slate-200 text-xs font-medium"
-                             value={searchTerm}
-                             onChange={(e) => setSearchTerm(e.target.value)}
+                             defaultValue={filters.searchTerm}
+                             onKeyDown={(e) => {
+                               if (e.key === 'Enter') {
+                                 navigate({ search: (prev: any) => ({ ...prev, searchTerm: e.currentTarget.value, page: 1 }) });
+                               }
+                             }}
                            />
                         </div>
                         <Button variant="outline" className="h-10 rounded-xl border-slate-200 gap-2 text-xs font-bold px-4">
-                           <Filter size={14} /> All Actions
+                           <Filter size={14} /> Filters
                         </Button>
                         <Button variant="outline" className="h-10 rounded-xl border-slate-200 gap-2 text-xs font-bold px-4">
                            <Calendar size={14} /> Date Range
+                        </Button>
+                        <Button 
+                          variant="ghost" 
+                          className="h-10 rounded-xl text-xs font-bold px-4 text-slate-400"
+                          onClick={() => navigate({ search: {} })}
+                        >
+                          Reset
                         </Button>
                      </div>
                   </CardHeader>
@@ -147,7 +158,7 @@ function AuditTrailPage() {
                                </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-50">
-                               {filteredLogs?.map((log: any) => (
+                               {logs.map((log: any) => (
                                   <tr key={log.id} className="hover:bg-slate-50/50 transition-colors group">
                                      <td className="px-6 py-5">
                                         <div className="flex items-center gap-3">
@@ -195,10 +206,30 @@ function AuditTrailPage() {
                                ))}
                             </tbody>
                          </table>
-                         {!filteredLogs?.length && (
+                         {!logs.length && (
                              <div className="p-16 text-center text-slate-400 italic font-medium">
                                 No audit records match your current filters.
                              </div>
+                         )}
+
+                         {totalCount > 50 && (
+                            <div className="p-4 border-t flex items-center justify-between">
+                               <p className="text-xs font-bold text-slate-400 italic">Showing {logs.length} of {totalCount} records</p>
+                               <div className="flex gap-2">
+                                  <Button 
+                                    variant="outline" 
+                                    size="sm" 
+                                    disabled={filters.page === 1}
+                                    onClick={() => navigate({ search: (prev: any) => ({ ...prev, page: (prev.page || 1) - 1 }) })}
+                                  >Previous</Button>
+                                  <Button 
+                                    variant="outline" 
+                                    size="sm"
+                                    disabled={logs.length < 50}
+                                    onClick={() => navigate({ search: (prev: any) => ({ ...prev, page: (prev.page || 1) + 1 }) })}
+                                  >Next</Button>
+                               </div>
+                            </div>
                          )}
                       </div>
                     )}
