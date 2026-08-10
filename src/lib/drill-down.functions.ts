@@ -61,7 +61,7 @@ export const getDrillDownData = createServerFn({ method: "GET" })
           if (data.filters?.term) feeQuery = feeQuery.eq('term', data.filters.term);
 
           const { data: feeData } = await feeQuery;
-          const studentIds = Array.from(new Set(feeData?.map(f => f.student_id) || []));
+          const studentIds = Array.from(new Set((feeData || []).map((f: any) => f.student_id)));
           
           if (studentIds.length > 0) {
             query = query.in('id', studentIds);
