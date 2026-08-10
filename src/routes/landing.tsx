@@ -255,11 +255,11 @@ function FeatureCard({ icon: Icon, title, description, color }: { icon: any, tit
   };
 
   return (
-    <div className="bg-white p-8 rounded-3xl border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+    <div className="bg-card p-8 rounded-3xl border border-border hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
       <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 transition-transform group-hover:scale-110 ${colorMap[color]}`}>
         <Icon size={28} />
       </div>
-      <h3 className="text-xl font-black text-slate-900 mb-4 tracking-tight">{title}</h3>
+      <h3 className="text-xl font-black text-foreground mb-4 tracking-tight">{title}</h3>
       <p className="text-slate-500 leading-relaxed font-medium">{description}</p>
     </div>
   );
