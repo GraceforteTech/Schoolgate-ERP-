@@ -178,8 +178,10 @@ export function FeeTypesTable({
               <th className="px-4 py-3">
                 <SortButton label="Status" sortValue="status" />
               </th>
+              <th className="px-4 py-3">Category</th>
               <th className="px-4 py-3">Created By</th>
               <th className="px-4 py-3">Date Created</th>
+
               <th className="w-16 px-4 py-3 text-right">Actions</th>
             </tr>
           </thead>
