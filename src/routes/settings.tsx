@@ -31,7 +31,7 @@ function SettingsPage() {
   useEffect(() => {
     supabase.auth.getUser().then(({ data: { user } }) => {
       setUser(user);
-      setFullName(user?.user_metadata?.full_name || "");
+      setFullName(user?.user_metadata?.["full_name"] || "");
     });
   }, []);
 
