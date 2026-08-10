@@ -7,8 +7,10 @@ import {
   AlertCircle,
   Settings,
   X,
-  ChevronRight
+  ChevronRight,
+  ExternalLink
 } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import {
   Sheet,
   SheetContent,
@@ -101,13 +103,13 @@ export function NotificationsHub() {
               <SheetTitle className="text-xl font-black text-slate-900 tracking-tight">Activity Notifications</SheetTitle>
               <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">Real-time alerts & updates</p>
             </div>
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="h-8 w-8 rounded-lg text-slate-400 hover:text-slate-600"
+            <Link 
+              to="/settings" 
+              className="h-8 w-8 rounded-lg text-slate-400 hover:text-slate-600 flex items-center justify-center hover:bg-slate-100"
+              onClick={() => setOpen(false)}
             >
               <Settings size={18} />
-            </Button>
+            </Link>
           </div>
           {unreadCount > 0 && (
             <div className="flex items-center justify-between pt-4">
@@ -178,9 +180,23 @@ export function NotificationsHub() {
                         {notification.message}
                       </p>
                       <div className="flex items-center gap-2 mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                         <span className="text-[10px] font-bold text-schoolgate-green uppercase tracking-widest flex items-center gap-1">
-                           View Details <ChevronRight size={12} />
-                         </span>
+                         {notification.metadata?.link ? (
+                           <Link 
+                            to={notification.metadata.link}
+                            className="text-[10px] font-bold text-schoolgate-green uppercase tracking-widest flex items-center gap-1 hover:underline"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              if (!notification.read_at) markAsRead.mutate(notification.id);
+                              setOpen(false);
+                            }}
+                           >
+                             View Details <ExternalLink size={10} className="ml-0.5" />
+                           </Link>
+                         ) : (
+                           <span className="text-[10px] font-bold text-schoolgate-green uppercase tracking-widest flex items-center gap-1">
+                             View Details <ChevronRight size={12} />
+                           </span>
+                         )}
                       </div>
                     </div>
                   </div>
