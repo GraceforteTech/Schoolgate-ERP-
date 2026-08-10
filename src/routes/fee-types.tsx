@@ -66,9 +66,12 @@ export const Route = createFileRoute("/fee-types")({
 
 function FeeTypesPage() {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  const { session = "2025-2026", term = "first", q = "" } = Route.useSearch() as any;
   const [importDialogOpen, setImportDialogOpen] = useState(false);
   const [isNewFeeTypeOpen, setIsNewFeeTypeOpen] = useState(false);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
+
   const [bulkAction, setBulkAction] = useState<{
     type: 'waiver' | 'adjustment' | 'assign' | 'remove';
     count: number;
