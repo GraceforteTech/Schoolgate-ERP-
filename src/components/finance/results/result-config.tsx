@@ -29,7 +29,12 @@ export function ResultConfig() {
   const { data: gradingRules, isLoading: loadingRules } = useQuery({
     queryKey: ['grading-rules', tenantId],
     queryFn: async () => {
-      const { data, error } = await supabase.from('grading_rules').select('*').eq('tenant_id', tenantId!);
+      // 1. Get schemes for tenant
+      const { data: schemes } = await supabase.from('grading_schemes').select('id').eq('tenant_id', tenantId!);
+      if (!schemes || schemes.length === 0) return [];
+      
+      // 2. Get rules for those schemes
+      const { data, error } = await supabase.from('grading_rules').select('*').in('scheme_id', schemes.map(s => s.id));
       if (error) throw error;
       return data || [];
     },
