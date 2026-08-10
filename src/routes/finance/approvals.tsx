@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { approveTransaction } from "@/lib/finance.functions";
+import { approveTransaction, rejectTransaction } from "@/lib/finance.functions";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -16,6 +16,7 @@ export const Route = createFileRoute("/finance/approvals")({
 function ApprovalsPage() {
   const queryClient = useQueryClient();
   const approve = useServerFn(approveTransaction);
+  const reject = useServerFn(rejectTransaction);
 
   const { data: pendingTransactions, isLoading } = useQuery({
     queryKey: ['pending-transactions'],
@@ -38,6 +39,19 @@ function ApprovalsPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['pending-transactions'] });
       toast.success("Transaction approved and student balance updated.");
+    },
+    onError: (e: any) => toast.error(e.message)
+  });
+
+  const rejectMutation = useMutation({
+    mutationFn: async (transactionId: string) => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) throw new Error("Unauthorized");
+      return reject({ data: { transactionId, adminId: session.user.id, reason: 'Bursar/Owner Rejection' } });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['pending-transactions'] });
+      toast.error("Transaction rejected.");
     },
     onError: (e: any) => toast.error(e.message)
   });
@@ -101,7 +115,11 @@ function ApprovalsPage() {
                           >
                             <CheckCircle2 size={16} /> Approve
                           </Button>
-                          <Button variant="ghost" className="text-rose-600 hover:bg-rose-50 h-9 px-4 gap-2 rounded-lg font-bold">
+                          <Button 
+                            variant="ghost" 
+                            onClick={() => rejectMutation.mutate(t.id)}
+                            className="text-rose-600 hover:bg-rose-50 h-9 px-4 gap-2 rounded-lg font-bold"
+                          >
                             <XCircle size={16} /> Reject
                           </Button>
                         </div>

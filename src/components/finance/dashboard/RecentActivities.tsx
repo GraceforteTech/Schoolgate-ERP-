@@ -19,14 +19,26 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
-const transactions = [
-  { time: "10:30 AM", receipt: "REC-2024-001", student: "Chukwuemeka Okoro", desc: "School Fees", amount: "₦150,000", method: "Transfer", user: "Bursar (Ade)", status: "Completed" },
-  { time: "09:15 AM", receipt: "REC-2024-002", student: "Aisha Bello", desc: "Uniform Fees", amount: "₦25,000", method: "Cash", user: "Admin (Sarah)", status: "Completed" },
-  { time: "08:45 AM", receipt: "REC-2024-003", student: "Tunde Yusuf", desc: "Boarding Fee", amount: "₦300,000", method: "POS", user: "Accountant (John)", status: "Pending" },
-];
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { cn } from "@/lib/utils";
 
 export function RecentActivities() {
+  const { data: transactions, isLoading } = useQuery({
+    queryKey: ['recent-financial-activities'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('transactions')
+        .select('*, profiles!student_id(full_name)')
+        .order('created_at', { ascending: false })
+        .limit(10);
+      if (error) throw error;
+      return data;
+    }
+  });
+
+  if (isLoading) return <div className="h-48 bg-slate-50 animate-pulse rounded-2xl" />;
+
   return (
     <Card className="border-none shadow-sm rounded-[14px] overflow-hidden">
       <CardHeader className="flex flex-row items-center justify-between pb-4">
@@ -48,18 +60,22 @@ export function RecentActivities() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {transactions.map((t, i) => (
-              <TableRow key={i} className="hover:bg-schoolgate-green-light/20">
-                <TableCell className="font-medium text-slate-500 text-xs">{t.time}</TableCell>
-                <TableCell className="font-bold text-slate-900">{t.receipt}</TableCell>
-                <TableCell>{t.student}</TableCell>
-                <TableCell>{t.desc}</TableCell>
-                <TableCell className="font-bold">{t.amount}</TableCell>
+            {transactions?.map((t: any) => (
+              <TableRow key={t.id} className="hover:bg-schoolgate-green-light/20 transition-colors">
+                <TableCell className="font-medium text-slate-500 text-xs">
+                  {new Date(t.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                </TableCell>
+                <TableCell className="font-bold text-slate-900">{t.reference || t.id.slice(0, 8)}</TableCell>
+                <TableCell>{t.profiles?.full_name || 'N/A'}</TableCell>
+                <TableCell>{t.description || t.type}</TableCell>
+                <TableCell className="font-bold">₦{t.amount.toLocaleString()}</TableCell>
                 <TableCell>{t.method}</TableCell>
                 <TableCell>
                   <Badge variant="outline" className={cn(
-                    "border-0 px-2 py-0.5 rounded-full",
-                    t.status === "Completed" ? "bg-emerald-50 text-emerald-600" : "bg-amber-50 text-amber-600"
+                    "border-0 px-2 py-0.5 rounded-full font-bold text-[10px] uppercase",
+                    t.status === "approved" ? "bg-emerald-50 text-emerald-600" : 
+                    t.status === "pending" ? "bg-amber-50 text-amber-600" : 
+                    "bg-rose-50 text-rose-600"
                   )}>
                     {t.status}
                   </Badge>
@@ -80,13 +96,14 @@ export function RecentActivities() {
                 </TableCell>
               </TableRow>
             ))}
+            {(!transactions || transactions.length === 0) && (
+              <TableRow>
+                <TableCell colSpan={8} className="text-center py-8 text-slate-400 italic">No recent activities found.</TableCell>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
       </CardContent>
     </Card>
   );
-}
-
-function cn(...classes: string[]) {
-  return classes.filter(Boolean).join(' ');
 }

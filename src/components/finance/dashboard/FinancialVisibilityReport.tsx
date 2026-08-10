@@ -5,11 +5,9 @@ import {
   ArrowDownRight, 
   TrendingUp, 
   TrendingDown,
-  DollarSign,
   Scale,
-  LineChart,
-  PieChart,
-  Briefcase
+  Briefcase,
+  PieChart
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { 
@@ -20,24 +18,45 @@ import {
   TableHeader, 
   TableRow 
 } from "@/components/ui/table";
-
-const financialMetrics = [
-  { label: "Gross Revenue", value: "₦45,250,000", change: "+12%", type: "income" },
-  { label: "Operating Expenses", value: "₦12,480,000", change: "-4%", type: "expense" },
-  { label: "Staff Payroll", value: "₦18,420,000", change: "+2%", type: "expense" },
-  { label: "Net Profit (EBITDA)", value: "₦14,350,000", change: "+15%", type: "profit" },
-];
-
-const PLData = [
-  { category: "Tuition Fees", current: "₦38,500,000", previous: "₦32,000,000", variance: "+20.3%" },
-  { category: "Admission Fees", current: "₦4,250,000", previous: "₦3,800,000", variance: "+11.8%" },
-  { category: "Bus & Logistics", current: "₦2,500,000", previous: "₦2,100,000", variance: "+19.0%" },
-  { category: "Salary & Wages", current: "(₦18,420,000)", previous: "(₦17,900,000)", variance: "+2.9%" },
-  { category: "Utility & Maintenance", current: "(₦2,100,000)", previous: "(₦2,450,000)", variance: "-14.2%" },
-  { category: "Educational Materials", current: "(₦1,850,000)", previous: "(₦1,500,000)", variance: "+23.3%" },
-];
+import { useServerFn } from "@tanstack/react-start";
+import { useQuery } from "@tanstack/react-query";
+import { getSchoolFinancialSummary } from "@/lib/expenses.functions";
+import { supabase } from "@/integrations/supabase/client";
 
 export function FinancialVisibilityReport() {
+  const fetchSummary = useServerFn(getSchoolFinancialSummary);
+  
+  const { data: summary, isLoading } = useQuery({
+    queryKey: ['financial-summary-detailed'],
+    queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Not authenticated");
+      const { data: profile } = await supabase.from('memberships').select('tenant_id').eq('user_id', user.id).single();
+      if (!profile) throw new Error("Tenant not found");
+      return fetchSummary({ data: { tenantId: profile.tenant_id } });
+    }
+  });
+
+  const financialMetrics = [
+    { label: "Gross Revenue", value: `₦${(summary?.totalRevenue || 0).toLocaleString()}`, change: "+12%", type: "income" },
+    { label: "Operating Expenses", value: `₦${(summary?.totalExpenses || 0).toLocaleString()}`, change: "-4%", type: "expense" },
+    { label: "Net Margin", value: `₦${((summary?.totalRevenue || 0) - (summary?.totalExpenses || 0)).toLocaleString()}`, change: "+15%", type: "profit" },
+    { label: "Efficiency Score", value: "92%", change: "+2%", type: "profit" },
+  ];
+
+  const categories = summary?.expenseBreakdown || [];
+  const PLData = [
+    { category: "Tuition Revenue", current: `₦${(summary?.totalRevenue || 0).toLocaleString()}`, previous: "₦0", variance: "+100%" },
+    ...categories.map((e: any) => ({
+      category: e.category,
+      current: `(₦${e.amount.toLocaleString()})`,
+      previous: "₦0",
+      variance: "N/A"
+    }))
+  ];
+
+  if (isLoading) return <div className="h-[400px] bg-slate-50 animate-pulse rounded-[14px]" />;
+
   return (
     <Card className="border-none shadow-sm rounded-[14px] overflow-hidden bg-white">
       <CardHeader className="border-b border-slate-50 pb-6">
@@ -54,7 +73,6 @@ export function FinancialVisibilityReport() {
       </CardHeader>
       
       <CardContent className="pt-8">
-        {/* KPI Row */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
           {financialMetrics.map((metric, i) => (
             <div key={i} className="p-5 rounded-2xl bg-slate-50/50 border border-slate-100 hover:border-schoolgate-green/20 hover:shadow-md transition-all">
@@ -82,7 +100,6 @@ export function FinancialVisibilityReport() {
           ))}
         </div>
 
-        {/* P&L View */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
             <div className="flex items-center justify-between mb-6">
@@ -124,9 +141,11 @@ export function FinancialVisibilityReport() {
                   ))}
                   <TableRow className="bg-slate-50/50 border-none">
                     <TableCell className="font-black text-slate-900">Total Net Operating Income</TableCell>
-                    <TableCell className="text-right font-black text-emerald-600">₦14,350,000</TableCell>
-                    <TableCell className="text-right font-bold text-slate-400">₦11,850,000</TableCell>
-                    <TableCell className="text-right font-black text-emerald-600 text-xs">+21.1%</TableCell>
+                    <TableCell className="text-right font-black text-emerald-600">
+                      ₦{((summary?.totalRevenue || 0) - (summary?.totalExpenses || 0)).toLocaleString()}
+                    </TableCell>
+                    <TableCell className="text-right font-bold text-slate-400">₦0</TableCell>
+                    <TableCell className="text-right font-black text-emerald-600 text-xs">+100%</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
@@ -142,10 +161,10 @@ export function FinancialVisibilityReport() {
               <div className="space-y-2">
                 <div className="flex justify-between text-xs font-bold uppercase tracking-wider text-indigo-600">
                   <span>Payroll Burden</span>
-                  <span>40.7%</span>
+                  <span>0%</span>
                 </div>
                 <div className="h-2 w-full bg-indigo-100 rounded-full overflow-hidden">
-                  <div className="h-full bg-indigo-500 rounded-full" style={{ width: '40.7%' }} />
+                  <div className="h-full bg-indigo-500 rounded-full" style={{ width: '0%' }} />
                 </div>
                 <p className="text-[10px] text-slate-400 font-medium">Optimal range: 35-45%</p>
               </div>
@@ -153,23 +172,12 @@ export function FinancialVisibilityReport() {
               <div className="space-y-2">
                 <div className="flex justify-between text-xs font-bold uppercase tracking-wider text-emerald-600">
                   <span>Profit Margin</span>
-                  <span>31.7%</span>
+                  <span>{Math.round(((summary?.totalRevenue || 0) - (summary?.totalExpenses || 0)) / (summary?.totalRevenue || 1) * 100)}%</span>
                 </div>
                 <div className="h-2 w-full bg-emerald-100 rounded-full overflow-hidden">
-                  <div className="h-full bg-emerald-500 rounded-full" style={{ width: '31.7%' }} />
+                  <div className="h-full bg-emerald-500 rounded-full" style={{ width: `${Math.round(((summary?.totalRevenue || 0) - (summary?.totalExpenses || 0)) / (summary?.totalRevenue || 1) * 100)}%` }} />
                 </div>
                 <p className="text-[10px] text-slate-400 font-medium">Industry Benchmark: 25%</p>
-              </div>
-
-              <div className="space-y-2">
-                <div className="flex justify-between text-xs font-bold uppercase tracking-wider text-amber-600">
-                  <span>Operating Cost</span>
-                  <span>27.6%</span>
-                </div>
-                <div className="h-2 w-full bg-amber-100 rounded-full overflow-hidden">
-                  <div className="h-full bg-amber-500 rounded-full" style={{ width: '27.6%' }} />
-                </div>
-                <p className="text-[10px] text-slate-400 font-medium">Driven by maintenance/fuel</p>
               </div>
             </div>
 
@@ -182,7 +190,7 @@ export function FinancialVisibilityReport() {
               </div>
               <p className="text-xs text-slate-400 leading-relaxed font-medium">
                 Instituion is currently <span className="text-emerald-400 font-bold">Highly Liquid</span>. 
-                Collection efficiency is at its 3-year peak. Recommend allocating 10% of profit to the Schoolgate Wealth Scheme.
+                Collection efficiency is strong. Recommend allocating profit to the Schoolgate Wealth Scheme.
               </p>
             </div>
           </div>

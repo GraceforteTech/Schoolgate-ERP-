@@ -60,3 +60,26 @@ export const getSchoolFinancialSummary = createServerFn({ method: "GET" })
       expenseBreakdown: expenses
     };
   });
+
+export const approveExpense = createServerFn({ method: "POST" })
+  .validator((data: any) => z.object({
+    expenseId: z.string().uuid(),
+    adminId: z.string().uuid(),
+    status: z.enum(['approved', 'rejected']),
+    notes: z.string().optional()
+  }).parse(data))
+  .handler(async ({ data }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    
+    const { error } = await (supabaseAdmin
+      .from('expenses')
+      .update({
+        status: data.status,
+        approved_by: data.adminId,
+        approved_at: new Date().toISOString()
+      })
+      .eq('id', data.expenseId));
+
+    if (error) throw new Error(`Expense update failed: ${error.message}`);
+    return { success: true };
+  });

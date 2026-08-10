@@ -45,7 +45,10 @@ export const processPayment = createServerFn({ method: "POST" })
     method: z.enum(['card', 'bank_transfer', 'cash', 'cheque', 'wallet']),
     description: z.string().optional(),
     reference: z.string().optional(),
-    type: z.enum(['credit', 'fee_payment']).default('credit')
+    academic_session: z.string().optional(),
+    term: z.string().optional(),
+    type: z.enum(['credit', 'fee_payment']).default('credit'),
+    createdBy: z.string().uuid()
   }).parse(data))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
@@ -75,6 +78,9 @@ export const processPayment = createServerFn({ method: "POST" })
         status: 'pending',
         description: data.description,
         reference: data.reference,
+        academic_session: data.academic_session,
+        term: data.term,
+        created_by: data.createdBy,
         created_at: new Date().toISOString()
       })
       .select()
@@ -117,32 +123,72 @@ export const approveTransaction = createServerFn({ method: "POST" })
 
     // 3. If it's a fee payment, update the student_fees record
     if (transaction.type === 'fee_payment') {
-        const { data: currentFee } = await (supabaseAdmin
+        const feeQuery = supabaseAdmin
             .from('student_fees')
             .select('*')
-            .eq('student_id', transaction.student_id)
-            .eq('academic_session', transaction.academic_session || '2023/2024')
-            .eq('term', transaction.term || 'First Term')
-            .limit(1)
-            .maybeSingle());
-
-        if (currentFee) {
-            const newAmountPaid = Number(currentFee.amount_paid) + Number(transaction.amount);
-            const totalAmount = Number(currentFee.total_amount);
-            let status = 'partially_paid';
-            if (newAmountPaid >= totalAmount) {
-                status = 'paid';
-            }
+            .eq('student_id', transaction.student_id);
             
-            await (supabaseAdmin
-                .from('student_fees')
-                .update({ 
-                    amount_paid: newAmountPaid,
-                    status: status
-                })
-                .eq('id', currentFee.id));
+        if (transaction.academic_session) feeQuery.eq('academic_session', transaction.academic_session);
+        if (transaction.term) feeQuery.eq('term', transaction.term);
+        if (transaction.fee_type_id) feeQuery.eq('fee_type_id', transaction.fee_type_id);
+
+        const { data: fees } = await feeQuery;
+
+        if (fees && fees.length > 0) {
+            // If multiple fees match and no specific fee_type_id was provided, 
+            // we distribute the payment among unpaid fees for that session/term
+            let remainingPayment = Number(transaction.amount);
+            
+            for (const fee of fees) {
+                if (remainingPayment <= 0) break;
+                
+                const outstanding = Number(fee.amount_due) - Number(fee.amount_paid);
+                if (outstanding <= 0) continue;
+                
+                const paymentForThisFee = Math.min(remainingPayment, outstanding);
+                const newAmountPaid = Number(fee.amount_paid) + paymentForThisFee;
+                const totalAmount = Number(fee.amount_due);
+                let status = 'partially_paid';
+                if (newAmountPaid >= totalAmount) {
+                    status = 'paid';
+                }
+                
+                await (supabaseAdmin
+                    .from('student_fees')
+                    .update({ 
+                        amount_paid: newAmountPaid,
+                        status: status
+                    })
+                    .eq('id', fee.id));
+                    
+                remainingPayment -= paymentForThisFee;
+            }
         }
     }
 
+    return { success: true };
+  });
+
+export const rejectTransaction = createServerFn({ method: "POST" })
+  .validator((data) => z.object({
+    transactionId: z.string().uuid(),
+    adminId: z.string().uuid(),
+    reason: z.string().optional()
+  }).parse(data))
+  .handler(async ({ data }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    
+    const { error } = await (supabaseAdmin
+      .from('transactions')
+      .update({
+        status: 'rejected',
+        rejected_by: data.adminId,
+        rejected_at: new Date().toISOString(),
+        description: data.reason ? `REJECTED: ${data.reason}` : 'REJECTED'
+      })
+      .eq('id', data.transactionId)
+      .eq('status', 'pending'));
+
+    if (error) throw new Error(`Rejection failed: ${error.message}`);
     return { success: true };
   });

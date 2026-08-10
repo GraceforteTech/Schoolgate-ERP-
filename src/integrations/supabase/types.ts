@@ -69,6 +69,8 @@ export type Database = {
           id: string
           method: Database["public"]["Enums"]["payment_method"] | null
           reference: string | null
+          rejected_at: string | null
+          rejected_by: string | null
           status: Database["public"]["Enums"]["expense_status"] | null
           tenant_id: string
           updated_at: string | null
@@ -87,6 +89,8 @@ export type Database = {
           id?: string
           method?: Database["public"]["Enums"]["payment_method"] | null
           reference?: string | null
+          rejected_at?: string | null
+          rejected_by?: string | null
           status?: Database["public"]["Enums"]["expense_status"] | null
           tenant_id: string
           updated_at?: string | null
@@ -105,6 +109,8 @@ export type Database = {
           id?: string
           method?: Database["public"]["Enums"]["payment_method"] | null
           reference?: string | null
+          rejected_at?: string | null
+          rejected_by?: string | null
           status?: Database["public"]["Enums"]["expense_status"] | null
           tenant_id?: string
           updated_at?: string | null
@@ -442,6 +448,7 @@ export type Database = {
           created_at: string | null
           created_by: string | null
           description: string | null
+          fee_type_id: string | null
           id: string
           metadata: Json | null
           method: Database["public"]["Enums"]["payment_method"]
@@ -464,6 +471,7 @@ export type Database = {
           created_at?: string | null
           created_by?: string | null
           description?: string | null
+          fee_type_id?: string | null
           id?: string
           metadata?: Json | null
           method: Database["public"]["Enums"]["payment_method"]
@@ -486,6 +494,7 @@ export type Database = {
           created_at?: string | null
           created_by?: string | null
           description?: string | null
+          fee_type_id?: string | null
           id?: string
           metadata?: Json | null
           method?: Database["public"]["Enums"]["payment_method"]
@@ -501,6 +510,13 @@ export type Database = {
           wallet_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "transactions_fee_type_id_fkey"
+            columns: ["fee_type_id"]
+            isOneToOne: false
+            referencedRelation: "fee_types"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "transactions_tenant_id_fkey"
             columns: ["tenant_id"]
@@ -554,6 +570,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      approve_expense: {
+        Args: { _admin_id: string; _expense_id: string }
+        Returns: undefined
+      }
       can_admin_tenant: {
         Args: { _tenant_id: string; _user_id: string }
         Returns: boolean
