@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
 
-export function SmartFilters() {
+export function SmartFilters({ onFilterChange }: { onFilterChange?: (filters: any) => void }) {
   return (
     <Card className="p-4 border-none bg-white rounded-[14px] shadow-sm flex flex-col gap-4">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-3">
