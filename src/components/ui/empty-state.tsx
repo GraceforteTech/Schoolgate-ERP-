@@ -10,7 +10,7 @@ interface EmptyStateProps {
     label: string;
     onClick: () => void;
     icon?: ReactNode;
-  } | null;
+  } | undefined;
   className?: string;
 }
 
