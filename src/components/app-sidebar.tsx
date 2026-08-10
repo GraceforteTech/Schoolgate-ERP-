@@ -61,6 +61,7 @@ const academicNavItems = [
   { title: "Sessions", url: "/academic", icon: CalendarDays },
   { title: "Terms", url: "/academic", icon: CalendarDays },
   { title: "Subjects", url: "/academic/classes", icon: BookOpen },
+  { title: "Lesson Notes", url: "/academic/lesson-notes", icon: FileText },
   { title: "Results", url: "/finance/results", icon: FileText },
   { title: "Attendance", url: "/attendance", icon: CalendarDays },
 ];
