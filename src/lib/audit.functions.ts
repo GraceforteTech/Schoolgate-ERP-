@@ -50,7 +50,6 @@ export const getAuditLogs = createServerFn({ method: "GET" })
         userRole: z.string().optional(),
         action: z.string().optional(),
         entityType: z.string().optional(),
-        status: z.string().optional(),
         dateFrom: z.string().optional(),
         dateTo: z.string().optional(),
         searchTerm: z.string().optional(),
@@ -82,16 +81,12 @@ export const getAuditLogs = createServerFn({ method: "GET" })
       query = query.or(`description.ilike.%${data.filters.searchTerm}%,action.ilike.%${data.filters.searchTerm}%,user_name.ilike.%${data.filters.searchTerm}%`);
     }
 
-    if (data.filters?.metadata) {
-        // Handle metadata JSON filtering if possible in your version of PostgREST
-    }
-    
     const from = (data.page - 1) * data.pageSize;
     const to = from + data.pageSize - 1;
     
     const { data: logs, error, count } = await query.range(from, to);
     if (error) throw new Error(error.message);
-    return { logs, count };
+    return { logs: logs || [], count: count || 0 };
   });
 
 export const importCSVData = createServerFn({ method: "POST" })
@@ -119,16 +114,14 @@ export const importCSVData = createServerFn({ method: "POST" })
         case 'academic_results': table = 'academic_results'; break;
     }
 
-    // Tenant safety: Ensure every record has the correct tenantId
     const safeRecords = data.records.map(r => ({ ...r, tenant_id: data.tenantId }));
 
     const { error } = await supabaseAdmin
         .from(table)
-        .upsert(safeRecords, { onConflict: 'id' }); // Simplified upsert for demonstration
+        .upsert(safeRecords, { onConflict: 'id' });
 
     if (error) throw new Error(error.message);
 
-    // Audit the import
     await logAuditAction({
         data: {
             tenantId: data.tenantId,

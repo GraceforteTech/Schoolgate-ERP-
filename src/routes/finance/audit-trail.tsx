@@ -29,29 +29,48 @@ import { exportToCSV } from "@/lib/csv-export";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/finance/audit-trail")({
+  validateSearch: (search: Record<string, unknown>) => ({
+    userId: z.string().uuid().optional().parse(search.userId),
+    userRole: z.string().optional().parse(search.userRole),
+    action: z.string().optional().parse(search.action),
+    entityType: z.string().optional().parse(search.entityType),
+    dateFrom: z.string().optional().parse(search.dateFrom),
+    dateTo: z.string().optional().parse(search.dateTo),
+    searchTerm: z.string().optional().parse(search.searchTerm),
+    academicSession: z.string().optional().parse(search.academicSession),
+    term: z.string().optional().parse(search.term),
+    classId: z.string().uuid().optional().parse(search.classId),
+    studentId: z.string().uuid().optional().parse(search.studentId),
+    page: z.number().optional().catch(1).parse(search.page),
+  }),
   component: AuditTrailPage,
 });
 
 function AuditTrailPage() {
+  const filters = Route.useSearch();
   const fetchLogs = useServerFn(getAuditLogs);
-  const [searchTerm, setSearchTerm] = useState("");
 
-  const { data: logs, isLoading } = useQuery({
-    queryKey: ['finance-audit-logs'],
+  const { data, isLoading } = useQuery({
+    queryKey: ['finance-audit-logs', filters],
     queryFn: async () => {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return [];
+      if (!user) return { logs: [], count: 0 };
       const { data: membership } = await supabase.from('memberships').select('tenant_id').eq('user_id', user.id).single();
-      if (!membership) return [];
-      return fetchLogs({ data: { tenantId: membership.tenant_id } });
+      if (!membership) return { logs: [], count: 0 };
+      return fetchLogs({ 
+        data: { 
+          tenantId: membership.tenant_id,
+          filters: {
+            ...filters,
+          },
+          page: filters.page || 1
+        } 
+      });
     }
   });
 
-  const filteredLogs = logs?.filter((log: any) => 
-    log.action.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    log.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    log.user_name?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const logs = data?.logs || [];
+  const totalCount = data?.count || 0;
 
   const handleExport = () => {
     if (!filteredLogs) return;

@@ -46,7 +46,7 @@ import { CreateFeeTypeDialog } from "@/components/finance/create-fee-type-dialog
 import { exportToCSV } from "@/lib/csv-export";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
-import { bulkAssignFees } from "@/lib/audit.functions";
+import { bulkAssignFees } from "@/lib/fee-types.functions";
 import { BulkActionConfirmation } from "@/components/finance/bulk-action-confirmation";
 
 
