@@ -23,7 +23,6 @@ function ReportPinTestPage() {
         log("DATABASE OK: 'report_pins' table found.");
       } else {
         log(`DATABASE ERROR: ${status.error} (Code: ${status.code})`);
-        log("Wait... If it says 'not found in schema cache', I might need to wait for PostgREST to reload.");
       }
     };
     verifyDb();
@@ -48,9 +47,9 @@ function ReportPinTestPage() {
         }
       });
       
-      const pinA = pins.find(p => p.student_id === "student-a")?.pin_code;
-      const pinB = pins.find(p => p.student_id === "student-b")?.pin_code;
-      const pinC = pins.find(p => p.student_id === "student-c")?.pin_code;
+      const pinA = pins.find((p: any) => p.student_id === "student-a")?.pin_code;
+      const pinB = pins.find((p: any) => p.student_id === "student-b")?.pin_code;
+      const pinC = pins.find((p: any) => p.student_id === "student-c")?.pin_code;
 
       if (pinA && pinB && pinC && pinA !== pinB && pinB !== pinC) {
         log("PASS: Unique PINs generated.");
@@ -69,7 +68,7 @@ function ReportPinTestPage() {
 
       // TEST 4: Deactivation
       log("TEST 4: Deactivating Student B...");
-      const pinB_obj = pins.find(p => p.student_id === "student-b");
+      const pinB_obj = pins.find((p: any) => p.student_id === "student-b");
       await togglePinStatus({ data: { pinId: pinB_obj!.id, status: 'deactivated' } });
       const failRedemption = await redeemPin({ data: { pinCode: pinB!, tenantId } });
       if (!failRedemption.success && failRedemption.error === "PIN is deactivated") {
