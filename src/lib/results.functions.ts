@@ -207,3 +207,46 @@ export const saveResultScores = createServerFn({ method: "POST" })
     if (error) throw new Error(error.message);
     return { success: true, count: saved?.length || 0 };
   });
+
+export const updateGradingScheme = createServerFn({ method: "POST" })
+  .validator((data: { 
+    tenantId: string, 
+    rules: Array<{
+      id?: string,
+      grade: string,
+      min_score: number,
+      max_score: number,
+      remark: string
+    }> 
+  }) => z.object({
+    tenantId: z.string().uuid(),
+    rules: z.array(z.object({
+      id: z.string().uuid().optional(),
+      grade: z.string(),
+      min_score: z.number(),
+      max_score: z.number(),
+      remark: z.string()
+    }))
+  }).parse(data))
+  .handler(async ({ data }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    
+    // For simplicity, we'll replace the whole scheme for the tenant
+    // In a real multi-level system, we might have class-specific schemes
+    const upsertData = data.rules.map(r => ({
+      id: r.id,
+      tenant_id: data.tenantId,
+      grade: r.grade,
+      min_score: r.min_score,
+      max_score: r.max_score,
+      remark: r.remark
+    }));
+
+    const { data: saved, error } = await supabaseAdmin
+      .from('grading_rules')
+      .upsert(upsertData)
+      .select();
+
+    if (error) throw new Error(error.message);
+    return { success: true, count: saved?.length || 0 };
+  });
