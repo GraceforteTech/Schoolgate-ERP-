@@ -24,6 +24,7 @@ import {
 
 import { AppSidebar } from "@/components/app-sidebar";
 import { FeeTypesTable } from "@/components/fee-types-table";
+import { EmptyState } from "@/components/ui/empty-state";
 import { ImportProtectionDialog } from "@/components/finance/import-protection-dialog";
 import { TopNav } from "@/components/top-nav";
 import { Button } from "@/components/ui/button";
