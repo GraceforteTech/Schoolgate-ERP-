@@ -20,6 +20,8 @@ import { Route as AcademicSyllabusRouteImport } from './routes/academic/syllabus
 import { Route as AcademicVirtualClassroomRouteImport } from './routes/academic/virtual-classroom'
 import { Route as AlumniIndexRouteImport } from './routes/alumni/index'
 import { Route as AttendanceIndexRouteImport } from './routes/attendance/index'
+import { Route as AuthCallbackRouteImport } from './routes/auth/callback'
+import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as CbtIndexRouteImport } from './routes/cbt/index'
 import { Route as EnterpriseIndexRouteImport } from './routes/enterprise/index'
 import { Route as FinanceAdjustmentManagementRouteImport } from './routes/finance/adjustment-management'
@@ -112,6 +114,16 @@ const AlumniIndexRoute = AlumniIndexRouteImport.update({
 const AttendanceIndexRoute = AttendanceIndexRouteImport.update({
   id: '/attendance/',
   path: '/attendance/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthCallbackRoute = AuthCallbackRouteImport.update({
+  id: '/auth/callback',
+  path: '/auth/callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthLoginRoute = AuthLoginRouteImport.update({
+  id: '/auth/login',
+  path: '/auth/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CbtIndexRoute = CbtIndexRouteImport.update({
@@ -322,6 +334,8 @@ export interface FileRoutesByFullPath {
   '/academic/lesson-notes': typeof AcademicLessonNotesRoute
   '/academic/syllabus': typeof AcademicSyllabusRoute
   '/academic/virtual-classroom': typeof AcademicVirtualClassroomRoute
+  '/auth/callback': typeof AuthCallbackRoute
+  '/auth/login': typeof AuthLoginRoute
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
   '/finance/dashboard': typeof FinanceDashboardRoute
   '/library/analytics': typeof LibraryAnalyticsRoute
@@ -372,6 +386,8 @@ export interface FileRoutesByTo {
   '/academic/lesson-notes': typeof AcademicLessonNotesRoute
   '/academic/syllabus': typeof AcademicSyllabusRoute
   '/academic/virtual-classroom': typeof AcademicVirtualClassroomRoute
+  '/auth/callback': typeof AuthCallbackRoute
+  '/auth/login': typeof AuthLoginRoute
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
   '/finance/dashboard': typeof FinanceDashboardRoute
   '/library/analytics': typeof LibraryAnalyticsRoute
@@ -423,6 +439,8 @@ export interface FileRoutesById {
   '/academic/lesson-notes': typeof AcademicLessonNotesRoute
   '/academic/syllabus': typeof AcademicSyllabusRoute
   '/academic/virtual-classroom': typeof AcademicVirtualClassroomRoute
+  '/auth/callback': typeof AuthCallbackRoute
+  '/auth/login': typeof AuthLoginRoute
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
   '/finance/dashboard': typeof FinanceDashboardRoute
   '/library/analytics': typeof LibraryAnalyticsRoute
@@ -475,6 +493,8 @@ export interface FileRouteTypes {
     | '/academic/lesson-notes'
     | '/academic/syllabus'
     | '/academic/virtual-classroom'
+    | '/auth/callback'
+    | '/auth/login'
     | '/finance/adjustment-management'
     | '/finance/dashboard'
     | '/library/analytics'
@@ -525,6 +545,8 @@ export interface FileRouteTypes {
     | '/academic/lesson-notes'
     | '/academic/syllabus'
     | '/academic/virtual-classroom'
+    | '/auth/callback'
+    | '/auth/login'
     | '/finance/adjustment-management'
     | '/finance/dashboard'
     | '/library/analytics'
@@ -575,6 +597,8 @@ export interface FileRouteTypes {
     | '/academic/lesson-notes'
     | '/academic/syllabus'
     | '/academic/virtual-classroom'
+    | '/auth/callback'
+    | '/auth/login'
     | '/finance/adjustment-management'
     | '/finance/dashboard'
     | '/library/analytics'
@@ -626,6 +650,8 @@ export interface RootRouteChildren {
   AcademicLessonNotesRoute: typeof AcademicLessonNotesRoute
   AcademicSyllabusRoute: typeof AcademicSyllabusRoute
   AcademicVirtualClassroomRoute: typeof AcademicVirtualClassroomRoute
+  AuthCallbackRoute: typeof AuthCallbackRoute
+  AuthLoginRoute: typeof AuthLoginRoute
   FinanceAdjustmentManagementRoute: typeof FinanceAdjustmentManagementRoute
   FinanceDashboardRoute: typeof FinanceDashboardRoute
   LibraryAnalyticsRoute: typeof LibraryAnalyticsRoute
@@ -745,6 +771,20 @@ declare module '@tanstack/react-router' {
       path: '/attendance'
       fullPath: '/attendance/'
       preLoaderRoute: typeof AttendanceIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/callback': {
+      id: '/auth/callback'
+      path: '/auth/callback'
+      fullPath: '/auth/callback'
+      preLoaderRoute: typeof AuthCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/login': {
+      id: '/auth/login'
+      path: '/auth/login'
+      fullPath: '/auth/login'
+      preLoaderRoute: typeof AuthLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cbt/': {
@@ -1018,6 +1058,8 @@ const rootRouteChildren: RootRouteChildren = {
   AcademicLessonNotesRoute: AcademicLessonNotesRoute,
   AcademicSyllabusRoute: AcademicSyllabusRoute,
   AcademicVirtualClassroomRoute: AcademicVirtualClassroomRoute,
+  AuthCallbackRoute: AuthCallbackRoute,
+  AuthLoginRoute: AuthLoginRoute,
   FinanceAdjustmentManagementRoute: FinanceAdjustmentManagementRoute,
   FinanceDashboardRoute: FinanceDashboardRoute,
   LibraryAnalyticsRoute: LibraryAnalyticsRoute,
