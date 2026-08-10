@@ -30,6 +30,7 @@ import { Route as AuthSignupRouteImport } from './routes/auth/signup'
 import { Route as CbtIndexRouteImport } from './routes/cbt/index'
 import { Route as EnterpriseIndexRouteImport } from './routes/enterprise/index'
 import { Route as FinanceAdjustmentManagementRouteImport } from './routes/finance/adjustment-management'
+import { Route as FinanceApprovalsRouteImport } from './routes/finance/approvals'
 import { Route as FinanceDashboardRouteImport } from './routes/finance/dashboard'
 import { Route as HostelIndexRouteImport } from './routes/hostel/index'
 import { Route as InventoryIndexRouteImport } from './routes/inventory/index'
@@ -39,8 +40,10 @@ import { Route as LibraryBorrowReturnRouteImport } from './routes/library/borrow
 import { Route as LibraryCatalogueRouteImport } from './routes/library/catalogue'
 import { Route as LibraryDigitalRouteImport } from './routes/library/digital'
 import { Route as LibraryProprietorRouteImport } from './routes/library/proprietor'
+import { Route as ParentIndexRouteImport } from './routes/parent/index'
 import { Route as ReportAccessIndexRouteImport } from './routes/report-access/index'
 import { Route as StaffDashboardRouteImport } from './routes/staff/dashboard'
+import { Route as StudentIndexRouteImport } from './routes/student/index'
 import { Route as TeachersIndexRouteImport } from './routes/teachers/index'
 import { Route as TimetableIndexRouteImport } from './routes/timetable/index'
 import { Route as TransportIndexRouteImport } from './routes/transport/index'
@@ -65,6 +68,7 @@ import { Route as FinanceOutstandingFeesIndexRouteImport } from './routes/financ
 import { Route as FinancePayrollManagementIndexRouteImport } from './routes/finance/payroll-management/index'
 import { Route as FinanceResultsIndexRouteImport } from './routes/finance/results/index'
 import { Route as FinanceWealthLoanIndexRouteImport } from './routes/finance/wealth-loan/index'
+import { Route as ParentChildChildIdRouteImport } from './routes/parent/child.$childId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -173,6 +177,11 @@ const FinanceAdjustmentManagementRoute =
     path: '/finance/adjustment-management',
     getParentRoute: () => rootRouteImport,
   } as any)
+const FinanceApprovalsRoute = FinanceApprovalsRouteImport.update({
+  id: '/finance/approvals',
+  path: '/finance/approvals',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FinanceDashboardRoute = FinanceDashboardRouteImport.update({
   id: '/finance/dashboard',
   path: '/finance/dashboard',
@@ -218,6 +227,11 @@ const LibraryProprietorRoute = LibraryProprietorRouteImport.update({
   path: '/library/proprietor',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ParentIndexRoute = ParentIndexRouteImport.update({
+  id: '/parent/',
+  path: '/parent/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ReportAccessIndexRoute = ReportAccessIndexRouteImport.update({
   id: '/report-access/',
   path: '/report-access/',
@@ -226,6 +240,11 @@ const ReportAccessIndexRoute = ReportAccessIndexRouteImport.update({
 const StaffDashboardRoute = StaffDashboardRouteImport.update({
   id: '/staff/dashboard',
   path: '/staff/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudentIndexRoute = StudentIndexRouteImport.update({
+  id: '/student/',
+  path: '/student/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TeachersIndexRoute = TeachersIndexRouteImport.update({
@@ -360,6 +379,11 @@ const FinanceWealthLoanIndexRoute = FinanceWealthLoanIndexRouteImport.update({
   path: '/finance/wealth-loan/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ParentChildChildIdRoute = ParentChildChildIdRouteImport.update({
+  id: '/parent/child/$childId',
+  path: '/parent/child/$childId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -378,6 +402,7 @@ export interface FileRoutesByFullPath {
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
+  '/finance/approvals': typeof FinanceApprovalsRoute
   '/finance/dashboard': typeof FinanceDashboardRoute
   '/library/analytics': typeof LibraryAnalyticsRoute
   '/library/borrow-return': typeof LibraryBorrowReturnRoute
@@ -396,7 +421,9 @@ export interface FileRoutesByFullPath {
   '/hostel/': typeof HostelIndexRoute
   '/inventory/': typeof InventoryIndexRoute
   '/library/': typeof LibraryIndexRoute
+  '/parent/': typeof ParentIndexRoute
   '/report-access/': typeof ReportAccessIndexRoute
+  '/student/': typeof StudentIndexRoute
   '/teachers/': typeof TeachersIndexRoute
   '/timetable/': typeof TimetableIndexRoute
   '/transport/': typeof TransportIndexRoute
@@ -409,6 +436,7 @@ export interface FileRoutesByFullPath {
   '/finance/hr-payroll/processing': typeof FinanceHrPayrollProcessingRoute
   '/finance/hr-payroll/salary-structure': typeof FinanceHrPayrollSalaryStructureRoute
   '/finance/hr-payroll/salary-table': typeof FinanceHrPayrollSalaryTableRoute
+  '/parent/child/$childId': typeof ParentChildChildIdRoute
   '/finance/admissions/': typeof FinanceAdmissionsIndexRoute
   '/finance/expense-management/': typeof FinanceExpenseManagementIndexRoute
   '/finance/fee-posting/': typeof FinanceFeePostingIndexRoute
@@ -436,6 +464,7 @@ export interface FileRoutesByTo {
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
+  '/finance/approvals': typeof FinanceApprovalsRoute
   '/finance/dashboard': typeof FinanceDashboardRoute
   '/library/analytics': typeof LibraryAnalyticsRoute
   '/library/borrow-return': typeof LibraryBorrowReturnRoute
@@ -454,7 +483,9 @@ export interface FileRoutesByTo {
   '/hostel': typeof HostelIndexRoute
   '/inventory': typeof InventoryIndexRoute
   '/library': typeof LibraryIndexRoute
+  '/parent': typeof ParentIndexRoute
   '/report-access': typeof ReportAccessIndexRoute
+  '/student': typeof StudentIndexRoute
   '/teachers': typeof TeachersIndexRoute
   '/timetable': typeof TimetableIndexRoute
   '/transport': typeof TransportIndexRoute
@@ -467,6 +498,7 @@ export interface FileRoutesByTo {
   '/finance/hr-payroll/processing': typeof FinanceHrPayrollProcessingRoute
   '/finance/hr-payroll/salary-structure': typeof FinanceHrPayrollSalaryStructureRoute
   '/finance/hr-payroll/salary-table': typeof FinanceHrPayrollSalaryTableRoute
+  '/parent/child/$childId': typeof ParentChildChildIdRoute
   '/finance/admissions': typeof FinanceAdmissionsIndexRoute
   '/finance/expense-management': typeof FinanceExpenseManagementIndexRoute
   '/finance/fee-posting': typeof FinanceFeePostingIndexRoute
@@ -495,6 +527,7 @@ export interface FileRoutesById {
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
+  '/finance/approvals': typeof FinanceApprovalsRoute
   '/finance/dashboard': typeof FinanceDashboardRoute
   '/library/analytics': typeof LibraryAnalyticsRoute
   '/library/borrow-return': typeof LibraryBorrowReturnRoute
@@ -513,7 +546,9 @@ export interface FileRoutesById {
   '/hostel/': typeof HostelIndexRoute
   '/inventory/': typeof InventoryIndexRoute
   '/library/': typeof LibraryIndexRoute
+  '/parent/': typeof ParentIndexRoute
   '/report-access/': typeof ReportAccessIndexRoute
+  '/student/': typeof StudentIndexRoute
   '/teachers/': typeof TeachersIndexRoute
   '/timetable/': typeof TimetableIndexRoute
   '/transport/': typeof TransportIndexRoute
@@ -526,6 +561,7 @@ export interface FileRoutesById {
   '/finance/hr-payroll/processing': typeof FinanceHrPayrollProcessingRoute
   '/finance/hr-payroll/salary-structure': typeof FinanceHrPayrollSalaryStructureRoute
   '/finance/hr-payroll/salary-table': typeof FinanceHrPayrollSalaryTableRoute
+  '/parent/child/$childId': typeof ParentChildChildIdRoute
   '/finance/admissions/': typeof FinanceAdmissionsIndexRoute
   '/finance/expense-management/': typeof FinanceExpenseManagementIndexRoute
   '/finance/fee-posting/': typeof FinanceFeePostingIndexRoute
@@ -555,6 +591,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/signup'
     | '/finance/adjustment-management'
+    | '/finance/approvals'
     | '/finance/dashboard'
     | '/library/analytics'
     | '/library/borrow-return'
@@ -573,7 +610,9 @@ export interface FileRouteTypes {
     | '/hostel/'
     | '/inventory/'
     | '/library/'
+    | '/parent/'
     | '/report-access/'
+    | '/student/'
     | '/teachers/'
     | '/timetable/'
     | '/transport/'
@@ -586,6 +625,7 @@ export interface FileRouteTypes {
     | '/finance/hr-payroll/processing'
     | '/finance/hr-payroll/salary-structure'
     | '/finance/hr-payroll/salary-table'
+    | '/parent/child/$childId'
     | '/finance/admissions/'
     | '/finance/expense-management/'
     | '/finance/fee-posting/'
@@ -613,6 +653,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/signup'
     | '/finance/adjustment-management'
+    | '/finance/approvals'
     | '/finance/dashboard'
     | '/library/analytics'
     | '/library/borrow-return'
@@ -631,7 +672,9 @@ export interface FileRouteTypes {
     | '/hostel'
     | '/inventory'
     | '/library'
+    | '/parent'
     | '/report-access'
+    | '/student'
     | '/teachers'
     | '/timetable'
     | '/transport'
@@ -644,6 +687,7 @@ export interface FileRouteTypes {
     | '/finance/hr-payroll/processing'
     | '/finance/hr-payroll/salary-structure'
     | '/finance/hr-payroll/salary-table'
+    | '/parent/child/$childId'
     | '/finance/admissions'
     | '/finance/expense-management'
     | '/finance/fee-posting'
@@ -671,6 +715,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/signup'
     | '/finance/adjustment-management'
+    | '/finance/approvals'
     | '/finance/dashboard'
     | '/library/analytics'
     | '/library/borrow-return'
@@ -689,7 +734,9 @@ export interface FileRouteTypes {
     | '/hostel/'
     | '/inventory/'
     | '/library/'
+    | '/parent/'
     | '/report-access/'
+    | '/student/'
     | '/teachers/'
     | '/timetable/'
     | '/transport/'
@@ -702,6 +749,7 @@ export interface FileRouteTypes {
     | '/finance/hr-payroll/processing'
     | '/finance/hr-payroll/salary-structure'
     | '/finance/hr-payroll/salary-table'
+    | '/parent/child/$childId'
     | '/finance/admissions/'
     | '/finance/expense-management/'
     | '/finance/fee-posting/'
@@ -730,6 +778,7 @@ export interface RootRouteChildren {
   AuthLoginRoute: typeof AuthLoginRoute
   AuthSignupRoute: typeof AuthSignupRoute
   FinanceAdjustmentManagementRoute: typeof FinanceAdjustmentManagementRoute
+  FinanceApprovalsRoute: typeof FinanceApprovalsRoute
   FinanceDashboardRoute: typeof FinanceDashboardRoute
   LibraryAnalyticsRoute: typeof LibraryAnalyticsRoute
   LibraryBorrowReturnRoute: typeof LibraryBorrowReturnRoute
@@ -748,7 +797,9 @@ export interface RootRouteChildren {
   HostelIndexRoute: typeof HostelIndexRoute
   InventoryIndexRoute: typeof InventoryIndexRoute
   LibraryIndexRoute: typeof LibraryIndexRoute
+  ParentIndexRoute: typeof ParentIndexRoute
   ReportAccessIndexRoute: typeof ReportAccessIndexRoute
+  StudentIndexRoute: typeof StudentIndexRoute
   TeachersIndexRoute: typeof TeachersIndexRoute
   TimetableIndexRoute: typeof TimetableIndexRoute
   TransportIndexRoute: typeof TransportIndexRoute
@@ -761,6 +812,7 @@ export interface RootRouteChildren {
   FinanceHrPayrollProcessingRoute: typeof FinanceHrPayrollProcessingRoute
   FinanceHrPayrollSalaryStructureRoute: typeof FinanceHrPayrollSalaryStructureRoute
   FinanceHrPayrollSalaryTableRoute: typeof FinanceHrPayrollSalaryTableRoute
+  ParentChildChildIdRoute: typeof ParentChildChildIdRoute
   FinanceAdmissionsIndexRoute: typeof FinanceAdmissionsIndexRoute
   FinanceExpenseManagementIndexRoute: typeof FinanceExpenseManagementIndexRoute
   FinanceFeePostingIndexRoute: typeof FinanceFeePostingIndexRoute
@@ -921,6 +973,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FinanceAdjustmentManagementRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/finance/approvals': {
+      id: '/finance/approvals'
+      path: '/finance/approvals'
+      fullPath: '/finance/approvals'
+      preLoaderRoute: typeof FinanceApprovalsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/finance/dashboard': {
       id: '/finance/dashboard'
       path: '/finance/dashboard'
@@ -984,6 +1043,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LibraryProprietorRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/parent/': {
+      id: '/parent/'
+      path: '/parent'
+      fullPath: '/parent/'
+      preLoaderRoute: typeof ParentIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/report-access/': {
       id: '/report-access/'
       path: '/report-access'
@@ -996,6 +1062,13 @@ declare module '@tanstack/react-router' {
       path: '/staff/dashboard'
       fullPath: '/staff/dashboard'
       preLoaderRoute: typeof StaffDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/student/': {
+      id: '/student/'
+      path: '/student'
+      fullPath: '/student/'
+      preLoaderRoute: typeof StudentIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/teachers/': {
@@ -1166,6 +1239,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FinanceWealthLoanIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/parent/child/$childId': {
+      id: '/parent/child/$childId'
+      path: '/parent/child/$childId'
+      fullPath: '/parent/child/$childId'
+      preLoaderRoute: typeof ParentChildChildIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -1186,6 +1266,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthLoginRoute: AuthLoginRoute,
   AuthSignupRoute: AuthSignupRoute,
   FinanceAdjustmentManagementRoute: FinanceAdjustmentManagementRoute,
+  FinanceApprovalsRoute: FinanceApprovalsRoute,
   FinanceDashboardRoute: FinanceDashboardRoute,
   LibraryAnalyticsRoute: LibraryAnalyticsRoute,
   LibraryBorrowReturnRoute: LibraryBorrowReturnRoute,
@@ -1204,7 +1285,9 @@ const rootRouteChildren: RootRouteChildren = {
   HostelIndexRoute: HostelIndexRoute,
   InventoryIndexRoute: InventoryIndexRoute,
   LibraryIndexRoute: LibraryIndexRoute,
+  ParentIndexRoute: ParentIndexRoute,
   ReportAccessIndexRoute: ReportAccessIndexRoute,
+  StudentIndexRoute: StudentIndexRoute,
   TeachersIndexRoute: TeachersIndexRoute,
   TimetableIndexRoute: TimetableIndexRoute,
   TransportIndexRoute: TransportIndexRoute,
@@ -1218,6 +1301,7 @@ const rootRouteChildren: RootRouteChildren = {
   FinanceHrPayrollProcessingRoute: FinanceHrPayrollProcessingRoute,
   FinanceHrPayrollSalaryStructureRoute: FinanceHrPayrollSalaryStructureRoute,
   FinanceHrPayrollSalaryTableRoute: FinanceHrPayrollSalaryTableRoute,
+  ParentChildChildIdRoute: ParentChildChildIdRoute,
   FinanceAdmissionsIndexRoute: FinanceAdmissionsIndexRoute,
   FinanceExpenseManagementIndexRoute: FinanceExpenseManagementIndexRoute,
   FinanceFeePostingIndexRoute: FinanceFeePostingIndexRoute,

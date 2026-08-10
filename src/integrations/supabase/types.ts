@@ -245,6 +245,7 @@ export type Database = {
           created_at: string | null
           fee_type_id: string | null
           id: string
+          status: string | null
           student_id: string
           tenant_id: string
           term: string
@@ -258,6 +259,7 @@ export type Database = {
           created_at?: string | null
           fee_type_id?: string | null
           id?: string
+          status?: string | null
           student_id: string
           tenant_id: string
           term: string
@@ -271,6 +273,7 @@ export type Database = {
           created_at?: string | null
           fee_type_id?: string | null
           id?: string
+          status?: string | null
           student_id?: string
           tenant_id?: string
           term?: string
@@ -327,6 +330,66 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "student_wallets_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      students: {
+        Row: {
+          admission_number: string
+          campus_id: string | null
+          class_id: string | null
+          created_at: string | null
+          full_name: string
+          id: string
+          parent_id: string | null
+          status: string | null
+          tenant_id: string
+          updated_at: string | null
+          virtual_account_bank: string | null
+          virtual_account_number: string | null
+        }
+        Insert: {
+          admission_number: string
+          campus_id?: string | null
+          class_id?: string | null
+          created_at?: string | null
+          full_name: string
+          id?: string
+          parent_id?: string | null
+          status?: string | null
+          tenant_id: string
+          updated_at?: string | null
+          virtual_account_bank?: string | null
+          virtual_account_number?: string | null
+        }
+        Update: {
+          admission_number?: string
+          campus_id?: string | null
+          class_id?: string | null
+          created_at?: string | null
+          full_name?: string
+          id?: string
+          parent_id?: string | null
+          status?: string | null
+          tenant_id?: string
+          updated_at?: string | null
+          virtual_account_bank?: string | null
+          virtual_account_number?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "students_campus_id_fkey"
+            columns: ["campus_id"]
+            isOneToOne: false
+            referencedRelation: "campuses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "students_tenant_id_fkey"
             columns: ["tenant_id"]
             isOneToOne: false
             referencedRelation: "tenants"

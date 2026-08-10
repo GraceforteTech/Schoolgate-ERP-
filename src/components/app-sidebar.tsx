@@ -51,7 +51,8 @@ const mainNavItems = [
 
 const managementNavItems = [
   { title: "Students", url: "/students", icon: Users },
-  { title: "Parents", url: "/parents", icon: Users, disabled: true }, // Placeholder as requested
+  { title: "Student Portal", url: "/student", icon: GraduationCap },
+  { title: "Parent Portal", url: "/parent", icon: Users }, // Placeholder as requested
   { title: "Staff", url: "/finance/hr-payroll/employees", icon: ShieldCheck },
   { title: "Classes", url: "/academic/classes", icon: Users },
 ];
@@ -74,6 +75,7 @@ const financeNavItems = [
   { title: "Finance Dashboard", url: "/finance/dashboard", icon: LayoutDashboard },
   { title: "Expenses", url: "/finance/expense-management", icon: Banknote },
   { title: "Payments", url: "/finance/payroll-management", icon: Banknote },
+  { title: "Approval Centre", url: "/finance/approvals", icon: ShieldCheck },
 ];
 
 const systemNavItems = [
@@ -153,14 +155,14 @@ export function AppSidebar() {
             <SidebarMenu>
               {managementNavItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={isActive(item.url)} disabled={item.disabled}>
+                  <SidebarMenuButton asChild isActive={isActive(item.url)} disabled={(item as any).disabled}>
                     <Link
                       to={item.url}
                       className={cn(
                         "flex items-center gap-3 rounded-lg px-3 py-2 transition-colors",
                         isActive(item.url)
                           ? "bg-schoolgate-green-light text-schoolgate-green"
-                          : item.disabled ? "opacity-50 cursor-not-allowed" : "text-muted-foreground hover:bg-accent hover:text-foreground",
+                          : (item as any).disabled ? "opacity-50 cursor-not-allowed" : "text-muted-foreground hover:bg-accent hover:text-foreground",
                       )}
                     >
                       <item.icon className="h-4 w-4 shrink-0" />
@@ -231,14 +233,14 @@ export function AppSidebar() {
             <SidebarMenu>
               {systemNavItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={isActive(item.url)} disabled={item.disabled}>
+                  <SidebarMenuButton asChild isActive={isActive(item.url)} disabled={(item as any).disabled}>
                     <Link
                       to={item.url}
                       className={cn(
                         "flex items-center gap-3 rounded-lg px-3 py-2 transition-colors",
                         isActive(item.url)
                           ? "bg-schoolgate-green-light text-schoolgate-green"
-                          : item.disabled ? "opacity-50 cursor-not-allowed" : "text-muted-foreground hover:bg-accent hover:text-foreground",
+                          : (item as any).disabled ? "opacity-50 cursor-not-allowed" : "text-muted-foreground hover:bg-accent hover:text-foreground",
                       )}
                     >
                       <item.icon className="h-4 w-4 shrink-0" />
