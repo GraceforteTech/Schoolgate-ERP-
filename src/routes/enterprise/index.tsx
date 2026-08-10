@@ -42,7 +42,8 @@ import {
   History,
   AlertCircle,
   Cake,
-  Gift
+  Gift,
+  RefreshCw
 } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -68,6 +69,11 @@ import {
 } from 'recharts'
 import { useState, useEffect } from 'react'
 import { PlaceholderForm } from '@/components/ui/placeholder-form'
+import { useQuery } from '@tanstack/react-query'
+import { supabase } from '@/integrations/supabase/client'
+import { useServerFn } from '@tanstack/react-start'
+import { getExecutiveDashboardStats } from '@/lib/onboarding.functions'
+import { toast } from 'sonner'
 
 export const Route = createFileRoute('/enterprise/')({
   component: EnterpriseCommandCenter,
