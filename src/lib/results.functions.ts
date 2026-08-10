@@ -21,7 +21,6 @@ export const getStudentResultDrillDown = createServerFn({ method: "GET" })
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     
     // 1. Get Student & Teacher Info
-    // Note: class_id is on students table, we use that to find the class teacher
     const { data: student, error: studentError } = await supabaseAdmin
       .from('students')
       .select('*, profiles!students_parent_id_fkey(full_name)')
@@ -42,13 +41,12 @@ export const getStudentResultDrillDown = createServerFn({ method: "GET" })
 
     if (resultsError) throw new Error(resultsError.message);
 
-    // 3. Get Grading Scheme to calculate grades properly
+    // 3. Get Grading Scheme
     const { data: gradingScheme } = await supabaseAdmin
       .from('grading_rules')
       .select('*')
       .eq('tenant_id', data.tenantId);
 
-    // Helper to calculate grade from score
     const getGrade = (score: number) => {
       if (!gradingScheme || gradingScheme.length === 0) {
         if (score >= 75) return 'A1';
@@ -61,11 +59,10 @@ export const getStudentResultDrillDown = createServerFn({ method: "GET" })
         if (score >= 40) return 'E8';
         return 'F9';
       }
-      const rule = gradingScheme.find(g => score >= g.min_score && score <= g.max_score);
+      const rule = gradingScheme.find((g: any) => score >= g.min_score && score <= g.max_score);
       return rule ? rule.grade : 'F9';
     };
 
-    // 4. Transform results with calculated fields
     const enrichedResults = (results || []).map((r: any) => ({
       ...r,
       total_score: (Number(r.ca_score || 0) + Number(r.exam_score || 0)),
@@ -73,9 +70,8 @@ export const getStudentResultDrillDown = createServerFn({ method: "GET" })
       remark: (Number(r.ca_score || 0) + Number(r.exam_score || 0)) >= 40 ? 'Pass' : 'Fail'
     }));
 
-    // 5. Aggregate metrics
-    const validScores = enrichedResults.filter(r => r.total_score !== null);
-    const totalScore = validScores.reduce((sum, r) => sum + Number(r.total_score), 0);
+    const validScores = enrichedResults.filter((r: any) => r.total_score !== null);
+    const totalScore = validScores.reduce((sum: number, r: any) => sum + Number(r.total_score), 0);
     const averageScore = validScores.length > 0 ? totalScore / validScores.length : 0;
     
     return {
@@ -86,16 +82,12 @@ export const getStudentResultDrillDown = createServerFn({ method: "GET" })
         averageScore: Number(averageScore.toFixed(2)),
         overallGrade: getGrade(averageScore),
         subjectCount: results?.length || 0,
-        status: results?.every(r => r.status === 'published') ? 'Published' : 
-                results?.some(r => r.status === 'approved') ? 'Approved' : 'Pending'
+        status: enrichedResults.every((r: any) => r.status === 'published') ? 'Published' : 
+                enrichedResults.some((r: any) => r.status === 'approved') ? 'Approved' : 'Pending'
       }
     };
   });
 
-/**
- * Bulk updates the status of academic results.
- * Used for Bulk Approve and Bulk Publish.
- */
 export const bulkUpdateResultStatus = createServerFn({ method: "POST" })
   .validator((data: { 
     tenantId: string, 
@@ -118,7 +110,6 @@ export const bulkUpdateResultStatus = createServerFn({ method: "POST" })
 
     if (error) throw new Error(error.message);
     
-    // Log in audit trail
     if (updated && updated.length > 0) {
       await (supabaseAdmin.from('academic_results_audit' as any) as any).insert(
         data.resultIds.map(id => ({
@@ -133,9 +124,6 @@ export const bulkUpdateResultStatus = createServerFn({ method: "POST" })
     return { success: true, count: updated?.length || 0 };
   });
 
-/**
- * Gets a list of results eligible for bulk operations.
- */
 export const getResultsForBulkAction = createServerFn({ method: "GET" })
   .validator((data: { 
     tenantId: string, 
