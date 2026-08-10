@@ -19,8 +19,10 @@ import {
   XCircle,
   AlertCircle,
   ShieldCheck,
-  Loader2
+  Loader2,
+  Users
 } from "lucide-react";
+
 import {
   Table,
   TableBody,
@@ -118,7 +120,8 @@ export function StudentDirectory({ forcedStatus }: { forcedStatus?: string }) {
       data: {
         tenantId: "1c2069b2-3e2b-4d56-a36c-2f2222222222",
         search,
-        status: forcedStatus
+        status: forcedStatus || undefined
+
       }
     })
   });
