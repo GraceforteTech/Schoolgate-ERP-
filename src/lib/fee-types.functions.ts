@@ -190,5 +190,5 @@ export const getTenantClasses = createServerFn({ method: "GET" })
     if (error) throw new Error(error.message);
 
     const distinctClasses = Array.from(new Set((classes || []).map((c: any) => c.class_id as string)));
-    return distinctClasses.sort();
+    return distinctClasses.sort() as string[];
   });
