@@ -1,23 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { 
-  Settings, 
-  User, 
   Building2, 
   Shield, 
-  Bell, 
   CreditCard, 
   ChevronRight,
   Database,
-  Cloud,
   Lock,
-  Mail,
   UserCircle
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { supabase } from "@/integrations/supabase/client";
 import { useState, useEffect } from "react";
@@ -57,6 +51,10 @@ function SettingsPage() {
   };
 
   const handleChangePassword = async () => {
+    if (!password) {
+        toast.error("Please enter a new password");
+        return;
+    }
     if (password !== confirmPassword) {
       toast.error("Passwords do not match");
       return;
@@ -173,16 +171,6 @@ function SettingsPage() {
                   >
                     Update Password
                   </Button>
-                </CardContent>
-              </Card>
-
-              <Card className="border-none shadow-sm rounded-[14px]">
-                <CardHeader>
-                  <CardTitle className="text-lg font-bold">Active Sessions</CardTitle>
-                  <CardDescription>Manage and log out of your active sessions on other browsers and devices.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                   <p className="text-sm text-slate-600">You are currently logged in to this device.</p>
                 </CardContent>
               </Card>
             </TabsContent>
