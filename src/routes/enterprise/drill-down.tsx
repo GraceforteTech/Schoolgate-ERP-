@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { createFileRoute, useNavigate, Link } from '@tanstack/react-router';
 import { z } from 'zod';
 import { useQuery } from '@tanstack/react-query';
 import { useServerFn } from '@tanstack/react-start';
@@ -13,8 +13,6 @@ import {
   TableRow 
 } from '@/components/ui/table';
 import { cn } from '@/lib/utils';
-import { Toaster } from "@/components/ui/sonner";
-import { reportLovableError } from "@/lib/lovable-error-reporting";
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { 
@@ -22,7 +20,6 @@ import {
   Download, 
   Eye, 
   Search, 
-  Filter,
   Users,
   Wallet,
   CheckCircle2,
@@ -31,18 +28,6 @@ import {
   TrendingUp,
   CreditCard
 } from 'lucide-react';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { 
-  Select, 
-  SelectContent, 
-  SelectItem, 
-  SelectTrigger, 
-  SelectValue 
-} from '@/components/ui/select';
-import { exportToCSV } from '@/lib/csv-export';
-import { toast } from 'sonner';
-
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { 
@@ -133,7 +118,7 @@ function DrillDownPage() {
 
   const updateFilters = (newFilters: any) => {
     navigate({
-      search: (prev) => ({ ...prev, ...newFilters, page: 1 }),
+      search: (prev: any) => ({ ...prev, ...newFilters, page: 1 }),
       replace: true
     });
   };
@@ -150,14 +135,15 @@ function DrillDownPage() {
     <div className="min-h-screen bg-page-background p-4 lg:p-8 space-y-6">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex items-center gap-4">
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            onClick={() => window.history.back()}
-            className="rounded-full bg-white shadow-sm border border-border"
-          >
-            <ArrowLeft size={18} />
-          </Button>
+          <Link to="/enterprise">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="rounded-full bg-white shadow-sm border border-border"
+            >
+              <ArrowLeft size={18} />
+            </Button>
+          </Link>
           <div>
             <div className="flex items-center gap-2">
               <div className="p-1.5 rounded-lg bg-schoolgate-green/10 text-schoolgate-green">
@@ -192,30 +178,33 @@ function DrillDownPage() {
                 className="pl-9 h-10 bg-white border-border rounded-xl focus-visible:ring-schoolgate-green text-xs" 
               />
             </div>
-            <Select value={session} onValueChange={(val) => updateFilters({ session: val })}>
+            <Select value={session || "all"} onValueChange={(val) => updateFilters({ session: val === "all" ? undefined : val })}>
               <SelectTrigger className="h-10 bg-white border-border rounded-xl text-xs">
                 <SelectValue placeholder="All Sessions" />
               </SelectTrigger>
               <SelectContent>
+                <SelectItem value="all">All Sessions</SelectItem>
                 <SelectItem value="2023/2024">2023/2024</SelectItem>
                 <SelectItem value="2024/2025">2024/2025</SelectItem>
               </SelectContent>
             </Select>
-            <Select value={term} onValueChange={(val) => updateFilters({ term: val })}>
+            <Select value={term || "all"} onValueChange={(val) => updateFilters({ term: val === "all" ? undefined : val })}>
               <SelectTrigger className="h-10 bg-white border-border rounded-xl text-xs">
                 <SelectValue placeholder="All Terms" />
               </SelectTrigger>
               <SelectContent>
+                <SelectItem value="all">All Terms</SelectItem>
                 <SelectItem value="first">First Term</SelectItem>
                 <SelectItem value="second">Second Term</SelectItem>
                 <SelectItem value="third">Third Term</SelectItem>
               </SelectContent>
             </Select>
-            <Select value={classId} onValueChange={(val) => updateFilters({ classId: val })}>
+            <Select value={classId || "all"} onValueChange={(val) => updateFilters({ classId: val === "all" ? undefined : val })}>
               <SelectTrigger className="h-10 bg-white border-border rounded-xl text-xs">
                 <SelectValue placeholder="All Classes" />
               </SelectTrigger>
               <SelectContent>
+                <SelectItem value="all">All Classes</SelectItem>
                 <SelectItem value="JSS 1">JSS 1</SelectItem>
                 <SelectItem value="JSS 2">JSS 2</SelectItem>
                 <SelectItem value="SS 1">SS 1</SelectItem>
