@@ -173,3 +173,22 @@ export const assignFeeTypeToClasses = createServerFn({ method: "POST" })
 
     return { success: true, count: assignments.length };
   });
+
+export const getTenantClasses = createServerFn({ method: "GET" })
+  .validator((data: { tenantId: string }) => z.object({
+    tenantId: z.string().uuid()
+  }).parse(data))
+  .handler(async ({ data }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    
+    const { data: classes, error } = await supabaseAdmin
+      .from('students')
+      .select('class_id')
+      .eq('tenant_id', data.tenantId)
+      .not('class_id', 'is', null);
+
+    if (error) throw new Error(error.message);
+
+    const distinctClasses = Array.from(new Set((classes || []).map((c: any) => c.class_id)));
+    return distinctClasses.sort();
+  });
