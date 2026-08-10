@@ -16,11 +16,10 @@ import {
   CheckCircle2,
   XCircle,
   Users,
-  Session,
-  Term,
-  School,
-  Class,
-  Status
+  Calendar,
+  Layers,
+  Activity,
+  UserCheck
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -199,13 +198,19 @@ export function PinManagementSystem() {
                     <div className="flex items-center gap-2">
                       <div className="text-xs font-black text-slate-900">{item.uses}</div>
                       <div className="w-20 h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                        <div 
-                          className={cn(
-                            "h-full rounded-full",
-                            item.status === "Exhausted" ? "bg-amber-500" : "bg-emerald-500"
-                          )} 
-                          style={{ width: `${(parseInt(item.uses.split(' / ')[0]) / parseInt(item.uses.split(' / ')[1])) * 100}%` }}
-                        />
+                        {(() => {
+                          const [current, max] = item.uses.split(' / ').map(Number);
+                          const percentage = (current / max) * 100;
+                          return (
+                            <div 
+                              className={cn(
+                                "h-full rounded-full",
+                                item.status === "Exhausted" ? "bg-amber-500" : "bg-emerald-500"
+                              )} 
+                              style={{ width: `${percentage}%` }}
+                            />
+                          );
+                        })()}
                       </div>
                     </div>
                   </td>
