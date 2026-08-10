@@ -30,6 +30,7 @@ import { Route as AuthSignupRouteImport } from './routes/auth/signup'
 import { Route as CbtIndexRouteImport } from './routes/cbt/index'
 import { Route as EnterpriseIndexRouteImport } from './routes/enterprise/index'
 import { Route as FinanceAdjustmentManagementRouteImport } from './routes/finance/adjustment-management'
+import { Route as FinanceApprovalsRouteImport } from './routes/finance/approvals'
 import { Route as FinanceDashboardRouteImport } from './routes/finance/dashboard'
 import { Route as HostelIndexRouteImport } from './routes/hostel/index'
 import { Route as InventoryIndexRouteImport } from './routes/inventory/index'
@@ -176,6 +177,11 @@ const FinanceAdjustmentManagementRoute =
     path: '/finance/adjustment-management',
     getParentRoute: () => rootRouteImport,
   } as any)
+const FinanceApprovalsRoute = FinanceApprovalsRouteImport.update({
+  id: '/finance/approvals',
+  path: '/finance/approvals',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FinanceDashboardRoute = FinanceDashboardRouteImport.update({
   id: '/finance/dashboard',
   path: '/finance/dashboard',
@@ -396,6 +402,7 @@ export interface FileRoutesByFullPath {
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
+  '/finance/approvals': typeof FinanceApprovalsRoute
   '/finance/dashboard': typeof FinanceDashboardRoute
   '/library/analytics': typeof LibraryAnalyticsRoute
   '/library/borrow-return': typeof LibraryBorrowReturnRoute
@@ -457,6 +464,7 @@ export interface FileRoutesByTo {
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
+  '/finance/approvals': typeof FinanceApprovalsRoute
   '/finance/dashboard': typeof FinanceDashboardRoute
   '/library/analytics': typeof LibraryAnalyticsRoute
   '/library/borrow-return': typeof LibraryBorrowReturnRoute
@@ -519,6 +527,7 @@ export interface FileRoutesById {
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
   '/finance/adjustment-management': typeof FinanceAdjustmentManagementRoute
+  '/finance/approvals': typeof FinanceApprovalsRoute
   '/finance/dashboard': typeof FinanceDashboardRoute
   '/library/analytics': typeof LibraryAnalyticsRoute
   '/library/borrow-return': typeof LibraryBorrowReturnRoute
@@ -582,6 +591,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/signup'
     | '/finance/adjustment-management'
+    | '/finance/approvals'
     | '/finance/dashboard'
     | '/library/analytics'
     | '/library/borrow-return'
@@ -643,6 +653,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/signup'
     | '/finance/adjustment-management'
+    | '/finance/approvals'
     | '/finance/dashboard'
     | '/library/analytics'
     | '/library/borrow-return'
@@ -704,6 +715,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/signup'
     | '/finance/adjustment-management'
+    | '/finance/approvals'
     | '/finance/dashboard'
     | '/library/analytics'
     | '/library/borrow-return'
@@ -766,6 +778,7 @@ export interface RootRouteChildren {
   AuthLoginRoute: typeof AuthLoginRoute
   AuthSignupRoute: typeof AuthSignupRoute
   FinanceAdjustmentManagementRoute: typeof FinanceAdjustmentManagementRoute
+  FinanceApprovalsRoute: typeof FinanceApprovalsRoute
   FinanceDashboardRoute: typeof FinanceDashboardRoute
   LibraryAnalyticsRoute: typeof LibraryAnalyticsRoute
   LibraryBorrowReturnRoute: typeof LibraryBorrowReturnRoute
@@ -958,6 +971,13 @@ declare module '@tanstack/react-router' {
       path: '/finance/adjustment-management'
       fullPath: '/finance/adjustment-management'
       preLoaderRoute: typeof FinanceAdjustmentManagementRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/finance/approvals': {
+      id: '/finance/approvals'
+      path: '/finance/approvals'
+      fullPath: '/finance/approvals'
+      preLoaderRoute: typeof FinanceApprovalsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/finance/dashboard': {
@@ -1246,6 +1266,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthLoginRoute: AuthLoginRoute,
   AuthSignupRoute: AuthSignupRoute,
   FinanceAdjustmentManagementRoute: FinanceAdjustmentManagementRoute,
+  FinanceApprovalsRoute: FinanceApprovalsRoute,
   FinanceDashboardRoute: FinanceDashboardRoute,
   LibraryAnalyticsRoute: LibraryAnalyticsRoute,
   LibraryBorrowReturnRoute: LibraryBorrowReturnRoute,
