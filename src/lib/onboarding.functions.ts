@@ -160,8 +160,7 @@ export const getExecutiveDashboardStats = createServerFn({ method: "GET" })
 
     const collectionRate = totalFeesBilled > 0 ? (approvedCollections / totalFeesBilled) * 100 : 0;
 
-    // 7. Operations Breakdowns (Added for charts)
-    // Fees by class
+    // 7. Operations Breakdowns
     const { data: feesByClass } = await supabaseAdmin
       .from('student_fees')
       .select('class_id, amount_paid')
@@ -174,12 +173,31 @@ export const getExecutiveDashboardStats = createServerFn({ method: "GET" })
     });
 
     // Daily trends (last 7 days)
-    const sevenDaysAgo = new Date();
-    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-    const dailyData = transactions?.filter((t: any) => new Date(t.created_at) >= sevenDaysAgo) || [];
-    
-    // Visitor placeholders (since no table exists yet, keeping these as calculated constants or empty)
-    
+    const dailyTrend = [];
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      d.setHours(0,0,0,0);
+      const dayEnd = new Date(d);
+      dayEnd.setHours(23,59,59,999);
+      
+      const dayRevenue = transactions?.filter((t: any) => {
+        const tDate = new Date(t.created_at);
+        return tDate >= d && tDate <= dayEnd && t.status === 'approved' && t.type === 'fee_payment';
+      }).reduce((sum: number, t: any) => sum + Number(t.amount), 0) || 0;
+
+      const dayExpenses = expenses?.filter((e: any) => {
+        const eDate = new Date(e.created_at);
+        return eDate >= d && eDate <= dayEnd && e.status === 'approved';
+      }).reduce((sum: number, e: any) => sum + Number(e.amount), 0) || 0;
+
+      dailyTrend.push({
+        name: d.toLocaleDateString('en-US', { weekday: 'short' }),
+        revenue: dayRevenue,
+        expenses: dayExpenses
+      });
+    }
+
     return {
       totalStudents: totalStudents || 0,
       totalClasses: totalClasses || 0,
@@ -200,6 +218,7 @@ export const getExecutiveDashboardStats = createServerFn({ method: "GET" })
       approvedExpenses,
       netPosition: approvedCollections - approvedExpenses,
       classRevenueBreakdown: Object.entries(classTotals).map(([name, value]) => ({ name, value })),
+      dailyTrend,
       lastRefresh: new Date().toISOString()
     };
   });

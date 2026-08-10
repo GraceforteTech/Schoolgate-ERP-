@@ -306,7 +306,7 @@ function EnterpriseCommandCenter() {
                 </CardHeader>
                 <div className="h-[300px]">
                   <ResponsiveContainer width="100%" height="100%">
-                    <AreaChart data={REVENUE_EXPENSE_DATA}>
+                    <AreaChart data={stats?.dailyTrend || REVENUE_EXPENSE_DATA}>
                       <defs>
                         <linearGradient id="colorRev" x1="0" y1="0" x2="0" y2="1">
                           <stop offset="5%" stopColor="#0B6E3C" stopOpacity={0.1}/>
