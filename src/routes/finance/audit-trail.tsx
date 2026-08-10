@@ -9,6 +9,7 @@ import { getAuditLogs, exportAuditLogs } from "@/lib/audit.functions";
 import { getSavedAuditFilters, saveAuditFilter, deleteAuditFilter } from "@/lib/audit-filters.functions";
 import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
+import { AuditFiltersDialog } from "@/components/notifications-hub";
 import { z } from "zod";
 import { 
   Search, 
