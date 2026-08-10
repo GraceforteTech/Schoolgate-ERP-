@@ -7,6 +7,11 @@ import {
   DollarSign,
   FileSpreadsheet,
   FileText,
+  Trash2,
+  AlertTriangle,
+  Users,
+  Clock,
+
   GraduationCap,
   Layers,
   Plus,
@@ -36,6 +41,12 @@ import { useQuery } from "@tanstack/react-query";
 import { getFeeTypesRegistry } from "@/lib/fee-types.functions";
 import { supabase } from "@/integrations/supabase/client";
 import { CreateFeeTypeDialog } from "@/components/finance/create-fee-type-dialog";
+import { exportToCSV } from "@/lib/csv-export";
+import { toast } from "sonner";
+import { useQueryClient } from "@tanstack/react-query";
+import { bulkAssignFees } from "@/lib/audit.functions";
+import { BulkActionConfirmation } from "@/components/finance/bulk-action-confirmation";
+
 
 export const Route = createFileRoute("/fee-types")({
   head: () => ({
@@ -54,9 +65,22 @@ export const Route = createFileRoute("/fee-types")({
 });
 
 function FeeTypesPage() {
+  const queryClient = useQueryClient();
   const [importDialogOpen, setImportDialogOpen] = useState(false);
   const [isNewFeeTypeOpen, setIsNewFeeTypeOpen] = useState(false);
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [bulkAction, setBulkAction] = useState<{
+    type: 'waiver' | 'adjustment' | 'assign' | 'remove';
+    count: number;
+    feeType?: string;
+    amount?: number;
+    totalImpact?: number;
+  } | null>(null);
+
+
   const fetchRegistry = useServerFn(getFeeTypesRegistry);
+  const assignFees = useServerFn(bulkAssignFees);
+
 
   const { data: registry, isLoading } = useQuery({
     queryKey: ['fee-types-registry'],
@@ -208,9 +232,27 @@ function FeeTypesPage() {
                       <Button
                         variant="outline"
                         className="h-9 shrink-0 gap-2 rounded-lg border-border text-sm font-medium"
+                        onClick={() => {
+                          if (registry?.feeTypes) {
+                            exportToCSV(
+                              registry.feeTypes.map((f: any) => ({
+                                Name: f.name,
+                                Session: f.academic_session,
+                                Term: f.term,
+                                Category: f.category,
+                                Amount: f.amount,
+                                Students: f.studentsAssigned,
+                                'Expected Revenue': f.expectedRevenue,
+                                Status: f.is_active ? 'Active' : 'Inactive'
+                              })),
+                              `fee_types_${new Date().toISOString().split('T')[0]}.csv`
+                            );
+                            toast.success("Fee registry exported successfully");
+                          }
+                        }}
                       >
                         <FileText className="h-4 w-4" />
-                        Export PDF
+                        Export CSV
                       </Button>
                       <Button
                         variant="outline"
@@ -225,8 +267,8 @@ function FeeTypesPage() {
               </Card>
 
               {/* Main content card */}
-              <Card className="rounded-[14px] border-0 bg-white shadow-sm">
-                <CardHeader className="border-b px-4 py-5 sm:px-6">
+              <Card className="rounded-[14px] border-0 bg-white shadow-sm overflow-hidden">
+                <CardHeader className="border-b px-4 py-5 sm:px-6 bg-slate-50/30">
                   <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
                     <div className="min-w-0">
                       <CardTitle className="text-base font-semibold">Fee Types Registry</CardTitle>
@@ -234,15 +276,52 @@ function FeeTypesPage() {
                         Manage all school fee categories, mandatory requirements, and class-wise allocations.
                       </p>
                     </div>
+                    {selectedIds.length > 0 && (
+                      <div className="flex items-center gap-2 animate-in fade-in slide-in-from-right-4 duration-300">
+                        <span className="text-xs font-bold text-schoolgate-green bg-schoolgate-green-light px-3 py-1.5 rounded-full border border-schoolgate-green/20">
+                          {selectedIds.length} selected
+                        </span>
+                        <Button 
+                          size="sm"
+                          className="h-8 rounded-lg bg-schoolgate-green hover:bg-schoolgate-green/90 text-white font-bold gap-2 shadow-sm"
+                          onClick={() => {
+                            const feeType = registry?.feeTypes.find((f: any) => f.id === selectedIds[0]);
+                            setBulkAction({
+                              type: 'assign',
+                              count: selectedIds.length,
+                              feeType: selectedIds.length === 1 ? feeType?.name : "Multiple Fee Types",
+                              amount: selectedIds.length === 1 ? feeType?.amount : undefined,
+                              totalImpact: selectedIds.length === 1 ? (feeType?.amount || 0) * (feeType?.studentsAssigned || 0) : 0
+                            });
+
+                          }}
+                        >
+                          <Users size={14} /> Bulk Assign
+                        </Button>
+                        <Button 
+                          variant="outline"
+                          size="sm"
+                          className="h-8 rounded-lg border-destructive/20 text-destructive hover:bg-destructive/5 font-bold gap-2"
+                        >
+                          <Trash2 size={14} /> Archive Selected
+                        </Button>
+                      </div>
+                    )}
                   </div>
                 </CardHeader>
 
-                <CardContent className="p-4 sm:p-6">
+
+                <CardContent className="p-0">
                   {isLoading ? (
                     <div className="py-20 text-center text-muted-foreground">Loading registry data...</div>
                   ) : (
-                    <FeeTypesTable data={registry?.feeTypes || []} />
+                    <FeeTypesTable 
+                      data={registry?.feeTypes || []} 
+                      selected={selectedIds}
+                      onSelectionChange={setSelectedIds}
+                    />
                   )}
+
 
                   <div className="mt-6 flex items-center justify-between border-t pt-4 text-sm text-muted-foreground">
                     <span>Showing {registry?.feeTypes.length || 0} fee types</span>
@@ -261,7 +340,42 @@ function FeeTypesPage() {
           </main>
         </SidebarInset>
       </div>
+
+      {bulkAction && (
+        <BulkActionConfirmation 
+          open={!!bulkAction}
+          onOpenChange={(open) => !open && setBulkAction(null)}
+          action={bulkAction}
+          onConfirm={async (reason) => {
+            try {
+              const { data: { user } } = await supabase.auth.getUser();
+              if (!user) return;
+              const { data: membership } = await supabase.from('memberships').select('tenant_id').eq('user_id', user.id).single();
+              if (!membership) return;
+
+              if (bulkAction.type === 'assign') {
+                await assignFees({
+                  data: {
+                    tenantId: membership.tenant_id,
+                    feeTypeIds: selectedIds,
+                    studentIds: [], // In a real scenario, this might be filtered students
+                    session: "2025-2026",
+                    term: "first"
+                  }
+                });
+                toast.success(`Successfully assigned ${selectedIds.length} fee types to selected students`);
+                setSelectedIds([]);
+              }
+              setBulkAction(null);
+              queryClient.invalidateQueries({ queryKey: ['fee-types-registry'] });
+            } catch (err: any) {
+              toast.error(err.message);
+            }
+          }}
+        />
+      )}
     </SidebarProvider>
+
   );
 }
 

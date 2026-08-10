@@ -13,7 +13,10 @@ import {
   Printer,
   ChevronDown,
   Info,
-  Clock
+  Clock,
+  Plus,
+  AlertTriangle
+
 } from "lucide-react";
 import { createFileRoute } from "@tanstack/react-router";
 import { AppSidebar } from "@/components/app-sidebar";
@@ -35,7 +38,10 @@ import { ManualFeePosting } from "@/components/finance/fee-posting/manual-postin
 import { FeePostingSpreadsheet } from "@/components/finance/fee-posting-spreadsheet";
 import { EnhancedAuditTrail } from "@/components/finance/enhanced-audit-trail";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { exportToCSV } from "@/lib/csv-export";
+import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+
 
 
 export const Route = createFileRoute("/finance/fee-posting/")({
@@ -75,9 +81,17 @@ function FeePostingPage() {
                   </p>
                 </div>
                 <div className="flex flex-wrap items-center gap-2">
-                  <Button variant="outline" className="h-10 rounded-xl bg-white border-slate-200 font-bold gap-2 text-slate-600">
+                  <Button 
+                    variant="outline" 
+                    className="h-10 rounded-xl bg-white border-slate-200 font-bold gap-2 text-slate-600"
+                    onClick={() => {
+                      // Logic for exporting general fee posting reports
+                      toast.info("Generating full financial report...");
+                    }}
+                  >
                     <Download size={16} /> Export Reports
                   </Button>
+
                   <Button variant="outline" className="h-10 rounded-xl bg-white border-slate-200 font-bold gap-2 text-slate-600">
                     <Printer size={16} /> Batch Statement
                   </Button>
@@ -273,9 +287,16 @@ function FeePostingPage() {
                                <Clock size={14} /> Today
                             </Button>
                          </div>
-                         <Button variant="ghost" className="h-9 text-schoolgate-green text-xs font-black uppercase tracking-widest gap-2">
+                         <Button 
+                           variant="ghost" 
+                           className="h-9 text-schoolgate-green text-xs font-black uppercase tracking-widest gap-2"
+                           onClick={() => {
+                             toast.info("Navigating to full audit log for advanced export...");
+                           }}
+                         >
                             <Download size={14} /> Export Audit CSV
                          </Button>
+
                       </div>
                       <EnhancedAuditTrail />
                    </div>

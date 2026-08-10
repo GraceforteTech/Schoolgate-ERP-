@@ -6,8 +6,10 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { CheckCircle2, XCircle, Clock, ShieldCheck } from "lucide-react";
+import { CheckCircle2, XCircle, Clock, ShieldCheck, Download } from "lucide-react";
 import { toast } from "sonner";
+import { exportToCSV } from "@/lib/csv-export";
+
 
 export const Route = createFileRoute("/finance/approvals")({
   component: ApprovalsPage,
@@ -60,15 +62,39 @@ function ApprovalsPage() {
 
   return (
     <div className="p-6 md:p-8 max-w-7xl mx-auto space-y-8">
-      <div className="flex items-center gap-4">
-        <div className="h-12 w-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center">
-          <ShieldCheck size={24} />
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div className="flex items-center gap-4">
+          <div className="h-12 w-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center">
+            <ShieldCheck size={24} />
+          </div>
+          <div>
+            <h1 className="text-3xl font-black text-slate-900 tracking-tight">Approval Centre</h1>
+            <p className="text-slate-500 mt-1 font-medium italic">Review and authorize financial transactions.</p>
+          </div>
         </div>
-        <div>
-          <h1 className="text-3xl font-black text-slate-900 tracking-tight">Approval Centre</h1>
-          <p className="text-slate-500 mt-1 font-medium italic">Review and authorize financial transactions.</p>
-        </div>
+        <Button 
+          variant="outline" 
+          className="h-10 rounded-xl bg-white border-slate-200 font-bold gap-2 text-slate-600"
+          onClick={() => {
+            if (pendingTransactions) {
+              exportToCSV(
+                pendingTransactions.map((t: any) => ({
+                  Date: new Date(t.created_at).toLocaleDateString(),
+                  Student: t.profiles?.full_name || 'N/A',
+                  Type: t.type,
+                  Amount: t.amount,
+                  Reference: t.reference || t.id
+                })),
+                `pending_approvals_${new Date().toISOString().split('T')[0]}.csv`
+              );
+              toast.success("Pending approvals exported");
+            }
+          }}
+        >
+          <Download size={16} /> Export CSV
+        </Button>
       </div>
+
 
       <Card className="rounded-3xl border-none shadow-xl overflow-hidden bg-white">
         <CardHeader className="border-b p-6 bg-slate-50/50">

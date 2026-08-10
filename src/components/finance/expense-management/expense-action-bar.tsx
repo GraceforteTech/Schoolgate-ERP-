@@ -9,7 +9,8 @@ import {
   Filter,
   Calendar,
   X,
-  Settings2
+  Settings2,
+  Download
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,8 +22,39 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
+import { exportToCSV } from "@/lib/csv-export";
+import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
+import { useQuery } from "@tanstack/react-query";
 
 export function ExpenseActionBar() {
+  const { data: expenses } = useQuery({
+    queryKey: ['expenses-register'],
+    queryFn: async () => {
+      const { data, error } = await supabase.from('expenses').select('*');
+      if (error) throw error;
+      return data;
+    }
+  });
+
+  const handleExport = () => {
+    if (!expenses || expenses.length === 0) {
+      toast.error("No data to export");
+      return;
+    }
+    exportToCSV(
+      expenses.map((e: any) => ({
+        Date: new Date(e.created_at).toLocaleDateString(),
+        Category: e.category,
+        Vendor: e.vendor_payee || 'N/A',
+        Amount: e.amount,
+        Status: e.status
+      })),
+      `schoolgate_expenses_${new Date().toISOString().split('T')[0]}.csv`
+    );
+    toast.success("Expense register exported successfully");
+  };
+
   return (
     <Card className="p-4 border-none bg-white rounded-[14px] shadow-sm flex flex-col gap-4">
       {/* Top row: Multi-filters */}
@@ -167,7 +199,12 @@ export function ExpenseActionBar() {
             Refresh
           </Button>
           <div className="h-8 w-[1px] bg-slate-200 self-center mx-1 hidden sm:block" />
-          <Button variant="outline" size="sm" className="h-10 rounded-xl border-slate-200 text-slate-600 font-semibold gap-2">
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="h-10 rounded-xl border-slate-200 text-slate-600 font-semibold gap-2"
+            onClick={handleExport}
+          >
             <FileSpreadsheet size={16} />
             Excel
           </Button>
