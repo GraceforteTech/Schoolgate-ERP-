@@ -306,7 +306,7 @@ function EnterpriseCommandCenter() {
                 </CardHeader>
                 <div className="h-[300px]">
                   <ResponsiveContainer width="100%" height="100%">
-                    <AreaChart data={REVENUE_EXPENSE_DATA}>
+                    <AreaChart data={stats?.dailyTrend || REVENUE_EXPENSE_DATA}>
                       <defs>
                         <linearGradient id="colorRev" x1="0" y1="0" x2="0" y2="1">
                           <stop offset="5%" stopColor="#0B6E3C" stopOpacity={0.1}/>
@@ -334,12 +334,35 @@ function EnterpriseCommandCenter() {
                 </CardHeader>
                 <div className="h-[300px]">
                   <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={ENROLLMENT_TREND}>
+                    <BarChart data={stats?.enrollmentTrend && stats.enrollmentTrend.length > 0 ? stats.enrollmentTrend : ENROLLMENT_TREND}>
                       <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
                       <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 10, fontWeight: 700}} />
                       <YAxis axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 10, fontWeight: 700}} />
                       <Tooltip contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }} />
                       <Bar dataKey="students" fill="#3b82f6" radius={[6, 6, 0, 0]} barSize={40} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              </Card>
+            </div>
+            
+            <div className="grid grid-cols-1 gap-6">
+              <Card className="rounded-[14px] border-none shadow-sm bg-card p-6">
+                <CardHeader className="p-0 mb-6 flex flex-row items-center justify-between">
+                  <div>
+                    <CardTitle className="text-sm font-black text-foreground uppercase tracking-wider">Revenue by Class</CardTitle>
+                    <p className="text-xs text-slate-400 font-bold">Total fees collected per class</p>
+                  </div>
+                  <Badge variant="outline" className="font-bold border-border text-muted-foreground">Class-wise</Badge>
+                </CardHeader>
+                <div className="h-[300px]">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={stats?.classRevenueBreakdown && stats.classRevenueBreakdown.length > 0 ? stats.classRevenueBreakdown : [{name: 'JSS 1', value: 0}]}>
+                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                      <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 10, fontWeight: 700}} />
+                      <YAxis axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 10, fontWeight: 700}} tickFormatter={(value) => `₦${(value/1000).toFixed(0)}K`} />
+                      <Tooltip contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }} />
+                      <Bar dataKey="value" fill="#10b981" radius={[6, 6, 0, 0]} barSize={60} />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>

@@ -92,20 +92,25 @@ export const getExecutiveDashboardStats = createServerFn({ method: "GET" })
     
     // 1. Student Stats
     const { count: totalStudents } = await supabaseAdmin
-      .from('profiles')
+      .from('students')
+      .select('*', { count: 'exact', head: true })
+      .eq('tenant_id', data.tenantId);
+
+    const { count: activeStudents } = await supabaseAdmin
+      .from('students')
       .select('*', { count: 'exact', head: true })
       .eq('tenant_id', data.tenantId)
-      .eq('role', 'student');
+      .eq('status', 'active');
 
-    // 2. Class Stats (Campuses used as proxy for now)
+    // 2. Class Stats (Campuses used as proxy for now until classes table exists)
     const { count: totalClasses } = await supabaseAdmin
       .from('campuses')
       .select('*', { count: 'exact', head: true })
       .eq('tenant_id', data.tenantId);
 
-    // 3. Staff Stats
+    // 3. Staff Stats (Count of user_roles with staff-like roles in this tenant)
     const { count: totalStaff } = await supabaseAdmin
-      .from('profiles')
+      .from('user_roles')
       .select('*', { count: 'exact', head: true })
       .eq('tenant_id', data.tenantId)
       .in('role', ['teacher', 'admin', 'bursar']);
@@ -160,8 +165,62 @@ export const getExecutiveDashboardStats = createServerFn({ method: "GET" })
 
     const collectionRate = totalFeesBilled > 0 ? (approvedCollections / totalFeesBilled) * 100 : 0;
 
+    // 7. Operations Breakdowns
+    const { data: feesByClass } = await supabaseAdmin
+      .from('student_fees')
+      .select('class_id, amount_paid')
+      .eq('tenant_id', data.tenantId);
+    
+    const classTotals: Record<string, number> = {};
+    feesByClass?.forEach((f: any) => {
+      const cls = f.class_id || 'Unknown';
+      classTotals[cls] = (classTotals[cls] || 0) + Number(f.amount_paid || 0);
+    });
+
+    // Daily trends (last 7 days)
+    const dailyTrend = [];
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      d.setHours(0,0,0,0);
+      const dayEnd = new Date(d);
+      dayEnd.setHours(23,59,59,999);
+      
+      const dayRevenue = transactions?.filter((t: any) => {
+        const tDate = new Date(t.created_at);
+        return tDate >= d && tDate <= dayEnd && t.status === 'approved' && t.type === 'fee_payment';
+      }).reduce((sum: number, t: any) => sum + Number(t.amount), 0) || 0;
+
+      const dayExpenses = expenses?.filter((e: any) => {
+        const eDate = new Date(e.created_at);
+        return eDate >= d && eDate <= dayEnd && e.status === 'approved';
+      }).reduce((sum: number, e: any) => sum + Number(e.amount), 0) || 0;
+
+      dailyTrend.push({
+        name: d.toLocaleDateString('en-US', { weekday: 'short' }),
+        revenue: dayRevenue,
+        expenses: dayExpenses
+      });
+    }
+
+    // Enrollment trend (students by year)
+    const { data: enrollmentData } = await supabaseAdmin
+      .from('students')
+      .select('created_at')
+      .eq('tenant_id', data.tenantId);
+    
+    const enrollmentCounts: Record<string, number> = {};
+    enrollmentData?.forEach((s: any) => {
+      const year = new Date(s.created_at).getFullYear().toString();
+      enrollmentCounts[year] = (enrollmentCounts[year] || 0) + 1;
+    });
+    const enrollmentTrend = Object.entries(enrollmentCounts)
+      .map(([name, students]) => ({ name, students }))
+      .sort((a, b) => a.name.localeCompare(b.name));
+
     return {
       totalStudents: totalStudents || 0,
+      activeStudents: activeStudents || 0,
       totalClasses: totalClasses || 0,
       totalStaff: totalStaff || 0,
       todayRevenue,
@@ -179,6 +238,9 @@ export const getExecutiveDashboardStats = createServerFn({ method: "GET" })
       totalExpenses,
       approvedExpenses,
       netPosition: approvedCollections - approvedExpenses,
+      classRevenueBreakdown: Object.entries(classTotals).map(([name, value]) => ({ name, value })),
+      dailyTrend,
+      enrollmentTrend,
       lastRefresh: new Date().toISOString()
     };
   });
