@@ -69,7 +69,7 @@ export function SmartFilters({ onFilterChange }: { onFilterChange?: (filters: an
 
         <div className="space-y-1.5">
           <label className="text-[11px] font-bold text-slate-400 uppercase ml-1">Class</label>
-          <Select>
+          <Select onValueChange={(val) => onFilterChange?.({ classId: val })}>
             <SelectTrigger className="h-10 bg-slate-50 border-slate-100 rounded-xl focus:ring-schoolgate-green">
               <SelectValue placeholder="All Classes" />
             </SelectTrigger>
