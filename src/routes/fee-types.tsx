@@ -24,6 +24,7 @@ import {
 
 import { AppSidebar } from "@/components/app-sidebar";
 import { FeeTypesTable } from "@/components/fee-types-table";
+import { EmptyState } from "@/components/ui/empty-state";
 import { ImportProtectionDialog } from "@/components/finance/import-protection-dialog";
 import { TopNav } from "@/components/top-nav";
 import { Button } from "@/components/ui/button";
@@ -354,7 +355,31 @@ function FeeTypesPage() {
 
                 <CardContent className="p-0">
                   {isLoading ? (
-                    <div className="py-20 text-center text-muted-foreground">Loading registry data...</div>
+                    <div className="flex flex-col items-center justify-center py-24 space-y-4">
+                      <div className="relative">
+                        <div className="h-16 w-16 rounded-full border-4 border-slate-100 border-t-schoolgate-green animate-spin" />
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <DollarSign className="h-6 w-6 text-schoolgate-green/20" />
+                        </div>
+                      </div>
+                      <div className="text-center space-y-1">
+                        <p className="text-sm font-black uppercase tracking-widest text-slate-900">Loading Registry</p>
+                        <p className="text-xs font-medium text-muted-foreground italic">Fetching fee structures and allocations...</p>
+                      </div>
+                    </div>
+                  ) : registry?.feeTypes.length === 0 ? (
+                    <div className="py-12 px-6">
+                      <EmptyState 
+                        icon={<Layers className="h-12 w-12" />}
+                        title="No Fee Types Found"
+                        description="You haven't created any fee structures yet. Start by creating a new fee type or importing from a spreadsheet."
+                        action={{
+                          label: "Create First Fee Type",
+                          onClick: () => setIsNewFeeTypeOpen(true),
+                          icon: <Plus className="h-4 w-4" />
+                        }}
+                      />
+                    </div>
                   ) : (
                     <FeeTypesTable 
                       data={registry?.feeTypes || []} 

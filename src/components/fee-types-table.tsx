@@ -147,11 +147,11 @@ export function FeeTypesTable({
   };
 
   return (
-    <div className="overflow-hidden rounded-[14px] border border-border/70">
-      <div className="max-h-[560px] overflow-auto">
-        <table className="w-full min-w-[1400px] border-collapse text-sm">
+    <div className="overflow-hidden bg-white">
+      <div className="max-h-[600px] overflow-auto scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent">
+        <table className="w-full min-w-[1400px] border-separate border-spacing-0 text-sm">
           <thead className="sticky top-0 z-10">
-            <tr className="bg-page-background text-left text-xs font-medium uppercase tracking-wide text-muted-foreground shadow-[inset_0_-1px_0_0_var(--color-border)]">
+            <tr className="bg-slate-50/80 backdrop-blur-md text-left text-[10px] font-black uppercase tracking-widest text-slate-500 shadow-[inset_0_-1px_0_0_rgba(0,0,0,0.05)]">
               <th className="w-12 px-4 py-3">
                 <Checkbox
                   checked={allSelected}
@@ -192,10 +192,10 @@ export function FeeTypesTable({
                 <tr
                   key={fee.id}
                   className={cn(
-                    "border-b border-border/60 transition-colors last:border-0",
-                    index % 2 === 1 ? "bg-page-background/60" : "bg-white",
-                    "hover:bg-schoolgate-green-light/60",
-                    isSelected && "bg-schoolgate-green-light/80",
+                    "group border-b border-slate-100 transition-all duration-200",
+                    index % 2 === 1 ? "bg-slate-50/30" : "bg-white",
+                    "hover:bg-schoolgate-green-light/40 hover:shadow-[inset_4px_0_0_0_#0B6E3C]",
+                    isSelected && "bg-schoolgate-green-light/60 shadow-[inset_4px_0_0_0_#0B6E3C]",
                   )}
                 >
                   <td className="px-4 py-3.5">
