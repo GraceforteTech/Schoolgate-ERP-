@@ -77,6 +77,7 @@ function FeeTypesPage() {
     totalImpact?: number;
   } | null>(null);
 
+
   const fetchRegistry = useServerFn(getFeeTypesRegistry);
   const assignFees = useServerFn(bulkAssignFees);
 
