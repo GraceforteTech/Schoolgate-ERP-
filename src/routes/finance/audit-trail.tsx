@@ -47,7 +47,7 @@ function AuditTrailPage() {
     }
   });
 
-  const filteredLogs = logs?.filter(log => 
+  const filteredLogs = logs?.filter((log: any) => 
     log.action.toLowerCase().includes(searchTerm.toLowerCase()) ||
     log.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     log.user_name?.toLowerCase().includes(searchTerm.toLowerCase())
@@ -56,7 +56,7 @@ function AuditTrailPage() {
   const handleExport = () => {
     if (!filteredLogs) return;
     exportToCSV(
-        filteredLogs.map(log => ({
+        filteredLogs.map((log: any) => ({
             Date: new Date(log.created_at).toLocaleString(),
             User: log.user_name || 'System',
             Role: log.user_role || 'N/A',
