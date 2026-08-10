@@ -6,7 +6,7 @@ import { getStudentProfile } from "@/lib/students.functions";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CreditCard, History, Wallet, AlertCircle } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { PaymentDialog } from "@/components/finance/payment-dialog";
 
 export const Route = createFileRoute("/parent/child/$childId")({
   component: ChildDetailsPage,
