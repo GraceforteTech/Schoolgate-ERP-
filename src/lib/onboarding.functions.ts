@@ -156,6 +156,7 @@ export const getExecutiveDashboardStats = createServerFn({ method: "GET" })
     const totalExpenses = expenses?.reduce((sum: number, e: any) => sum + Number(e.amount), 0) || 0;
     const approvedExpenses = expenses?.filter((e: any) => e.status === 'approved')
       .reduce((sum: number, e: any) => sum + Number(e.amount), 0) || 0;
+    const pendingExpensesCount = expenses?.filter((e: any) => e.status === 'pending').length || 0;
 
     const collectionRate = totalFeesBilled > 0 ? (approvedCollections / totalFeesBilled) * 100 : 0;
 
