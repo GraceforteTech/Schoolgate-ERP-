@@ -50,7 +50,7 @@ function ChildDetailsPage() {
             <h4 className="text-sm font-black text-slate-400 uppercase tracking-widest">Fees Outstanding</h4>
           </div>
           <p className="text-4xl font-black text-slate-800">₦0.00</p>
-          <Button className="mt-6 w-full bg-schoolgate-green hover:bg-schoolgate-green/90 rounded-xl font-bold py-6">Pay Now</Button>
+          <PaymentDialog studentId={childId} tenantId={profile?.tenant_id || ""} />
         </Card>
 
         <Card className="rounded-3xl border-none shadow-lg bg-emerald-600 p-6 text-white">
