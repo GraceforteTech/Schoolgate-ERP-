@@ -271,16 +271,17 @@ function EnterpriseCommandCenter() {
           <section className="space-y-6">
             <SectionHeader title="Academic & Student Lifecycle" icon={GraduationCap} color="text-blue-600" />
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <KPICard title="Total Students" value={stats?.totalStudents.toLocaleString() || "0"} change="+42" icon={Users} color="blue" />
+              <KPICard title="Total Students" value={stats?.totalStudents.toLocaleString() || "0"} change="+42" icon={Users} color="blue" onClick={() => navigate({ to: '/enterprise/drill-down', search: { type: 'total_students' } })} />
               <KPICard title="Total Classes" value={stats?.totalClasses.toLocaleString() || "0"} change="Active" icon={School} color="blue" />
               <KPICard title="Total Staff" value={stats?.totalStaff.toLocaleString() || "0"} change="Active" icon={Users} color="blue" />
-              <KPICard title="Paid Students" value={stats?.paidStudents.toLocaleString() || "0"} change="Fully Paid" icon={CheckCircle2} color="emerald" />
-              <KPICard title="Unpaid Students" value={stats?.unpaidStudents.toLocaleString() || "0"} change="Outstanding" icon={UserX} color="rose" />
-              <KPICard title="Partially Paid" value={stats?.partiallyPaidStudents.toLocaleString() || "0"} change="Balance Due" icon={Clock} color="amber" />
-              <KPICard title="Approved Payments" value={stats?.approvedPayments.toLocaleString() || "0"} change="Total processed" icon={CheckSquare} color="indigo" />
+              <KPICard title="Paid Students" value={stats?.paidStudents.toLocaleString() || "0"} change="Fully Paid" icon={CheckCircle2} color="emerald" onClick={() => navigate({ to: '/enterprise/drill-down', search: { type: 'paid_students' } })} />
+              <KPICard title="Unpaid Students" value={stats?.unpaidStudents.toLocaleString() || "0"} change="Outstanding" icon={UserX} color="rose" onClick={() => navigate({ to: '/enterprise/drill-down', search: { type: 'unpaid_students' } })} />
+              <KPICard title="Partially Paid" value={stats?.partiallyPaidStudents.toLocaleString() || "0"} change="Balance Due" icon={Clock} color="amber" onClick={() => navigate({ to: '/enterprise/drill-down', search: { type: 'partially_paid_students' } })} />
+              <KPICard title="Approved Payments" value={stats?.approvedPayments.toLocaleString() || "0"} change="Total processed" icon={CheckSquare} color="indigo" onClick={() => navigate({ to: '/enterprise/drill-down', search: { type: 'total_collected' } })} />
               <KPICard title="Low Stock Items" value="12" change="Alert" icon={Package} color="rose" />
             </div>
           </section>
+
 
           <section className="space-y-6">
             <SectionHeader title="Operations & Logistics" icon={Bus} color="text-amber-600" />
