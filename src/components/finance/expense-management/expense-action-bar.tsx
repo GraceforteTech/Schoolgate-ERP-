@@ -59,6 +59,8 @@ export function ExpenseActionBar() {
   };
 
   return (
+    <>
+    <RecordExpenseDialog open={isRecordOpen} onOpenChange={setIsRecordOpen} />
     <Card className="p-4 border-none bg-white rounded-[14px] shadow-sm flex flex-col gap-4">
       {/* Top row: Multi-filters */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-8 gap-3">
@@ -197,7 +199,15 @@ export function ExpenseActionBar() {
         </div>
 
         <div className="flex flex-wrap gap-2 justify-end w-full lg:w-auto">
-          <Button variant="outline" size="sm" className="h-10 rounded-xl border-slate-200 text-slate-600 font-semibold gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            className="h-10 rounded-xl border-slate-200 text-slate-600 font-semibold gap-2"
+            onClick={() => {
+              queryClient.invalidateQueries({ queryKey: ['expenses-register'] });
+              toast.success("Expense register refreshed");
+            }}
+          >
             <RefreshCw size={16} />
             Refresh
           </Button>
@@ -219,7 +229,10 @@ export function ExpenseActionBar() {
             <Printer size={16} />
             Print
           </Button>
-          <Button className="h-10 rounded-xl bg-schoolgate-green hover:bg-schoolgate-green/90 text-white font-semibold gap-2 px-6">
+          <Button
+            className="h-10 rounded-xl bg-schoolgate-green hover:bg-schoolgate-green/90 text-white font-semibold gap-2 px-6"
+            onClick={() => setIsRecordOpen(true)}
+          >
             <Plus size={16} />
             Record Expense
           </Button>
@@ -230,5 +243,6 @@ export function ExpenseActionBar() {
         </div>
       </div>
     </Card>
+    </>
   );
 }
