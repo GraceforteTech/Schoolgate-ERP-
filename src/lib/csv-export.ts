@@ -4,14 +4,17 @@
 export function exportToCSV<T extends Record<string, any>>(
   data: T[],
   filename: string,
-  headers?: Record<keyof T, string>
+  headers?: Record<string, string>
 ) {
-  if (!data.length) return;
+  if (!data || data.length === 0) return;
 
-  const headerKeys = Object.keys(data[0]) as (keyof T)[];
+  const firstRow = data[0];
+  if (!firstRow) return;
+
+  const headerKeys = Object.keys(firstRow);
   const headerLabels = headers 
-    ? headerKeys.map(key => headers[key] || String(key))
-    : headerKeys.map(key => String(key));
+    ? headerKeys.map(key => headers[key] || key)
+    : headerKeys;
 
   const csvRows = [
     headerLabels.join(','),
