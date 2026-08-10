@@ -38,6 +38,7 @@ const auditSearchSchema = z.object({
   classId: z.string().uuid().optional(),
   studentId: z.string().uuid().optional(),
   page: z.number().catch(1).optional(),
+  pageSize: z.number().catch(50).optional(),
 });
 
 type AuditFilters = z.infer<typeof auditSearchSchema>;
