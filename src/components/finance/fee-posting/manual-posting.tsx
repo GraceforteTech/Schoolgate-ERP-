@@ -154,9 +154,10 @@ export function ManualFeePosting() {
             </div>
             <Button 
               onClick={handleSearch}
+              disabled={searchMutation.isPending}
               className="w-full bg-schoolgate-green hover:bg-schoolgate-green/90 text-white rounded-xl h-11 font-bold gap-2"
             >
-              Search Database
+              {searchMutation.isPending ? "Searching..." : "Search Database"}
             </Button>
           </CardContent>
         </Card>
@@ -305,9 +306,9 @@ export function ManualFeePosting() {
                         </p>
                       </div>
                       <div className="flex flex-col gap-2 min-w-[140px]">
-                         <Button className="w-full bg-schoolgate-green hover:bg-schoolgate-green/90 rounded-xl h-11 font-black shadow-lg shadow-schoolgate-green/20" onClick={handleSave}>
+                         <Button className="w-full bg-schoolgate-green hover:bg-schoolgate-green/90 rounded-xl h-11 font-black shadow-lg shadow-schoolgate-green/20" onClick={handleSave} disabled={saveMutation.isPending}>
                            <Save size={18} className="mr-2" />
-                           Save Posting
+                           {saveMutation.isPending ? "Saving..." : "Save Posting"}
                          </Button>
                          <Button variant="outline" className="w-full bg-white/5 border-white/10 hover:bg-white/10 rounded-xl h-11 font-bold text-white">
                            <X size={18} className="mr-2" />
