@@ -19,6 +19,11 @@ function OutstandingFeesPage() {
   const [quickViewOpen, setQuickViewOpen] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState<any>(null);
   const [isLoadingQuickView, setIsLoadingQuickView] = useState(false);
+  const [filters, setFilters] = useState({
+    session: '2023/2024',
+    term: 'first',
+    classId: undefined
+  });
 
   const handleViewStudent = (student: any) => {
     setSelectedStudent(student);
@@ -36,7 +41,7 @@ function OutstandingFeesPage() {
             <CreditCard size={24} />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-slate-900">Outstanding Balances</h1>
+            <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Outstanding Balances</h1>
             <p className="text-slate-500 mt-1 font-medium italic">Track, analyse and recover outstanding school fees efficiently.</p>
           </div>
         </div>
@@ -68,14 +73,14 @@ function OutstandingFeesPage() {
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsContent value="dashboard" className="space-y-8 mt-0 border-none outline-none">
-          <ExecutiveKPICards />
+          <ExecutiveKPICards filters={filters} />
           <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
             <div className="xl:col-span-1">
               <CollectionAnalytics />
             </div>
             <div className="xl:col-span-3 space-y-8">
               <div className="bg-white p-6 rounded-[14px] shadow-sm border-none">
-                <h3 className="text-lg font-bold text-slate-900 mb-6">High Priority Recovery</h3>
+                <h3 className="text-lg font-bold text-slate-900 mb-6 tracking-tight">High Priority Recovery</h3>
                 <OutstandingStudentsTable onSelectStudent={handleViewStudent} />
               </div>
             </div>
@@ -87,9 +92,9 @@ function OutstandingFeesPage() {
         </TabsContent>
 
         <TabsContent value="students" className="space-y-6 mt-0 border-none outline-none">
-          <SmartFilters />
+          <SmartFilters onFilterChange={(newFilters: any) => setFilters(prev => ({ ...prev, ...newFilters }))} />
           <div className="bg-white p-6 rounded-[14px] shadow-sm border-none">
-            <h3 className="text-lg font-bold text-slate-900 mb-6">Debt Recovery Workspace</h3>
+            <h3 className="text-lg font-bold text-slate-900 mb-6 tracking-tight">Debt Recovery Workspace</h3>
             <OutstandingStudentsTable onSelectStudent={handleViewStudent} />
           </div>
         </TabsContent>
@@ -112,3 +117,4 @@ function OutstandingFeesPage() {
     </div>
   );
 }
+

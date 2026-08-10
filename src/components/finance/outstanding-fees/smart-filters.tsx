@@ -20,14 +20,14 @@ import {
 } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
 
-export function SmartFilters() {
+export function SmartFilters({ onFilterChange }: { onFilterChange?: (filters: any) => void }) {
   return (
     <Card className="p-4 border-none bg-white rounded-[14px] shadow-sm flex flex-col gap-4">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-3">
         {/* Session & Term */}
         <div className="space-y-1.5">
           <label className="text-[11px] font-bold text-slate-400 uppercase ml-1">Session</label>
-          <Select defaultValue="2023/2024">
+          <Select defaultValue="2023/2024" onValueChange={(val) => onFilterChange?.({ session: val })}>
             <SelectTrigger className="h-10 bg-slate-50 border-slate-100 rounded-xl focus:ring-schoolgate-green">
               <SelectValue placeholder="Select Session" />
             </SelectTrigger>
@@ -40,7 +40,7 @@ export function SmartFilters() {
 
         <div className="space-y-1.5">
           <label className="text-[11px] font-bold text-slate-400 uppercase ml-1">Term</label>
-          <Select defaultValue="first">
+          <Select defaultValue="first" onValueChange={(val) => onFilterChange?.({ term: val })}>
             <SelectTrigger className="h-10 bg-slate-50 border-slate-100 rounded-xl focus:ring-schoolgate-green">
               <SelectValue placeholder="Select Term" />
             </SelectTrigger>
@@ -69,7 +69,7 @@ export function SmartFilters() {
 
         <div className="space-y-1.5">
           <label className="text-[11px] font-bold text-slate-400 uppercase ml-1">Class</label>
-          <Select>
+          <Select onValueChange={(val) => onFilterChange?.({ classId: val })}>
             <SelectTrigger className="h-10 bg-slate-50 border-slate-100 rounded-xl focus:ring-schoolgate-green">
               <SelectValue placeholder="All Classes" />
             </SelectTrigger>
