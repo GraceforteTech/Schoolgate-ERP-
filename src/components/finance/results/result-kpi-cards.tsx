@@ -36,8 +36,8 @@ function KPICard({ title, value, subtitle, icon: Icon, trend, trendUp, color, on
       <div className={cn("absolute top-0 right-0 w-24 h-24 -mr-8 -mt-8 rounded-full opacity-5 transition-transform group-hover:scale-150", color)} />
       
       <div className="flex items-start justify-between mb-4">
-        <div className={cn("p-3 rounded-xl transition-colors", color.replace('bg-', 'bg-').replace('text-', 'bg-').concat('/10'))}>
-          <Icon className={cn("w-6 h-6", color.replace('bg-', 'text-'))} />
+        <div className={cn("p-3 rounded-xl transition-colors", color.split(' ')[0].replace('bg-', 'bg-') + "/10")}>
+          <Icon className={cn("w-6 h-6", color.split(' ')[1])} />
         </div>
         {trend && (
           <div className={cn(
