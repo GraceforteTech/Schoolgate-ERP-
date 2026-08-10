@@ -42,14 +42,12 @@ export const getSchoolFinancialSummary = createServerFn({ method: "GET" })
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     
-    // Total Revenue (Approved Transactions of type fee_payment or credit)
     const { data: revenue } = await (supabaseAdmin
       .from('transactions')
       .select('amount')
       .eq('tenant_id', data.tenantId)
       .eq('status', 'approved'));
 
-    // Total Expenses
     const { data: expenses } = await (supabaseAdmin
       .from('expenses')
       .select('amount, category')
@@ -57,8 +55,8 @@ export const getSchoolFinancialSummary = createServerFn({ method: "GET" })
       .eq('status', 'approved'));
 
     return { 
-      totalRevenue: revenue?.reduce((sum, t) => sum + Number(t.amount), 0) || 0,
-      totalExpenses: expenses?.reduce((sum, e) => sum + Number(e.amount), 0) || 0,
-      expenseBreakdown: expenses // Groups would be handled in the component
+      totalRevenue: revenue?.reduce((sum: number, t: any) => sum + Number(t.amount), 0) || 0,
+      totalExpenses: expenses?.reduce((sum: number, e: any) => sum + Number(e.amount), 0) || 0,
+      expenseBreakdown: expenses
     };
   });
