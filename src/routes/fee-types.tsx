@@ -234,7 +234,7 @@ function FeeTypesPage() {
                         onClick={() => {
                           if (registry?.feeTypes) {
                             exportToCSV(
-                              registry.feeTypes.map(f => ({
+                              registry.feeTypes.map((f: any) => ({
                                 Name: f.name,
                                 Session: f.academic_session,
                                 Term: f.term,
@@ -284,7 +284,7 @@ function FeeTypesPage() {
                           size="sm"
                           className="h-8 rounded-lg bg-schoolgate-green hover:bg-schoolgate-green/90 text-white font-bold gap-2 shadow-sm"
                           onClick={() => {
-                            const feeType = registry?.feeTypes.find(f => f.id === selectedIds[0]);
+                            const feeType = registry?.feeTypes.find((f: any) => f.id === selectedIds[0]);
                             setBulkAction({
                               type: 'assign',
                               count: selectedIds.length,
