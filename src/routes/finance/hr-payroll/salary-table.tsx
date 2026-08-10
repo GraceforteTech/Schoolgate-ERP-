@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { 
   Search, 
   Filter, 
@@ -13,7 +13,8 @@ import {
   UserCheck,
   CheckCircle2,
   XCircle,
-  FileSpreadsheet
+  FileSpreadsheet,
+  ArrowLeft
 } from "lucide-react";
 import { 
   Table, 
@@ -107,6 +108,11 @@ function EmployeeSalaryTablePage() {
       <div className="bg-white border-b border-slate-200 sticky top-0 z-30">
         <div className="px-6 py-6 max-w-[1600px] mx-auto flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center gap-4">
+            <Button variant="outline" size="icon" className="h-10 w-10 rounded-xl bg-white border-none shadow-sm" asChild>
+              <Link to="/finance/hr-payroll">
+                <ArrowLeft className="h-5 w-5 text-slate-600" />
+              </Link>
+            </Button>
             <div className="h-12 w-12 rounded-2xl bg-schoolgate-green-light flex items-center justify-center text-schoolgate-green">
               <FileText size={24} />
             </div>
