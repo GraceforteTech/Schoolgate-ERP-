@@ -205,7 +205,7 @@ function FeeTypesPage() {
                     <div className="flex flex-col flex-wrap gap-3 sm:flex-row sm:items-center">
                       <Select 
                         value={session} 
-                        onValueChange={(val) => navigate({ search: (prev: any) => ({ ...prev, session: val }), replace: true })}
+                        onValueChange={(val) => navigate({ search: (prev: any) => ({ ...prev, session: val }) as any, replace: true })}
                       >
                         <SelectTrigger className="h-9 w-full rounded-lg border-border bg-white px-3 text-sm sm:w-40">
                           <SelectValue placeholder="Session" />
@@ -218,7 +218,7 @@ function FeeTypesPage() {
 
                       <Select 
                         value={term} 
-                        onValueChange={(val) => navigate({ search: (prev: any) => ({ ...prev, term: val }), replace: true })}
+                        onValueChange={(val) => navigate({ search: (prev: any) => ({ ...prev, term: val }) as any, replace: true })}
                       >
                         <SelectTrigger className="h-9 w-full rounded-lg border-border bg-white px-3 text-sm sm:w-40">
                           <SelectValue placeholder="Term" />
@@ -236,7 +236,7 @@ function FeeTypesPage() {
                           type="search"
                           placeholder="Search Fee Type"
                           value={q}
-                          onChange={(e) => navigate({ search: (prev: any) => ({ ...prev, q: e.target.value }), replace: true })}
+                          onChange={(e) => navigate({ search: (prev: any) => ({ ...prev, q: e.target.value }) as any, replace: true })}
                           className="h-9 rounded-lg border-border pl-9 pr-4 text-sm"
                         />
                       </div>
