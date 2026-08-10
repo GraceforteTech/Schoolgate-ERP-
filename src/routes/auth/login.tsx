@@ -56,11 +56,11 @@ function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-[#F5F7FA] p-4">
       <Card className="w-full max-w-md rounded-[14px] border-none shadow-lg">
         <CardHeader className="text-center pb-8">
-          <div className="mx-auto w-12 h-12 bg-schoolgate-green rounded-xl flex items-center justify-center text-white mb-4">
+          <div className="mx-auto w-12 h-12 bg-schoolgate-green rounded-xl flex items-center justify-center text-white mb-4 shadow-lg shadow-schoolgate-green/20">
             <School size={28} />
           </div>
-          <CardTitle className="text-2xl font-black text-slate-900">Schoolgate ERP</CardTitle>
-          <CardDescription className="font-medium">Sign in to your school portal</CardDescription>
+          <CardTitle className="text-2xl font-black text-slate-900 tracking-tight">Schoolgate ERP</CardTitle>
+          <CardDescription className="font-bold text-slate-500 uppercase text-[10px] tracking-widest">Enterprise Multi-Tenant Portal</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleLogin} className="space-y-4">
@@ -124,8 +124,8 @@ function LoginPage() {
           </Button>
         </CardContent>
         <CardFooter className="flex flex-col gap-4 border-t border-slate-50 pt-6">
-          <p className="text-center text-xs text-slate-500 font-medium">
-            Don't have an account? Contact your school administrator.
+          <p className="text-center text-xs text-slate-500 font-bold">
+            Don't have a tenant account? Contact Schoolgate Support.
           </p>
         </CardFooter>
       </Card>

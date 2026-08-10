@@ -38,50 +38,47 @@ import {
 } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 
+interface NavItem {
+  title: string;
+  url: string;
+  icon: any;
+  disabled?: boolean;
+}
+
 const mainNavItems = [
   { title: "Dashboard", url: "/enterprise", icon: LayoutDashboard },
-  { title: "Staff Portal", url: "/staff/dashboard", icon: ShieldCheck },
-  { title: "Admissions", url: "/finance/admissions", icon: UserPlus },
-  { title: "Inventory & Store", url: "/inventory", icon: Package },
-  { title: "Students", url: "/students", icon: Users },
-  { title: "Alumni", url: "/alumni", icon: GraduationCap },
-  { title: "Teachers", url: "/teachers", icon: GraduationCap },
-
-  { title: "Academics", url: "/academic", icon: BookOpen },
-  { title: "Virtual Class & LMS", url: "/academic/virtual-classroom", icon: MonitorPlay },
-  { title: "Class Information", url: "/academic/classes", icon: Users },
-  { title: "Syllabus & Schemes", url: "/academic/syllabus", icon: FileText },
-  { title: "Lesson Notes", url: "/academic/lesson-notes", icon: FileText },
-  { title: "Attendance", url: "/attendance", icon: CalendarDays },
-  { title: "Library", url: "/library", icon: Library },
-  { title: "CBT", url: "/cbt", icon: MonitorPlay },
-  { title: "Timetable", url: "/timetable", icon: CalendarDays },
-  { title: "Transport", url: "/transport", icon: Bus },
-  { title: "Hostel Management", url: "/hostel", icon: HomeIcon },
 ];
 
+const managementNavItems = [
+  { title: "Students", url: "/students", icon: Users },
+  { title: "Parents", url: "/parents", icon: Users, disabled: true }, // Placeholder as requested
+  { title: "Staff", url: "/finance/hr-payroll/employees", icon: ShieldCheck },
+  { title: "Classes", url: "/academic/classes", icon: Users },
+];
+
+const academicNavItems = [
+  { title: "Sessions", url: "/academic", icon: CalendarDays },
+  { title: "Terms", url: "/academic", icon: CalendarDays },
+  { title: "Subjects", url: "/academic/classes", icon: BookOpen },
+  { title: "Results", url: "/finance/results", icon: FileText },
+  { title: "Attendance", url: "/attendance", icon: CalendarDays },
+];
 
 const financeNavItems = [
-  { title: "Dashboard", url: "/finance/dashboard", icon: LayoutDashboard },
-  { title: "Fee Registry", url: "/fee-types-overview", icon: CreditCard },
-  { title: "School Fee Posting", url: "/finance/fee-posting", icon: FileSpreadsheet },
-  { title: "Adjustments", url: "/finance/adjustment-management", icon: Banknote },
-  { title: "Invoices", url: "/finance/invoice-management", icon: FileText },
-  { title: "Outstanding", url: "/finance/outstanding-fees", icon: CreditCard },
+  { title: "Fee Types", url: "/fee-types-overview", icon: CreditCard },
+  { title: "Fee Structure", url: "/fee-types", icon: FileSpreadsheet },
+  { title: "Individual Fees", url: "/finance/adjustment-management", icon: Banknote },
+  { title: "Collect Fees", url: "/finance/invoice-management", icon: FileText },
+  { title: "Bulk Posting", url: "/finance/fee-posting", icon: FileSpreadsheet },
+  { title: "Outstanding Balances", url: "/finance/outstanding-fees", icon: CreditCard },
+  { title: "Finance Dashboard", url: "/finance/dashboard", icon: LayoutDashboard },
   { title: "Expenses", url: "/finance/expense-management", icon: Banknote },
-  { title: "Payroll", url: "/finance/payroll-management", icon: Banknote },
-  { title: "Results & Reports", url: "/finance/results", icon: FileText },
-  { title: "HR & Payroll", url: "/finance/hr-payroll", icon: Users },
-  { title: "Employee Hub", url: "/finance/hr-payroll/employees", icon: UserPlus },
-  { title: "Payroll Centre", url: "/finance/hr-payroll/payroll-dashboard", icon: Banknote },
-  { title: "Salary Grades", url: "/finance/hr-payroll/salary-structure", icon: CreditCard },
-  { title: "Payroll Engine", url: "/finance/hr-payroll/processing", icon: FileSpreadsheet },
-  { title: "Salary Ledger", url: "/finance/hr-payroll/salary-table", icon: FileText },
-  { title: "Wealth & Loan", url: "/finance/wealth-loan", icon: Wallet },
+  { title: "Payments", url: "/finance/payroll-management", icon: Banknote },
 ];
 
 const systemNavItems = [
-  { title: "Enterprise", url: "/enterprise", icon: ShieldCheck },
+  { title: "Communication", url: "/communication", icon: MonitorPlay, disabled: true },
+  { title: "Reports", url: "/reports", icon: FileText, disabled: true },
   { title: "Settings", url: "/settings", icon: Settings },
 ];
 
@@ -151,6 +148,58 @@ export function AppSidebar() {
         </SidebarGroup>
 
         <SidebarGroup>
+          <SidebarGroupLabel>School Management</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {managementNavItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild isActive={isActive(item.url)} disabled={item.disabled}>
+                    <Link
+                      to={item.url}
+                      className={cn(
+                        "flex items-center gap-3 rounded-lg px-3 py-2 transition-colors",
+                        isActive(item.url)
+                          ? "bg-schoolgate-green-light text-schoolgate-green"
+                          : item.disabled ? "opacity-50 cursor-not-allowed" : "text-muted-foreground hover:bg-accent hover:text-foreground",
+                      )}
+                    >
+                      <item.icon className="h-4 w-4 shrink-0" />
+                      {!collapsed && <span className="truncate">{item.title}</span>}
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel>Academics</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {academicNavItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild isActive={isActive(item.url)}>
+                    <Link
+                      to={item.url}
+                      className={cn(
+                        "flex items-center gap-3 rounded-lg px-3 py-2 transition-colors",
+                        isActive(item.url)
+                          ? "bg-schoolgate-green-light text-schoolgate-green"
+                          : "text-muted-foreground hover:bg-accent hover:text-foreground",
+                      )}
+                    >
+                      <item.icon className="h-4 w-4 shrink-0" />
+                      {!collapsed && <span className="truncate">{item.title}</span>}
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
           <SidebarGroupLabel>Finance</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -182,14 +231,14 @@ export function AppSidebar() {
             <SidebarMenu>
               {systemNavItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={isActive(item.url)}>
+                  <SidebarMenuButton asChild isActive={isActive(item.url)} disabled={item.disabled}>
                     <Link
                       to={item.url}
                       className={cn(
                         "flex items-center gap-3 rounded-lg px-3 py-2 transition-colors",
                         isActive(item.url)
                           ? "bg-schoolgate-green-light text-schoolgate-green"
-                          : "text-muted-foreground hover:bg-accent hover:text-foreground",
+                          : item.disabled ? "opacity-50 cursor-not-allowed" : "text-muted-foreground hover:bg-accent hover:text-foreground",
                       )}
                     >
                       <item.icon className="h-4 w-4 shrink-0" />
