@@ -42,6 +42,7 @@ import { Route as LibraryProprietorRouteImport } from './routes/library/propriet
 import { Route as ParentIndexRouteImport } from './routes/parent/index'
 import { Route as ReportAccessIndexRouteImport } from './routes/report-access/index'
 import { Route as StaffDashboardRouteImport } from './routes/staff/dashboard'
+import { Route as StudentIndexRouteImport } from './routes/student/index'
 import { Route as TeachersIndexRouteImport } from './routes/teachers/index'
 import { Route as TimetableIndexRouteImport } from './routes/timetable/index'
 import { Route as TransportIndexRouteImport } from './routes/transport/index'
@@ -235,6 +236,11 @@ const StaffDashboardRoute = StaffDashboardRouteImport.update({
   path: '/staff/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StudentIndexRoute = StudentIndexRouteImport.update({
+  id: '/student/',
+  path: '/student/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TeachersIndexRoute = TeachersIndexRouteImport.update({
   id: '/teachers/',
   path: '/teachers/',
@@ -410,6 +416,7 @@ export interface FileRoutesByFullPath {
   '/library/': typeof LibraryIndexRoute
   '/parent/': typeof ParentIndexRoute
   '/report-access/': typeof ReportAccessIndexRoute
+  '/student/': typeof StudentIndexRoute
   '/teachers/': typeof TeachersIndexRoute
   '/timetable/': typeof TimetableIndexRoute
   '/transport/': typeof TransportIndexRoute
@@ -470,6 +477,7 @@ export interface FileRoutesByTo {
   '/library': typeof LibraryIndexRoute
   '/parent': typeof ParentIndexRoute
   '/report-access': typeof ReportAccessIndexRoute
+  '/student': typeof StudentIndexRoute
   '/teachers': typeof TeachersIndexRoute
   '/timetable': typeof TimetableIndexRoute
   '/transport': typeof TransportIndexRoute
@@ -531,6 +539,7 @@ export interface FileRoutesById {
   '/library/': typeof LibraryIndexRoute
   '/parent/': typeof ParentIndexRoute
   '/report-access/': typeof ReportAccessIndexRoute
+  '/student/': typeof StudentIndexRoute
   '/teachers/': typeof TeachersIndexRoute
   '/timetable/': typeof TimetableIndexRoute
   '/transport/': typeof TransportIndexRoute
@@ -593,6 +602,7 @@ export interface FileRouteTypes {
     | '/library/'
     | '/parent/'
     | '/report-access/'
+    | '/student/'
     | '/teachers/'
     | '/timetable/'
     | '/transport/'
@@ -653,6 +663,7 @@ export interface FileRouteTypes {
     | '/library'
     | '/parent'
     | '/report-access'
+    | '/student'
     | '/teachers'
     | '/timetable'
     | '/transport'
@@ -713,6 +724,7 @@ export interface FileRouteTypes {
     | '/library/'
     | '/parent/'
     | '/report-access/'
+    | '/student/'
     | '/teachers/'
     | '/timetable/'
     | '/transport/'
@@ -774,6 +786,7 @@ export interface RootRouteChildren {
   LibraryIndexRoute: typeof LibraryIndexRoute
   ParentIndexRoute: typeof ParentIndexRoute
   ReportAccessIndexRoute: typeof ReportAccessIndexRoute
+  StudentIndexRoute: typeof StudentIndexRoute
   TeachersIndexRoute: typeof TeachersIndexRoute
   TimetableIndexRoute: typeof TimetableIndexRoute
   TransportIndexRoute: typeof TransportIndexRoute
@@ -1031,6 +1044,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StaffDashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/student/': {
+      id: '/student/'
+      path: '/student'
+      fullPath: '/student/'
+      preLoaderRoute: typeof StudentIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/teachers/': {
       id: '/teachers/'
       path: '/teachers'
@@ -1246,6 +1266,7 @@ const rootRouteChildren: RootRouteChildren = {
   LibraryIndexRoute: LibraryIndexRoute,
   ParentIndexRoute: ParentIndexRoute,
   ReportAccessIndexRoute: ReportAccessIndexRoute,
+  StudentIndexRoute: StudentIndexRoute,
   TeachersIndexRoute: TeachersIndexRoute,
   TimetableIndexRoute: TimetableIndexRoute,
   TransportIndexRoute: TransportIndexRoute,
