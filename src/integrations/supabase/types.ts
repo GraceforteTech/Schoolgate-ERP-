@@ -128,33 +128,54 @@ export type Database = {
       }
       fee_types: {
         Row: {
+          academic_session: string | null
+          amount: number | null
+          applicable_classes: string[] | null
           category: string | null
           created_at: string | null
+          created_by: string | null
           description: string | null
           id: string
           is_active: boolean | null
+          is_mandatory: boolean | null
+          is_recurring: boolean | null
           name: string
           tenant_id: string
+          term: string | null
           updated_at: string | null
         }
         Insert: {
+          academic_session?: string | null
+          amount?: number | null
+          applicable_classes?: string[] | null
           category?: string | null
           created_at?: string | null
+          created_by?: string | null
           description?: string | null
           id?: string
           is_active?: boolean | null
+          is_mandatory?: boolean | null
+          is_recurring?: boolean | null
           name: string
           tenant_id: string
+          term?: string | null
           updated_at?: string | null
         }
         Update: {
+          academic_session?: string | null
+          amount?: number | null
+          applicable_classes?: string[] | null
           category?: string | null
           created_at?: string | null
+          created_by?: string | null
           description?: string | null
           id?: string
           is_active?: boolean | null
+          is_mandatory?: boolean | null
+          is_recurring?: boolean | null
           name?: string
           tenant_id?: string
+          term?: string | null
           updated_at?: string | null
         }
         Relationships: [

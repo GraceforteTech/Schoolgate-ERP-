@@ -4,6 +4,7 @@ import {
   ArrowDown,
   ArrowUp,
   ArrowUpDown,
+  CheckCircle2,
   Copy,
   Eye,
   MoreHorizontal,
@@ -22,74 +23,79 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
+import { useServerFn } from "@tanstack/react-start";
+import { updateFeeTypeStatus } from "@/lib/fee-types.functions";
+import { toast } from "sonner";
+import { useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 type FeeStatus = "Active" | "Archived" | "Draft";
 
 type FeeType = {
   id: string;
   name: string;
-  school: string;
-  applicableClass: string;
+  description?: string;
   category: string;
   amount: number;
   studentsAssigned: number;
-  status: FeeStatus;
-  createdBy: string;
-  dateCreated: string;
+  expectedRevenue: number;
+  is_active: boolean;
+  academic_session?: string;
+  term?: string;
+  applicable_classes?: string[];
+  created_at: string;
+  is_mandatory?: boolean;
+  is_recurring?: boolean;
 };
-
-const FEE_TYPES: FeeType[] = [
-  { id: "1", name: "Tuition Fee", school: "Secondary School", applicableClass: "JSS 1 – SS 3", category: "Tuition", amount: 75000, studentsAssigned: 120, status: "Active", createdBy: "Adaeze Okonkwo", dateCreated: "12 Jan 2026" },
-  { id: "2", name: "Boarding Fee", school: "Secondary School", applicableClass: "JSS 1 – SS 3", category: "Boarding", amount: 145000, studentsAssigned: 64, status: "Active", createdBy: "Adaeze Okonkwo", dateCreated: "12 Jan 2026" },
-  { id: "3", name: "Transport Fee", school: "All Schools", applicableClass: "All Classes", category: "Transport", amount: 32500, studentsAssigned: 210, status: "Active", createdBy: "Ibrahim Bello", dateCreated: "18 Jan 2026" },
-  { id: "4", name: "Library Levy", school: "Primary School", applicableClass: "Primary 1 – 6", category: "Facility", amount: 8500, studentsAssigned: 340, status: "Active", createdBy: "Ibrahim Bello", dateCreated: "02 Feb 2026" },
-  { id: "5", name: "ICT Laboratory Fee", school: "Secondary School", applicableClass: "SS 1 – SS 3", category: "Facility", amount: 21000, studentsAssigned: 88, status: "Draft", createdBy: "Chinelo Umeh", dateCreated: "09 Feb 2026" },
-  { id: "6", name: "PTA Levy", school: "All Schools", applicableClass: "All Classes", category: "Levy", amount: 5000, studentsAssigned: 512, status: "Active", createdBy: "Chinelo Umeh", dateCreated: "14 Feb 2026" },
-  { id: "7", name: "Excursion Fee", school: "Primary School", applicableClass: "Primary 4 – 6", category: "Activity", amount: 17500, studentsAssigned: 96, status: "Archived", createdBy: "Tunde Alabi", dateCreated: "21 Feb 2026" },
-  { id: "8", name: "Examination Fee", school: "Secondary School", applicableClass: "JSS 3 & SS 3", category: "Examination", amount: 12500, studentsAssigned: 154, status: "Active", createdBy: "Tunde Alabi", dateCreated: "03 Mar 2026" },
-];
 
 type SortKey = "name" | "amount" | "expectedRevenue" | "status";
 type SortDirection = "asc" | "desc";
 
-const STATUS_ORDER: Record<FeeStatus, number> = { Active: 0, Draft: 1, Archived: 2 };
-
 const naira = (value: number) =>
   `₦${value.toLocaleString("en-NG", { maximumFractionDigits: 0 })}`;
 
-const statusStyles: Record<FeeStatus, string> = {
-  Active: "border-transparent bg-schoolgate-green-light text-schoolgate-green",
-  Draft: "border-transparent bg-amber-100 text-amber-800",
-  Archived: "border-transparent bg-muted text-muted-foreground",
-};
+export function FeeTypesTable({ data = [] }: { data?: any[] }) {
+  const queryClient = useQueryClient();
+  const updateStatus = useServerFn(updateFeeTypeStatus);
 
-export function FeeTypesTable() {
   const [sortKey, setSortKey] = useState<SortKey>("name");
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
   const [selected, setSelected] = useState<string[]>([]);
 
   const rows = useMemo(() => {
-    const withRevenue = FEE_TYPES.map((fee) => ({
-      ...fee,
-      expectedRevenue: fee.amount * fee.studentsAssigned,
-    }));
-
     const factor = sortDirection === "asc" ? 1 : -1;
-    return withRevenue.sort((a, b) => {
+    return [...data].sort((a, b) => {
       switch (sortKey) {
         case "name":
           return a.name.localeCompare(b.name) * factor;
         case "amount":
-          return (a.amount - b.amount) * factor;
+          return (Number(a.amount) - Number(b.amount)) * factor;
         case "expectedRevenue":
-          return (a.expectedRevenue - b.expectedRevenue) * factor;
+          return (Number(a.expectedRevenue) - Number(b.expectedRevenue)) * factor;
         case "status":
-          return (STATUS_ORDER[a.status] - STATUS_ORDER[b.status]) * factor;
+          return (Number(a.is_active ? 0 : 1) - Number(b.is_active ? 0 : 1)) * factor;
         default:
           return 0;
       }
     });
-  }, [sortKey, sortDirection]);
+  }, [data, sortKey, sortDirection]);
+
+  const handleToggleActive = async (id: string, currentStatus: boolean) => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+      
+      const { data: membership } = await supabase.from('memberships').select('tenant_id').eq('user_id', user.id).single();
+      if (!membership) return;
+
+      await updateStatus({ data: { id, isActive: !currentStatus, tenantId: membership.tenant_id } });
+      queryClient.invalidateQueries({ queryKey: ['fee-types-registry'] });
+      toast.success(`Fee type ${!currentStatus ? 'activated' : 'deactivated'} successfully`);
+    } catch (err: any) {
+      toast.error(err.message);
+    }
+  };
+
 
   const toggleSort = (key: SortKey) => {
     if (key === sortKey) {
@@ -142,9 +148,12 @@ export function FeeTypesTable() {
               <th className="px-4 py-3">
                 <SortButton label="Fee Name" sortValue="name" />
               </th>
-              <th className="px-4 py-3">School</th>
-              <th className="px-4 py-3">Applicable Class</th>
-              <th className="px-4 py-3">Fee Category</th>
+              <th className="px-4 py-3">Session</th>
+              <th className="px-4 py-3">Term</th>
+              <th className="px-4 py-3">Applicable Classes</th>
+              <th className="px-4 py-3">Mandatory</th>
+              <th className="px-4 py-3">Recurring</th>
+
               <th className="px-4 py-3 text-right">
                 <SortButton label="Amount" sortValue="amount" />
               </th>
@@ -183,13 +192,20 @@ export function FeeTypesTable() {
                   <td className="whitespace-nowrap px-4 py-3.5 font-medium text-foreground">
                     {fee.name}
                   </td>
-                  <td className="whitespace-nowrap px-4 py-3.5 text-muted-foreground">{fee.school}</td>
-                  <td className="whitespace-nowrap px-4 py-3.5 text-muted-foreground">{fee.applicableClass}</td>
-                  <td className="whitespace-nowrap px-4 py-3.5">
-                    <Badge variant="outline" className="rounded-md border-border font-normal text-muted-foreground">
-                      {fee.category}
+                  <td className="whitespace-nowrap px-4 py-3.5 text-muted-foreground">{fee.academic_session}</td>
+                  <td className="whitespace-nowrap px-4 py-3.5 text-muted-foreground">{fee.term}</td>
+                  <td className="whitespace-nowrap px-4 py-3.5 text-muted-foreground">{fee.applicable_classes?.join(', ') || 'None'}</td>
+                  <td className="whitespace-nowrap px-4 py-3.5 text-muted-foreground">
+                    <Badge variant="outline" className={cn("rounded-md font-normal", fee.is_mandatory ? "text-schoolgate-green border-schoolgate-green" : "text-muted-foreground")}>
+                      {fee.is_mandatory ? 'Yes' : 'No'}
                     </Badge>
                   </td>
+                  <td className="whitespace-nowrap px-4 py-3.5 text-muted-foreground">
+                    <Badge variant="outline" className="rounded-md border-border font-normal text-muted-foreground">
+                      {fee.is_recurring ? 'Yes' : 'No'}
+                    </Badge>
+                  </td>
+
                   <td className="whitespace-nowrap px-4 py-3.5 text-right tabular-nums text-foreground">
                     {naira(fee.amount)}
                   </td>
@@ -200,12 +216,12 @@ export function FeeTypesTable() {
                     {naira(fee.expectedRevenue)}
                   </td>
                   <td className="whitespace-nowrap px-4 py-3.5">
-                    <Badge className={cn("rounded-full px-2.5 py-0.5 text-xs font-medium", statusStyles[fee.status])}>
-                      {fee.status}
+                    <Badge className={cn("rounded-full px-2.5 py-0.5 text-xs font-medium", fee.is_active ? "bg-schoolgate-green-light text-schoolgate-green" : "bg-muted text-muted-foreground")}>
+                      {fee.is_active ? 'Active' : 'Inactive'}
                     </Badge>
                   </td>
-                  <td className="whitespace-nowrap px-4 py-3.5 text-muted-foreground">{fee.createdBy}</td>
-                  <td className="whitespace-nowrap px-4 py-3.5 text-muted-foreground">{fee.dateCreated}</td>
+                  <td className="whitespace-nowrap px-4 py-3.5 text-muted-foreground">{new Date(fee.created_at).toLocaleDateString()}</td>
+
                   <td className="px-4 py-3.5 text-right">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
@@ -217,8 +233,11 @@ export function FeeTypesTable() {
                       <DropdownMenuContent align="end" className="w-40 rounded-lg">
                         <DropdownMenuItem><Eye className="h-4 w-4" /> View</DropdownMenuItem>
                         <DropdownMenuItem><Pencil className="h-4 w-4" /> Edit</DropdownMenuItem>
-                        <DropdownMenuItem><Copy className="h-4 w-4" /> Duplicate</DropdownMenuItem>
-                        <DropdownMenuItem><Archive className="h-4 w-4" /> Archive</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleToggleActive(fee.id, fee.is_active)}>
+                          {fee.is_active ? <Archive className="h-4 w-4" /> : <CheckCircle2 className="h-4 w-4" />}
+                          {fee.is_active ? 'Deactivate' : 'Activate'}
+                        </DropdownMenuItem>
+
                         <DropdownMenuSeparator />
                         <DropdownMenuItem className="text-destructive focus:text-destructive">
                           <Trash2 className="h-4 w-4" /> Delete
