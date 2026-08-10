@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { z } from "zod";
 
 export const getStudentFinanceProfile = createServerFn({ method: "GET" })
@@ -37,20 +38,31 @@ export const getStudentFinanceProfile = createServerFn({ method: "GET" })
   });
 
 export const processPayment = createServerFn({ method: "POST" })
-  .validator((data) => z.object({
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data) => z.object({
     tenantId: z.string().uuid(),
     studentId: z.string().uuid(),
     walletId: z.string().uuid().optional(),
-    amount: z.number().positive(),
+    amount: z.number().positive().max(1_000_000_000),
     method: z.enum(['card', 'bank_transfer', 'cash', 'cheque', 'wallet']),
-    description: z.string().optional(),
-    reference: z.string().optional(),
+    description: z.string().trim().max(1000).optional(),
+    reference: z.string().trim().max(120).optional(),
     academic_session: z.string().optional(),
     term: z.string().optional(),
     type: z.enum(['credit', 'fee_payment']).default('credit'),
-    createdBy: z.string().uuid()
+    createdBy: z.string().uuid().optional()
   }).parse(data))
-  .handler(async ({ data }) => {
+  .handler(async ({ data, context }) => {
+    // Tenant isolation: caller must be an active member of this school
+    const { data: membership } = await context.supabase
+      .from('memberships')
+      .select('id')
+      .eq('tenant_id', data.tenantId)
+      .eq('user_id', context.userId)
+      .eq('is_active', true)
+      .maybeSingle();
+    if (!membership) throw new Error("You do not have access to this school");
+
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     
     // 1. Check for Duplicate Reference
@@ -80,7 +92,7 @@ export const processPayment = createServerFn({ method: "POST" })
         reference: data.reference,
         academic_session: data.academic_session,
         term: data.term,
-        created_by: data.createdBy,
+        created_by: context.userId,
         created_at: new Date().toISOString()
       })
       .select()
@@ -92,29 +104,30 @@ export const processPayment = createServerFn({ method: "POST" })
   });
 
 export const approveTransaction = createServerFn({ method: "POST" })
-  .validator((data) => z.object({
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data) => z.object({
     transactionId: z.string().uuid(),
-    adminId: z.string().uuid()
+    adminId: z.string().uuid().optional()
   }).parse(data))
-  .handler(async ({ data }) => {
+  .handler(async ({ data, context }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     
-    // 1. Get Transaction
-    const { data: transaction } = await (supabaseAdmin
+    // 1. Get Transaction as the caller — RLS ensures they may see it
+    const { data: transaction } = await (context.supabase
       .from('transactions')
       .select('*')
       .eq('id', data.transactionId)
-      .single());
+      .maybeSingle());
 
     if (!transaction) throw new Error("Transaction not found");
     if (transaction.status === 'approved') throw new Error("Transaction already approved");
 
-    // 2. Update Status
-    const { error } = await (supabaseAdmin
+    // 2. Update Status as the caller — only bursars/admins pass RLS
+    const { error } = await (context.supabase
       .from('transactions')
       .update({
         status: 'approved',
-        approved_by: data.adminId,
+        approved_by: context.userId,
         approved_at: new Date().toISOString()
       })
       .eq('id', data.transactionId));
@@ -170,19 +183,19 @@ export const approveTransaction = createServerFn({ method: "POST" })
   });
 
 export const rejectTransaction = createServerFn({ method: "POST" })
-  .validator((data) => z.object({
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data) => z.object({
     transactionId: z.string().uuid(),
-    adminId: z.string().uuid(),
-    reason: z.string().optional()
+    adminId: z.string().uuid().optional(),
+    reason: z.string().trim().max(500).optional()
   }).parse(data))
-  .handler(async ({ data }) => {
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    
-    const { error } = await (supabaseAdmin
+  .handler(async ({ data, context }) => {
+    // RLS limits rejection to bursars/admins of the transaction's tenant
+    const { error } = await (context.supabase
       .from('transactions')
       .update({
         status: 'rejected',
-        rejected_by: data.adminId,
+        rejected_by: context.userId,
         rejected_at: new Date().toISOString(),
         description: data.reason ? `REJECTED: ${data.reason}` : 'REJECTED'
       })
