@@ -52,10 +52,11 @@ import { BulkActionConfirmation } from "@/components/finance/bulk-action-confirm
 
 export const Route = createFileRoute("/fee-types")({
   validateSearch: (search: Record<string, unknown>) => ({
-    session: z.string().optional().catch("2025-2026").parse(search.session),
-    term: z.string().optional().catch("first").parse(search.term),
-    q: z.string().optional().catch("").parse(search.q),
+    session: z.string().optional().catch("2025-2026").parse(search['session']),
+    term: z.string().optional().catch("first").parse(search['term']),
+    q: z.string().optional().catch("").parse(search['q']),
   }),
+
 
   head: () => ({
     meta: [
