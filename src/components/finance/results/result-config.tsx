@@ -4,10 +4,20 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { Plus, Copy, Eye, Save, Send } from "lucide-react";
+import { Plus, Copy, Eye, Save, Send, Trash2, Loader2 } from "lucide-react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useTenant } from "@/hooks/use-tenant";
+import { supabase } from "@/integrations/supabase/client";
+import { updateGradingScheme } from "@/lib/results.functions";
+import { useServerFn } from "@tanstack/react-start";
+import { toast } from "sonner";
 
 export function ResultConfig() {
-  const [assessments, setAssessments] = useState([
+  const { tenantId } = useTenant();
+  const queryClient = useQueryClient();
+  const updateScheme = useServerFn(updateGradingScheme);
+
+  const [assessments] = useState([
     { name: "CA 1", score: 10 },
     { name: "CA 2", score: 10 },
     { name: "CA 3", score: 10 },
@@ -16,17 +26,66 @@ export function ResultConfig() {
     { name: "Exam", score: 50 },
   ]);
 
-  const [grades, setGrades] = useState([
-    { grade: "A1", min: 80, max: 100, remark: "Distinction" },
-    { grade: "B2", min: 70, max: 79, remark: "Very Good" },
-    { grade: "B3", min: 65, max: 69, remark: "Good" },
-    { grade: "C4", min: 60, max: 64, remark: "Credit" },
-    { grade: "C5", min: 55, max: 59, remark: "Credit" },
-    { grade: "C6", min: 50, max: 54, remark: "Credit" },
-    { grade: "D7", min: 45, max: 49, remark: "Pass" },
-    { grade: "E8", min: 40, max: 44, remark: "Pass" },
-    { grade: "F9", min: 0, max: 39, remark: "Fail" },
+  const { data: gradingRules, isLoading: loadingRules } = useQuery({
+    queryKey: ['grading-rules', tenantId],
+    queryFn: async () => {
+      const { data, error } = await supabase.from('grading_rules').select('*').eq('tenant_id', tenantId!);
+      if (error) throw error;
+      return data || [];
+    },
+    enabled: !!tenantId
+  });
+
+  const [localGrades, setLocalGrades] = useState<any[]>([]);
+
+  // Initialize local state when data loads
+  useState(() => {
+    if (gradingRules && localGrades.length === 0) {
+      setLocalGrades(gradingRules);
+    }
+  });
+
+  const mutation = useMutation({
+    mutationFn: (rules: any[]) => updateScheme({ data: { tenantId: tenantId!, rules } }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['grading-rules'] });
+      toast.success("Grading scheme updated successfully");
+    },
+    onError: (err: any) => {
+      toast.error(err.message || "Failed to update grading scheme");
+    }
+  });
+
+  const handleAddGrade = () => {
+    setLocalGrades([...localGrades, { grade: "", min_score: 0, max_score: 0, remark: "" }]);
+  };
+
+  const handleUpdateGrade = (index: number, field: string, value: any) => {
+    const updated = [...localGrades];
+    updated[index] = { ...updated[index], [field]: value };
+    setLocalGrades(updated);
+  };
+
+  const handleRemoveGrade = (index: number) => {
+    setLocalGrades(localGrades.filter((_, i) => i !== index));
+  };
+
+  const handleSave = () => {
+    mutation.mutate(localGrades);
+  };
+
+  const grades = localGrades.length > 0 ? localGrades : (gradingRules || [
+    { grade: "A1", min_score: 80, max_score: 100, remark: "Distinction" },
+    { grade: "B2", min_score: 70, max_score: 79, remark: "Very Good" },
+    { grade: "B3", min_score: 65, max_score: 69, remark: "Good" },
+    { grade: "C4", min_score: 60, max_score: 64, remark: "Credit" },
+    { grade: "C5", min_score: 55, max_score: 59, remark: "Credit" },
+    { grade: "C6", min_score: 50, max_score: 54, remark: "Credit" },
+    { grade: "D7", min_score: 45, max_score: 49, remark: "Pass" },
+    { grade: "E8", min_score: 40, max_score: 44, remark: "Pass" },
+    { grade: "F9", min_score: 0, max_score: 39, remark: "Fail" },
   ]);
+
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
