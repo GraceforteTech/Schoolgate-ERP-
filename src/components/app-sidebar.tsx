@@ -19,7 +19,9 @@ import {
   Package,
   Home as HomeIcon,
   LogOut,
+  History,
 } from "lucide-react";
+
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -77,6 +79,8 @@ const financeNavItems = [
   { title: "Expenses", url: "/finance/expense-management", icon: Banknote },
   { title: "Payments", url: "/finance/payroll-management", icon: Banknote },
   { title: "Approval Centre", url: "/finance/approvals", icon: ShieldCheck },
+  { title: "Audit Trail", url: "/finance/audit-trail", icon: History },
+
 ];
 
 const systemNavItems = [
