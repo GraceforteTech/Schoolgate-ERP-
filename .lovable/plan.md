@@ -1,18 +1,34 @@
-# Plan - Address Visual Text Edit and Greet User
+# Plan - Design Fee Type Module Enhancements
 
-The user requested a visual text edit changing `\u2063` (Invisible Separator) to `\u2063`. This character is not present in the source code, as confirmed by binary-level scans. It appears to be an invisible character injected by a library or the dev environment at runtime, which is not causing any functional or visual issues.
+The user wants to "design fee type". Based on the existing codebase, we already have a robust fee type management system under `/fee-types`. I will enhance the design to match the premium **Executive Command Center** aesthetic, focusing on layout, summaries, and distribution UX.
 
 ## Proposed Changes
 
-### 1. No changes needed for the visual text edit
-- Confirmed via `rg` and binary Python scan that `\u2063` is not in the source files.
-- The request is a no-op (changing the character to itself).
-- I will acknowledge the greeting "hi" from the user.
+### 1. Enhance `src/routes/fee-types-overview.tsx`
+- Refine the category cards to match the 24px/14px rounded aesthetic of the Executive Dashboard.
+- Improve typography (font-black for headings, tracking-widest for labels).
+- Ensure consistent spacing and premium hover effects.
+
+### 2. Update `src/components/finance/create-fee-type-dialog.tsx`
+- Refine the form layout to be more "Executive" (cleaner inputs, better grouping).
+- Improve the "Applicable Classes" grid styling.
+- Ensure the dialog matches the project's high-contrast theme.
+
+### 3. Refine `src/routes/fee-types.tsx`
+- Ensure the main registry page is perfectly aligned with the Command Center's look.
+- Optimize the loading state with the premium skeleton pattern used in other modules.
+
+### 4. Database & Logic Check
+- No schema changes needed as the current migration already supports the required fields.
+- Verify `applicable_classes` distribution logic in `src/lib/fee-types.functions.ts`.
 
 ## Verification Plan
 
 ### Automated Tests
-- No changes to test.
+- Build check: `npm run build:dev`
+- Type check: `tsgo`
 
 ### Manual Verification
-- N/A
+- Navigate to `/fee-types-overview` and `/fee-types`.
+- Open the "New Fee Type" dialog and verify layout.
+- Check responsiveness on mobile and tablet viewports.
