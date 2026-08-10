@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   CreditCard,
@@ -22,6 +23,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { CreateFeeTypeDialog } from "@/components/finance/create-fee-type-dialog";
 
 export const Route = createFileRoute("/fee-types-overview")({
   head: () => ({
@@ -85,8 +87,14 @@ const feeCategories = [
 ];
 
 function FeeTypesOverviewPage() {
+  const [isNewFeeTypeOpen, setIsNewFeeTypeOpen] = useState(false);
+
   return (
     <div className="flex-1 p-4 md:p-6 bg-page-background min-h-screen">
+      <CreateFeeTypeDialog 
+        open={isNewFeeTypeOpen}
+        onOpenChange={setIsNewFeeTypeOpen}
+      />
       <div className="mx-auto max-w-[1600px] space-y-6">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
