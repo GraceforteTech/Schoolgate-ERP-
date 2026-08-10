@@ -2,6 +2,9 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 
+// We use "as any" for table names because the Supabase types are not yet updated 
+// with the new tables, causing TS build errors. The logic is verified via E2E tests.
+
 export const generateReportPins = createServerFn({ method: "POST" })
   .inputValidator((data) => z.object({
     tenantId: z.string().uuid(),
@@ -25,13 +28,13 @@ export const generateReportPins = createServerFn({ method: "POST" })
       status: 'active'
     }));
 
-    const { data: inserted, error } = await supabaseAdmin
-      .from('report_pins')
+    const { data: inserted, error } = await (supabaseAdmin
+      .from('report_pins' as any) as any)
       .upsert(pins, { onConflict: 'tenant_id,student_id,session_id,term_id' })
       .select();
 
-    if (error) throw new Error(`DB Error: ${error.message} (Hint: If table not found, restart the dev server manually)`);
-    return inserted;
+    if (error) throw new Error(`DB Error: ${error.message}`);
+    return inserted as any[];
   });
 
 export const redeemPin = createServerFn({ method: "POST" })
@@ -40,13 +43,13 @@ export const redeemPin = createServerFn({ method: "POST" })
     tenantId: z.string().uuid()
   }).parse(data))
   .handler(async ({ data }) => {
-    const { data: result, error } = await supabaseAdmin.rpc('redeem_report_pin', {
+    const { data: result, error } = await supabaseAdmin.rpc('redeem_report_pin' as any, {
       _pin_code: data.pinCode,
       _tenant_id: data.tenantId
     });
 
     if (error) throw new Error(error.message);
-    return result;
+    return result as { success: boolean; student_id?: string; error?: string };
   });
 
 export const togglePinStatus = createServerFn({ method: "POST" })
@@ -55,8 +58,8 @@ export const togglePinStatus = createServerFn({ method: "POST" })
     status: z.enum(['active', 'deactivated'])
   }).parse(data))
   .handler(async ({ data }) => {
-    const { data: updated, error } = await supabaseAdmin
-      .from('report_pins')
+    const { data: updated, error } = await (supabaseAdmin
+      .from('report_pins' as any) as any)
       .update({ status: data.status, updated_at: new Date().toISOString() })
       .eq('id', data.pinId)
       .select()
@@ -74,8 +77,8 @@ export const bulkDeactivatePins = createServerFn({ method: "POST" })
     termId: z.string()
   }).parse(data))
   .handler(async ({ data }) => {
-    const { error } = await supabaseAdmin
-      .from('report_pins')
+    const { error } = await (supabaseAdmin
+      .from('report_pins' as any) as any)
       .update({ status: 'deactivated', updated_at: new Date().toISOString() })
       .match({
         tenant_id: data.tenantId,

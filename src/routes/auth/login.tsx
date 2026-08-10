@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -6,7 +6,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
-import { School } from "lucide-react";
+import { School, Info } from "lucide-react";
+import { checkUserTenants } from "@/lib/onboarding.functions";
 
 export const Route = createFileRoute("/auth/login")({
   component: LoginPage,
@@ -16,21 +17,30 @@ function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data: { user }, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
       if (error) throw error;
       
-      toast.success("Signed in successfully");
-      window.location.href = "/enterprise";
+      if (user) {
+        toast.success("Signed in successfully");
+        const { hasTenants } = await checkUserTenants({ data: { userId: user.id } });
+        
+        if (!hasTenants) {
+          navigate({ to: "/onboarding" });
+        } else {
+          window.location.href = "/enterprise";
+        }
+      }
     } catch (error: any) {
       toast.error(error.message || "Failed to sign in");
     } finally {
@@ -63,6 +73,14 @@ function LoginPage() {
           <CardDescription className="font-bold text-slate-500 uppercase text-[10px] tracking-widest">Enterprise Multi-Tenant Portal</CardDescription>
         </CardHeader>
         <CardContent>
+          <div className="mb-6 p-3 bg-blue-50 border border-blue-100 rounded-lg flex gap-3 text-xs text-blue-700">
+            <Info className="shrink-0 h-4 w-4" />
+            <div className="space-y-1">
+              <p className="font-bold">Existing school administrators:</p>
+              <p>Sign in with your email and password to access your dashboard.</p>
+            </div>
+          </div>
+
           <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
@@ -124,9 +142,14 @@ function LoginPage() {
           </Button>
         </CardContent>
         <CardFooter className="flex flex-col gap-4 border-t border-slate-50 pt-6">
-          <p className="text-center text-xs text-slate-500 font-bold">
-            Don't have a tenant account? Contact Schoolgate Support.
-          </p>
+          <div className="text-center space-y-2">
+            <p className="text-sm text-slate-600 font-bold">New school?</p>
+            <Link to="/auth/signup">
+              <Button variant="link" className="text-schoolgate-green font-black p-0 h-auto">
+                Create your Schoolgate account to get started
+              </Button>
+            </Link>
+          </div>
         </CardFooter>
       </Card>
     </div>
