@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   CreditCard,
@@ -22,6 +23,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { CreateFeeTypeDialog } from "@/components/finance/create-fee-type-dialog";
 
 export const Route = createFileRoute("/fee-types-overview")({
   head: () => ({
@@ -85,19 +87,28 @@ const feeCategories = [
 ];
 
 function FeeTypesOverviewPage() {
+  const [isNewFeeTypeOpen, setIsNewFeeTypeOpen] = useState(false);
+
   return (
     <div className="flex-1 p-4 md:p-6 bg-page-background min-h-screen">
+      <CreateFeeTypeDialog 
+        open={isNewFeeTypeOpen}
+        onOpenChange={setIsNewFeeTypeOpen}
+      />
       <div className="mx-auto max-w-[1600px] space-y-6">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold tracking-tight text-slate-900">Fee Types Overview</h1>
-            <p className="text-sm text-muted-foreground mt-1">
+            <h1 className="text-3xl font-black tracking-tight text-slate-900">Fee Types Overview</h1>
+            <p className="text-sm text-slate-500 font-medium mt-1">
               Preview all fee categories with quick actions and live statistics.
             </p>
           </div>
-          <div className="flex items-center gap-2">
-            <Button className="h-9 gap-2 bg-schoolgate-green hover:bg-schoolgate-green/90 text-white rounded-lg">
+          <div className="flex items-center gap-3">
+            <Button 
+              className="h-11 gap-2 bg-schoolgate-green hover:bg-schoolgate-green/90 text-white rounded-xl font-black uppercase text-[10px] tracking-widest px-6 shadow-lg shadow-schoolgate-green/20"
+              onClick={() => setIsNewFeeTypeOpen(true)}
+            >
               <Plus className="h-4 w-4" /> New Fee Type
             </Button>
           </div>
@@ -110,15 +121,15 @@ function FeeTypesOverviewPage() {
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input 
                 placeholder="Search categories, fee names or classes..." 
-                className="h-10 pl-10 rounded-xl border-slate-200"
+                className="h-11 pl-10 rounded-2xl border-slate-100 bg-slate-50/50 focus-visible:ring-schoolgate-green"
               />
             </div>
-            <div className="flex items-center gap-2 w-full md:w-auto">
-              <Button variant="outline" className="h-10 gap-2 rounded-xl border-slate-200">
+            <div className="flex items-center gap-3 w-full md:w-auto">
+              <Button variant="outline" className="h-11 gap-2 rounded-2xl border-slate-100 font-bold text-slate-600">
                 <Filter className="h-4 w-4" /> Filters
               </Button>
               <Link to="/fee-types" search={{ session: '2025-2026', term: 'first', q: '' }}>
-                <Button variant="ghost" className="h-10 gap-2 rounded-xl text-schoolgate-green">
+                <Button variant="ghost" className="h-11 gap-2 rounded-2xl text-schoolgate-green font-black uppercase text-[10px] tracking-widest hover:bg-schoolgate-green-light">
                   View Detailed Table <ChevronRight className="h-4 w-4" />
                 </Button>
               </Link>
@@ -129,8 +140,8 @@ function FeeTypesOverviewPage() {
         {/* Category Grid */}
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {feeCategories.map((category) => (
-            <Card key={category.id} className="group rounded-[14px] border-0 shadow-sm hover:shadow-md transition-all duration-300">
-              <CardHeader className="pb-2 flex flex-row items-center justify-between space-y-0">
+            <Card key={category.id} className="group rounded-[24px] border-none shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden bg-white">
+              <CardHeader className="pb-2 flex flex-row items-center justify-between space-y-0 p-6">
                 <div className={cn(
                   "h-10 w-10 rounded-xl flex items-center justify-center",
                   category.color === "blue" ? "bg-blue-50 text-blue-600" :
@@ -153,39 +164,42 @@ function FeeTypesOverviewPage() {
                   </DropdownMenuContent>
                 </DropdownMenu>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-6 p-6 pt-0 relative z-10">
                 <div>
-                  <h3 className="font-bold text-slate-900">{category.name}</h3>
-                  <p className="text-xs text-muted-foreground line-clamp-1">{category.description}</p>
+                  <h3 className="text-lg font-black text-slate-900 tracking-tight">{category.name}</h3>
+                  <p className="text-xs text-slate-500 font-medium italic line-clamp-1">{category.description}</p>
                 </div>
                 
-                <div className="grid grid-cols-2 gap-2">
-                  <div className="bg-slate-50 p-2 rounded-lg">
-                    <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider">Fee Types</p>
-                    <p className="text-lg font-bold text-slate-800">{category.count}</p>
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="bg-slate-50 p-3 rounded-2xl border border-slate-100">
+                    <p className="text-[9px] text-slate-400 uppercase font-black tracking-widest mb-1">Fee Types</p>
+                    <p className="text-xl font-black text-slate-800 tracking-tighter">{category.count}</p>
                   </div>
-                  <div className="bg-slate-50 p-2 rounded-lg">
-                    <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider">Revenue</p>
-                    <p className="text-lg font-bold text-schoolgate-green">{category.totalValue}</p>
+                  <div className="bg-slate-50 p-3 rounded-2xl border border-slate-100">
+                    <p className="text-[9px] text-slate-400 uppercase font-black tracking-widest mb-1">Revenue</p>
+                    <p className="text-xl font-black text-schoolgate-green tracking-tighter">{category.totalValue}</p>
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between pt-2 border-t border-slate-100">
-                  <div className="flex items-center gap-1">
-                    <Users className="h-3 w-3 text-muted-foreground" />
-                    <span className="text-xs text-muted-foreground">{category.active} Active Structures</span>
+                <div className="flex items-center justify-between pt-4 border-t border-slate-50">
+                  <div className="flex items-center gap-1.5">
+                    <Users className="h-3.5 w-3.5 text-slate-400" />
+                    <span className="text-[11px] font-bold text-slate-500">{category.active} Active Structures</span>
                   </div>
                   <Badge variant="outline" className={cn(
-                    "text-[10px] rounded-full px-2 py-0 border-0",
+                    "text-[10px] font-black rounded-full px-2.5 py-0.5 border-none",
                     category.growth.startsWith('+') ? "bg-emerald-50 text-emerald-600" : "bg-rose-50 text-rose-600"
                   )}>
                     {category.growth}
                   </Badge>
                 </div>
 
-                <Button className="w-full h-9 rounded-lg border-slate-200 group-hover:bg-schoolgate-green group-hover:text-white group-hover:border-schoolgate-green transition-colors" variant="outline">
+                <Button className="w-full h-11 rounded-xl border-slate-100 font-black uppercase text-[10px] tracking-widest transition-all duration-300 group-hover:bg-schoolgate-green group-hover:text-white group-hover:border-schoolgate-green group-hover:shadow-lg group-hover:shadow-schoolgate-green/20" variant="outline">
                   Manage Fees
                 </Button>
+                
+                {/* Decorative background element */}
+                <div className="absolute -right-6 -bottom-6 h-32 w-32 bg-slate-50 rounded-full scale-0 group-hover:scale-100 transition-transform duration-700 -z-0 opacity-40" />
               </CardContent>
             </Card>
           ))}

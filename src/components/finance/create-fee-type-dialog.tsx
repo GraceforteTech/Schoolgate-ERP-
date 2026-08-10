@@ -111,7 +111,7 @@ export function CreateFeeTypeDialog({ open, onOpenChange }: CreateFeeTypeDialogP
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl p-0 overflow-hidden border-none rounded-[24px]">
+      <DialogContent className="max-w-2xl p-0 overflow-hidden border-none rounded-[32px] shadow-2xl">
         <div className="bg-schoolgate-green p-6 text-white">
           <DialogHeader>
             <div className="flex items-center gap-3 mb-2">
@@ -119,9 +119,9 @@ export function CreateFeeTypeDialog({ open, onOpenChange }: CreateFeeTypeDialogP
                 <Layers className="h-6 w-6 text-white" />
               </div>
               <div>
-                <DialogTitle className="text-2xl font-black tracking-tight">Create Fee Type</DialogTitle>
-                <DialogDescription className="text-white/70 font-medium">
-                  Define a new fee and distribute it across classes.
+                <DialogTitle className="text-3xl font-black tracking-tighter">Create Fee Type</DialogTitle>
+                <DialogDescription className="text-white/80 font-bold uppercase text-[10px] tracking-widest mt-1">
+                  Define school fee structure
                 </DialogDescription>
               </div>
             </div>
@@ -130,16 +130,16 @@ export function CreateFeeTypeDialog({ open, onOpenChange }: CreateFeeTypeDialogP
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <div className="p-8 bg-white max-h-[60vh] overflow-y-auto">
+            <div className="p-10 bg-white max-h-[65vh] overflow-y-auto custom-scrollbar">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormField
                   control={form.control}
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xs font-bold text-slate-700">Fee Name</FormLabel>
+                      <FormLabel className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Fee Name</FormLabel>
                       <FormControl>
-                        <Input placeholder="e.g., Tuition Fee" className="h-11 rounded-xl border-slate-200" {...field} />
+                        <Input placeholder="e.g., Tuition Fee" className="h-12 rounded-2xl border-slate-100 bg-slate-50/50 focus-visible:ring-schoolgate-green font-bold" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -151,10 +151,10 @@ export function CreateFeeTypeDialog({ open, onOpenChange }: CreateFeeTypeDialogP
                   name="category"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xs font-bold text-slate-700">Category</FormLabel>
+                      <FormLabel className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Category</FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
-                          <SelectTrigger className="h-11 rounded-xl border-slate-200">
+                          <SelectTrigger className="h-12 rounded-2xl border-slate-100 bg-slate-50/50 focus-visible:ring-schoolgate-green font-bold">
                             <SelectValue placeholder="Select category" />
                           </SelectTrigger>
                         </FormControl>
@@ -178,9 +178,9 @@ export function CreateFeeTypeDialog({ open, onOpenChange }: CreateFeeTypeDialogP
                   name="amount"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xs font-bold text-slate-700">Amount (₦)</FormLabel>
+                      <FormLabel className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Amount (₦)</FormLabel>
                       <FormControl>
-                        <Input type="number" placeholder="0.00" className="h-11 rounded-xl border-slate-200" {...field} />
+                        <Input type="number" placeholder="0.00" className="h-12 rounded-2xl border-slate-100 bg-slate-50/50 focus-visible:ring-schoolgate-green font-bold tabular-nums" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -234,8 +234,8 @@ export function CreateFeeTypeDialog({ open, onOpenChange }: CreateFeeTypeDialogP
               </div>
 
               <div className="mt-8">
-                <FormLabel className="text-xs font-bold text-slate-700 mb-4 block">Applicable Classes</FormLabel>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                <FormLabel className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 block">Applicable Classes</FormLabel>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-slate-50/50 p-6 rounded-[24px] border border-slate-100/50">
                   {classes?.map((className: string) => (
                     <FormField
                       key={className}
@@ -243,10 +243,11 @@ export function CreateFeeTypeDialog({ open, onOpenChange }: CreateFeeTypeDialogP
                       name="applicableClasses"
                       render={({ field }) => {
                         return (
-                          <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                          <FormItem className="flex flex-row items-center space-x-3 space-y-0 group">
                             <FormControl>
                               <Checkbox
                                 checked={field.value?.includes(className)}
+                                className="rounded-lg border-slate-200 data-[state=checked]:bg-schoolgate-green data-[state=checked]:border-schoolgate-green"
                                 onCheckedChange={(checked) => {
                                   return checked
                                     ? field.onChange([...field.value, className])
@@ -258,7 +259,7 @@ export function CreateFeeTypeDialog({ open, onOpenChange }: CreateFeeTypeDialogP
                                 }}
                               />
                             </FormControl>
-                            <FormLabel className="text-sm font-medium leading-none cursor-pointer">
+                            <FormLabel className="text-xs font-bold text-slate-600 cursor-pointer group-hover:text-schoolgate-green transition-colors uppercase tracking-wider">
                               {className}
                             </FormLabel>
                           </FormItem>
@@ -323,8 +324,8 @@ export function CreateFeeTypeDialog({ open, onOpenChange }: CreateFeeTypeDialogP
                 <Button variant="ghost" type="button" onClick={() => onOpenChange(false)} className="h-11 px-6 rounded-xl font-bold text-slate-600">
                   Cancel
                 </Button>
-                <Button type="submit" className="h-11 px-8 rounded-xl bg-schoolgate-green text-white font-black shadow-lg shadow-schoolgate-green/20 hover:bg-schoolgate-green/90">
-                  <Save size={18} className="mr-2" /> Save & Distribute
+                <Button type="submit" className="h-12 px-10 rounded-2xl bg-schoolgate-green text-white font-black uppercase text-[11px] tracking-widest shadow-xl shadow-schoolgate-green/30 hover:bg-schoolgate-green/90 transition-all active:scale-95">
+                  <Save size={18} className="mr-3" /> Save & Distribute
                 </Button>
               </div>
             </DialogFooter>

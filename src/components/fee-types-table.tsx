@@ -151,7 +151,7 @@ export function FeeTypesTable({
       <div className="max-h-[600px] overflow-auto scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent">
         <table className="w-full min-w-[1400px] border-separate border-spacing-0 text-sm">
           <thead className="sticky top-0 z-10">
-            <tr className="bg-slate-50/80 backdrop-blur-md text-left text-[10px] font-black uppercase tracking-widest text-slate-500 shadow-[inset_0_-1px_0_0_rgba(0,0,0,0.05)]">
+            <tr className="bg-slate-50/50 backdrop-blur-md text-left text-[10px] font-black uppercase tracking-widest text-slate-400 shadow-[inset_0_-1px_0_0_rgba(0,0,0,0.02)]">
               <th className="w-12 px-4 py-3">
                 <Checkbox
                   checked={allSelected}
@@ -192,10 +192,10 @@ export function FeeTypesTable({
                 <tr
                   key={fee.id}
                   className={cn(
-                    "group border-b border-slate-100 transition-all duration-200",
-                    index % 2 === 1 ? "bg-slate-50/30" : "bg-white",
-                    "hover:bg-schoolgate-green-light/40 hover:shadow-[inset_4px_0_0_0_#0B6E3C]",
-                    isSelected && "bg-schoolgate-green-light/60 shadow-[inset_4px_0_0_0_#0B6E3C]",
+                    "group border-b border-slate-50 transition-all duration-300",
+                    index % 2 === 1 ? "bg-slate-50/10" : "bg-white",
+                    "hover:bg-schoolgate-green-light/20 hover:shadow-[inset_4px_0_0_0_#0B6E3C]",
+                    isSelected && "bg-schoolgate-green-light/40 shadow-[inset_4px_0_0_0_#0B6E3C]",
                   )}
                 >
                   <td className="px-4 py-3.5">
@@ -205,12 +205,12 @@ export function FeeTypesTable({
                       aria-label={`Select ${fee.name}`}
                     />
                   </td>
-                  <td className="whitespace-nowrap px-4 py-3.5 font-medium text-foreground">
+                  <td className="whitespace-nowrap px-4 py-4 font-black text-slate-900 tracking-tight">
                     {fee.name}
                   </td>
-                  <td className="whitespace-nowrap px-4 py-3.5 text-muted-foreground">{fee.academic_session}</td>
-                  <td className="whitespace-nowrap px-4 py-3.5 text-muted-foreground">{fee.term}</td>
-                  <td className="whitespace-nowrap px-4 py-3.5 text-muted-foreground">{fee.applicable_classes?.join(', ') || 'None'}</td>
+                  <td className="whitespace-nowrap px-4 py-4 text-[11px] font-bold text-slate-500">{fee.academic_session}</td>
+                  <td className="whitespace-nowrap px-4 py-4 text-[11px] font-bold text-slate-500 uppercase tracking-wider">{fee.term}</td>
+                  <td className="whitespace-nowrap px-4 py-4 text-[11px] font-medium text-slate-400 italic">{fee.applicable_classes?.join(', ') || 'None'}</td>
                   <td className="whitespace-nowrap px-4 py-3.5 text-muted-foreground">
                     <Badge variant="outline" className={cn("rounded-md font-normal", fee.is_mandatory ? "text-schoolgate-green border-schoolgate-green" : "text-muted-foreground")}>
                       {fee.is_mandatory ? 'Yes' : 'No'}
@@ -228,12 +228,12 @@ export function FeeTypesTable({
                   <td className="whitespace-nowrap px-4 py-3.5 text-right tabular-nums text-muted-foreground">
                     {fee.studentsAssigned.toLocaleString()}
                   </td>
-                  <td className="whitespace-nowrap px-4 py-3.5 text-right font-bold tabular-nums text-schoolgate-green">
+                  <td className="whitespace-nowrap px-4 py-4 text-right font-black tabular-nums text-schoolgate-green tracking-tighter text-base">
                     {naira(fee.expectedRevenue)}
                   </td>
                   <td className="whitespace-nowrap px-4 py-3.5">
-                    <Badge className={cn("rounded-full px-2.5 py-0.5 text-xs font-medium", fee.is_active ? "bg-schoolgate-green-light text-schoolgate-green" : "bg-muted text-muted-foreground")}>
-                      {fee.is_active ? 'Active' : 'Inactive'}
+                    <Badge className={cn("rounded-full px-3 py-0.5 text-[10px] font-black uppercase tracking-widest border-none", fee.is_active ? "bg-emerald-50 text-emerald-600" : "bg-slate-100 text-slate-400")}>
+                      {fee.is_active ? 'Active' : 'Archived'}
                     </Badge>
                   </td>
                   <td className="whitespace-nowrap px-4 py-3.5 text-muted-foreground uppercase text-[10px] font-bold">{fee.category}</td>
