@@ -1,4 +1,4 @@
-import { Bell, Search, Home } from "lucide-react";
+import { Bell, Search, Home, ExternalLink } from "lucide-react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,6 +17,13 @@ export function TopNav() {
           title="Home"
         >
           <Home className="h-4 w-4" />
+        </Link>
+        <Link 
+          to="/landing" 
+          className="flex items-center gap-2 rounded-md px-2 py-1 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+          title="Landing Page"
+        >
+          <ExternalLink className="h-4 w-4" />
         </Link>
         <div className="hidden h-6 w-px bg-border sm:block" />
         <nav className="hidden items-center gap-1 text-xs font-bold uppercase tracking-widest text-muted-foreground sm:flex">
