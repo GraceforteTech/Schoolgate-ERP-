@@ -3,13 +3,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { Eye, Printer, Download, Send, Share2, Mail, QrCode, User, BookOpen, GraduationCap, Calendar, BarChart3, Info, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
+import { Eye, Printer, Download, Send, Share2, Mail, QrCode, User, BookOpen, GraduationCap, Calendar, BarChart3, Info, ChevronLeft, ChevronRight, Loader2, FileText } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { useTenant } from "@/hooks/use-tenant";
 import { supabase } from "@/integrations/supabase/client";
 import { getStudentResultDrillDown } from "@/lib/results.functions";
 import { useServerFn } from "@tanstack/react-start";
-import { Skeleton } from "@/components/ui/skeleton";
 
 export function ReportCardGenerator() {
   const { tenantId } = useTenant();
@@ -222,19 +221,19 @@ export function ReportCardGenerator() {
                   <div className="flex gap-6">
                     <div className="w-24 h-24 rounded-2xl bg-white p-1 shadow-2xl">
                       <div className="w-full h-full rounded-xl bg-slate-100 flex items-center justify-center overflow-hidden">
-                        {reportData?.student.photo_url ? (
-                          <img src={reportData.student.photo_url} alt="" className="w-full h-full object-cover" />
+                        {(reportData as any)?.student.photo_url ? (
+                          <img src={(reportData as any).student.photo_url} alt="" className="w-full h-full object-cover" />
                         ) : (
                           <User size={48} className="text-slate-300" />
                         )}
                       </div>
                     </div>
                     <div className="space-y-1 mt-2">
-                      <h2 className="text-2xl font-black tracking-tight uppercase">{reportData?.student.full_name || currentStudent?.full_name}</h2>
+                      <h2 className="text-2xl font-black tracking-tight uppercase">{(reportData as any)?.student.full_name || currentStudent?.full_name}</h2>
                       <div className="flex items-center gap-3 text-emerald-100 text-xs font-bold uppercase tracking-widest">
                         <span>{classes?.find(c => c.id === selectedClass)?.name || "Class"}</span>
                         <span className="w-1 h-1 bg-emerald-300 rounded-full" />
-                        <span>ADM: {reportData?.student.admission_number || currentStudent?.admission_number || "N/A"}</span>
+                        <span>ADM: {(reportData as any)?.student.admission_number || currentStudent?.admission_number || "N/A"}</span>
                       </div>
                       <div className="bg-white/10 rounded-lg px-3 py-1.5 inline-block mt-2">
                         <span className="text-[10px] font-black uppercase tracking-wider text-emerald-50">{term} Report Card • {session}</span>
@@ -266,7 +265,7 @@ export function ReportCardGenerator() {
                       <BarChart3 size={14} className="text-slate-400" />
                       <span className="text-[9px] font-black text-slate-400 uppercase tracking-wider">Subjects</span>
                     </div>
-                    <span className="text-xl font-black text-schoolgate-green">{reportData?.stats.totalSubjects || 0}</span>
+                    <span className="text-xl font-black text-schoolgate-green">{(reportData as any)?.summary.subjectCount || 0}</span>
                     <p className="text-[10px] font-bold text-slate-500 mt-1 uppercase">Academic Load</p>
                   </div>
                   <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
@@ -274,7 +273,7 @@ export function ReportCardGenerator() {
                       <BookOpen size={14} className="text-slate-400" />
                       <span className="text-[9px] font-black text-slate-400 uppercase tracking-wider">Mean Score</span>
                     </div>
-                    <span className="text-xl font-black text-slate-800">{reportData?.stats.averageScore || 0}%</span>
+                    <span className="text-xl font-black text-slate-800">{(reportData as any)?.summary.averageScore || 0}%</span>
                     <p className="text-[10px] font-bold text-slate-500 mt-1 uppercase">Performance</p>
                   </div>
                   <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
@@ -282,7 +281,7 @@ export function ReportCardGenerator() {
                       <Calendar size={14} className="text-slate-400" />
                       <span className="text-[9px] font-black text-slate-400 uppercase tracking-wider">Total Score</span>
                     </div>
-                    <span className="text-xl font-black text-emerald-600">{reportData?.stats.totalScore || 0}</span>
+                    <span className="text-xl font-black text-emerald-600">{(reportData as any)?.summary.totalScore || 0}</span>
                     <p className="text-[10px] font-bold text-slate-500 mt-1 uppercase">Aggregate</p>
                   </div>
                 </div>
@@ -301,16 +300,16 @@ export function ReportCardGenerator() {
                       <div className="text-center">Total</div>
                       <div className="text-center">Grade</div>
                     </div>
-                    {reportData?.results.map((row, i) => (
+                    {(reportData as any)?.results.map((row: any, i: number) => (
                       <div key={i} className="grid grid-cols-6 p-4 text-xs font-bold text-slate-700 border-b border-slate-50 last:border-0 hover:bg-slate-50/30 transition-colors">
-                        <div className="col-span-2 px-2 uppercase">{row.subject.name}</div>
+                        <div className="col-span-2 px-2 uppercase">{row.subjects.name}</div>
                         <div className="text-center text-slate-400">{row.ca_score}</div>
                         <div className="text-center text-slate-400">{row.exam_score}</div>
                         <div className="text-center font-black text-slate-900">{row.ca_score + row.exam_score}</div>
                         <div className="text-center font-black text-schoolgate-green">{row.grade || 'N/A'}</div>
                       </div>
                     ))}
-                    {(!reportData?.results || reportData.results.length === 0) && (
+                    {(!(reportData as any)?.results || (reportData as any).results.length === 0) && (
                       <div className="p-8 text-center text-slate-400 font-medium italic text-xs">
                         No results found for this student in the selected term.
                       </div>
@@ -323,7 +322,7 @@ export function ReportCardGenerator() {
                   <div className="space-y-3">
                     <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Teacher's Remark</h4>
                     <div className="p-4 bg-slate-50 rounded-2xl min-h-[80px] text-xs font-medium italic text-slate-600 leading-relaxed">
-                      "An impressive display of academic dedication. {reportData?.student.full_name.split(' ')[0]} shows great potential in science subjects."
+                      "An impressive display of academic dedication. {(reportData as any)?.student.full_name.split(' ')[0]} shows great potential in science subjects."
                     </div>
                   </div>
                   <div className="space-y-3">
