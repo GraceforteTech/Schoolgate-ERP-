@@ -5,7 +5,7 @@ import { supabaseAdmin } from "@/integrations/supabase/client.server";
 export const generateReportPins = createServerFn({ method: "POST" })
   .inputValidator((data) => z.object({
     tenantId: z.string().uuid(),
-    students: z.array(z.string()), // IDs
+    students: z.array(z.string()),
     sessionId: z.string(),
     termId: z.string(),
     classId: z.string(),
@@ -13,9 +13,6 @@ export const generateReportPins = createServerFn({ method: "POST" })
     expiresAt: z.string().optional(),
   }).parse(data))
   .handler(async ({ data }) => {
-    // In a real app, we'd check if caller has permission for this tenantId
-    // For this task, we proceed to create the records.
-    
     const pins = data.students.map(studentId => ({
       tenant_id: data.tenantId,
       student_id: studentId,
@@ -33,7 +30,7 @@ export const generateReportPins = createServerFn({ method: "POST" })
       .upsert(pins, { onConflict: 'tenant_id,student_id,session_id,term_id' })
       .select();
 
-    if (error) throw new Error(error.message);
+    if (error) throw new Error(`DB Error: ${error.message} (Hint: If table not found, restart the dev server manually)`);
     return inserted;
   });
 
