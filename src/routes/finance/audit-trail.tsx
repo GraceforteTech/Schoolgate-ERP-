@@ -143,13 +143,31 @@ function AuditTrailPage() {
                     <h1 className="text-2xl font-black text-slate-900 tracking-tight">Financial Audit Trail</h1>
                     <p className="text-slate-500 mt-1 font-medium italic">Comprehensive log of all financial and administrative actions.</p>
                   </div>
-                  <Button 
-                    onClick={handleExport}
-                    variant="outline" 
-                    className="h-10 rounded-xl bg-white border-slate-200 font-bold gap-2 text-slate-600"
-                  >
-                    <Download size={16} /> Export CSV
-                  </Button>
+                  <div className="flex items-center gap-2">
+                    <Select 
+                      value={String(filters.pageSize || 50)} 
+                      onValueChange={(val) => navigate({ search: (prev: AuditFilters) => ({ ...prev, pageSize: Number(val), page: 1 }) })}
+                    >
+                      <SelectTrigger className="h-10 w-24 rounded-xl bg-white border-slate-200 font-bold text-slate-600 text-xs">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="25">25 / page</SelectItem>
+                        <SelectItem value="50">50 / page</SelectItem>
+                        <SelectItem value="100">100 / page</SelectItem>
+                        <SelectItem value="250">250 / page</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <Button 
+                      onClick={handleExport}
+                      disabled={isExporting}
+                      variant="outline" 
+                      className="h-10 rounded-xl bg-white border-slate-200 font-bold gap-2 text-slate-600"
+                    >
+                      {isExporting ? <Loader2 className="animate-spin h-4 w-4" /> : <Download size={16} />}
+                      Export CSV
+                    </Button>
+                  </div>
                </div>
 
                <Card className="rounded-[20px] border-none shadow-sm bg-white overflow-hidden">
