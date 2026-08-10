@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { generateReportPins, redeemPin, togglePinStatus, bulkDeactivatePins } from "@/lib/report-pins.functions";
+import { checkTableExists } from "@/lib/db-check.functions";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -14,9 +15,23 @@ function ReportPinTestPage() {
   
   const log = (msg: string) => setResults(prev => [...prev, `${new Date().toLocaleTimeString()}: ${msg}`]);
 
+  useEffect(() => {
+    const verifyDb = async () => {
+      log("Verifying database schema...");
+      const status = await checkTableExists();
+      if (status.exists) {
+        log("DATABASE OK: 'report_pins' table found.");
+      } else {
+        log(`DATABASE ERROR: ${status.error} (Code: ${status.code})`);
+        log("Wait... If it says 'not found in schema cache', I might need to wait for PostgREST to reload.");
+      }
+    };
+    verifyDb();
+  }, []);
+
   const runTests = async () => {
     try {
-      setResults([]);
+      setResults(prev => [...prev, "---"]);
       log(`Starting Report PIN E2E Tests with Tenant: ${tenantId}`);
 
       // TEST 1: Generation
@@ -89,7 +104,7 @@ function ReportPinTestPage() {
           <Button onClick={runTests} className="bg-schoolgate-green">RUN TESTS</Button>
           <div className="mt-4 p-4 bg-slate-900 text-emerald-400 font-mono text-sm rounded-lg min-h-[300px]">
             {results.map((r, i) => <div key={i}>{r}</div>)}
-            {results.length === 0 && <div>Ready to test...</div>}
+            {results.length === 0 && <div>Initializing test environment...</div>}
           </div>
         </CardContent>
       </Card>
