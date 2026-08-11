@@ -29,6 +29,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { cn } from '@/lib/utils';
+import { useState } from 'react';
+import { PlaceholderForm } from '@/components/ui/placeholder-form';
 
 const MOCK_BOOKS = [
   { id: 1, title: 'Things Fall Apart', author: 'Chinua Achebe', isbn: '978-0385474542', category: 'Fiction', copies: 12, borrowed: 4, location: 'Shelf A1', status: 'Available' },
@@ -43,6 +45,8 @@ export const Route = createFileRoute('/library/catalogue')({
 });
 
 function BookCatalogue() {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <div className="flex flex-col gap-6 p-6 bg-[#F5F7FA] min-h-screen">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -53,7 +57,10 @@ function BookCatalogue() {
         <div className="flex flex-wrap items-center gap-2">
           <Button variant="outline" size="sm" className="gap-2"><Upload className="h-4 w-4" /> Import</Button>
           <Button variant="outline" size="sm" className="gap-2"><Download className="h-4 w-4" /> Export</Button>
-          <Button className="bg-[#0B6E3C] hover:bg-[#095A31] gap-2"><Plus className="h-4 w-4" /> Add Book</Button>
+          <Button 
+            onClick={() => setIsOpen(true)}
+            className="bg-[#0B6E3C] hover:bg-[#095A31] gap-2 text-white"
+          ><Plus className="h-4 w-4" /> Add Book</Button>
         </div>
       </div>
 
@@ -152,6 +159,14 @@ function BookCatalogue() {
           </div>
         </CardContent>
       </Card>
+
+      <PlaceholderForm 
+        open={isOpen}
+        onOpenChange={setIsOpen}
+        title="Add New Book"
+        description="Register a new physical book into the library catalogue."
+        icon={Book}
+      />
     </div>
   );
 }

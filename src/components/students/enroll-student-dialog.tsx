@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { toast } from "sonner";
 import { useServerFn } from "@tanstack/react-start";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQueryClient, useQuery } from "@tanstack/react-query";
 import { 
   Dialog, 
   DialogContent, 
@@ -31,7 +31,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { UserPlus, Loader2 } from "lucide-react";
-import { enrollStudent } from "@/lib/students.functions";
+import { enrollStudent, getCampuses } from "@/lib/students.functions";
+import { getTenantClasses } from "@/lib/fee-types.functions";
+import { supabase } from "@/integrations/supabase/client";
 
 const formSchema = z.object({
   full_name: z.string().min(3, "Full name must be at least 3 characters"),
@@ -50,6 +52,20 @@ interface EnrollStudentDialogProps {
 export function EnrollStudentDialog({ open, onOpenChange, tenantId }: EnrollStudentDialogProps) {
   const queryClient = useQueryClient();
   const enrollFn = useServerFn(enrollStudent);
+  const fetchCampuses = useServerFn(getCampuses);
+  const fetchClasses = useServerFn(getTenantClasses);
+  
+  const { data: campuses = [] } = useQuery({
+    queryKey: ['campuses', tenantId],
+    queryFn: () => fetchCampuses({ data: { tenantId } }),
+    enabled: open
+  });
+
+  const { data: classes = [] } = useQuery({
+    queryKey: ['tenant-classes-list', tenantId],
+    queryFn: () => fetchClasses({ data: { tenantId } }),
+    enabled: open
+  });
   
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -169,10 +185,12 @@ export function EnrollStudentDialog({ open, onOpenChange, tenantId }: EnrollStud
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent className="rounded-xl border-slate-100 shadow-xl">
-                        <SelectItem value="SS 1 Alpha">SS 1 Alpha</SelectItem>
-                        <SelectItem value="SS 2 Beta">SS 2 Beta</SelectItem>
-                        <SelectItem value="JSS 3 Gamma">JSS 3 Gamma</SelectItem>
-                        <SelectItem value="Primary 4 Gold">Primary 4 Gold</SelectItem>
+                        {classes.map((cls: string) => (
+                          <SelectItem key={cls} value={cls}>{cls}</SelectItem>
+                        ))}
+                        {classes.length === 0 && (
+                          <SelectItem value="SS 1 Alpha">SS 1 Alpha</SelectItem>
+                        )}
                       </SelectContent>
                     </Select>
                     <FormMessage className="text-[10px]" />
@@ -193,8 +211,12 @@ export function EnrollStudentDialog({ open, onOpenChange, tenantId }: EnrollStud
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent className="rounded-xl border-slate-100 shadow-xl">
-                        {/* In a real app, these would be fetched from the database */}
-                        <SelectItem value="1c2069b2-3e2b-4d56-a36c-2f2222222222">Main Campus</SelectItem>
+                        {campuses.map((c: any) => (
+                          <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>
+                        ))}
+                        {campuses.length === 0 && (
+                          <SelectItem value={tenantId}>Main Campus</SelectItem>
+                        )}
                       </SelectContent>
                     </Select>
                     <FormMessage className="text-[10px]" />

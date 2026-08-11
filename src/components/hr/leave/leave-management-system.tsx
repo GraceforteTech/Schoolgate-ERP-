@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { 
   Calendar, 
   Clock, 
@@ -24,6 +24,7 @@ import {
   TableHeader, 
   TableRow 
 } from "@/components/ui/table";
+import { PlaceholderForm } from "@/components/ui/placeholder-form";
 
 const leaveRequests = [
   {
@@ -66,6 +67,8 @@ const leaveBalances = [
 ];
 
 export const LeaveManagementSystem = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <div className="space-y-6">
       {/* Leave Overview Cards */}
@@ -109,7 +112,10 @@ export const LeaveManagementSystem = () => {
                  <Button variant="outline" size="sm" className="h-8 text-[10px] font-bold uppercase tracking-wider rounded-lg">
                    <Filter className="h-3 w-3 mr-1.5" /> Filter
                  </Button>
-                 <Button size="sm" className="h-8 text-[10px] font-bold uppercase tracking-wider rounded-lg bg-schoolgate-green hover:bg-schoolgate-green/90 text-white">
+                 <Button 
+                   onClick={() => setIsOpen(true)}
+                   size="sm" className="h-8 text-[10px] font-bold uppercase tracking-wider rounded-lg bg-schoolgate-green hover:bg-schoolgate-green/90 text-white"
+                 >
                    <Plus className="h-3 w-3 mr-1.5" /> New Request
                  </Button>
               </div>
@@ -202,6 +208,14 @@ export const LeaveManagementSystem = () => {
           </CardContent>
         </Card>
       </div>
+
+      <PlaceholderForm 
+        open={isOpen}
+        onOpenChange={setIsOpen}
+        title="Apply for Leave"
+        description="Submit a new staff absence or leave request."
+        icon={Plane}
+      />
     </div>
   );
 };
