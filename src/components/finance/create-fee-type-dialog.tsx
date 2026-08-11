@@ -234,7 +234,7 @@ export function CreateFeeTypeDialog({ open, onOpenChange }: CreateFeeTypeDialogP
               </div>
 
               <div className="mt-8">
-                <FormLabel className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 block">Applicable Classes</FormLabel>
+                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 block">Applicable Classes</span>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-slate-50/50 p-6 rounded-[24px] border border-slate-100/50">
                   {classes?.map((className: string) => (
                     <FormField
