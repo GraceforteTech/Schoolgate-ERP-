@@ -14,7 +14,8 @@ import {
   Edit, 
   Users, 
   ClipboardCheck,
-  Trash2
+  Trash2,
+  Loader2
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -22,86 +23,66 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
-const classes = [
-  {
-    id: "1",
-    name: "JSS 1A",
-    level: "Junior Secondary",
-    category: "Secondary",
-    teacher: "Mr. Yusuf Bello",
-    capacity: 40,
-    enrolled: 38,
-    status: "Active",
-  },
-  {
-    id: "2",
-    name: "JSS 1B",
-    level: "Junior Secondary",
-    category: "Secondary",
-    teacher: "Mrs. Sarah Okon",
-    capacity: 40,
-    enrolled: 35,
-    status: "Active",
-  },
-  {
-    id: "3",
-    name: "Primary 4 Blue",
-    level: "Lower Primary",
-    category: "Primary",
-    teacher: "Miss Chiamaka Obi",
-    capacity: 30,
-    enrolled: 30,
-    status: "Full",
-  },
-  {
-    id: "4",
-    name: "SS 3G",
-    level: "Senior Secondary",
-    category: "Secondary",
-    teacher: "Mr. David Segun",
-    capacity: 35,
-    enrolled: 28,
-    status: "Active",
-  },
-  {
-    id: "5",
-    name: "Nursery 2",
-    level: "Early Years",
-    category: "Primary",
-    teacher: "Mrs. Fatima Ahmed",
-    capacity: 25,
-    enrolled: 22,
-    status: "Active",
-  },
-];
+import { useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
+import { getClasses } from "@/lib/academic-classes.functions";
+import { supabase } from "@/integrations/supabase/client";
+import { EmptyState } from "@/components/ui/empty-state";
 
 export function ClassRegistryTable() {
+  const fetchClasses = useServerFn(getClasses);
+
+  const { data: classes = [], isLoading } = useQuery({
+    queryKey: ['academic-classes'],
+    queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return [];
+      const { data: membership } = await supabase.from('memberships').select('tenant_id').eq('user_id', user.id).single();
+      if (!membership) return [];
+      return fetchClasses({ data: { tenantId: membership.tenant_id } });
+    }
+  });
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center py-20 gap-4">
+        <Loader2 className="h-8 w-8 animate-spin text-schoolgate-green" />
+        <p className="text-sm font-bold text-slate-400 animate-pulse uppercase tracking-widest">Fetching Class Records...</p>
+      </div>
+    );
+  }
+
+  if (classes.length === 0) {
+    return (
+      <EmptyState 
+        title="No Classes Found"
+        description="No academic classes have been registered or students assigned yet."
+        icon={<Users className="h-10 w-10" />}
+      />
+    );
+  }
+
   return (
     <div className="rounded-xl border border-slate-100 overflow-hidden">
       <Table>
         <TableHeader className="bg-slate-50/50">
           <TableRow className="border-slate-100 hover:bg-transparent">
             <TableHead className="font-bold text-slate-700">Class Name</TableHead>
-            <TableHead className="font-bold text-slate-700">Level</TableHead>
-            <TableHead className="font-bold text-slate-700">Category</TableHead>
-            <TableHead className="font-bold text-slate-700">Class Teacher</TableHead>
+            <TableHead className="font-bold text-slate-700">Campus</TableHead>
             <TableHead className="font-bold text-slate-700 text-center">Enrollment</TableHead>
             <TableHead className="font-bold text-slate-700">Status</TableHead>
             <TableHead className="font-bold text-slate-700 text-right">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {classes.map((item) => (
+          {classes.map((item: any) => (
             <TableRow key={item.id} className="border-slate-100 hover:bg-slate-50/30 transition-colors group">
               <TableCell className="font-bold text-slate-900">{item.name}</TableCell>
-              <TableCell className="text-slate-600">{item.level}</TableCell>
               <TableCell>
                 <Badge variant="outline" className="rounded-md font-medium bg-slate-50 border-slate-200">
-                  {item.category}
+                  {item.campus}
                 </Badge>
               </TableCell>
-              <TableCell className="text-slate-600">{item.teacher}</TableCell>
               <TableCell>
                 <div className="flex flex-col items-center gap-1">
                   <span className="text-sm font-bold text-slate-700">

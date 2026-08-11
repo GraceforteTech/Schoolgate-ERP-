@@ -90,3 +90,19 @@ export const enrollStudent = createServerFn({ method: "POST" })
     return student;
   });
 
+export const getCampuses = createServerFn({ method: "GET" })
+  .validator((data: { tenantId: string }) => z.object({ tenantId: z.string().uuid() }).parse(data))
+  .handler(async ({ data }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: campuses, error } = await supabaseAdmin
+      .from('campuses')
+      .select('*')
+      .eq('tenant_id', data.tenantId);
+    if (error) throw new Error(error.message);
+    return (campuses || []).map((c: any) => ({
+      id: String(c.id),
+      name: String(c.name || '')
+    }));
+  });
+
+

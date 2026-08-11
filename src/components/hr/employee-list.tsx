@@ -13,7 +13,9 @@ import {
   Trash,
   UserCheck,
   Filter,
-  ArrowUpDown
+  ArrowUpDown,
+  Loader2,
+  Users
 } from "lucide-react";
 import { 
   Table, 
@@ -35,100 +37,44 @@ import {
   DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
-const employees = [
-  {
-    id: "EMP001",
-    name: "Adebayo Olawale",
-    email: "a.olawale@schoolgate.edu",
-    phone: "08012345678",
-    role: "Senior Mathematics Teacher",
-    department: "Science",
-    status: "Active",
-    joiningDate: "2020-09-15",
-    salary: "₦250,000",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Adebayo"
-  },
-  {
-    id: "EMP002",
-    name: "Sarah Johnson",
-    email: "s.johnson@schoolgate.edu",
-    phone: "08087654321",
-    role: "Admin Officer",
-    department: "Administration",
-    status: "Active",
-    joiningDate: "2021-02-10",
-    salary: "₦180,000",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah"
-  },
-  {
-    id: "EMP003",
-    name: "Chinedu Okoro",
-    email: "c.okoro@schoolgate.edu",
-    phone: "07011223344",
-    role: "English Teacher",
-    department: "Arts",
-    status: "On Leave",
-    joiningDate: "2019-01-20",
-    salary: "₦220,000",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Chinedu"
-  },
-  {
-    id: "EMP004",
-    name: "Fatima Yusuf",
-    email: "f.yusuf@schoolgate.edu",
-    phone: "09055667788",
-    role: "Primary Lead",
-    department: "Primary School",
-    status: "Active",
-    joiningDate: "2022-08-01",
-    salary: "₦210,000",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Fatima"
-  },
-  {
-    id: "EMP005",
-    name: "James Peters",
-    email: "j.peters@schoolgate.edu",
-    phone: "08199887766",
-    role: "IT Specialist",
-    department: "Technical",
-    status: "Active",
-    joiningDate: "2023-03-12",
-    salary: "₦240,000",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=James"
-  },
-  {
-    id: "EMP006",
-    name: "Blessing Eze",
-    email: "b.eze@schoolgate.edu",
-    phone: "08044332211",
-    role: "Nurse",
-    department: "Medical",
-    status: "Resigned",
-    joiningDate: "2021-11-05",
-    salary: "₦150,000",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Blessing"
-  }
-];
+import { useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
+import { getEmployees } from "@/lib/hr.functions";
+import { supabase } from "@/integrations/supabase/client";
+import { EmptyState } from "@/components/ui/empty-state";
+import { cn } from "@/lib/utils";
 
 export const EmployeeList = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  const fetchEmployees = useServerFn(getEmployees);
 
-  const filteredEmployees = employees.filter(emp => 
-    emp.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    emp.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    emp.role.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    emp.department.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const { data: employees = [], isLoading } = useQuery({
+    queryKey: ['hr-employees', searchTerm],
+    queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return [];
+      const { data: membership } = await supabase.from('memberships').select('tenant_id').eq('user_id', user.id).single();
+      if (!membership) return [];
+      return fetchEmployees({ data: { tenantId: membership.tenant_id, search: searchTerm } });
+    }
+  });
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center py-20 gap-4">
+        <Loader2 className="h-8 w-8 animate-spin text-schoolgate-green" />
+        <p className="text-sm font-bold text-slate-400 animate-pulse uppercase tracking-widest">Opening Personnel Files...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4">
-      {/* Search and Filters */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white p-4 rounded-[14px] shadow-sm">
         <div className="relative w-full sm:max-w-sm">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input 
-            placeholder="Search by name, ID, role..." 
+            placeholder="Search by name, role..." 
             className="pl-9 h-10 border-slate-200 rounded-lg focus-visible:ring-schoolgate-green"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -146,50 +92,53 @@ export const EmployeeList = () => {
         </div>
       </div>
 
-      {/* Employee Table */}
-      <div className="bg-white rounded-[14px] shadow-sm overflow-hidden border border-slate-200/60">
-        <Table>
-          <TableHeader className="bg-slate-50">
-            <TableRow className="hover:bg-transparent">
-              <TableHead className="w-[80px]">ID</TableHead>
-              <TableHead>Employee</TableHead>
-              <TableHead>Department & Role</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Joining Date</TableHead>
-              <TableHead className="text-right">Salary</TableHead>
-              <TableHead className="w-[50px]"></TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {filteredEmployees.length > 0 ? (
-              filteredEmployees.map((emp) => (
+      {employees.length === 0 ? (
+        <EmptyState 
+          title="No Staff Found"
+          description="We couldn't find any employees matching your criteria."
+          icon={<Users className="h-10 w-10" />}
+        />
+      ) : (
+        <div className="bg-white rounded-[14px] shadow-sm overflow-hidden border border-slate-200/60">
+          <Table>
+            <TableHeader className="bg-slate-50">
+              <TableRow className="hover:bg-transparent">
+                <TableHead>Employee</TableHead>
+                <TableHead>Roles</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Joined</TableHead>
+                <TableHead className="w-[50px]"></TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {employees.map((emp: any) => (
                 <TableRow key={emp.id} className="group hover:bg-slate-50 transition-colors">
-                  <TableCell className="font-medium text-slate-500 text-xs">
-                    {emp.id}
-                  </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-3">
                       <Avatar className="h-10 w-10 border-2 border-white shadow-sm">
-                        <AvatarImage src={emp.avatar} alt={emp.name} />
+                        <AvatarImage src={emp.avatar_url} />
                         <AvatarFallback className="bg-schoolgate-green-light text-schoolgate-green font-bold">
-                          {emp.name.split(' ').map(n => n[0]).join('')}
+                          {emp.full_name?.split(' ').map((n: string) => n[0]).join('')}
                         </AvatarFallback>
                       </Avatar>
                       <div className="flex flex-col">
                         <span className="font-bold text-sm text-slate-900 group-hover:text-schoolgate-green transition-colors">
-                          {emp.name}
+                          {emp.full_name}
                         </span>
                         <span className="text-[11px] text-muted-foreground flex items-center gap-1">
                           <Mail className="h-3 w-3" />
-                          {emp.email}
+                          {emp.email || 'N/A'}
                         </span>
                       </div>
                     </div>
                   </TableCell>
                   <TableCell>
-                    <div className="flex flex-col">
-                      <span className="text-sm font-semibold text-slate-700">{emp.role}</span>
-                      <span className="text-xs text-muted-foreground italic">{emp.department}</span>
+                    <div className="flex flex-wrap gap-1">
+                      {emp.roles?.map((role: string) => (
+                        <Badge key={role} variant="secondary" className="text-[9px] uppercase font-bold tracking-tighter">
+                          {role.replace('_', ' ')}
+                        </Badge>
+                      ))}
                     </div>
                   </TableCell>
                   <TableCell>
@@ -197,22 +146,14 @@ export const EmployeeList = () => {
                       variant="outline" 
                       className={cn(
                         "rounded-full text-[10px] font-bold px-2 py-0",
-                        emp.status === "Active" ? "bg-green-50 text-green-700 border-green-200" :
-                        emp.status === "On Leave" ? "bg-orange-50 text-orange-700 border-orange-200" :
-                        "bg-slate-50 text-slate-600 border-slate-200"
+                        emp.status === "Active" ? "bg-green-50 text-green-700 border-green-200" : "bg-slate-50 text-slate-600 border-slate-200"
                       )}
                     >
                       {emp.status}
                     </Badge>
                   </TableCell>
                   <TableCell className="text-sm text-slate-600">
-                    <div className="flex items-center gap-1">
-                      <Calendar className="h-3 w-3 text-muted-foreground" />
-                      {new Date(emp.joiningDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
-                    </div>
-                  </TableCell>
-                  <TableCell className="text-right font-bold text-slate-900 text-sm">
-                    {emp.salary}
+                    {new Date(emp.created_at).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })}
                   </TableCell>
                   <TableCell>
                     <DropdownMenu>
@@ -222,15 +163,11 @@ export const EmployeeList = () => {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end" className="w-48 rounded-xl shadow-lg border-slate-200">
-                        <DropdownMenuLabel className="text-xs text-muted-foreground px-2 py-1.5">Actions</DropdownMenuLabel>
                         <DropdownMenuItem className="gap-2 focus:bg-schoolgate-green-light focus:text-schoolgate-green">
                           <ExternalLink className="h-4 w-4" /> View Profile
                         </DropdownMenuItem>
                         <DropdownMenuItem className="gap-2 focus:bg-schoolgate-green-light focus:text-schoolgate-green">
                           <Edit className="h-4 w-4" /> Edit Details
-                        </DropdownMenuItem>
-                        <DropdownMenuItem className="gap-2 focus:bg-schoolgate-green-light focus:text-schoolgate-green">
-                          <UserCheck className="h-4 w-4" /> Update Status
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem className="gap-2 text-red-600 focus:bg-red-50 focus:text-red-600">
@@ -240,25 +177,11 @@ export const EmployeeList = () => {
                     </DropdownMenu>
                   </TableCell>
                 </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell colSpan={7} className="h-40 text-center">
-                  <div className="flex flex-col items-center justify-center text-muted-foreground">
-                    <User className="h-10 w-10 mb-2 opacity-20" />
-                    <p className="font-medium italic">No employees found matching your search</p>
-                  </div>
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      )}
     </div>
   );
 };
-
-// Simple helper to match the cn usage in the previous components
-function cn(...classes: (string | boolean | undefined)[]) {
-  return classes.filter(Boolean).join(" ");
-}

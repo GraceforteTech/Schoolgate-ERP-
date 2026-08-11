@@ -1,75 +1,117 @@
+import React, { useState } from "react";
 import { 
-  UserPlus, 
-  FilePlus, 
+  Users, 
+  ArrowRight, 
+  Search, 
+  Filter, 
+  Download, 
   Calendar, 
-  GraduationCap, 
-  CheckCircle, 
-  Mail, 
-  Printer, 
-  UserCheck, 
-  Download 
+  FileCheck, 
+  ClipboardCheck,
+  Loader2,
+  Plus
 } from "lucide-react";
+import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Link } from "@tanstack/react-router";
-import { useState } from "react";
 import { PlaceholderForm } from "@/components/ui/placeholder-form";
+import { EnrollStudentDialog } from "@/components/students/enroll-student-dialog";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 export function QuickActions() {
-  const [isFormOpen, setIsFormOpen] = useState(false);
-  const [formConfig, setFormConfig] = useState({ title: '', description: '', icon: FilePlus });
+  const [isEnrolOpen, setIsEnrolOpen] = useState(false);
+  const [isPlaceOpen, setIsPlaceOpen] = useState(false);
+  const [formTitle, setFormTitle] = useState("");
+  const [formIcon, setFormIcon] = useState<any>(Plus);
 
-  const openForm = (title: string, description: string, icon: any) => {
-    setFormConfig({ title, description, icon });
-    setIsFormOpen(true);
-  };
+  const { data: tenantId } = useQuery({
+    queryKey: ['current-tenant-id'],
+    queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return null;
+      const { data: membership } = await supabase.from('memberships').select('tenant_id').eq('user_id', user.id).single();
+      return membership?.tenant_id;
+    }
+  });
 
   const actions = [
-    { label: "New Enquiry", icon: UserPlus, variant: "outline" as const, url: "#", onClick: () => openForm("New Enquiry", "Record a new admission enquiry.", UserPlus) },
-    { label: "New Application", icon: FilePlus, variant: "default" as const, url: "#", onClick: () => openForm("New Application", "Register a new student application.", FilePlus) },
-    { label: "Schedule Exam", icon: Calendar, variant: "outline" as const, url: "/finance/admissions/exams" },
-    { label: "Schedule Interview", icon: GraduationCap, variant: "outline" as const, url: "/finance/admissions/decisions" },
-    { label: "Approve Admission", icon: CheckCircle, variant: "outline" as const, url: "/finance/admissions/decisions" },
-    { label: "Generate Letter", icon: Mail, variant: "outline" as const, url: "#", onClick: () => openForm("Generate Letter", "Create admission or offer letters.", Mail) },
-    { label: "Print Letter", icon: Printer, variant: "outline" as const, url: "#", onClick: () => openForm("Print Letter", "Print generated student correspondence.", Printer) },
-    { label: "Enroll Student", icon: UserCheck, variant: "outline" as const, url: "/finance/admissions/enrolment" },
-    { label: "Export Apps", icon: Download, variant: "outline" as const, url: "#", onClick: () => openForm("Export Applications", "Export applicant data to external formats.", Download) },
+    { 
+      label: "New Application", 
+      icon: Plus, 
+      color: "bg-schoolgate-green", 
+      desc: "Start new admission enquiry",
+      onClick: () => {
+        setFormTitle("New Admission Application");
+        setFormIcon(Plus);
+        setIsPlaceOpen(true);
+      }
+    },
+    { 
+      label: "Enrol Student", 
+      icon: Users, 
+      color: "bg-blue-600", 
+      desc: "Direct student enrolment",
+      onClick: () => setIsEnrolOpen(true)
+    },
+    { 
+      label: "Upload Results", 
+      icon: FileCheck, 
+      color: "bg-amber-600", 
+      desc: "Entrance exam scores",
+      onClick: () => {
+        setFormTitle("Upload Entrance Results");
+        setFormIcon(FileCheck);
+        setIsPlaceOpen(true);
+      }
+    },
+    { 
+      label: "Schedule Interview", 
+      icon: Calendar, 
+      color: "bg-indigo-600", 
+      desc: "Set applicant review date",
+      onClick: () => {
+        setFormTitle("Schedule Applicant Interview");
+        setFormIcon(Calendar);
+        setIsPlaceOpen(true);
+      }
+    },
   ];
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
-      {actions.map((action, i) => {
-        const isDefault = (action.variant as string) === "default";
-        return (
-          <Button
-            key={i}
-            variant={action.variant as "default" | "outline"}
-            onClick={action.onClick}
-            asChild={!action.onClick}
-            className={`h-auto py-4 px-4 flex flex-col items-center gap-2 rounded-[14px] transition-all hover:shadow-md ${
-              isDefault ? "bg-schoolgate-green hover:bg-schoolgate-green/90" : "border-slate-200"
-            }`}
-          >
-            {action.onClick ? (
-              <div className="flex flex-col items-center gap-2">
-                <action.icon className={`h-5 w-5 ${isDefault ? "text-white" : "text-schoolgate-green"}`} />
-                <span className="text-xs font-semibold">{action.label}</span>
-              </div>
-            ) : (
-              <Link to={action.url}>
-                <action.icon className={`h-5 w-5 ${isDefault ? "text-white" : "text-schoolgate-green"}`} />
-                <span className="text-xs font-semibold">{action.label}</span>
-              </Link>
-            )}
-          </Button>
-        );
-      })}
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {actions.map((action, i) => (
+        <Card 
+          key={i} 
+          onClick={action.onClick}
+          className="p-5 border-none shadow-sm bg-white hover:shadow-md transition-all cursor-pointer group flex flex-col justify-between"
+        >
+          <div className="flex items-start justify-between mb-4">
+            <div className={`h-10 w-10 rounded-xl ${action.color} flex items-center justify-center text-white shadow-lg shadow-${action.color.split('-')[1]}-500/20`}>
+              <action.icon size={20} />
+            </div>
+            <ArrowRight size={16} className="text-slate-300 group-hover:text-schoolgate-green group-hover:translate-x-1 transition-all" />
+          </div>
+          <div>
+            <h4 className="font-bold text-slate-800 text-sm">{action.label}</h4>
+            <p className="text-[10px] text-slate-400 mt-1 font-medium">{action.desc}</p>
+          </div>
+        </Card>
+      ))}
+
+      {tenantId && (
+        <EnrollStudentDialog 
+          open={isEnrolOpen}
+          onOpenChange={setIsEnrolOpen}
+          tenantId={tenantId}
+        />
+      )}
 
       <PlaceholderForm 
-        open={isFormOpen} 
-        onOpenChange={setIsFormOpen} 
-        title={formConfig.title} 
-        description={formConfig.description} 
-        icon={formConfig.icon} 
+        open={isPlaceOpen}
+        onOpenChange={setIsPlaceOpen}
+        title={formTitle}
+        description="Standardized form for admission operations."
+        icon={formIcon}
       />
     </div>
   );

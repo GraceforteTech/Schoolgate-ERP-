@@ -17,7 +17,8 @@ import {
   ArrowUpCircle,
   QrCode,
   AlertTriangle,
-  FileText
+  Loader2,
+  Package
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -27,59 +28,45 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
-const mockItems = [
-  {
-    code: "INV-STA-001",
-    name: "Office A4 Paper",
-    category: "Stationery",
-    qty: 45,
-    unit: "Ream",
-    minStock: 20,
-    rate: 4500,
-    value: 202500,
-    status: "In Stock",
-    location: "Aisle 2, Shelf B"
-  },
-  {
-    code: "INV-LAB-042",
-    name: "Sulphuric Acid (1L)",
-    category: "Laboratory",
-    qty: 8,
-    unit: "Bottle",
-    minStock: 10,
-    rate: 12000,
-    value: 96000,
-    status: "Low Stock",
-    location: "Lab Store 1"
-  },
-  {
-    code: "INV-ICT-012",
-    name: "Logitech Wireless Mouse",
-    category: "ICT Equipment",
-    qty: 0,
-    unit: "Piece",
-    minStock: 5,
-    rate: 8500,
-    value: 0,
-    status: "Out of Stock",
-    location: "IT Room"
-  },
-  {
-    code: "INV-UNI-105",
-    name: "Senior Secondary Blazer (L)",
-    category: "Uniforms",
-    qty: 120,
-    unit: "Piece",
-    minStock: 30,
-    rate: 15000,
-    value: 1800000,
-    status: "In Stock",
-    location: "Main Store"
-  }
-];
+import { useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
+import { getInventoryItems } from "@/lib/inventory.functions";
+import { supabase } from "@/integrations/supabase/client";
+import { EmptyState } from "@/components/ui/empty-state";
 
 export function ItemRegistry() {
+  const fetchItems = useServerFn(getInventoryItems);
+
+  const { data: items = [], isLoading } = useQuery({
+    queryKey: ['inventory-items'],
+    queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return [];
+      const { data: membership } = await supabase.from('memberships').select('tenant_id').eq('user_id', user.id).single();
+      if (!membership) return [];
+      return fetchItems({ data: { tenantId: membership.tenant_id } });
+    }
+  });
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center py-20 gap-4">
+        <Loader2 className="h-8 w-8 animate-spin text-schoolgate-green" />
+        <p className="text-sm font-bold text-slate-400 animate-pulse uppercase tracking-widest">Accessing Store Ledger...</p>
+      </div>
+    );
+  }
+
+  if (items.length === 0) {
+    return (
+      <EmptyState 
+        title="Inventory Empty"
+        description="No items have been registered in the school store yet."
+        icon={<Package className="h-10 w-10" />}
+      />
+    );
+  }
+
   return (
     <div className="bg-white rounded-[20px] overflow-hidden">
       <Table>
@@ -95,12 +82,12 @@ export function ItemRegistry() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {mockItems.map((item) => (
-            <TableRow key={item.code} className="border-slate-50 hover:bg-slate-50/50 transition-colors">
+          {items.map((item: any) => (
+            <TableRow key={item.id} className="border-slate-50 hover:bg-slate-50/50 transition-colors">
               <TableCell className="py-4">
                 <div>
                   <p className="font-bold text-slate-900 text-sm">{item.name}</p>
-                  <p className="text-[10px] text-slate-400 font-bold uppercase tracking-tight">{item.code}</p>
+                  <p className="text-[10px] text-slate-400 font-bold uppercase tracking-tight">{item.code || item.id.slice(0, 8)}</p>
                 </div>
               </TableCell>
               <TableCell>
@@ -110,12 +97,12 @@ export function ItemRegistry() {
               </TableCell>
               <TableCell>
                 <div className="flex flex-col">
-                  <span className="font-bold text-slate-700">{item.qty} {item.unit}s</span>
-                  <span className="text-[9px] text-slate-400 font-medium">Min: {item.minStock}</span>
+                  <span className="font-bold text-slate-700">{item.quantity} {item.unit || 'pcs'}</span>
+                  <span className="text-[9px] text-slate-400 font-medium">Min: {item.min_stock || 0}</span>
                 </div>
               </TableCell>
-              <TableCell className="font-bold text-slate-700">₦{item.rate.toLocaleString()}</TableCell>
-              <TableCell className="font-black text-schoolgate-green">₦{item.value.toLocaleString()}</TableCell>
+              <TableCell className="font-bold text-slate-700">₦{(item.unit_price || 0).toLocaleString()}</TableCell>
+              <TableCell className="font-black text-schoolgate-green">₦{(item.quantity * item.unit_price || 0).toLocaleString()}</TableCell>
               <TableCell>
                 <Badge className={`
                   ${item.status === 'In Stock' ? 'bg-emerald-50 text-emerald-600' : 

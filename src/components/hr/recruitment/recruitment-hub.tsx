@@ -30,6 +30,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
+import { PlaceholderForm } from "@/components/ui/placeholder-form";
 
 const jobs = [
   { id: "JOB-001", title: "Senior Mathematics Teacher", department: "Science", type: "Full-time", applicants: 12, status: "Active", posted: "2024-08-01" },
@@ -68,6 +69,24 @@ const applicants = [
 ];
 
 export const RecruitmentHub = () => {
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [formTitle, setFormTitle] = useState("");
+  const [formIcon, setFormIcon] = useState<any>(Plus);
+
+  const handleNewPosting = () => {
+    setFormTitle("Create Job Posting");
+    setFormIcon(Briefcase);
+    setIsFormOpen(true);
+  };
+
+  const handleAddCandidate = () => {
+    setFormTitle("Add New Candidate");
+    setFormIcon(UserPlus);
+    setIsFormOpen(true);
+  };
+
+  const UserPlus = Users; // Alias for consistency if icon not imported
+
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -103,7 +122,10 @@ export const RecruitmentHub = () => {
             <Button variant="outline" size="sm" className="rounded-lg h-9 border-slate-200">
               <Filter className="h-4 w-4 mr-2" /> Filter
             </Button>
-            <Button size="sm" className="rounded-lg h-9 bg-schoolgate-green hover:bg-schoolgate-green/90 shadow-sm text-white">
+            <Button 
+              onClick={handleNewPosting}
+              size="sm" className="rounded-lg h-9 bg-schoolgate-green hover:bg-schoolgate-green/90 shadow-sm text-white"
+            >
               <Plus className="h-4 w-4 mr-2" /> New Posting
             </Button>
           </div>
@@ -150,7 +172,10 @@ export const RecruitmentHub = () => {
                       </CardContent>
                     </Card>
                   ))}
-                  <Button variant="ghost" className="w-full border border-dashed border-slate-200 rounded-xl h-12 text-slate-400 hover:text-schoolgate-green hover:border-schoolgate-green hover:bg-schoolgate-green-light/20">
+                  <Button 
+                    onClick={handleAddCandidate}
+                    variant="ghost" className="w-full border border-dashed border-slate-200 rounded-xl h-12 text-slate-400 hover:text-schoolgate-green hover:border-schoolgate-green hover:bg-schoolgate-green-light/20"
+                  >
                     <Plus className="h-4 w-4 mr-2" /> Add Candidate
                   </Button>
                 </div>
@@ -207,6 +232,14 @@ export const RecruitmentHub = () => {
           </div>
         </TabsContent>
       </Tabs>
+
+      <PlaceholderForm 
+        open={isFormOpen}
+        onOpenChange={setIsFormOpen}
+        title={formTitle}
+        description="Standardized recruitment and hiring workflow."
+        icon={formIcon}
+      />
     </div>
   );
 };
